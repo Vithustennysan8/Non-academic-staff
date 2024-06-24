@@ -17,16 +17,13 @@ const Home = () => {
             <img src="https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg" alt=""/>
           </div>
 
-          {/* <div className="home-container">
+          <div className="home-container">
             <div className="main">
-              <div>
-                <Cards title={"Form"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs df"}/> 
-                <Cards title={"Form"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs df"}/> 
-              </div>
-              <div>
-                <Cards title={"Form"} body={"cdsihv iad vca sfdf sdf s dfsd f "}/> 
-                <Cards title={"Form"} body={"cdsihv iad vca sfdf sdf s dfsd f "}/> 
-              </div>
+                <h1>Welcome to our University</h1>
+                <p>Our university is one of the leading universities in the country, with a strong reputation
+                  for academic excellence, innovative research, and a commitment to social responsibility.</p>
+                  <button>Learn More</button>
+                  
             </div>
             <div className="side1">
               
@@ -34,15 +31,13 @@ const Home = () => {
             <div className="side2">
 
             </div>
-          </div> */}
+          </div>
 
           <div className="newsFeed">
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
+            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"}/>
+            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"}/>
+            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"}/>
+            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"}/>
           </div>
       </div>
       

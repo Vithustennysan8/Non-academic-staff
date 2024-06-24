@@ -4,7 +4,7 @@ import SideNav from "./SideNav";
 
 const Header = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const toggleSideNav = () => {
     setIsSideNavOpen(!isSideNavOpen);
@@ -38,13 +38,12 @@ const Header = () => {
 
         {isLogin? 
           <div className="header-profile">
-            <p className="username">Vithustennysan</p>
+            <p className="username">ths</p>
             <img src="https://www.befunky.com/images/wp/wp-2021-01-linkedin-profile-picture-after.jpg?auto=avif,webp&format=jpg&width=944" alt="Profile-image" />
           </div>
         :
-          <div className="login-signup">
+          <div className="login-container">
             <button className="login">Login</button>
-            <button className="signup">Signup</button>
           </div>
         }
       </header>

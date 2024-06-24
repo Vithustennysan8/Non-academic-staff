@@ -1,13 +1,14 @@
 .home{
-    margin: 0 100px;
+    width: 85%;
+    margin: 0 auto;
 }
-
 .home-img-slider{
     display: flex;
     overflow-x: scroll;
     height: 450px;
 }
 .home-container{
+    margin: 40px 0 30px;
     height: 700px;
     width: 100%;
     display: grid;
@@ -17,7 +18,6 @@
         'main aside1'
         'main aside2';
     gap: 20px;
-    padding: 0 30px;
 }
 .main{
     grid-area: main;
@@ -25,6 +25,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    padding: 20px;
 }
 .main div{
     display: flex;
@@ -40,4 +41,16 @@
 }
 .newsFeed{
     padding: 20px;
+}
+
+@media only screen and (max-width: 880px) {
+    .home-container{
+        height: fit-content;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-areas:
+        'main'
+        'aside1'
+        'aside2';
+        }
 }
