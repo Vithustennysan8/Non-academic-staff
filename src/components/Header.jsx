@@ -1,9 +1,10 @@
 import { useState } from "react";
-import "../css/navbar.css";
+import "../css/header.css";
 import SideNav from "./SideNav";
 
-const Navbar = () => {
+const Header = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
 
   const toggleSideNav = () => {
     setIsSideNavOpen(!isSideNavOpen);
@@ -35,12 +36,20 @@ const Navbar = () => {
             <p><a href="#">News</a></p>
         </div>
 
-        <div className="login-signup">
-          <button className="login">Login</button>
-          <button className="signup">Signup</button>
-        </div>
+        {isLogin? 
+          <div className="header-profile">
+            <p className="username">Vithustennysan</p>
+            <img src="https://www.befunky.com/images/wp/wp-2021-01-linkedin-profile-picture-after.jpg?auto=avif,webp&format=jpg&width=944" alt="Profile-image" />
+          </div>
+        :
+          <div className="login-signup">
+            <button className="login">Login</button>
+            <button className="signup">Signup</button>
+          </div>
+        }
       </header>
 
+    {/* Side Navbar buttton and component */}
       <button id="side-nav-btn" onClick={toggleSideNav}>
         <img id="side-nav-img" src="https://uxwing.com/wp-content/themes/uxwing/download/arrow-direction/chevron-direction-right-round-outline-icon.png" alt="" />
       </button>
@@ -50,4 +59,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Header;

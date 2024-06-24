@@ -1,13 +1,13 @@
-import Navbar from "./Navbar";
 import Footer from "./Footer";
 import "../css/home.css";
 import Cards from "./Cards";
+import Header from "./Header";
 
 const Home = () => {
 
   return (
     <div>
-      <Navbar/>
+      <Header/>
 
       <div className="home">
           <div className="home-img-slider">
@@ -17,7 +17,7 @@ const Home = () => {
             <img src="https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg" alt=""/>
           </div>
 
-          <div className="home-container">
+          {/* <div className="home-container">
             <div className="main">
               <div>
                 <Cards title={"Form"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs df"}/> 
@@ -34,13 +34,9 @@ const Home = () => {
             <div className="side2">
 
             </div>
-          </div>
+          </div> */}
 
           <div className="newsFeed">
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
-            <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
             <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
             <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>
             <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf"}/>

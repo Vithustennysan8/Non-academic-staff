@@ -26,6 +26,8 @@
     width: 80px;
     border-radius: 50%;
 }
+
+/* ------- Nav links -------- */
 .nav{
     width: 100%;
     flex-shrink: 2;
@@ -49,6 +51,8 @@
 .nav p a:active{
     color: white;
 }
+
+/* ------- login signup buton --------- */
 .login-signup{
     width: 200px;
     display: flex;
@@ -90,6 +94,25 @@
 .signup:active{
     background-color: rgb(80, 80, 80);
 }
+
+/* ------header profile -------- */
+.header-profile{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 10px;
+}
+.header-profile img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.username{
+    color: white;
+    font-size: 0.8rem;
+}
+
+/*------ side nav -------*/
 #side-nav-btn{
     position: fixed;
     top: 100px;
@@ -118,6 +141,17 @@
     transform: translate(-50%, -50%);
 }
   
+@media only screen and (max-width: 1440px) {
+    .nav{
+        max-width: 600px;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .nav{
+        max-width: 400px;
+    }
+}
 
 @media only screen and (max-width: 950px) {
     .nav{
@@ -159,7 +193,7 @@
     }
 }
 
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 460px) {
     .container{
         height: 70px;
     }
@@ -192,10 +226,20 @@
         top: 70px;
         display: block;
     }
+    .header-profile img{
+        width: 30px;
+        height: 30px;
+    }
+    .username{
+        font-size: 0.65rem;
+    }
 }
 
 @media only screen and (max-width: 380px) {
     .head h2{
         font-size: 0.8rem;
+    }
+    .username{
+        display: none;
     }
 }
