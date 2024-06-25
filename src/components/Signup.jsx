@@ -76,7 +76,7 @@ const Signup = () => {
             <div className="half">
               <div>
                 <label htmlFor="username">Username</label>
-                <input type="text" id="usename" value={user.username} onChange={handleInput} placeholder="user name" required />
+                <input type="text" id="username" name="username" value={user.username} onChange={handleInput} placeholder="user name" required />
               </div>
             </div>
       

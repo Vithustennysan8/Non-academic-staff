@@ -4,12 +4,16 @@
 }
 .signup-container{
     padding: 20px 40px;
-    margin-top: 60px;
+    margin: 60px 0;
     width: 60%;
-    border: 1px solid #dcdcdc;
+    border: 1px solid #c9c9c9;
     border-radius: 15px;
     background-color: #ffffff;
-    box-shadow: 1px 1px 4px 5px #e0e0e0;
+    box-shadow: 1px 1px 4px 5px #f5f5f5;
+    transition: 0.2s;
+}
+.signup-container:hover{
+    box-shadow: 1px 1px 4px 5px #e5e5e5;
 }
 .signup-container h2{
     text-align: center;
@@ -40,7 +44,7 @@
 .signup-container input, .signup-container select{
     border-radius: 8px;
     padding: 7px 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #c3c3c3;
     outline-color: rgb(90, 124, 249);
 }
 .signup-submit-btn{

@@ -19,10 +19,12 @@
     max-width: 400px;
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 1px 1px 7px 1px #9a9a9a;
+    box-shadow: 1px 1px 7px 3px #e5e5e5;
     /* background-color: #e0e0e06f; */
 }
-
+.login-container:hover{
+    box-shadow: 1px 1px 7px 1px #b1b1b1;
+}
 .logo{
     width: 100%;
     display: flex;

@@ -158,7 +158,7 @@
 }
 
 @media only screen and (max-width: 660px) {
-    .container{
+    .header-container{
         height: 80px;
     }
     .head h2{
@@ -173,11 +173,11 @@
     .logo-head{
         margin-left: 10px;
     }
-    .login-signup{
+    .header-login{
         width: 140px;
         margin-right: 0;
     }
-    .login-signup button{
+    .header-login button{
         padding: 9px 12px;
         font-size: 0.75rem;
     }
@@ -188,7 +188,7 @@
 }
 
 @media only screen and (max-width: 460px) {
-    .container{
+    .header-container{
         height: 70px;
     }
     .head h2{
@@ -206,11 +206,11 @@
     .logo-head{
         margin-left: 7px;
     }
-    .login-signup{
+    .header-login{
         width: 120px;
         margin-right: 0;
     }
-    .login-signup button{
+    .header-login button{
         padding: 8px 11px;
         font-size: 0.6rem;
     }
@@ -229,11 +229,14 @@
     }
 }
 
-@media only screen and (max-width: 380px) {
+@media only screen and (max-width: 300px) {
     .head h2{
         font-size: 0.8rem;
     }
     .username{
+        display: none;
+    }
+    .head{
         display: none;
     }
 }
