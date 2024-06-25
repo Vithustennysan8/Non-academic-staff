@@ -28,7 +28,7 @@ const Login = () => {
 
                 <div className="passwd-box">
                     <label htmlFor="password">Password
-                        <input type="password" name="Password" id="login-password" required placeholder='*****************'/>
+                        <input type="password" name="Password" id="login-password" required placeholder='password'/>
                     </label>
                 </div>
 

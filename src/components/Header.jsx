@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const headerLoginNavigate = useNavigate();
 
   const toggleSideNav = () => {
