@@ -20,7 +20,7 @@ const Home = () => {
       <div className="home">
 
           <div className="home-container">
-            <div className="main">
+            <div className="home-main">
                 <h1>Welcome to our University</h1>
                 <p>Our university is one of the leading universities in the country, with a strong reputation
                   for academic excellence, innovative research, and a commitment to social responsibility.</p>

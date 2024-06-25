@@ -1,0 +1,81 @@
+.signup{
+    display: flex;
+    justify-content: center;
+}
+.signup-container{
+    padding: 20px 40px;
+    margin-top: 60px;
+    width: 60%;
+    border: 1px solid #dcdcdc;
+    border-radius: 15px;
+    background-color: #ffffff;
+    box-shadow: 1px 1px 4px 5px #e0e0e0;
+}
+.signup-container h2{
+    text-align: center;
+    font-size: 1.7rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.signup-container p{
+    color: #333;
+    text-align: center;
+    font-size: 0.75rem;
+    margin-bottom: 25px;
+}
+.half{
+    display: flex;
+    margin-bottom: 15px;
+    gap: 15px;
+    justify-content: space-between;
+}
+.half div{
+    width: 100%;
+    margin: 0 auto;
+}
+.signup-container label, .signup-container input, .signup-container select{
+    display: block;
+    width: 100%;
+}
+.signup-container input, .signup-container select{
+    border-radius: 8px;
+    padding: 7px 15px;
+    border: 1px solid #ccc;
+    outline-color: rgb(90, 124, 249);
+}
+.signup-submit-btn{
+    margin: 30px auto 0 auto;
+    width: 50%;
+}
+.signup-submit-btn input{
+    background-color: rgb(25, 25, 193);
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+.signup-submit-btn input:hover{
+    cursor: pointer;
+    color:rgb(13, 13, 251) ;
+    background-color: rgb(143, 143, 143);
+    font-weight: 700;
+}
+.signup-submit-btn input:active{
+    background-color: rgb(20, 20, 217);
+    color: white;
+}
+
+@media only screen and (max-width: 1500px) {
+    .signup-container{
+        width: 750px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .signup-container{
+        width: 85%;
+    }
+    .half{
+        margin-bottom: 15px;
+        flex-direction: column;
+    }
+}

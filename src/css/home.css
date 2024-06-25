@@ -39,7 +39,7 @@
         'main aside2';
     gap: 20px;
 }
-.main{
+.home-main{
     grid-area: main;
     background-color: rgb(230, 235, 255);
     display: flex;
@@ -48,7 +48,7 @@
     justify-content: center;
     padding: 20px;
 }
-.main div{
+.home-main div{
     display: flex;
     padding: 20px;
 }

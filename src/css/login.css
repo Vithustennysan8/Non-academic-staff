@@ -4,31 +4,23 @@
     box-sizing: border-box;
 }
 
-.main{
+.login-main{
     width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f4efef;
-    /* background: url(https://i.pinimg.com/originals/e4/a9/4b/e4a94b900e1fb9ed7420ba21a5243bb5.jpg); */
-    /* background: url(https://wallpapercave.com/wp/wp11704432.jpg); */
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    /* background-color: #f4efef; */
 }
 
 .login-container{
     border: 1px solid #9b9999;
     width: 60%;
     max-width: 400px;
-    min-width: 280px;
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 1px 1px 12px 1px #b7b5b5;
-    /* background-color: transparent; */
-    background-color: #cecbcb6f;
-    backdrop-filter: blur(3px);
+    box-shadow: 1px 1px 7px 1px #9a9a9a;
+    /* background-color: #e0e0e06f; */
 }
 
 .logo{
@@ -36,24 +28,22 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 15px;
     
 }
 
 .logo img{
     border-radius: 50%;
-    width: 120px;
+    width: 110px;
 }
 
 .login-container h1{
     text-align: center;
-    margin: 0px 0px 10;
-    text-shadow: 1px 1px 5px rgb(106, 104, 104);
+    margin: 0px 0px 7px;
+    font-weight: 600;
     font-size: 2.5rem;
-    /* color: #ffffff; */
 }
 
-input{
+.login-container input{
     width: 100%;
     padding: 8px 5px;
     margin: 5px 0 10px;
@@ -61,17 +51,17 @@ input{
     border: 1px solid #b6b6b6;
 }
 
-#email:hover, #password:hover{
+#login-email:hover, #login-password:hover{
     outline-color: #bf2d2db4;
     outline-width: 0.1px;
 }
 
-#email:focus, #password:focus{
+#login-email:focus, #login-password:focus{
     outline-color: rgba(249, 0, 0, 0.704);
     outline-width: 0.1px;
 }
 
-label{
+.login-container label{
     margin-bottom: 5px; 
     font-size: 1.1rem;
 }
@@ -120,7 +110,7 @@ label{
 .others{
     text-align: center;
     margin-bottom: 5px;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .others a{
@@ -135,4 +125,10 @@ label{
     min-width: 250px;
     color: #4d4c4c;
     margin-top: 5px;
+}
+
+@media only screen and (max-width: 800px) {
+    .login-container{
+        width: 80%;
+    }
 }
