@@ -69,6 +69,11 @@
     border-bottom: 1px solid #bbb;
     margin-bottom: 30px;
 }
+@media only screen and (max-width: 1200px) {
+    .home-img-slider h1{
+        font-size: 7rem;
+    }
+}
 
 @media only screen and (max-width: 880px) {
     .home-container{
@@ -79,5 +84,19 @@
         'main'
         'aside1'
         'aside2';
-        }
+    }
+    .home-img-slider img{
+        height: 400px;
+    }
+    .home-img-slider h1{
+        font-size: 5.5rem;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .home-img-slider img{
+        height: 300px;
+    }
+    .home-img-slider h1{
+        font-size: 3rem;
+    }
 }

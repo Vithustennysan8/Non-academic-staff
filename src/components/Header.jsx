@@ -1,14 +1,20 @@
 import { useState } from "react";
 import "../css/header.css";
 import SideNav from "./SideNav";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const headerLoginNavigate = useNavigate();
 
   const toggleSideNav = () => {
     setIsSideNavOpen(!isSideNavOpen);
   };
+
+  const handleHeaderLogin = ()=>{
+    headerLoginNavigate("/login")
+  }
 
   return (
     <>
@@ -30,6 +36,7 @@ const Header = () => {
         </div>
 
         <div className="nav">
+            <p><a href="#">Home</a></p>
             <p><a href="#">Staffs</a></p>
             <p><a href="#">Forms</a></p>
             <p><a href="#">Profile</a></p>
@@ -38,12 +45,12 @@ const Header = () => {
 
         {isLogin? 
           <div className="header-profile">
-            <p className="username">ths</p>
+            <p className="username">Tharanka</p>
             <img src="https://www.befunky.com/images/wp/wp-2021-01-linkedin-profile-picture-after.jpg?auto=avif,webp&format=jpg&width=944" alt="Profile-image" />
           </div>
         :
-          <div className="login-container">
-            <button className="login">Login</button>
+          <div className="header-login">
+            <button onClick={handleHeaderLogin}>Login</button>
           </div>
         }
       </header>
