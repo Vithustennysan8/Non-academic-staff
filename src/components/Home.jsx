@@ -9,13 +9,15 @@ const Home = () => {
     <div>
       <Header/>
 
+      <div className="home-img-slider">
+        {/* <img src="https://www.onlanka.com/wp-content/uploads/2021/09/university-of-peradeniya.jpg" alt=""/> */}
+        <img src="https://arts.pdn.ac.lk/images/slider/slide1.jpg" alt=""/>
+        {/* <img src="https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg" alt=""/> */}
+        {/* <img src="https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg" alt=""/> */}
+        <h1>University Of Peradeniya</h1>
+      </div>
+
       <div className="home">
-          <div className="home-img-slider">
-            <img src="https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg" alt=""/>
-            <img src="https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg" alt=""/>
-            <img src="https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg" alt=""/>
-            <img src="https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg" alt=""/>
-          </div>
 
           <div className="home-container">
             <div className="main">
@@ -34,11 +36,13 @@ const Home = () => {
           </div>
 
           <div className="newsFeed">
+            <h2>Important Announcements</h2>
             <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"}/>
             <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"}/>
             <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"}/>
             <Cards title={"news"} body={"cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"}/>
           </div>
+
       </div>
       
 

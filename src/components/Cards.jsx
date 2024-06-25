@@ -4,8 +4,8 @@ const Card = ({title, body}) => {
 
   return (
     <div className="card" > 
-        <h2>{title}</h2>
-        <p>{body}</p>
+        <p className="card-head">{title}</p>
+        <p className="card-body">{body}</p>
     </div>
   )
 }
