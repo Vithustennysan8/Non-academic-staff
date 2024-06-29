@@ -22,7 +22,7 @@ const Login = () => {
 
                 <div className="email-box">
                     <label htmlFor="login-email">Email Address
-                        <input type="email" name="Email" id="login-email" required placeholder='&#xf08e;Email Address' autoFocus/>
+                        <input type="email" name="Email" id="login-email" required placeholder='abc123@gmail.com' autoFocus/>
                     </label>
                 </div>
 

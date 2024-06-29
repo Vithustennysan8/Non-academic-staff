@@ -20,6 +20,9 @@ const Home = () => {
       <div className="home">
 
           <div className="home-container">
+            <div className="home-main-img">
+              <img src="https://adaderanaenglish.s3.amazonaws.com/1710299909-strike-trade-union-action-l.jpg" alt="" />
+            </div>
             <div className="home-main">
                 <h1>Welcome to our University</h1>
                 <p>Non-academic staff are the backbone of our educational institution, ensuring seamless operations 
@@ -29,9 +32,6 @@ const Home = () => {
                   including admissions, career counseling, health and wellness, financial management, and more. Committed
                    to excellence, our non-academic staff work tirelessly behind the scenes to enhance the educational 
                    experience and maintain the high standards of our institution.</p>
-            </div>
-            <div className="home-main-img">
-              <img src="https://adaderanaenglish.s3.amazonaws.com/1710299909-strike-trade-union-action-l.jpg" alt="" />
             </div>
           </div>
 
