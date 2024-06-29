@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const headerLoginNavigate = useNavigate();
 
   const toggleSideNav = () => {
@@ -36,10 +36,10 @@ const Header = () => {
         </div>
 
         <div className="nav">
-            <p><a href="#">Home</a></p>
-            <p><a href="#">Staffs</a></p>
-            <p><a href="#">Forms</a></p>
-            <p><a href="#">Profile</a></p>
+            <p><a href="/">Home</a></p>
+            <p><a href="/staffs">Staffs</a></p>
+            <p><a href="/forms">Forms</a></p>
+            <p><a href="/profile">Profile</a></p>
             <p><a href="#">News</a></p>
         </div>
 

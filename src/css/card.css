@@ -1,10 +1,10 @@
 .card{
     border-radius: 8px;
-    box-shadow:0 0 7px 1px rgba(58, 58, 58, 0.2);
-    border: 1px solid #d0d3f8;
+    box-shadow:0 4px 7px 0px rgba(129, 129, 129, 0.474);
+    border: 1px solid #d6d6d6;
     padding: 15px;
     background-color: #f9f9f9;
-    margin : 12px 0 ;
+    margin : 18px 0 ;
 }
 .card-head{
     margin-bottom: 8px;
