@@ -14,6 +14,10 @@ const Signup = () => {
     gender:"",
     address:"",
     city:"",
+    ic:"",
+    emp_id:"",
+    job_type:"",
+    role:"",
     postalcode:"",
     department:"",
     faculty:"",
@@ -106,6 +110,32 @@ const Signup = () => {
               <div className="postalcode">
                 <label htmlFor="postalcode">Postal code</label>
                 <input type="number" id="postalcode" placeholder="postalcode" name="postalcode" onChange={handleInput} value={user.postalcode} required/>
+              </div>
+            </div>
+
+            <div className="half">
+              <div className="ic">
+                <label htmlFor="ic">Identy card</label>
+                <input type="text" id="ic" placeholder="9623213v" name="ic" onChange={handleInput} value={user.ic} required/>
+              </div>
+              <div className="emp_id">
+                <label htmlFor="emp_id">Employee_id</label>
+                <input type="number" id="emp_id" placeholder="emp_id" name="emp_id" onChange={handleInput} value={user.emp_id} required/>
+              </div>
+            </div>
+
+            <div className="half">
+              <div className="job_type">
+                <label htmlFor="job_type">Job_type</label>
+                <input type="text" id="job_type" placeholder="job_type" name="job_type" onChange={handleInput} value={user.job_type} required/>
+              </div>
+              <div className="role">
+                <label htmlFor="role">Are you </label>
+                <select name="role" id="role" onChange={handleInput} value={user.role} required>
+                  <option value="">select one....</option>
+                  <option value="user">user</option>
+                  <option value="admin">admin</option>
+                </select>
               </div>
             </div>
 

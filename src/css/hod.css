@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.hod {
+    margin: 0 100px;
+}
+
+.hod h2 {
+    font-size: 8rem;
+    color: white;
+    background-image: url('https://eng.pdn.ac.lk/wp-content/uploads/2022/12/slide-4.jpg');
+    background-repeat: no-repeat;
+    background-position: top left;
+    background-size: cover; 
+    padding: 20px; 
+}

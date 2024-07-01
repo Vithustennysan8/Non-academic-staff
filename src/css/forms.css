@@ -1,0 +1,19 @@
+.form-content{
+    margin: 0 100px;
+}
+
+.form-heading{
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.form-attributes{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-top: 20px;
+    /* background-color: hsla(127, 56%, 74%, 0.911); */
+    border-radius: 18px;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,29 @@
+.staffs{
+    margin: 0 auto 50px;
+    width: 80%;
+}
+
+.staffs h2{
+    margin-top: 20px;
+    font-size: 2.5rem;
+    /* text-shadow: 1px 1px 8px rgb(106, 104, 104); */
+}
+
+.staffs > div > h3{
+    margin: 20px 30px;
+    font-size: 1.8rem;
+    /* text-shadow: 1px 1px 8px rgb(106, 104, 104); */
+    
+}
+
+.staff-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .staffs{
+        width: 95%;
+    }
+}

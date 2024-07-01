@@ -1,0 +1,31 @@
+.staff-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 8px;
+    box-shadow: 2px 4px 8px rgba(12,12,12,0.2);
+    border: 1px solid #ccc;
+    padding: 15px;
+    background-color: #DDD;
+    margin: 12px 21px;
+    cursor: pointer;
+    width: 16%;
+    min-width: 135px;
+}
+.staff-card h4 {
+    /* padding: 10px; */
+    font-size: 1.1rem;
+    font-weight: 600;
+    /* text-shadow: 1px 1px 6px rgb(106, 104, 104); */
+    text-align: center;
+}
+
+.staff-card p {
+    font-size: 0.8rem;
+    font-weight: 300;
+    text-align: center;
+}
+
+
+.staff-card:hover {
+    transform: translatex(-7px);
+    box-shadow: 0 8px 16px rgba(88, 64, 64, 0.229);
+}

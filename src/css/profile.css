@@ -1,0 +1,143 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#profile-container {
+    margin: 0 100px;
+}
+
+.profile-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.profile-heading h3 {
+    margin: 20px 0 0 10px;
+    font-size: 2.5rem;
+    text-shadow: 1px 1px 8px rgb(106, 104, 104);
+}
+
+.profile-attributes {
+    width: 200px;
+    text-align: right;
+    margin-right: 20px;
+}
+
+.profile-attributes img {
+    margin-top: 20px; 
+    width: 50px;
+    padding-left: 15px;
+}
+
+.small-navbar {
+    display: flex;
+    flex-wrap: wrap;
+    width: 800px;
+    justify-content: space-around;
+    height: 40px;
+    border-bottom: 2px solid hsla(0, 7%, 25%, 0.289);
+    padding-bottom: 5px;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.small-navbar p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+.small-navbar a {
+    text-decoration: none;
+    color: rgb(40, 42, 47);
+    display: flex;
+    align-items: center;
+}
+
+.small-navbar span {
+    display: flex;
+    align-items: center;
+}
+
+.small-navbar img {
+    width: 20px;
+    height: 20px;
+    margin: 0 6px;
+}
+
+.small-navbar span:hover{
+    color: hsla(222, 25%, 10%, 0.364);
+}
+
+.profile-img{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.profile-img img{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    margin: 15px 20px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.868);
+    
+
+}
+
+.profile-detail-container {
+    width: 90%;
+    max-width: 1000px; 
+    padding: 20px;
+    margin: auto;
+    display: flex;
+    flex-direction: column; 
+}
+
+.profile-namebox, .profile-city, .profile-state {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.profile-emailbox, .profile-phoneNumber, .profile-streetAddress {
+    margin-bottom: 15px; 
+}
+
+.profile-detail-container label {
+    display: flex;
+    flex-direction: column; 
+    width: 48%; 
+}
+
+.profile-emailbox label, .profile-phoneNumber label, .profile-streetAddress label {
+    width: 100%; 
+}
+
+.profile-detail-container input {
+    padding: 8px 5px;
+    margin: 5px 0 10px;
+    border-radius: 5px;
+    border: 1px solid #b6b6b6;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.418);
+    width: 100%; 
+}
+
+.profile-detail-container input[type="button"] {
+    width: 100%; 
+    color: white;
+    background-color: rgb(67, 213, 67);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    align-self: center; 
+}
+
+.profile-detail-container input[type="button"]:hover {
+    background-color: rgb(58, 192, 58);
+}
