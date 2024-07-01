@@ -53,7 +53,7 @@ const Signup = () => {
             <div className="half">
               <div className="bdate">
                 <label htmlFor="bdate">Date of birth</label>
-                <input type="date" id="bdate" placeholder="bdate" name="bdate" onChange={handleInput} value={user.bdate}/>
+                <input type="date" id="bdate" name="bdate" onChange={handleInput} value={user.bdate}/>
               </div>
               <div className="gender">
                 <label htmlFor="gender">Gender</label>

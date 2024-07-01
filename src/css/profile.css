@@ -5,7 +5,7 @@
 }
 
 #profile-container {
-    margin: 0 100px;
+    margin: 0 auto;
 }
 
 .profile-bar {
@@ -35,7 +35,7 @@
 .small-navbar {
     display: flex;
     flex-wrap: wrap;
-    width: 800px;
+    width: 100%;
     justify-content: space-around;
     height: 40px;
     border-bottom: 2px solid hsla(0, 7%, 25%, 0.289);
@@ -140,4 +140,10 @@
 
 .profile-detail-container input[type="button"]:hover {
     background-color: rgb(58, 192, 58);
+}
+
+@media only screen and (max-width: 600px) {
+    .staffs{
+        width: 95%;
+    }
 }

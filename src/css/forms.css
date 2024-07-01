@@ -1,11 +1,13 @@
 .form-content{
-    margin: 0 100px;
+    margin: 0 auto 50px;
+    width: 80%;
 }
 
 .form-heading{
     font-size: 2rem;
     font-weight: bold;
     margin-top: 20px;
+    margin-left: 30px;
 }
 
 .form-attributes{
@@ -16,4 +18,10 @@
     /* background-color: hsla(127, 56%, 74%, 0.911); */
     border-radius: 18px;
     margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .staffs{
+        width: 90%;
+    }
 }
