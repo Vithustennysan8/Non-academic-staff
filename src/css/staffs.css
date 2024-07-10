@@ -1,19 +1,25 @@
 .staffs{
     margin: 0 auto 50px;
-    width: 80%;
+    width: 85%;
 }
 
 .staffs h2{
     margin-top: 20px;
-    font-size: 2.5rem;
+    font-size: 2rem;
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    text-transform: uppercase;
+    margin-left: 20px;
     /* text-shadow: 1px 1px 8px rgb(106, 104, 104); */
 }
 
 .staffs > div > h3{
-    margin: 20px 30px;
-    font-size: 1.8rem;
+    margin: 20px 0;
+    margin-left: 20px;
+    font-size: 1.3rem;
+    border-left: 4px solid rgb(68, 68, 68);
+    padding-left: 10px;
     /* text-shadow: 1px 1px 8px rgb(106, 104, 104); */
-    
 }
 
 .staff-container {
@@ -22,8 +28,8 @@
     justify-content: center;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 780px) {
     .staffs{
-        width: 95%;
+        width: 90%;
     }
 }

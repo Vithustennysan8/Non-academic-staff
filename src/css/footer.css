@@ -9,16 +9,16 @@
     text-align: center;
     position: relative;
     bottom: 0;
-    padding: 10px 0;
-    background-color: grey;
+    padding: 10px 0 0;
+    background-color: rgb(178, 178, 178);
     min-width: 310px;
 }
 
 .about{
-    margin: 20px 0;
+    margin: 10px 0;
 }
 .about h2{
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .about a{
@@ -28,7 +28,6 @@
 
 .socials{
     height: 40px;
-    margin-bottom: 15px;
 }
 
 .socials img{
@@ -46,7 +45,15 @@
 .contact p{
     margin-top: 4px;
 }
+.copyright{
+    background-color: #444444;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .copyright p{
     font-size: 0.8rem;
+    color: white;
 }

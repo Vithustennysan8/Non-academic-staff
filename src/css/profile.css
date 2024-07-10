@@ -6,6 +6,7 @@
 
 #profile-container {
     margin: 0 auto;
+    width: 85%;
 }
 
 .profile-bar {
@@ -16,8 +17,11 @@
 
 .profile-heading h3 {
     margin: 20px 0 0 10px;
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-shadow: 1px 1px 8px rgb(106, 104, 104);
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    text-transform: uppercase;
 }
 
 .profile-attributes {

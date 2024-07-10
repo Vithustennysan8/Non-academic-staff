@@ -45,10 +45,11 @@
     color: white;
     text-decoration: none;
     font-size: 1.2rem;
-    transition: 0.4s;
+    transition: color 0.4s;
 }
 .nav p a:hover{
-    color: rgba(234, 251, 0, 0.808);
+    color: rgba(0, 0, 0, 0.808);
+    font-weight: 600;
 }
 .nav p a:active{
     color: white;
@@ -92,13 +93,13 @@
     margin-right: 10px;
 }
 .header-profile img{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 .username{
     color: white;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
 }
 
 
@@ -107,12 +108,12 @@
 #side-nav-btn{
     position: fixed;
     top: 90px;
-    left: 0;
+    right: 0;
     z-index: 4;
     width: 40px;
     height: 45px;
-    background-color: #6f6d6d;
-    border-radius: 0 12px 12px 0;
+    background-color: #6f6d6d95;
+    border-radius:  12px 0 0 12px;
     border: none;
     box-shadow: 0px 1px 2px 1px #3c3c3c;
     display: none;
@@ -221,8 +222,8 @@
         display: block;
     }
     .header-profile img{
-        width: 30px;
-        height: 30px;
+        width: 25px;
+        height: 25px;
     }
     .username{
         font-size: 0.65rem;

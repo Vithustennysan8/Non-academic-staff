@@ -7,8 +7,8 @@ const SideNav = ({ isOpen, toggleNav }) => {
       <a href="/">Home</a>
       <a href="/staffs">Staffs</a>
       <a href="/forms">Forms</a>
-      <a href="/profile">Profile</a>
-      <a href="#">News</a>
+      <a href="/forum">Forum</a>
+      <a href="/contact">Contact</a>
     </div>
   );
 };

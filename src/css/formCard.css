@@ -1,0 +1,50 @@
+/* Styles for the main container */
+.form-card {
+    width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 12px 0;
+    margin-bottom: 30px;
+  }
+  
+  /* Styles for the form heading */
+  .form-card h2 {
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  /* Styles for the form content */
+  .content-base div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    transition: background-color 0.3s;
+    background-color: rgb(123, 123, 123);
+    cursor: pointer;
+  }
+  
+  /* Active state background color */
+  .content-base div:active {
+    background-color: rgb(100, 100, 100);
+  }
+  
+  /* Hovered state background color */
+  .content-base div:hover {
+    background-color: rgb(80, 80, 80);
+  }
+  
+  
+  /* Styles for the inner content */
+  .content-base p {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+  }
+  
