@@ -10,10 +10,11 @@
     position: relative;
     bottom: 0;
     padding: 0;
-    background: url(https://t4.ftcdn.net/jpg/01/66/66/73/360_F_166667348_X5X4u3zp6H3Rr2qcpRFI2rFyDyhpVKXt.jpg);
+    background: url(https://archives.sundayobserver.lk/2011/10/09/z_p-36-University.jpg);
     background-position: center;
-    background-size:cover;
+    background-size: cover;
     min-width: 310px;
+    border-top: 1px solid rgb(166, 166, 166);
 }
 .footer-content{
     background-color: transparent;

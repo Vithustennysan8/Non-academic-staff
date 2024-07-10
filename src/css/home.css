@@ -117,7 +117,7 @@ body{
     height: 100%;
 }
 .homeQuikLinks{
-
+    margin-bottom: 60px;
 }
 .homeQuikLinks h1{
     border-left: 4px solid rgb(219, 0, 0);
@@ -160,7 +160,7 @@ body{
 }
 .newsFeed{
     width: 100%;
-    margin-bottom: 40px;
+    margin-bottom: 60px;
     margin-top: 40px;  
 }
 
@@ -171,7 +171,9 @@ body{
     padding-left: 10px;
     margin-bottom: 30px;
 }
-
+.linkto{
+    margin-bottom: 60px;
+}
 .linkto h2{
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
@@ -180,15 +182,14 @@ body{
 
 }
 .linkto div{
-    height: 200px;
     display: flex;
     justify-content: space-around;
     max-width: 800px;
     margin: auto;
+    margin-bottom: 40px;
 }
 .linkto img{
     width: 100px;
-    
 }
 
 @media only screen and (max-width: 1200px) {
@@ -222,6 +223,9 @@ body{
     .home-img-slider h1{
         font-size: 5.5rem;
     }
+    .linkto img{
+        width: 70px;
+    }
 }
 @media only screen and (max-width: 700px) {
     .home-img-slider{
@@ -246,6 +250,9 @@ body{
     }
     .home{
         width: 85%;
+    }
+    .linkto img{
+        width: 45px;
     }
 }
 
