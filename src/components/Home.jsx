@@ -57,10 +57,34 @@ const Home = () => {
         <div className="homeQuikLinks">
           <h1>Quick Downloads</h1>
           <div className="homeLinks">
-            <p className="leftLink"><img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png" alt="" />Application for leaves</p>
-            <p className="rightLink"><img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png" alt="" />Application for subtitute</p>
-            <p className="leftLink"><img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png" alt="" />Application for transfer</p>
-            <p className="rightLink"><img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png" alt="" />Application for subtitute</p>
+            <p className="leftLink">
+              <img
+                src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                alt=""
+              />
+              Application for leaves
+            </p>
+            <p className="rightLink">
+              <img
+                src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                alt=""
+              />
+              Application for subtitute
+            </p>
+            <p className="leftLink">
+              <img
+                src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                alt=""
+              />
+              Application for transfer
+            </p>
+            <p className="rightLink">
+              <img
+                src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                alt=""
+              />
+              Application for subtitute
+            </p>
           </div>
         </div>
 
@@ -94,6 +118,48 @@ const Home = () => {
             }
             reporter={"Samir"}
           />
+        </div>
+
+        <div className="linkto">
+          <h2>Link to official websites</h2>
+          <div>
+            <a href="https://www.pdn.ac.lk/" target="_blank">
+              <img
+                src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-color-icon.png"
+                alt="Twitter_link"
+              />
+            </a>
+            <a href="https://twitter.com/uperadeniya?lang=en" target="_blank">
+              <img
+                src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/x-social-media-black-icon.png"
+                alt="Twitter_link"
+              />
+            </a>
+            <a
+              href="https://www.facebook.com/UniversityOfPeradeniya/"
+              target="_blank"
+            >
+              <img
+                src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/linkedin-app-icon.png"
+                alt="Linkedin_link"
+              />
+            </a>
+            <a href="https://github.com/UniversityOfPeradeniya" target="_blank">
+              <img
+                src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-icon.svg"
+                alt="Github_link"
+              />
+            </a>
+            <a
+              href="https://www.youtube.com/channel/UCxN_hZh8t5uFGW7kwahQwqQ"
+              target="_blank"
+            >
+              <img
+                src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/youtube-color-icon.png"
+                alt="Youtube_link"
+              />
+            </a>
+          </div>
         </div>
       </div>
       <Footer />

@@ -117,7 +117,7 @@ body{
     height: 100%;
 }
 .homeQuikLinks{
-    
+
 }
 .homeQuikLinks h1{
     border-left: 4px solid rgb(219, 0, 0);
@@ -161,7 +161,7 @@ body{
 .newsFeed{
     width: 100%;
     margin-bottom: 40px;
-    margin-top: 40px;
+    margin-top: 40px;  
 }
 
 .newsFeed h2{
@@ -170,6 +170,25 @@ body{
     text-transform: uppercase;
     padding-left: 10px;
     margin-bottom: 30px;
+}
+
+.linkto h2{
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+
+}
+.linkto div{
+    height: 200px;
+    display: flex;
+    justify-content: space-around;
+    max-width: 800px;
+    margin: auto;
+}
+.linkto img{
+    width: 100px;
+    
 }
 
 @media only screen and (max-width: 1200px) {

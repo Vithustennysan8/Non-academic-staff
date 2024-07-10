@@ -1,15 +1,14 @@
 .staffs{
     margin: 0 auto 50px;
-    width: 85%;
+    width: 80%;
 }
 
 .staffs h2{
-    margin-top: 20px;
+    margin: 30px 20px 40px;
     font-size: 2rem;
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
     text-transform: uppercase;
-    margin-left: 20px;
     /* text-shadow: 1px 1px 8px rgb(106, 104, 104); */
 }
 
