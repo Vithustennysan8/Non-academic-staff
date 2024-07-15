@@ -30,7 +30,6 @@ const Login = () => {
             if (token) {
                 localStorage.setItem("token", token); // Store token as a string
                 console.log("Stored token:", token);
-                alert("Login successfully");
                 Navigate("/");
             } else {
                 throw new Error("Token not received");

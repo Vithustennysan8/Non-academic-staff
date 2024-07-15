@@ -2,14 +2,34 @@ import { useEffect, useState } from "react";
 import "../css/header.css";
 import SideNav from "./SideNav";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Header = () => {
-
-  useEffect(()=>{
-    if(localStorage.getItem("token") != null){
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    
+    const getUserDetail = async () => {
       setIsLogin(true);
+      if (token) {
+        setIsLogin(true);
+        const response = await axios.get(
+          "http://localhost:8080/auth/user/info",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(response.data);
+      } else {
+        navigate("/login");
       }
-  },[])
+    };
+    getUserDetail();
+  }, [navigate]);
 
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
@@ -61,7 +81,7 @@ const Header = () => {
 
         {isLogin ? (
           <div className="header-profile">
-            <p className="username">Vithustennysan</p>
+            <p className="username">{user.first_name}</p>
             <a href="/profile">
               <img
                 src="https://cdn2.momjunction.com/wp-content/uploads/2015/08/33-Funky-Short-Hairstyles-For-Kids.jpg.webp"

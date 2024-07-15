@@ -4,16 +4,35 @@ import Cards from "./Cards";
 import Header from "./Header";
 import lab8 from "../pdfs/co226_lab8.pdf";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
   const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  useEffect(()=>{
-    // localStorage.removeItem("token");
-    if(localStorage.getItem("token") != null){
-      setIsLogin(true);
+    const getUserDetail = async () => {
+      if (token) {
+        setIsLogin(true);
+        const response = await axios.get(
+          "http://localhost:8080/auth/user/info",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(response.data);
+      } else {
+        navigate("/login");
       }
-  },[])
+    };
+    getUserDetail();
+  }, [navigate]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideInterval = useRef(null);
@@ -50,8 +69,8 @@ const Home = () => {
                   alt=""
                 />
               </div>
-              <h2>Vithustennysan E.T.L.</h2>
-              <p>-Staff</p>
+              <h2>{user.first_name} {user.last_name}</h2>
+              <p>-{user.job_type}</p>
             </div>
           </div>
         ) : (
