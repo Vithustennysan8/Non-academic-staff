@@ -167,12 +167,12 @@ const Profile = () => {
           </div>
 
           <div className="profile-city">
-            <label htmlFor="zipCode">
+            <label htmlFor="postal_code">
               Postal Code
               <input
                 type="number"
                 name="postal_code"
-                id="zipCode"
+                id="postal_code"
                 value={user.postal_code}
               />
             </label>
@@ -183,6 +183,27 @@ const Profile = () => {
                 name="city"
                 id="city"
                 value={user.city}
+              />
+            </label>
+          </div>
+
+          <div className="profile-state">
+            <label htmlFor="date_of_birth">
+              Date of Birth
+              <input
+                type="text"
+                name="date_of_birth"
+                id="date_of_birth"
+                value={"12/12/243"}
+              />
+            </label>
+            <label htmlFor="job_type">
+            Job type
+              <input
+                type="text"
+                name="job_type"
+                id="job_type"
+                value={user.job_type}
               />
             </label>
           </div>

@@ -1,15 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../css/fullLeaveForm.css";
 import { useNavigate } from "react-router-dom";
 
 const FullLeaveForm = () => {
   const naviagte = useNavigate();
+  const [form, setForm] = useState({
+    name:'',
+    emp_id: '',
+    department:'',
+    email:'',
+    duration:'',
+    leave_type: "",
+    start_date:'',
+    end_date:'',
+    acting:'',
+    reason:''
+  });
     
   useEffect(()=>{
       if(localStorage.getItem("token") == null){
         naviagte("/login");
       }
   },[naviagte])
+
+  const handleChange = (e) => {
+    const {name,value} = e.target;
+    setForm(form=>({...form,[name]:value}));
+  }
 
 
   return (
@@ -23,22 +40,22 @@ const FullLeaveForm = () => {
 
           <div className="form-group">
             <label htmlFor="name">Name:</label>
-            <input type="text" id="name" name="name" required />
+            <input type="text" id="name" name="name" value={form.name} onChange={handleChange} required />
           </div>
 
           <div className="form-group label-inline">
             <label htmlFor="EmpID">EmpID:</label>
-            <input type="text" id="EmpID" name="EmpID" required />
+            <input type="text" id="EmpID" name="EmpID" value={form.emp_id} onChange={handleChange} required />
           </div>
 
           <div className="form-group label-inline">
             <label htmlFor="Dept">Department:</label>
-            <input type="text" id="Dept" name="Dept" required />
+            <input type="text" id="Dept" name="department" value={form.department} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
             <label htmlFor="email">Email:</label>
-            <input type="email" id="email" name="email" required />
+            <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
           </div>
 
           <div className="form-group label-inline radio">
@@ -55,7 +72,7 @@ const FullLeaveForm = () => {
 
           <div className="form-group">
             <label htmlFor="leaveType">Type of Leave:</label>
-            <select id="leaveType" name="leaveType" required>
+            <select id="leaveType" name="leaveType" value={form.leave_type} onChange={handleChange} required>
               <option value="annual">Annual Leave</option>
               <option value="sick" selected>Sick Leave</option>
               <option value="casual">Casual Leave</option>
@@ -65,22 +82,22 @@ const FullLeaveForm = () => {
 
           <div className="form-group label-inline">
             <label htmlFor="startDate">Start Date:</label>
-            <input type="date" id="startDate" name="startDate" required />
+            <input type="date" id="startDate" name="startDate" value={form.start_date} onChange={handleChange} required />
           </div>
 
           <div className="form-group label-inline">
             <label htmlFor="endDate">End Date:</label>
-            <input type="date" id="endDate" name="endDate" required />
+            <input type="date" id="endDate" name="endDate" value={form.end_date} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
             <label htmlFor="Acting">Acting:</label>
-            <input type="text" id="Acting" name="Acting" required />
+            <input type="text" id="Acting" name="Acting" value={form.acting} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
             <label htmlFor="reason">Reason:</label>
-            <textarea id="reason" name="reason" rows="4" required></textarea>
+            <textarea id="reason" name="reason" rows="4" value={form.reason} onChange={handleChange} required></textarea>
           </div>
 
           <div className="submit">
