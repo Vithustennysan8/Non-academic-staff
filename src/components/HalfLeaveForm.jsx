@@ -1,6 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import "../css/halfLeaveForm.css"
+import { useEffect } from "react";
 
 const HalfLeaveForm = () => {
+  const naviagte = useNavigate();
+    
+  useEffect(()=>{
+      if(localStorage.getItem("token") == null){
+        naviagte("/login");
+      }
+  },[naviagte])
+
+  
   return (
     <div className="halfLeaveForm">
     <div className="halfleave-container">

@@ -1,5 +1,4 @@
 body{
-    /* background-color: #d8d8d8c3; */
     background-color: #f9f9f9;
 
 }
@@ -22,7 +21,7 @@ body{
     width: 100%;
     height: 500px;
     object-fit: cover;
-    border-radius: 12PX;
+    border-radius: 0 0 12px 12PX;
 }
 .home-img-slider h1{
     /* -webkit-text-stroke: 1px #e9e9e9; */
@@ -75,6 +74,31 @@ body{
 }
 .home-banner-profile p{
     color: #c8c8c8;
+}
+
+
+.home-image-slide{
+    width: 100%;
+    border: 1px solid #b5b5b5;
+    margin: auto;
+    height: 400px;
+    margin-bottom: 40px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+.slide{
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    opacity: 0;
+    transition: opacity 3s ease-in-out;
+    position: absolute;
+}
+
+.active{
+    opacity: 1;
 }
 
 .home-container{
@@ -131,8 +155,13 @@ body{
     margin: auto;
     max-width:750px;
 }
+.homeLinks a{
+    text-decoration: none;
+}
 .homeLinks p{
     cursor: pointer;
+    padding: 8px 8px;
+    margin-bottom: 16px;
 }
 .leftLink img{
     width: 25px;
@@ -146,16 +175,12 @@ body{
     /* background: linear-gradient(90deg, rgb(15, 15, 207),rgb(15, 15, 207),white); */
     background: linear-gradient(90deg,rgb(71, 71, 71),rgb(104, 104, 104),white);
     color: white;
-    margin-top: 12px;
-    padding: 5px 8px;
     border-radius: 8px;
 }
 .rightLink{
     background: linear-gradient(90deg,white, red, rgb(230, 0, 0));
     color: white;
     text-align: right;
-    padding: 5px 8px;
-    margin-top: 12px;
     border-radius: 8px;
 }
 .newsFeed{
@@ -189,7 +214,7 @@ body{
     margin-bottom: 40px;
 }
 .linkto img{
-    width: 100px;
+    width: 90px;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -226,13 +251,13 @@ body{
     .linkto img{
         width: 70px;
     }
+    .home-image-slide{
+        height: 350px;
+    }
 }
 @media only screen and (max-width: 700px) {
     .home-img-slider{
         width: 100%;
-    }
-    .home-img-slider img{
-        border-radius: unset;
     }
 }
 @media only screen and (max-width: 600px) {
@@ -250,6 +275,9 @@ body{
     }
     .home{
         width: 85%;
+    }
+    .home-image-slide{
+        height: 250px;
     }
     .linkto img{
         width: 45px;

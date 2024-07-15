@@ -1,33 +1,61 @@
 import { useState } from "react";
 import "../css/signup.css"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const Navigate = useNavigate();
+  const [error,setError] = useState({});
+
   const [user, setUser] = useState({
-    firstname:"",
-    lastname:"",
-    username:"",
+    first_name:"",
+    last_name:"",
     email:"",
     password:"",
     confirmpassword:"",
-    bdate:"",
-    phone:"",
+    date_of_birth:"",
+    phone_no:"",
     gender:"",
     address:"",
     city:"",
-    ic:"",
+    ic_no:"",
     emp_id:"",
     job_type:"",
-    role:"",
-    postalcode:"",
+    postal_code:"",
     department:"",
     faculty:"",
   })
 
   const handleInput = (e) => {
+    setError({});
     const {name,value} = e.target;
     setUser((prevUser) => ({...prevUser, [name]: value}))
   }
-               
+
+  const handleSubmit =async (e) => {
+    e.preventDefault();
+    
+    const {first_name,last_name,email,password,confirmpassword,date_of_birth,phone_no,gender,address,city,ic_no,
+      emp_id,job_type,postal_code,department,faculty} = user;
+    
+    if(password != confirmpassword){
+      alert("Password and Confirm Password does not match");
+      setError({border:"2px solid red"});
+      return;
+    }
+
+    try{
+      await axios.post("http://localhost:8080/auth/signup", {first_name,last_name,email,password,date_of_birth,phone_no,gender,address,city,ic_no,
+        emp_id,job_type,postal_code,department,faculty});
+
+      alert("register sucessfully");
+      Navigate("/login");
+
+    }catch{
+      console.log("error")
+    }
+
+  }
   
   return (
     <>
@@ -37,23 +65,23 @@ const Signup = () => {
           <h2>Registration Form</h2>
           <p>Fill about yourself here..</p>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             
             <div className="half">
               <div className="firstname">
                 <label htmlFor="firstname">Firstname</label>
-                <input type="text" id="firstname" placeholder="fistname" name="firstname" onChange={handleInput} value={user.firstname} required/>
+                <input type="text" id="firstname" placeholder="fistname" name="first_name" onChange={handleInput} value={user.first_name} required/>
               </div>
               <div className="lastname">
                 <label htmlFor="fistname">Lastname</label>
-                <input type="text" id="lastname" placeholder="lastname" name="lastname" onChange={handleInput} value={user.lastname} />
+                <input type="text" id="lastname" placeholder="lastname" name="last_name" onChange={handleInput} value={user.last_name} />
               </div>
             </div>
 
             <div className="half">
               <div className="bdate">
                 <label htmlFor="bdate">Date of birth</label>
-                <input type="date" id="bdate" name="bdate" onChange={handleInput} value={user.bdate}/>
+                <input type="date" id="bdate" name="date_of_birth" onChange={handleInput} value={user.date_of_birth}/>
               </div>
               <div className="gender">
                 <label htmlFor="gender">Gender</label>
@@ -73,16 +101,16 @@ const Signup = () => {
               </div>
               <div className="phone">
                 <label htmlFor="phone">Phone No</label>
-                <input type="tel" id="phone" placeholder="123456789" name="phone" onChange={handleInput} value={user.phone} required/>
+                <input type="tel" id="phone" placeholder="123456789" name="phone_no" onChange={handleInput} value={user.phone_no} required/>
               </div>
             </div>
 
-            <div className="half">
+            {/* <div className="half">
               <div>
                 <label htmlFor="username">Username</label>
                 <input type="text" id="username" name="username" value={user.username} onChange={handleInput} placeholder="user name" required />
               </div>
-            </div>
+            </div> */}
       
             <div className="half">
               <div className="password">
@@ -91,7 +119,7 @@ const Signup = () => {
               </div>
               <div className="confirmpassword">
                 <label htmlFor="confirmpassword">Confirm password</label>
-                <input type="password" id="confirmpassword" placeholder="confirmpassword" name="confirmpassword" onChange={handleInput} value={user.confirmpassword} required/>
+                <input type="password" id="confirmpassword" style={error} placeholder="confirmpassword" name="confirmpassword" onChange={handleInput} value={user.confirmpassword} required/>
               </div>
             </div>
 
@@ -109,14 +137,14 @@ const Signup = () => {
               </div>
               <div className="postalcode">
                 <label htmlFor="postalcode">Postal code</label>
-                <input type="number" id="postalcode" placeholder="postalcode" name="postalcode" onChange={handleInput} value={user.postalcode} required/>
+                <input type="number" id="postalcode" placeholder="postalcode" name="postal_code" onChange={handleInput} value={user.postal_code} required/>
               </div>
             </div>
 
             <div className="half">
               <div className="ic">
                 <label htmlFor="ic">Identy card</label>
-                <input type="text" id="ic" placeholder="9623213v" name="ic" onChange={handleInput} value={user.ic} required/>
+                <input type="text" id="ic" placeholder="9623213v" name="ic_no" onChange={handleInput} value={user.ic_no} required/>
               </div>
               <div className="emp_id">
                 <label htmlFor="emp_id">Employee_id</label>
@@ -129,14 +157,14 @@ const Signup = () => {
                 <label htmlFor="job_type">Job_type</label>
                 <input type="text" id="job_type" placeholder="job_type" name="job_type" onChange={handleInput} value={user.job_type} required/>
               </div>
-              <div className="role">
+              {/* <div className="role">
                 <label htmlFor="role">Are you </label>
                 <select name="role" id="role" onChange={handleInput} value={user.role} required>
                   <option value="">select one....</option>
                   <option value="user">user</option>
                   <option value="admin">admin</option>
                 </select>
-              </div>
+              </div> */}
             </div>
 
             <div className="half">

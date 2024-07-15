@@ -51,7 +51,7 @@
     width: 100%;
     padding: 8px 5px;
     margin: 5px 0 10px;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 1px solid #b6b6b6;
 }
 
@@ -61,7 +61,7 @@
 }
 
 #login-email:focus, #login-password:focus{
-    outline-color: rgba(249, 0, 0, 0.704);
+    outline-color: rgb(90, 124, 249);
     outline-width: 0.1px;
 }
 
@@ -82,7 +82,7 @@
     background-color: rgb(176, 7, 7);
 }
 
-.login-btn input:ac{
+.login-btn input:active{
     background-color: rgb(204, 20, 20);
 }
 

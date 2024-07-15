@@ -2,10 +2,19 @@ import Header from "./Header";
 import Footer from "./Footer";
 import ForumCard from "./ForumCard";
 import "../css/forum.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Forum = () => {
+    const naviagte = useNavigate();
     const [forumPopup, setForumPopup] = useState(false);
+    
+    useEffect(()=>{
+        if(localStorage.getItem("token") == null){
+          naviagte("/login");
+        }
+    },[naviagte])
+
 
     const showForumInput = ()=>{
         setForumPopup(true);
@@ -32,11 +41,11 @@ const Forum = () => {
             <form action="" >
                 <div>
                     <label htmlFor="ForumInputSubject">Subject</label>
-                    <input type="text" placeholder="Enter your name" id="forumInputSubject" />
+                    <input type="text" placeholder="Enter the title" id="forumInputSubject" />
                 </div>
                 <div>
                     <label htmlFor="ForumInputContent">content</label>
-                    <textarea name="" id="ForumInputContent" rows={7}></textarea>
+                    <textarea name="" id="ForumInputContent" rows={7} placeholder="Enter your thoughts here....."></textarea>
                 </div>
                 <div>
                     <label htmlFor="ForumInputFile">Add any files</label>

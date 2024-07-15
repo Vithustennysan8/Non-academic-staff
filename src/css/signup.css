@@ -13,7 +13,7 @@
     transition: 0.2s;
 }
 .signup-container:hover{
-    box-shadow: 1px 1px 4px 5px #e5e5e5;
+    box-shadow: 1px 1px 7px 1px #c3c3c3;
 }
 .signup-container h2{
     text-align: center;
@@ -66,6 +66,10 @@
 .signup-submit-btn input:active{
     background-color: rgb(20, 20, 217);
     color: white;
+}
+#error{
+    border: 2px solid red;
+    outline-color: red;
 }
 
 @media only screen and (max-width: 1500px) {

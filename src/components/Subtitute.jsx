@@ -1,6 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import '../css/subtitute.css';
+import { useEffect } from 'react';
 
 const Subtitute = () => {
+  const naviagte = useNavigate();
+    
+  useEffect(()=>{
+      if(localStorage.getItem("token") == null){
+        naviagte("/login");
+      }
+  },[naviagte])
+
+  
   return (
     <div className="subtituteForm">
     <div className="subtitute-container">

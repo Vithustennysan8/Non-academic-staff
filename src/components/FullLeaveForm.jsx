@@ -1,6 +1,17 @@
+import { useEffect } from "react";
 import "../css/fullLeaveForm.css";
+import { useNavigate } from "react-router-dom";
 
 const FullLeaveForm = () => {
+  const naviagte = useNavigate();
+    
+  useEffect(()=>{
+      if(localStorage.getItem("token") == null){
+        naviagte("/login");
+      }
+  },[naviagte])
+
+
   return (
     <div className="fullLeaveForm">
       <div className="fullleave-container">

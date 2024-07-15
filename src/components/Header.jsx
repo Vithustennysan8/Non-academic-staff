@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../css/header.css";
 import SideNav from "./SideNav";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+
+  useEffect(()=>{
+    if(localStorage.getItem("token") != null){
+      setIsLogin(true);
+      }
+  },[])
+
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const headerLoginNavigate = useNavigate();
 
   const toggleSideNav = () => {

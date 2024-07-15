@@ -1,7 +1,16 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import '../css/transfer.css'; 
+import { useNavigate } from 'react-router-dom';
 
 const TransferForm = () => {
+    const naviagte = useNavigate();
+    
+    useEffect(()=>{
+        if(localStorage.getItem("token") == null){
+          naviagte("/login");
+        }
+    },[naviagte])
+
     const [formData, setFormData] = useState({
         name: '',
         EmpID: '',
