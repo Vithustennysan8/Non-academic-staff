@@ -71,6 +71,46 @@
     border: 2px solid red;
     outline-color: red;
 }
+.signup input[type="file"]{
+    display: none;
+}
+.signup label{
+    cursor: pointer;
+    width: 100%;
+}
+.signup-profile-div{
+    border: 1px solid #c3c3c3;
+    padding: 5px 5px 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+.signup-profile-div img{
+    display: block;
+    margin: auto;
+    width: 40px;
+}
+.profile-img-verify{
+    color: rgb(2, 190, 2);
+    font-size: 0.9rem;
+    width: 100%;
+    text-align: center;
+    display: none;
+}
+.show-img{
+    display: block;
+    width: 100%;
+}
+.password, .confirmpassword{
+    position: relative;
+}
+.password img, .confirmpassword img{
+    position: absolute;
+    width: 20px;
+    right: 15px;
+    bottom: 22%;
+    cursor: pointer;
+    opacity: 0.7;
+}
 
 @media only screen and (max-width: 1500px) {
     .signup-container{

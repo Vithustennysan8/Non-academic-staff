@@ -34,7 +34,8 @@ const Login = () => {
             } else {
                 throw new Error("Token not received");
             }
-        }catch{
+        }catch(error){
+            console.log(error.message);
             alert("Invalid Credentials")
             setLoginUser({ email:"", password:"" });
         }

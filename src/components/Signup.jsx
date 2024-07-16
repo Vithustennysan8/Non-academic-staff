@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const Navigate = useNavigate();
-  const [error,setError] = useState({});
+  const [emailError,setEmailError] = useState({});
+  const [passwordError,setPasswordError] = useState({});
+  // const [img,setImg] = useState(false);
 
   const [user, setUser] = useState({
     first_name:"",
@@ -27,10 +29,19 @@ const Signup = () => {
   })
 
   const handleInput = (e) => {
-    setError({});
+    setEmailError({});
+    setPasswordError({});
     const {name,value} = e.target;
     setUser((prevUser) => ({...prevUser, [name]: value}))
   }
+
+  // how to find the image uploaded or not
+  // const handleImage = (e) => {
+  //   setError({})
+  //   const file = e.target.files[0];
+  //   setUser((prevUser) => ({...prevUser, image: file}))
+  //   setImg(true)
+  //   }
 
   const handleSubmit =async (e) => {
     e.preventDefault();
@@ -38,15 +49,23 @@ const Signup = () => {
     const {first_name,last_name,email,password,confirmpassword,date_of_birth,phone_no,gender,address,city,ic_no,
       emp_id,job_type,postal_code,department,faculty} = user;
     
+
     if(password != confirmpassword){
       alert("Password and Confirm Password does not match");
-      setError({border:"2px solid red"});
+      setPasswordError({border:"2px solid red"});
       return;
     }
 
+    
     try{
-      await axios.post("http://localhost:8080/auth/signup", {first_name,last_name,email,password,date_of_birth,phone_no,gender,address,city,ic_no,
+      const response = await axios.post("http://localhost:8080/auth/signup", {first_name,last_name,email,password,date_of_birth,phone_no,gender,address,city,ic_no,
         emp_id,job_type,postal_code,department,faculty});
+      
+      if(response.data === false){
+        alert("Email already exists");
+        setEmailError({border:"2px solid red"});
+        return;
+      }
 
       alert("register sucessfully");
       Navigate("/login");
@@ -55,6 +74,18 @@ const Signup = () => {
       console.log("error")
     }
 
+  }
+
+  const handleVissiblePassword = (img,val) => {
+    const element = document.getElementById(val)
+    const images = document.getElementById(img)
+    if (element.type === "password") {
+      element.type = "text";
+      images.src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/see-icon.png"
+    }else{
+      element.type = "password";
+      images.src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png"
+    }
   }
   
   return (
@@ -97,7 +128,7 @@ const Signup = () => {
             <div className="half">
               <div className="email">
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" placeholder="abc@gmail.com" name="email" onChange={handleInput} value={user.email} required/>
+                <input type="email" id="email" placeholder="abc@gmail.com" style={emailError} name="email" onChange={handleInput} value={user.email} required/>
               </div>
               <div className="phone">
                 <label htmlFor="phone">Phone No</label>
@@ -115,11 +146,13 @@ const Signup = () => {
             <div className="half">
               <div className="password">
                 <label htmlFor="password">Password</label>
-                <input type="password" id="password" placeholder="password" name="password" onChange={handleInput} value={user.password} required/>
+                <img id="passimg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("passimg","password")}/>
+                <input type="password" id="password" placeholder="password" name="password" onChange={handleInput} value={user.password} required size={8}/>
               </div>
               <div className="confirmpassword">
                 <label htmlFor="confirmpassword">Confirm password</label>
-                <input type="password" id="confirmpassword" style={error} placeholder="confirmpassword" name="confirmpassword" onChange={handleInput} value={user.confirmpassword} required/>
+                <img id="confirmPassImg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("confirmPassImg","confirmpassword")}/>
+                <input type="password" id="confirmpassword" style={passwordError} placeholder="confirmpassword" name="confirmpassword" onChange={handleInput} value={user.confirmpassword} required/>
               </div>
             </div>
 
@@ -160,11 +193,11 @@ const Signup = () => {
               {/* <div className="role">
                 <label htmlFor="role">Are you </label>
                 <select name="role" id="role" onChange={handleInput} value={user.role} required>
-                  <option value="">select one....</option>
-                  <option value="user">user</option>
-                  <option value="admin">admin</option>
+                <option value="">select one....</option>
+                <option value="user">user</option>
+                <option value="admin">admin</option>
                 </select>
-              </div> */}
+                </div> */}
             </div>
 
             <div className="half">
@@ -185,6 +218,16 @@ const Signup = () => {
                 </select>
               </div>
             </div>
+
+            {/* <div>
+              <div className="signup-profile-div">
+                <label htmlFor="profile_img">Upload profile image
+                  <img src="https://uxwing.com/wp-content/themes/uxwing/download/video-photography-multimedia/image-photography-icon.png" alt="" />
+                  <input type="file" id="profile_img" placeholder="profile_img" accept="image/png, image/jpg, image/jpeg"  name="image" onChange={handleImage} value={user.image} required/>
+                </label>
+              </div>
+                <span className={`profile-img-verify ${img? "show-img":""}`}>Image Added Successfully</span>
+            </div> */}
 
             <div className="signup-submit-btn">
               <input type="submit" value={"Submit"} />

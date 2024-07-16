@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Header = () => {
+  const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
   const navigate = useNavigate();
   
@@ -12,7 +13,6 @@ const Header = () => {
     const token = localStorage.getItem("token");
     
     const getUserDetail = async () => {
-      setIsLogin(true);
       if (token) {
         setIsLogin(true);
         const response = await axios.get(
@@ -24,23 +24,19 @@ const Header = () => {
           }
         );
         setUser(response.data);
-      } else {
-        navigate("/login");
       }
     };
     getUserDetail();
-  }, [navigate]);
-
+  }, []);
+  
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
-  const headerLoginNavigate = useNavigate();
 
   const toggleSideNav = () => {
     setIsSideNavOpen(!isSideNavOpen);
   };
 
   const handleHeaderLogin = () => {
-    headerLoginNavigate("/login");
+    navigate("/login");
   };
 
   return (
