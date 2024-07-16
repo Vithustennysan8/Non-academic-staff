@@ -73,9 +73,9 @@ const TransferForm = () => {
                     <input type="text" id="Dept" name="Dept" value={formData.Dept} onChange={handleChange} required />
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="email">Email:</label>
-                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+                <div className="form-group label-inline">
+                    <label htmlFor="jobStartDate">Job Start Date:</label>
+                    <input type="date" id="jobStartDate" name="job_start_date" value={formData.job_start_date} onChange={handleChange} required />
                 </div>
 
                 <div className="form-group">
@@ -134,7 +134,7 @@ const TransferForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="file">Resume:</label>
+                    <label htmlFor="file">Additional Documnets:</label>
                     <input type="file" id="file" name="file" onChange={handleFileChange} />
                 </div>
 

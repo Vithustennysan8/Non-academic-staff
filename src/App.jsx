@@ -12,6 +12,7 @@ import Subtitute from "./components/Subtitute";
 import Forum from "./components/Forum";
 import Contact from "./components/Contact";
 import { useEffect } from "react";
+import ResetPassword from "./components/ResetPassword";
 
 function App() {
 
@@ -70,6 +71,7 @@ function App() {
           <Route path="/subtitute" element={<Subtitute />} />
           <Route path="/forum" element={<Forum />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
         </Routes>
       </Router>
     </>

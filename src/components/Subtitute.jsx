@@ -8,7 +8,6 @@ const Subtitute = () => {
     name:'',
     emp_id: '',
     department:'',
-    email:'',
     duration:'',
     leave_type: "",
     start_date:'',
@@ -31,7 +30,7 @@ const Subtitute = () => {
   return (
     <div className="subtituteForm">
     <div className="subtitute-container">
-      <h2><u>HalfLeave Application Form</u></h2>
+      <h2><u>Subtitue Form</u></h2>
       <form id="subtituteForm">
 
           <div className="form-group">
@@ -45,28 +44,22 @@ const Subtitute = () => {
           </div>
 
           <div className="form-group label-inline">
+            <label htmlFor="faculty">Faculty:</label>
+            <input type="text" id="faculty" name="faculty" value={form.department} onChange={handleChange} required />
+          </div>
+
+          <div className="form-group label-inline">
             <label htmlFor="Dept">Department:</label>
             <input type="text" id="Dept" name="department" value={form.department} onChange={handleChange} required />
           </div>
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
-          </div>
+          </div> */}
 
-          <div className="form-group label-inline radio">
-            <label>Time duration:</label>
-            <div>
-              <label htmlFor="leave">Day</label>
-              <input type="radio" id="leave" name="leave-duration" value="leave" />
-            </div>
-            <div>
-              <label htmlFor="leave1">Hours</label>
-              <input type="radio" id="leave1" name="leave-duration" value="leave1" />
-            </div>
-          </div>
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="leaveType">Type of Leave:</label>
             <select id="leaveType" name="leaveType" value={form.leave_type} onChange={handleChange} required>
               <option value="annual">Annual Leave</option>
@@ -74,7 +67,7 @@ const Subtitute = () => {
               <option value="casual">Casual Leave</option>
               <option value="maternity">Maternity Leave</option>
             </select>
-          </div>
+          </div> */}
 
           <div className="form-group label-inline">
             <label htmlFor="startDate">Start Date:</label>
@@ -96,9 +89,8 @@ const Subtitute = () => {
             <textarea id="reason" name="reason" rows="4" value={form.reason} onChange={handleChange} required></textarea>
           </div>
 
-
-        <label htmlFor="file">Select a file to upload:</label>
-        <input type="file" id="file" name="file" />
+        {/* <label htmlFor="file">Select a file to upload:</label>
+        <input type="file" id="file" name="file" /> */}
         
         <div className="subtituteFormSubmit">
           <button type="submit">Submit</button>

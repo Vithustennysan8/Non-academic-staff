@@ -1,7 +1,8 @@
 .header-container{
     width: 100%;
     height: 90px;
-    background-color: rgb(166, 0, 0);
+    background: linear-gradient(180deg, rgb(130, 0, 0), rgb(171, 0, 0),rgb(220, 0, 0));
+    /* background-color: rgb(166, 0, 0); */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -196,7 +197,7 @@
         font-size: 1rem;
     }
     .head h5{
-        font-size: 0.55rem;
+        font-size: 0.65rem;
     }
     .logo-head{
         gap: 5px;

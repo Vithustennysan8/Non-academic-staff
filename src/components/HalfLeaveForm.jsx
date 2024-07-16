@@ -8,11 +8,10 @@ const HalfLeaveForm = () => {
     name:'',
     emp_id: '',
     department:'',
-    email:'',
     duration:'',
     leave_type: "",
-    start_date:'',
-    end_date:'',
+    leave_date:'',
+    job_start_date:'',
     acting:'',
     reason:''
   });
@@ -31,11 +30,9 @@ const HalfLeaveForm = () => {
   return (
     <div className="halfLeaveForm">
     <div className="halfleave-container">
-      <h2><u>HalfLeave Application Form</u></h2>
+      <h2><u>ShortLeave Application Form</u></h2>
       <form id="halfleaveForm" >
 
-      <label htmlFor="file">Select a file to upload:</label>
-          <input type="file" id="file" name="file" />
 
           <div className="form-group">
             <label htmlFor="name">Name:</label>
@@ -48,25 +45,28 @@ const HalfLeaveForm = () => {
           </div>
 
           <div className="form-group label-inline">
+            <label htmlFor="faculty">Faculty:</label>
+            <input type="text" id="faculty" name="faculty" value={form.department} onChange={handleChange} required />
+          </div>
+
+          <div className="form-group label-inline">
             <label htmlFor="Dept">Department:</label>
             <input type="text" id="Dept" name="department" value={form.department} onChange={handleChange} required />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
+          <div className="form-group label-inline">
+            <label htmlFor="jobStartDate">Job Start Date:</label>
+            <input type="date" id="jobStartDate" name="job_start_date" value={form.job_start_date} onChange={handleChange} required />
           </div>
 
+          {/* <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
+          </div> */}
+
           <div className="form-group label-inline radio">
-            <label>Time duration:</label>
-            <div>
-              <label htmlFor="leave">Day</label>
-              <input type="radio" id="leave" name="leave-duration" value="leave" />
-            </div>
-            <div>
-              <label htmlFor="leave1">Hours</label>
-              <input type="radio" id="leave1" name="leave-duration" value="leave1" />
-            </div>
+            <label htmlFor="duration">Time duration(hr):</label>
+            <input type="number" id="duration" name="duration" value={form.duration} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
@@ -80,25 +80,22 @@ const HalfLeaveForm = () => {
           </div>
 
           <div className="form-group label-inline">
-            <label htmlFor="startDate">Start Date:</label>
-            <input type="date" id="startDate" name="startDate" value={form.start_date} onChange={handleChange} required />
+            <label htmlFor="leaveDate">Start Date:</label>
+            <input type="date" id="leaveDate" name="leave_date" value={form.leave_date} onChange={handleChange} required />
           </div>
 
-          <div className="form-group label-inline">
-            <label htmlFor="endDate">End Date:</label>
-            <input type="date" id="endDate" name="endDate" value={form.end_date} onChange={handleChange} required />
-          </div>
-
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="Acting">Acting:</label>
             <input type="text" id="Acting" name="Acting" value={form.acting} onChange={handleChange} required />
-          </div>
+          </div> */}
 
           <div className="form-group">
             <label htmlFor="reason">Reason:</label>
             <textarea id="reason" name="reason" rows="4" value={form.reason} onChange={handleChange} required></textarea>
           </div>
 
+          <label htmlFor="file">Select a file to upload:</label>
+          <input type="file" id="file" name="file" />
 
         <div className="submit">
           <button type="submit">Submit</button>

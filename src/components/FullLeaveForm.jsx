@@ -8,9 +8,9 @@ const FullLeaveForm = () => {
     name:'',
     emp_id: '',
     department:'',
-    email:'',
     duration:'',
     leave_type: "",
+    job_start_date:'',
     start_date:'',
     end_date:'',
     acting:'',
@@ -35,8 +35,6 @@ const FullLeaveForm = () => {
         <h2><u>Leave Application Form</u></h2>
         <form id="leaveForm" >
 
-          <label htmlFor="file">Select a file to upload:</label>
-          <input type="file" id="file" name="file" />
 
           <div className="form-group">
             <label htmlFor="name">Name:</label>
@@ -49,25 +47,28 @@ const FullLeaveForm = () => {
           </div>
 
           <div className="form-group label-inline">
+            <label htmlFor="faculty">Faculty:</label>
+            <input type="text" id="faculty" name="faculty" value={form.department} onChange={handleChange} required />
+          </div>
+
+          <div className="form-group label-inline">
             <label htmlFor="Dept">Department:</label>
             <input type="text" id="Dept" name="department" value={form.department} onChange={handleChange} required />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
+          <div className="form-group label-inline">
+            <label htmlFor="jobStartDate">Job Start Date:</label>
+            <input type="date" id="jobStartDate" name="job_start_date" value={form.job_start_date} onChange={handleChange} required />
           </div>
 
-          <div className="form-group label-inline radio">
-            <label>Time duration:</label>
-            <div>
-              <label htmlFor="leave">Day</label>
-              <input type="radio" id="leave" name="leave-duration" value="leave" />
-            </div>
-            <div>
-              <label htmlFor="leave1">Hours</label>
-              <input type="radio" id="leave1" name="leave-duration" value="leave1" />
-            </div>
+          {/* <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
+          </div> */}
+
+          <div className="form-group">
+            <label htmlFor="leaveDays">Leave days:</label>
+            <input type="number" id="leaveDays" name="duration" value={form.duration} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
@@ -99,6 +100,9 @@ const FullLeaveForm = () => {
             <label htmlFor="reason">Reason:</label>
             <textarea id="reason" name="reason" rows="4" value={form.reason} onChange={handleChange} required></textarea>
           </div>
+
+          <label htmlFor="file">Select a file to upload:</label>
+          <input type="file" id="file" name="file" />
 
           <div className="submit">
             <button type="submit">Submit</button>

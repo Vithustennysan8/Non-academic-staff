@@ -31,16 +31,15 @@
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
     text-transform: uppercase;
-    /* text-shadow: 1px 1px 8px rgb(106, 104, 104); */
 }
 
-.staffs > div > h3{
+.staffs h3{
     margin: 20px 0;
     margin-left: 20px;
     font-size: 1.3rem;
+    left: 0;
     border-left: 4px solid rgb(68, 68, 68);
     padding-left: 10px;
-    /* text-shadow: 1px 1px 8px rgb(106, 104, 104); */
 }
 
 .staff-container {
@@ -49,6 +48,7 @@
     justify-content: center;
     width: 80%;
     margin: auto;
+    /* gap: 15px; */
 }
 
 @media only screen and (max-width: 780px) {

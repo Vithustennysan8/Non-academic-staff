@@ -6,7 +6,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+    const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
   const [user, setUser] = useState({
     first_name: "",
     last_name: "",
@@ -24,7 +26,7 @@ const Profile = () => {
     faculty: "",
   });
 
-  const token = localStorage.getItem("token");
+  // fetch the user data
   useEffect(() => {
     const getUserDetail = async () => {
       if (token) {
@@ -44,26 +46,31 @@ const Profile = () => {
     getUserDetail();
   }, [navigate, token]);
 
+
+  // logout implimentation
   const handleLogout = () => {
     localStorage.removeItem("token");
     alert("do you want to logout!");
     navigate("/login");
   };
 
+  // updating the changes to the details
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
 
+  // update the data to the database
   const handleUpdate = async () => {
     await axios.put("http://localhost:8080/auth/user/update", user, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    document.getElementById("update").style.display = "none"
+    document.getElementById("update").style.display = "none";
     alert("update success");
   };
+
 
   return (
     <>
@@ -79,9 +86,9 @@ const Profile = () => {
           <p>
             <a
               href="#"
-              onClick={() =>{
-                alert("you can modify the details by click on details!")
-                document.getElementById("update").style.display = "block"
+              onClick={() => {
+                alert("you can modify the details by click on details!");
+                document.getElementById("update").style.display = "block";
               }}
             >
               <span>
@@ -122,7 +129,7 @@ const Profile = () => {
                   src="https://cdn-icons-png.flaticon.com/128/10541/10541390.png"
                   alt="icon3"
                 />
-                Subscriptions
+                Dashboard
               </span>
             </a>
           </p>
@@ -285,7 +292,12 @@ const Profile = () => {
           </div>
 
           <div className="submit_btn">
-            <input type="button" value="Update" id="update" onClick={handleUpdate} />
+            <input
+              type="button"
+              value="Update"
+              id="update"
+              onClick={handleUpdate}
+            />
           </div>
           <div className=" logout-btn">
             <input type="button" value="Logout" onClick={handleLogout} />

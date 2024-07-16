@@ -34,7 +34,7 @@
 
 #leaveForm input,#leaveForm select,#leaveForm textarea,#leaveForm button {
     width: 100%;
-    padding: 10px;
+    padding: 8px 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -43,11 +43,9 @@
     width: 100px; 
     display: flex;
 }
-
-#leave{
-    
+.submit{
+    margin-top: 20px;
 }
-
 .submit button {
     background-color: rgb(185, 6, 6);
     color: white;

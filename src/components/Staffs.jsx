@@ -47,7 +47,41 @@ const Staffs = () => {
         </div>
 
         <div className="staffs-detail">
-          <h3>Heads of Departments (HOD)</h3>
+          <h3>Head of the Non-academic staffs</h3>
+          <div className="staff-container">
+                <StaffCard
+                  photo={"https://people.ce.pdn.ac.lk/images/staff/non-academic-staff/bandara.jpg"}
+                  title={"Bandara Wasundara"}
+                  body={"Engineering"}
+                />
+                <StaffCard
+                  photo={"https://people.ce.pdn.ac.lk/images/staff/non-academic-staff/kelum.jpg"}
+                  title={"Kelum Gunarathne"}
+                  body={"Engineering"}
+                />
+                <StaffCard
+                  photo={"https://mgt.pdn.ac.lk/siteimages/staff/Ranjith.jpg"}
+                  title={"Mr. H.R.L. Abeyrathne"}
+                  body={"Management"}
+                />
+                <StaffCard
+                  photo={"https://med.pdn.ac.lk/departments/anaesthesiology/pathum.gif"}
+                  title={"Mr. W.R.P.T. Wickramasinghe"}
+                  body={"Medicine"}
+                />
+                <StaffCard
+                  photo={"https://sci.pdn.ac.lk/botany/assets/img/nstaff/3.webp"}
+                  title={"Mr. A.B. Kotuwegedara"}
+                  body={"Botany"}
+                />
+                <StaffCard
+                  photo={"https://web2.ee.pdn.ac.lk/sites/default/files/inline-images/MrWalisundara.jpg"}
+                  title={"MR. W.M.S.B. WALISUNDARA"}
+                  body={"EEE"}
+                />
+          </div>
+
+          <h3>Computer Engineering</h3>
           <div className="staff-container">
             {staffs
               .filter((item) => item.first_name.concat(" "+item.last_name).toLowerCase().includes(search))

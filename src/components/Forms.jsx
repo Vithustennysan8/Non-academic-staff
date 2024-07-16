@@ -25,8 +25,8 @@ const Forms = () => {
             url={"/transferForm"}
           />
           <FormCard
-            title={"Half Day Form"}
-            content={"Open Half Day Form"}
+            title={"Short Leave Form"}
+            content={"Open Short Leave Form"}
             img={"https://pngimg.com/d/exit_PNG19.png"}
             url={"/halfLeaveForm"}
           />
