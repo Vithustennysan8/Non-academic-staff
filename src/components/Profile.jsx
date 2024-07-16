@@ -6,12 +6,26 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const [user, setUser] = useState({});
   const navigate = useNavigate();
+  const [user, setUser] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    date_of_birth: "",
+    phone_no: "",
+    gender: "",
+    address: "",
+    city: "",
+    ic_no: "",
+    emp_id: "",
+    job_type: "",
+    postal_code: "",
+    department: "",
+    faculty: "",
+  });
 
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     const getUserDetail = async () => {
       if (token) {
         const response = await axios.get(
@@ -28,16 +42,31 @@ const Profile = () => {
       }
     };
     getUserDetail();
-  }, [navigate]);
+  }, [navigate, token]);
 
-  const handleLogout =() =>{
+  const handleLogout = () => {
     localStorage.removeItem("token");
-    alert("Are you sure!");
+    alert("do you want to logout!");
     navigate("/login");
-  }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const handleUpdate = async () => {
+    await axios.put("http://localhost:8080/auth/user/update", user, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    document.getElementById("update").style.display = "none"
+    alert("update success");
+  };
 
   return (
-    <div>
+    <>
       <Header />
       <div id="profile-container">
         <div className="profile-bar">
@@ -48,7 +77,13 @@ const Profile = () => {
 
         <div className="small-navbar">
           <p>
-            <a href="#">
+            <a
+              href="#"
+              onClick={() =>{
+                alert("you can modify the details by click on details!")
+                document.getElementById("update").style.display = "block"
+              }}
+            >
               <span>
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/8188/8188360.png"
@@ -108,8 +143,9 @@ const Profile = () => {
                 name="first_name"
                 id="firstname"
                 value={user.first_name}
+                onChange={handleChange}
                 required
-                placeholder=""
+                placeholder="firstname"
               />
             </label>
             <label htmlFor="lastname">
@@ -118,9 +154,10 @@ const Profile = () => {
                 type="text"
                 name="last_name"
                 value={user.last_name}
+                onChange={handleChange}
                 id="lastname"
                 required
-                placeholder=""
+                placeholder="lastname"
               />
             </label>
           </div>
@@ -129,12 +166,12 @@ const Profile = () => {
             <label htmlFor="emailAddress">
               Email Address
               <input
-                type="text"
-                name="emailAddress"
-                id="emailAddress"
+                type="email"
+                name="email"
+                id="email"
                 value={user.email}
-                required
-                placeholder=""
+                readOnly
+                placeholder="emailAddress"
               />
             </label>
           </div>
@@ -144,11 +181,12 @@ const Profile = () => {
               Phone Number
               <input
                 type="number"
-                name="phoneNumber"
-                id="phoneNumber"
+                name="phone_no"
+                id="phone_no"
                 value={user.phone_no}
+                onChange={handleChange}
                 required
-                placeholder=""
+                placeholder="phoneNumber"
               />
             </label>
           </div>
@@ -158,9 +196,11 @@ const Profile = () => {
               Address
               <input
                 type="text"
-                name="streetAddress"
-                id="streetAddress"
+                name="address"
+                id="address"
                 value={user.address}
+                onChange={handleChange}
+                placeholder="streetAddress"
                 required
               />
             </label>
@@ -174,6 +214,8 @@ const Profile = () => {
                 name="postal_code"
                 id="postal_code"
                 value={user.postal_code}
+                onChange={handleChange}
+                placeholder="postal_code"
               />
             </label>
             <label htmlFor="city">
@@ -183,6 +225,8 @@ const Profile = () => {
                 name="city"
                 id="city"
                 value={user.city}
+                onChange={handleChange}
+                placeholder="city"
               />
             </label>
           </div>
@@ -194,16 +238,21 @@ const Profile = () => {
                 type="text"
                 name="date_of_birth"
                 id="date_of_birth"
-                value={"12/12/243"}
+                value={user.date_of_birth}
+                onChange={handleChange}
+                onClick={(e) => (e.target.type = "date")}
+                placeholder="date_of_birth"
               />
             </label>
             <label htmlFor="job_type">
-            Job type
+              Job type
               <input
                 type="text"
                 name="job_type"
                 id="job_type"
                 value={user.job_type}
+                onChange={handleChange}
+                placeholder="job_type"
               />
             </label>
           </div>
@@ -217,7 +266,8 @@ const Profile = () => {
                 id="faculty"
                 required
                 value={user.faculty}
-                placeholder=""
+                onChange={handleChange}
+                placeholder="faculty"
               />
             </label>
             <label htmlFor="department">
@@ -227,22 +277,23 @@ const Profile = () => {
                 name="department"
                 id="department"
                 value={user.department}
+                onChange={handleChange}
                 required
-                placeholder=""
+                placeholder="department"
               />
             </label>
           </div>
 
           <div className="submit_btn">
-            <input type="button" value="Update" />
+            <input type="button" value="Update" id="update" onClick={handleUpdate} />
           </div>
-          <div className="submit_btn logout-btn">
-            <input type="button" value="Logout" onClick={handleLogout}/>
+          <div className=" logout-btn">
+            <input type="button" value="Logout" onClick={handleLogout} />
           </div>
         </div>
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

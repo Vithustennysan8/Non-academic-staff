@@ -152,7 +152,7 @@ const Signup = () => {
               <div className="confirmpassword">
                 <label htmlFor="confirmpassword">Confirm password</label>
                 <img id="confirmPassImg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("confirmPassImg","confirmpassword")}/>
-                <input type="password" id="confirmpassword" style={passwordError} placeholder="confirmpassword" name="confirmpassword" onChange={handleInput} value={user.confirmpassword} required/>
+                <input type="password" id="confirmpassword" style={passwordError} placeholder="confirmpassword" name="confirmpassword" onChange={handleInput} value={user.confirmpassword} required size={8}/>
               </div>
             </div>
 

@@ -19,9 +19,10 @@
 .staff-search input{
     width: 100%;
     border-radius: 12px;
-    padding: 7px 12px;
+    padding: 7px 40px 7px 12px;
     border: 2px solid rgb(106, 106, 106);
     outline: none;
+    cursor: pointer;
 }
 
 .staffs h2{
@@ -46,10 +47,15 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    width: 80%;
+    margin: auto;
 }
 
 @media only screen and (max-width: 780px) {
     .staffs{
         width: 90%;
+    }
+    .staff-container {
+        width: 100%;
     }
 }

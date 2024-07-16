@@ -8,14 +8,14 @@
     margin: 12px 21px;
     cursor: pointer;
     width: 12%;
-    min-width: 125px;
+    min-width: 150px;
+    overflow-wrap: break-word;
 }
 .staff-card h4 {
-    /* padding: 10px; */
     font-size: 0.95rem;
     font-weight: 600;
-    /* text-shadow: 1px 1px 6px rgb(106, 104, 104); */
     text-align: center;
+
 }
 
 .staff-card p {
@@ -28,4 +28,10 @@
 .staff-card:hover {
     transform: translatex(-7px);
     box-shadow: 0 8px 13px rgba(0, 0, 0, 0.229);
+}
+
+@media (max-width: 768px) {
+    .staff-card {
+        max-width: 125px;
+    }
 }
