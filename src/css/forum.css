@@ -12,7 +12,7 @@
     font-weight: 600;
 }
 .ForumAddBtn{
-    margin: 30px 0 10px;
+    margin: 30px 0 40px;
 }
 .ForumAddBtn button{
     border-radius: 8px;
@@ -50,20 +50,31 @@
 .forumInputContainer input[type="file"]{
     border: none;
 }
-.forumInputContainer button{
+.forumFormCancelbtn, .forumFormSubmitbtn{
     border-radius: 8px;
     border: 1px solid ;
     background: #646464;
     color: #fff;
     padding: 5px 8px;
-    margin: 10px 0 0;
+    margin: 10px 10px 0 0;
 }
-.forumInputContainer button:hover{
+.forumFormSubmitbtn:hover{
     background: #939393;
     cursor: pointer;
 }
-.forumInputContainer button:active{
+.forumFormSubmitbtnactive{
     background: #b5b5b5;
+}
+.forumFormCancelbtn{
+    background-color: rgb(198, 0, 0);
+}
+.forumFormCancelbtn:hover{
+    background: #eb0000;
+    cursor: pointer;
+}
+.forumFormCancelbtn:active{
+    background-color: rgb(198, 0, 0);
+
 }
 
 @media only screen and ( max-width: 780px){

@@ -4,24 +4,78 @@ import ForumCard from "./ForumCard";
 import "../css/forum.css"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { format } from "date-fns";
 
 const Forum = () => {
     const naviagte = useNavigate();
     const [forumPopup, setForumPopup] = useState(false);
+    const [forums, setForums] = useState([]);
+    const [addForum, setAddForum] = useState({
+        user:'',
+        subject:'',
+        body:'',
+        createdAt:''
+    });
+
+    const token = localStorage.getItem("token")
     
     useEffect(()=>{
-        if(localStorage.getItem("token") == null){
+        if(token == null){
           naviagte("/login");
         }
-    },[naviagte])
+
+        try {
+            const fetchForums = async ()=>{
+
+                const response = await axios.get("http://localhost:8080/auth/forum/get");
+                setForums(response.data);
+            };
+            fetchForums();
+        } catch (error) {
+            console.log("fetchError " + error)
+        }
+
+    },[naviagte,token])
 
 
     const showForumInput = ()=>{
         setForumPopup(true);
     }
+
+    const handleChange = (e) =>{
+        const {name,value} = e.target;
+        setAddForum({...addForum, [name]:value}); 
+    }
     
-    const handleForumSubmit = (e)=>{
+    const handleForumSubmit = async (e)=>{
         e.preventDefault();
+        
+        if(addForum.subject == '' || addForum.body == ''){
+            alert("Please fill all the fields");
+            return;
+        }
+        setForumPopup(false);
+
+        try {
+
+            const response = await axios.post("http://localhost:8080/auth/forum/add",addForum,
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                        }
+                }
+            )
+            console.log(response.data);
+            setForums([response.data,...forums]);
+            setAddForum({user:'',subject:'',body:'',createdAt:''});
+
+        } catch (error) {
+            console.log("forumError "+ error);
+        }
+    }
+
+    const handleForumCancel = ()=>{
         setForumPopup(false);
     }
 
@@ -41,29 +95,39 @@ const Forum = () => {
             <form action="" >
                 <div>
                     <label htmlFor="ForumInputSubject">Subject</label>
-                    <input type="text" placeholder="Enter the title" id="forumInputSubject" />
+                    <input type="text" placeholder="Enter the title" id="forumInputSubject" name="subject" value={addForum.subject} onChange={handleChange}/>
                 </div>
                 <div>
                     <label htmlFor="ForumInputContent">content</label>
-                    <textarea name="" id="ForumInputContent" rows={7} placeholder="Enter your thoughts here....."></textarea>
+                    <textarea name="body" value={addForum.body} onChange={handleChange} id="ForumInputContent" rows={7} placeholder="Enter your thoughts here....."></textarea>
                 </div>
                 <div>
                     <label htmlFor="ForumInputFile">Add any files</label>
                     <input type="file" id="ForumInputFile" />
                 </div>
-                <button onClick={handleForumSubmit}>Add To Forum</button>
+                <button className="forumFormSubmitbtn" onClick={handleForumSubmit}>Add To Forum</button>
+                <button className="forumFormCancelbtn" onClick={handleForumCancel}>Cancel</button>
             </form>
         </div>
         }
 
-        <ForumCard heading={"Strike against union"} user={"Vithustennysan E.T.L."} date={"2024/12/04"} time={"9.32 am"} paragraph={'Lorem ipsum dolor sit amet consectetur adipisicing elit. At similique voluptas in, sequi repellat eaque vel quaerat a doloremque vitae placeat ipsa! Fugit odio optio voluptatum corrupti suscipit atque labore nisi odit earum cumque, exercitationem maxime nesciunt doloribus ex est repellat qui hic nulla! Eos tempora eum quibusdam, ducimus accusantium dolor atque numquam nihil? Delectus et voluptatibus possimus tenetur excepturi ut soluta nisi at ullam molestiae sunt ipsam sit perspiciatis quaerat, eos pariatur. Laudantium, ad.'
-        }/>
+        <div>
+            {forums.map((forum)=>{
+                const date = new Date(forum.createdAt);
+                const datePart = format(date, 'MMMM do, yyyy');
+                const timePart = format(date, 'hh:mm a');
 
-        <ForumCard heading={"Strike against union"} user={"Vithustennysan E.T.L."} date={"2024/12/04"} time={"9.32 am"} paragraph={'Lorem ipsum dolor sit amet consectetur adipisicing elit. At similique voluptas in, sequi repellat eaque vel quaerat a doloremque vitae placeat ipsa! Fugit odio optio voluptatum corrupti suscipit atque labore nisi odit earum cumque, exercitationem maxime nesciunt'
-        }/>
-
-        <ForumCard heading={"Strike against union"} user={"Vithustennysan E.T.L."} date={"2024/12/04"} time={"9.32 am"} paragraph={'Lorem ipsum dolor sit amet consectetur adipisicing elit. At similique voluptas in, sequi repellat eaque vel quaerat a doloremque vitae placeat ipsa! Fugit odio optio voluptatum corrupti suscipit atque labore nisi '
-        }/>
+                return(
+                <ForumCard
+                    key={forum.id}
+                    heading={forum.subject}
+                    paragraph={forum.body}
+                    date={datePart}
+                    user={forum.user}
+                    time={timePart}
+                />)
+            })}
+        </div>
 
     </div>
     <Footer/>
