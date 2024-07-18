@@ -101,6 +101,19 @@
     color: white;
     border: 1px solid;
 }
+.passwd-box div{
+    position: relative;
+}
+
+.passwd-box img{
+    position: absolute;
+    width: 20px;
+    right: 15px;
+    opacity: 0.6;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
 
 .signup-opt input:hover{
     cursor: pointer;

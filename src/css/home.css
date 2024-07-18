@@ -39,7 +39,7 @@ body{
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .home-top{
-    height: 250px;
+    height: 240px;
     margin-top: 20px;
     position: relative;
 }
@@ -74,6 +74,47 @@ body{
 }
 .home-banner-profile p{
     color: #c8c8c8;
+}
+
+.form-shortcut-container{
+    width: 100%;
+    padding: 5px;
+    height: 100px;
+    border-radius: 12px;
+    border-left: 5px solid #ff0000;
+    border-right: 5px solid #ff0000;
+    box-shadow: 4px 4px 8px #606060;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg , #8b8b8b,#f1f1f1,#b8b8b8) ;
+    margin-bottom: 45px;
+    font-size: 1.7rem;
+    transition: border-left 0.5s ease-in-out, border-right 0.5s ease-in-out;
+}
+.form-shortcut-container:hover{
+    border-left: 25px solid #d60101;
+    border-right: 25px solid #d60101;
+}
+.form-shortcut{
+    width: 100%;
+    text-align: center;
+}
+.form-shortcut img{
+    width: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.form-shortcut a{
+    text-decoration: none;
+    color: rgb(220, 0, 0);
+    font-weight: 600;
+}
+.form-shortcut a:hover{
+    color: black;
+}
+.form-shortcut a:active{
+    color: red;
 }
 
 
@@ -281,6 +322,9 @@ body{
     }
     .linkto img{
         width: 45px;
+    }
+    .form-shortcut-container{
+        font-size: 1.3rem;
     }
 }
 

@@ -8,9 +8,10 @@ import axios from "axios";
 const Staffs = () => {
   const [search, setSearch] = useState("");
   const [staffs, setStaffs] = useState([]);
+  const token = localStorage.getItem("token");
+  
   
   useEffect(() => {
-    const token = localStorage.getItem("token");
 
     const getUsers = async () => {
       if (token) {
@@ -26,7 +27,7 @@ const Staffs = () => {
       }
     };
     getUsers();
-  },[]);
+  },[token]);
 
   return (
     <>
@@ -81,7 +82,7 @@ const Staffs = () => {
                 />
           </div>
 
-          <h3>Computer Engineering</h3>
+          {token && <h3>Computer Engineering</h3>}
           <div className="staff-container">
             {staffs
               .filter((item) => item.first_name.concat(" "+item.last_name).toLowerCase().includes(search))

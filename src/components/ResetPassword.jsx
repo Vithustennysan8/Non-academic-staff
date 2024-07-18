@@ -12,6 +12,7 @@ const ResetPassword = () => {
         old_password:'',
         new_password:'',
         confirm_new_password:'',
+        password_for_delete:'',
     })
 
     useEffect(()=>{
@@ -22,12 +23,12 @@ const ResetPassword = () => {
 
     const handleReset =async (e) => {
         e.preventDefault();
-        // const {old_password, new_password,confirm_new_password} = reset;
 
         if(reset.new_password != reset.confirm_new_password){
             alert("Password does not match");
             return;
         }
+
         try{
             const response  = await axios.put("http://localhost:8080/auth/user/reset",reset,
                 {
@@ -45,7 +46,27 @@ const ResetPassword = () => {
             console.log(err);
         }
     }
+    
+    const handleDelete = async (e) => {
+        e.preventDefault();
 
+        try{
+            const response  = await axios.delete("http://localhost:8080/auth/user/delete",
+                {
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                        },
+                        data:reset
+                }
+            );
+            console.log(response.data);
+            alert("Account deleted successfully");
+            localStorage.removeItem("token");
+            navigate("/login");
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     const handleVissiblePassword = (img,val) => {
         const element = document.getElementById(val)
@@ -90,6 +111,23 @@ const ResetPassword = () => {
                     <button className="resetPassword_button" onClick={handleReset}>Change Password</button>
                 </form>
             </div>
+
+            <div className="deleteAccountContainer">
+            <hr />
+                <form >
+                    
+                    <h2>Delete Account</h2>
+                    <p className='deleteInfo'>To delete your account permanately, please provide the correct password of your account</p>
+                    <div>
+                        <img id="PasswordForDeleteImg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("PasswordForDeleteImg","PasswordForDelete")}/>
+                        <input type="password" placeholder="Current Password" id="PasswordForDelete" name='password_for_delete' value={reset.password_for_delete} onChange={handleChange}/>
+                    </div>
+                    <p className='deleteConfirmInfo'>Are you sure you want to delete your account?<span className='importantastrick'> *</span></p>
+                    <button className="deleteAccount_button" onClick={handleDelete}>Delete Account</button>
+                </form>
+
+            </div>
+
         </div>
     <Footer/>
     </>

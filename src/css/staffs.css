@@ -31,6 +31,7 @@
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
     text-transform: uppercase;
+    font-weight: 600;
 }
 
 .staffs h3{
@@ -49,6 +50,9 @@
     width: 80%;
     margin: auto;
     /* gap: 15px; */
+}
+.importantastrick{
+    color: red;
 }
 
 @media only screen and (max-width: 780px) {

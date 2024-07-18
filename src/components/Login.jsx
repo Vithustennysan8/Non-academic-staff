@@ -40,6 +40,18 @@ const Login = () => {
             setLoginUser({ email:"", password:"" });
         }
     }
+
+    const handleVissiblePassword = (img,val) => {
+        const element = document.getElementById(val)
+        const images = document.getElementById(img)
+        if (element.type === "password") {
+          element.type = "text";
+          images.src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/see-icon.png"
+        }else{
+          element.type = "password";
+          images.src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png"
+        }
+      }
     
   return (
     <div className='login-main'>
@@ -60,7 +72,10 @@ const Login = () => {
 
                 <div className="passwd-box">
                     <label htmlFor="password">Password
-                        <input type="password" name="password" id="login-password" placeholder='password' onChange={handleChange} value={loginUser.password} required/>
+                        <div>
+                            <img id="loginPasswordimg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("loginPasswordimg","login-password")}/>
+                            <input type="password" name="password" id="login-password" placeholder='password' onChange={handleChange} value={loginUser.password} required/>
+                        </div>
                     </label>
                 </div>
 

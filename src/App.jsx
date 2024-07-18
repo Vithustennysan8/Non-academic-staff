@@ -13,6 +13,7 @@ import Forum from "./components/Forum";
 import Contact from "./components/Contact";
 import { useEffect } from "react";
 import ResetPassword from "./components/ResetPassword";
+import Dashboard from "./components/Dashboard";
 
 function App() {
 
@@ -72,6 +73,7 @@ function App() {
           <Route path="/forum" element={<Forum />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Router>
     </>

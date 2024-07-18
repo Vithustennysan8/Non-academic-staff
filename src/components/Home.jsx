@@ -16,18 +16,25 @@ const Home = () => {
     const getUserDetail = async () => {
       if (token) {
         setIsLogin(true);
-        const response = await axios.get(
-          "http://localhost:8080/auth/user/info",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(response.data);
-      }
-    };
-    getUserDetail();
+        try {
+          const response = await axios.get(
+            "http://localhost:8080/auth/user/info",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setUser(response.data);
+        } catch (error) {
+          console.log("message ",error)
+          alert("error")
+        }
+        }
+      };
+      getUserDetail();
+
+
   }, []);
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -57,6 +64,7 @@ const Home = () => {
       <div className="home-wrapper">
         {isLogin ? (
           /* --------- user profile ----------- */
+          <div>
           <div className="home-top">
             <div className="home-banner-profile">
               <div className="homeProfilePic">
@@ -68,6 +76,14 @@ const Home = () => {
               <h2>{user.first_name} {user.last_name}</h2>
               <p>-{user.job_type}</p>
             </div>
+          </div>
+
+          <div className="form-shortcut-container">
+            <div className="form-shortcut">
+              <p><img src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png" alt="" /><a href="/forms">Apply for Leaves & Transer</a></p>
+            </div>
+          </div>
+
           </div>
         ) : (
           <div className="home-img-slider">
