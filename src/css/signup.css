@@ -111,9 +111,9 @@
     cursor: pointer;
     opacity: 0.7;
 }
-.signup .error{
+.error{
     color: rgb(255, 0, 0);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     padding-left: 10px ;
 }
 

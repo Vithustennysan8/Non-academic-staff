@@ -1,43 +1,64 @@
 import { useNavigate } from 'react-router-dom'
 import '../css/login.css'
-import { useState } from 'react';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
 
 
 const Login = () => {
     const Navigate = useNavigate();
-    const [loginUser, setLoginUser] = useState({
-        email:"",
-        password:""
-    });
+    // const [loginUser, setLoginUser] = useState({
+    //     email:"",
+    //     password:""
+    // });
 
-    const handleChange = (e) => {
-        const {name,value} = e.target;
-        setLoginUser(prev => ({...prev, [name] : value}));
-    }
+    const {register, handleSubmit, formState:{errors}} = useForm();
+
+    // const handleChange = (e) => {
+    //     const {name,value} = e.target;
+    //     setLoginUser(prev => ({...prev, [name] : value}));
+    // }
 
     const handleSignup = ()=>{
         Navigate("/signup")
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const {email, password} = loginUser;
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     const {email, password} = loginUser;
 
-        try{
-            const response = await axios.post("http://localhost:8080/auth/login", {email,password} );
+    //     try{
+    //         const response = await axios.post("http://localhost:8080/auth/login", {email,password} );
+    //         const token = response.data.token
+    //         if (token) {
+    //             localStorage.setItem("token", token); // Store token as a string
+    //             console.log("Stored token:", token);
+    //             Navigate("/");
+    //         } else {
+    //             throw new Error("Token not received");
+    //         }
+    //     }catch(error){
+    //         console.log(error.message);
+    //         alert("Invalid Credentials")
+    //         setLoginUser({ email:"", password:"" });
+    //     }
+    // }
+
+    const onSubmit = async (data) => {
+
+        try {
+            const response = await axios.post("http://localhost:8080/auth/login", data,);
             const token = response.data.token
             if (token) {
                 localStorage.setItem("token", token); // Store token as a string
                 console.log("Stored token:", token);
                 Navigate("/");
-            } else {
+            }
+            else{
                 throw new Error("Token not received");
             }
-        }catch(error){
+        } catch (error) {
             console.log(error.message);
-            alert("Invalid Credentials")
-            setLoginUser({ email:"", password:"" });
+            alert("Invalid Credentials")        
         }
     }
 
@@ -56,7 +77,7 @@ const Login = () => {
   return (
     <div className='login-main'>
         <div className="login-container">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
 
                 <div className="logo">
                     <img src="https://w1.pngwing.com/pngs/659/960/png-transparent-gold-badge-university-of-ceylon-university-of-sri-lanka-higher-education-college-faculty-university-of-peradeniya-logo-thumbnail.png" alt="Uni-logo" />
@@ -65,18 +86,31 @@ const Login = () => {
                 <h1>UOP</h1>
 
                 <div className="email-box">
-                    <label htmlFor="login-email">Email Address
-                        <input type="email" name="email" id="login-email" placeholder='abc123@gmail.com' onChange={handleChange} value={loginUser.email} required/>
-                    </label>
+                    <label htmlFor="login-email" >Email Address</label>
+                        {/* <input type="email" name="email" id="login-email" placeholder='abc123@gmail.com' onChange={handleChange} value={loginUser.email} required/> */}
+                        <input type="email" name="email" id="login-email" placeholder='abc123@gmail.com' {...register("email", {required:{
+                            value: true,
+                            message: "Email is required"
+                        },
+                        pattern: {
+                            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ,
+                            message: "Email is not valid"
+                        }
+                        })} />
+                        <span className="error">{errors.email && errors.email.message}</span>
                 </div>
 
                 <div className="passwd-box">
-                    <label htmlFor="password">Password
+                    <label htmlFor="password">Password</label>
                         <div>
                             <img id="loginPasswordimg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("loginPasswordimg","login-password")}/>
-                            <input type="password" name="password" id="login-password" placeholder='password' onChange={handleChange} value={loginUser.password} required/>
+                            {/* <input type="password" name="password" id="login-password" placeholder='password' onChange={handleChange} value={loginUser.password} required/> */}
+                            <input type="password" name="password" id="login-password" placeholder='password' {...register("password",{required:{
+                                value: true,
+                                message: "Password is required"
+                            }})}/>
                         </div>
-                    </label>
+                        {errors.password && <span className="error">{errors.password.message}</span>}
                 </div>
 
                 <div className="login-btn">
