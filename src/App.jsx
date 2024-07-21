@@ -1,6 +1,7 @@
 import Home from "./components/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
+import Header from "./components/Header";
 import Signup from "./components/Signup";
 import Profile from "./components/Profile";
 import Forms from "./components/Forms";
@@ -14,6 +15,7 @@ import Contact from "./components/Contact";
 import { useEffect } from "react";
 import ResetPassword from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -59,6 +61,7 @@ function App() {
   return (
     <>
       <Router>
+      <Header/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -75,6 +78,7 @@ function App() {
           <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
+      <Footer/>
       </Router>
     </>
   );

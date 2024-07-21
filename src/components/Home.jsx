@@ -1,7 +1,5 @@
-import Footer from "./Footer";
 import "../css/home.css";
 import Cards from "./Cards";
-import Header from "./Header";
 import lab8 from "../pdfs/co226_lab8.pdf";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
@@ -18,7 +16,7 @@ const Home = () => {
         setIsLogin(true);
         try {
           const response = await axios.get(
-            "http://localhost:8080/auth/user/info",
+            "http://localhost:8080/api/auth/user/info",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -59,7 +57,6 @@ const Home = () => {
 
   return (
     <>
-      <Header />
 
       <div className="home-wrapper">
         {isLogin ? (
@@ -253,7 +250,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

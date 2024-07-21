@@ -46,7 +46,7 @@ const Login = () => {
     const onSubmit = async (data) => {
 
         try {
-            const response = await axios.post("http://localhost:8080/auth/login", data,);
+            const response = await axios.post("http://localhost:8080/api/auth/login", data,);
             const token = response.data.token
             if (token) {
                 localStorage.setItem("token", token); // Store token as a string
@@ -74,6 +74,7 @@ const Login = () => {
         }
       }
     
+      
   return (
     <div className='login-main'>
         <div className="login-container">

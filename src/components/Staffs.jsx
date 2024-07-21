@@ -1,5 +1,3 @@
-import Header from "./Header";
-import Footer from "./Footer";
 import "../css/staffs.css";
 import StaffCard from "./StaffCard";
 import { useEffect, useState } from "react";
@@ -17,7 +15,7 @@ const Staffs = () => {
       if (token) {
         try {
           const response = await axios.get(
-            "http://localhost:8080/auth/user/staffs"
+            "http://localhost:8080/api/auth/user/staffs"
           );
           setStaffs(response.data);
           console.log(response.data)
@@ -31,7 +29,6 @@ const Staffs = () => {
 
   return (
     <>
-      <Header />
       <div className="staffs">
         <h2>Staffs</h2>
 
@@ -97,7 +94,6 @@ const Staffs = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

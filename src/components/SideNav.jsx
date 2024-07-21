@@ -1,14 +1,15 @@
+import { Link } from "react-router-dom";
 import "../css/sideNav.css"
 
 const SideNav = ({ isOpen, toggleNav }) => {
   return (
     <div className={`sidenav ${isOpen ? 'open' : ''}`}>
       <button className="closebtn" onClick={toggleNav}>×</button>
-      <a href="/">Home</a>
-      <a href="/staffs">Staffs</a>
-      <a href="/forms">Forms</a>
-      <a href="/forum">Forum</a>
-      <a href="/contact">Contact</a>
+      <Link href="/">Home</Link>
+      <Link href="/staffs">Staffs</Link>
+      <Link href="/forms">Forms</Link>
+      <Link href="/forum">Forum</Link>
+      <Link href="/contact">Contact</Link>
     </div>
   );
 };

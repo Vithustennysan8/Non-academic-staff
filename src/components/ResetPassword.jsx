@@ -1,6 +1,4 @@
 import '../css/resetPassword.css'
-import Header from './Header'
-import Footer from './Footer'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -30,7 +28,7 @@ const ResetPassword = () => {
         }
 
         try{
-            const response  = await axios.put("http://localhost:8080/auth/user/reset",reset,
+            const response  = await axios.put("http://localhost:8080/api/auth/user/reset",reset,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -51,7 +49,7 @@ const ResetPassword = () => {
         e.preventDefault();
 
         try{
-            const response  = await axios.delete("http://localhost:8080/auth/user/delete",
+            const response  = await axios.delete("http://localhost:8080/api/auth/user/delete",
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -87,7 +85,6 @@ const ResetPassword = () => {
 
   return (
     <>
-    <Header/>
         <div className="resetPassword">
             <h1>SECURITY</h1>
             <div className="resetPassword_container">
@@ -129,7 +126,6 @@ const ResetPassword = () => {
             </div>
 
         </div>
-    <Footer/>
     </>
   )
 }

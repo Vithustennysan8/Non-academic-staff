@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../css/header.css";
 import SideNav from "./SideNav";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Header = () => {
@@ -16,7 +16,7 @@ const Header = () => {
       if (token) {
         setIsLogin(true);
         const response = await axios.get(
-          "http://localhost:8080/auth/user/info",
+          "http://localhost:8080/api/auth/user/info",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -59,31 +59,31 @@ const Header = () => {
 
         <div className="nav">
           <p>
-            <a href="/">Home</a>
+            <Link to={"/"}>Home</Link>
           </p>
           <p>
-            <a href="/staffs">Staffs</a>
+            <Link to="/staffs">Staffs</Link>
           </p>
           <p>
-            <a href="/forms">Forms</a>
+            <Link to="/forms">Forms</Link>
           </p>
           <p>
-            <a href="/forum">Forum</a>
+            <Link to="/forum">Forum</Link>
           </p>
           <p>
-            <a href="/contact">Contact</a>
+            <Link to="/contact">Contact</Link>
           </p>
         </div>
 
         {isLogin ? (
           <div className="header-profile">
             <p className="username">{user.first_name}</p>
-            <a href="/profile">
+            <Link to="/profile">
               <img
                 src="https://cdn2.momjunction.com/wp-content/uploads/2015/08/33-Funky-Short-Hairstyles-For-Kids.jpg.webp"
                 alt="Profile-image"
               />
-            </a>
+            </Link>
           </div>
         ) : (
           <div className="header-login">

@@ -1,12 +1,9 @@
 import "../css/forms.css";
 import FormCard from "./FormCard";
-import Header from "./Header";
-import Footer from "./Footer";
 
 const Forms = () => {
   return (
     <div>
-      <Header />
       <div className="form-content">
         <div className="form-heading">Request Forms</div>
         <div className="form-attributes">
@@ -38,7 +35,6 @@ const Forms = () => {
           />
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

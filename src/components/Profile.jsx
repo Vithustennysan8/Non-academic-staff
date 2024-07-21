@@ -1,9 +1,7 @@
 import "../css/profile.css";
-import Header from "./Header";
-import Footer from "./Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
     const token = localStorage.getItem("token");
@@ -15,7 +13,6 @@ const Profile = () => {
     email: "",
     date_of_birth: "",
     phone_no: "",
-    gender: "",
     address: "",
     city: "",
     ic_no: "",
@@ -31,7 +28,7 @@ const Profile = () => {
     const getUserDetail = async () => {
       if (token) {
         const response = await axios.get(
-          "http://localhost:8080/auth/user/info",
+          "http://localhost:8080/api/auth/user/info",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -62,7 +59,7 @@ const Profile = () => {
 
   // update the data to the database
   const handleUpdate = async () => {
-    await axios.put("http://localhost:8080/auth/user/update", user, {
+    await axios.put("http://localhost:8080/api/auth/user/update", user, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -74,7 +71,6 @@ const Profile = () => {
 
   return (
     <>
-      <Header />
       <div id="profile-container">
         <div className="profile-bar">
           <div className="profile-heading">
@@ -84,8 +80,8 @@ const Profile = () => {
 
         <div className="small-navbar">
           <p>
-            <a
-              href="#"
+            <Link
+            to={""}
               onClick={() => {
                 alert("you can modify the details by click on details!");
                 document.getElementById("update").style.display = "block";
@@ -98,10 +94,10 @@ const Profile = () => {
                 />
                 Edit Profile
               </span>
-            </a>
+            </Link>
           </p>
           <p>
-            <a href="#" onClick={()=>navigate("/resetPassword")}>
+            <Link to={"/resetPassword"}>
               <span>
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/25/25215.png"
@@ -109,10 +105,10 @@ const Profile = () => {
                 />
                 Security Settings
               </span>
-            </a>
+            </Link>
           </p>
           <p>
-            <a href="#" >
+            <Link to={''} >
               <span>
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/3602/3602123.png"
@@ -120,10 +116,10 @@ const Profile = () => {
                 />
                 Notification
               </span>
-            </a>
+            </Link>
           </p>
           <p>
-            <a href="/dashboard">
+            <Link to="/dashboard">
               <span>
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/10541/10541390.png"
@@ -131,7 +127,7 @@ const Profile = () => {
                 />
                 Dashboard
               </span>
-            </a>
+            </Link>
           </p>
         </div>
 
@@ -238,6 +234,31 @@ const Profile = () => {
             </label>
           </div>
 
+          <div className="profile-city">
+            <label htmlFor="postal_code">
+              IdentyCard No
+              <input
+                type="text"
+                name="ic_no"
+                id="ic_no"
+                value={user.ic_no}
+                onChange={handleChange}
+                placeholder="postal_code"
+              />
+            </label>
+            <label htmlFor="city">
+              Employee Id
+              <input
+                type="text"
+                name="emp_id"
+                id="emp_id"
+                value={user.emp_id}
+                onChange={handleChange}
+                placeholder="city"
+              />
+            </label>
+          </div>
+
           <div className="profile-state">
             <label htmlFor="date_of_birth">
               Date of Birth
@@ -304,7 +325,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

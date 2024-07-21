@@ -1,5 +1,3 @@
-import Header from "./Header";
-import Footer from "./Footer";
 import ForumCard from "./ForumCard";
 import "../css/forum.css"
 import { useEffect, useState } from "react";
@@ -26,12 +24,13 @@ const Forum = () => {
           naviagte("/login");
         }
 
-        try {
-            const fetchForums = async ()=>{
+        const fetchForums = async ()=>{
 
-                const response = await axios.get("http://localhost:8080/auth/forum/get");
-                setForums(response.data);
-            };
+            const response = await axios.get("http://localhost:8080/api/auth/forum/get");
+            setForums(response.data);
+        };
+
+        try {
             fetchForums();
         } catch (error) {
             console.log("fetchError " + error)
@@ -87,7 +86,7 @@ const Forum = () => {
         setForumPopup(false);
         
         try {
-            const response = await axios.post("http://localhost:8080/auth/forum/add",data,
+            const response = await axios.post("http://localhost:8080/api/auth/forum/add", data,
                 {
                     headers:{
                         "Authorization": `Bearer ${token}`
@@ -103,7 +102,6 @@ const Forum = () => {
 
   return (
     <>
-    <Header/>
     <div className="forum-container popupBackground">
         <h2>Non-Academic Forum</h2>
 
@@ -123,6 +121,7 @@ const Forum = () => {
                     }})}/>
                     {errors.subject && <p className="error">{errors.subject.message}</p>}
                 </div>
+                
                 <div>
                     <label htmlFor="ForumInputContent">content</label>
                     {/* <textarea name="body" value={addForum.body} onChange={handleChange} id="ForumInputContent" rows={7} placeholder="Enter your thoughts here....."></textarea> */}
@@ -152,17 +151,16 @@ const Forum = () => {
                 return(
                 <ForumCard
                     key={forum.id}
+                    user={forum.user}
                     heading={forum.subject}
                     paragraph={forum.body}
                     date={datePart}
-                    user={forum.user}
                     time={timePart}
                 />)
             })}
         </div>
 
     </div>
-    <Footer/>
     </>
   )
 }

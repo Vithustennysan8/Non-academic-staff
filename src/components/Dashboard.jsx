@@ -1,12 +1,9 @@
 import "../css/dashboard.css";
-import Footer from "./Footer";
-import Header from "./Header";
 
 
 const Dashboard = () => {
   return (
     <>
-    <Header/>
     <div className="dashboard-container">
 
         <h1>DASHBOARD</h1>
@@ -29,7 +26,6 @@ const Dashboard = () => {
       </div>
     </div>
     </div>
-    <Footer/>
     </>
   );
 };
