@@ -5,75 +5,44 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
+import LoadingAnimation from "./LoadingAnimation";
 
 const Forum = () => {
     const naviagte = useNavigate();
     const [forumPopup, setForumPopup] = useState(false);
+    const [isloading, setIsLoading] = useState(true);
     const [forums, setForums] = useState([]);
-    // const [addForum, setAddForum] = useState({
-    //     user:'',
-    //     subject:'',
-    //     body:'',
-    //     createdAt:''
-    // });
 
     const token = localStorage.getItem("token")
     
     useEffect(()=>{
-        if(token == null){
-          naviagte("/login");
-        }
 
-        const fetchForums = async ()=>{
-
-            const response = await axios.get("http://localhost:8080/api/auth/forum/get");
-            setForums(response.data);
-        };
+        setTimeout(() => {
+            
+            if(token == null){
+                naviagte("/login");
+            }
 
         try {
+            const fetchForums = async ()=>{
+                
+                const response = await axios.get("http://localhost:8080/api/auth/forum/get");
+                setForums(response.data);
+                console.log(forums.user);
+                setIsLoading(false);
+            };
             fetchForums();
         } catch (error) {
             console.log("fetchError " + error)
         }
 
+        }, 600);
     },[naviagte,token])
 
 
     const showForumInput = ()=>{
         setForumPopup(true);
     }
-
-    // const handleChange = (e) =>{
-    //     const {name,value} = e.target;
-    //     setAddForum({...addForum, [name]:value}); 
-    // }
-    
-    // const handleForumSubmit = async (e)=>{
-    //     e.preventDefault();
-        
-    //     if(addForum.subject == '' || addForum.body == ''){
-    //         alert("Please fill all the fields");
-    //         return;
-    //     }
-    //     setForumPopup(false);
-
-    //     try {
-
-    //         const response = await axios.post("http://localhost:8080/auth/forum/add",addForum,
-    //             {
-    //                 headers: {
-    //                     "Authorization": `Bearer ${token}`
-    //                     }
-    //             }
-    //         )
-    //         console.log(response.data);
-    //         setForums([response.data,...forums]);
-    //         setAddForum({user:'',subject:'',body:'',createdAt:''});
-
-    //     } catch (error) {
-    //         console.log("forumError "+ error);
-    //     }
-    // }
 
     const handleForumCancel = ()=>{
         setForumPopup(false);
@@ -82,11 +51,10 @@ const Forum = () => {
     const {register, handleSubmit, formState : {errors}} = useForm();
 
     const onSubmit = async(data) => {
-
         setForumPopup(false);
         
         try {
-            const response = await axios.post("http://localhost:8080/api/auth/forum/add", data,
+            const response = await axios.post("http://localhost:8080/api/auth/forum/add",data,
                 {
                     headers:{
                         "Authorization": `Bearer ${token}`
@@ -100,8 +68,10 @@ const Forum = () => {
         }
     }
 
+
   return (
     <>
+    {isloading? <LoadingAnimation/> :
     <div className="forum-container popupBackground">
         <h2>Non-Academic Forum</h2>
 
@@ -121,7 +91,6 @@ const Forum = () => {
                     }})}/>
                     {errors.subject && <p className="error">{errors.subject.message}</p>}
                 </div>
-                
                 <div>
                     <label htmlFor="ForumInputContent">content</label>
                     {/* <textarea name="body" value={addForum.body} onChange={handleChange} id="ForumInputContent" rows={7} placeholder="Enter your thoughts here....."></textarea> */}
@@ -147,20 +116,21 @@ const Forum = () => {
                 const date = new Date(forum.createdAt);
                 const datePart = format(date, 'MMMM do, yyyy');
                 const timePart = format(date, 'hh:mm a');
-
+                
                 return(
-                <ForumCard
+                    <ForumCard
                     key={forum.id}
-                    user={forum.user}
                     heading={forum.subject}
                     paragraph={forum.body}
                     date={datePart}
+                    user={forum.user}
                     time={timePart}
-                />)
-            })}
+                    />)
+                })}
         </div>
 
     </div>
+    }
     </>
   )
 }

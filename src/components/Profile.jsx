@@ -2,10 +2,12 @@ import "../css/profile.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import LoadingAnimation from "./LoadingAnimation";
 
-const Profile = () => {
+const Profile = ({setIsLogin}) => {
     const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const [isloading, setIsLoading] = useState(true);
 
   const [user, setUser] = useState({
     first_name: "",
@@ -25,9 +27,11 @@ const Profile = () => {
 
   // fetch the user data
   useEffect(() => {
-    const getUserDetail = async () => {
-      if (token) {
-        const response = await axios.get(
+    setTimeout(() => {
+      
+      const getUserDetail = async () => {
+        if (token) {
+          const response = await axios.get(
           "http://localhost:8080/api/auth/user/info",
           {
             headers: {
@@ -36,11 +40,14 @@ const Profile = () => {
           }
         );
         setUser(response.data);
+        setIsLoading(false);
       } else {
         navigate("/login");
       }
-    };
-    getUserDetail();
+      };
+      getUserDetail();
+    }, 600);
+
   }, [navigate, token]);
 
 
@@ -48,6 +55,7 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     alert("do you want to logout!");
+    setIsLogin(false)
     navigate("/login");
   };
 
@@ -71,6 +79,7 @@ const Profile = () => {
 
   return (
     <>
+    {isloading? <LoadingAnimation/> : <>
       <div id="profile-container">
         <div className="profile-bar">
           <div className="profile-heading">
@@ -91,7 +100,7 @@ const Profile = () => {
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/8188/8188360.png"
                   alt="icon1"
-                />
+                  />
                 Edit Profile
               </span>
             </Link>
@@ -102,7 +111,7 @@ const Profile = () => {
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/25/25215.png"
                   alt="icon2"
-                />
+                  />
                 Security Settings
               </span>
             </Link>
@@ -124,7 +133,7 @@ const Profile = () => {
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/10541/10541390.png"
                   alt="icon3"
-                />
+                  />
                 Dashboard
               </span>
             </Link>
@@ -135,7 +144,7 @@ const Profile = () => {
           <img
             src="https://cdn2.momjunction.com/wp-content/uploads/2015/08/33-Funky-Short-Hairstyles-For-Kids.jpg.webp"
             alt=""
-          />
+            />
         </div>
         <div className="profile-detail-container">
           <div className="profile-namebox">
@@ -149,7 +158,7 @@ const Profile = () => {
                 onChange={handleChange}
                 required
                 placeholder="firstname"
-              />
+                />
             </label>
             <label htmlFor="lastname">
               Last Name
@@ -161,7 +170,7 @@ const Profile = () => {
                 id="lastname"
                 required
                 placeholder="lastname"
-              />
+                />
             </label>
           </div>
 
@@ -175,7 +184,7 @@ const Profile = () => {
                 value={user.email}
                 readOnly
                 placeholder="emailAddress"
-              />
+                />
             </label>
           </div>
 
@@ -190,7 +199,7 @@ const Profile = () => {
                 onChange={handleChange}
                 required
                 placeholder="phoneNumber"
-              />
+                />
             </label>
           </div>
 
@@ -219,7 +228,7 @@ const Profile = () => {
                 value={user.postal_code}
                 onChange={handleChange}
                 placeholder="postal_code"
-              />
+                />
             </label>
             <label htmlFor="city">
               City
@@ -230,7 +239,7 @@ const Profile = () => {
                 value={user.city}
                 onChange={handleChange}
                 placeholder="city"
-              />
+                />
             </label>
           </div>
 
@@ -244,7 +253,7 @@ const Profile = () => {
                 value={user.ic_no}
                 onChange={handleChange}
                 placeholder="postal_code"
-              />
+                />
             </label>
             <label htmlFor="city">
               Employee Id
@@ -255,7 +264,7 @@ const Profile = () => {
                 value={user.emp_id}
                 onChange={handleChange}
                 placeholder="city"
-              />
+                />
             </label>
           </div>
 
@@ -281,7 +290,7 @@ const Profile = () => {
                 value={user.job_type}
                 onChange={handleChange}
                 placeholder="job_type"
-              />
+                />
             </label>
           </div>
 
@@ -308,7 +317,7 @@ const Profile = () => {
                 onChange={handleChange}
                 required
                 placeholder="department"
-              />
+                />
             </label>
           </div>
 
@@ -318,13 +327,14 @@ const Profile = () => {
               value="Update"
               id="update"
               onClick={handleUpdate}
-            />
+              />
           </div>
           <div className=" logout-btn">
             <input type="button" value="Logout" onClick={handleLogout} />
           </div>
         </div>
       </div>
+    </>}
     </>
   );
 };

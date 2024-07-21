@@ -1,9 +1,18 @@
+import { useState } from "react";
 import "../css/forms.css";
 import FormCard from "./FormCard";
+import LoadingAnimation from "./LoadingAnimation";
 
 const Forms = () => {
+  const [isloading, setIsLoading] = useState(true);
+
+  setTimeout(() => {
+    setIsLoading(false)
+  }, 600);
+
   return (
-    <div>
+    <>
+    {isloading? <LoadingAnimation/> :
       <div className="form-content">
         <div className="form-heading">Request Forms</div>
         <div className="form-attributes">
@@ -14,13 +23,13 @@ const Forms = () => {
               "https://cdn.iconscout.com/icon/premium/png-256-thumb/leaving-1649219-1399243.png"
             }
             url={"/fullLeaveForm"}
-          />
+            />
           <FormCard
             title={"Transfer Form"}
             content={"Open Transfer Form"}
             img={"https://static.thenounproject.com/png/2409660-200.png"}
             url={"/transferForm"}
-          />
+            />
           <FormCard
             title={"Short Leave Form"}
             content={"Open Short Leave Form"}
@@ -32,10 +41,11 @@ const Forms = () => {
             content={"Open Substitute Procedure Form"}
             img={"https://static.thenounproject.com/png/2118961-200.png"}
             url={"/subtitute"}
-          />
+            />
         </div>
       </div>
-    </div>
+    }
+    </>
   );
 };
 

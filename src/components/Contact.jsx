@@ -1,9 +1,18 @@
+import { useState } from "react";
 import "../css/contact.css";
 import ContactCard from "./ContactCard";
+import LoadingAnimation from "./LoadingAnimation";
 
 const Contact = () => {
+  const [isloading, setIsLoading] = useState(true);
+
+  setTimeout(() => {
+    setIsLoading(false)
+  }, 600);
+
   return (
     <>
+    {isloading? <LoadingAnimation/> : 
       <div className="contact_container">
         <h2>Contact us</h2>
         <div className="contact_title">
@@ -16,6 +25,7 @@ const Contact = () => {
           <div className="contact-info"></div>
         </div>
       </div>
+      }
     </>
   );
 };

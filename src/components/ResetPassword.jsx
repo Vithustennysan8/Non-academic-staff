@@ -2,9 +2,11 @@ import '../css/resetPassword.css'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import LoadingAnimation from './LoadingAnimation'
 
 const ResetPassword = () => {
     const token = localStorage.getItem("token");
+  const [isloading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const [reset, setReset] = useState({
         old_password:'',
@@ -17,6 +19,9 @@ const ResetPassword = () => {
         if(!token){
             navigate("/login");
         }
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 600);
     })
 
     const handleReset =async (e) => {
@@ -85,6 +90,7 @@ const ResetPassword = () => {
 
   return (
     <>
+    {isloading? <LoadingAnimation/> :
         <div className="resetPassword">
             <h1>SECURITY</h1>
             <div className="resetPassword_container">
@@ -125,7 +131,8 @@ const ResetPassword = () => {
 
             </div>
 
-        </div>
+        </div>  
+        }
     </>
   )
 }

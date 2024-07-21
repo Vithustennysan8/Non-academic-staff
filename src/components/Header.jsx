@@ -4,8 +4,7 @@ import SideNav from "./SideNav";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Header = () => {
-  const [isLogin, setIsLogin] = useState(false);
+const Header = ({isLogin}) => {
   const [user, setUser] = useState({});
   const navigate = useNavigate();
   
@@ -14,7 +13,6 @@ const Header = () => {
     
     const getUserDetail = async () => {
       if (token) {
-        setIsLogin(true);
         const response = await axios.get(
           "http://localhost:8080/api/auth/user/info",
           {
@@ -27,7 +25,7 @@ const Header = () => {
       }
     };
     getUserDetail();
-  }, []);
+  });
   
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
 
@@ -75,7 +73,7 @@ const Header = () => {
           </p>
         </div>
 
-        {isLogin ? (
+        {isLogin ? <>
           <div className="header-profile">
             <p className="username">{user.first_name}</p>
             <Link to="/profile">
@@ -85,11 +83,11 @@ const Header = () => {
               />
             </Link>
           </div>
-        ) : (
+        </> : <>
           <div className="header-login">
             <button onClick={handleHeaderLogin}>Login</button>
           </div>
-        )}
+        </>}
       </header>
 
       {/* Side Navbar buttton and component */}

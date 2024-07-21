@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
 
-const Login = () => {
+const Login = ({setIsLogin}) => {
     const Navigate = useNavigate();
     // const [loginUser, setLoginUser] = useState({
     //     email:"",
@@ -51,6 +51,7 @@ const Login = () => {
             if (token) {
                 localStorage.setItem("token", token); // Store token as a string
                 console.log("Stored token:", token);
+                setIsLogin(true)
                 Navigate("/");
             }
             else{
@@ -74,7 +75,6 @@ const Login = () => {
         }
       }
     
-      
   return (
     <div className='login-main'>
         <div className="login-container">
