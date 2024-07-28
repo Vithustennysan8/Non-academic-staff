@@ -6,42 +6,14 @@ import { useForm } from 'react-hook-form';
 
 const Login = ({setIsLogin}) => {
     const Navigate = useNavigate();
-    // const [loginUser, setLoginUser] = useState({
-    //     email:"",
-    //     password:""
-    // });
+
 
     const {register, handleSubmit, formState:{errors}} = useForm();
 
-    // const handleChange = (e) => {
-    //     const {name,value} = e.target;
-    //     setLoginUser(prev => ({...prev, [name] : value}));
-    // }
 
     const handleSignup = ()=>{
         Navigate("/signup")
     }
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const {email, password} = loginUser;
-
-    //     try{
-    //         const response = await axios.post("http://localhost:8080/auth/login", {email,password} );
-    //         const token = response.data.token
-    //         if (token) {
-    //             localStorage.setItem("token", token); // Store token as a string
-    //             console.log("Stored token:", token);
-    //             Navigate("/");
-    //         } else {
-    //             throw new Error("Token not received");
-    //         }
-    //     }catch(error){
-    //         console.log(error.message);
-    //         alert("Invalid Credentials")
-    //         setLoginUser({ email:"", password:"" });
-    //     }
-    // }
 
     const onSubmit = async (data) => {
 
@@ -49,9 +21,10 @@ const Login = ({setIsLogin}) => {
             const response = await axios.post("http://localhost:8080/api/auth/login", data,);
             const token = response.data.token
             if (token) {
-                localStorage.setItem("token", token); // Store token as a string
+                localStorage.setItem("token", token); 
+                localStorage.setItem("isLogin", true);  
                 console.log("Stored token:", token);
-                setIsLogin(true)
+                setIsLogin(localStorage.getItem("isLogin"))
                 Navigate("/");
             }
             else{

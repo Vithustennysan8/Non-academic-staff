@@ -8,6 +8,7 @@ const Profile = ({setIsLogin}) => {
     const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [isloading, setIsLoading] = useState(true);
+  const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
 
   const [user, setUser] = useState({
     first_name: "",
@@ -41,6 +42,7 @@ const Profile = ({setIsLogin}) => {
         );
         setUser(response.data);
         setIsLoading(false);
+        setSrc(`data:${user.image_type};base64,${user.image_data}`)
       } else {
         navigate("/login");
       }
@@ -48,12 +50,13 @@ const Profile = ({setIsLogin}) => {
       getUserDetail();
     }, 600);
 
-  }, [navigate, token]);
+  }, [navigate, token, user.image_data, user.image_type]);
 
 
   // logout implimentation
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("isLogin");
     alert("do you want to logout!");
     setIsLogin(false)
     navigate("/login");
@@ -142,7 +145,7 @@ const Profile = ({setIsLogin}) => {
 
         <div className="profile-img">
           <img
-            src="https://cdn2.momjunction.com/wp-content/uploads/2015/08/33-Funky-Short-Hairstyles-For-Kids.jpg.webp"
+            src={src}
             alt=""
             />
         </div>

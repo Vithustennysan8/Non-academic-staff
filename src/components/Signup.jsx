@@ -8,78 +8,29 @@ const Signup = () => {
   const Navigate = useNavigate();
   const [emailError,setEmailError] = useState({});
   const [passwordError,setPasswordError] = useState({});
-  // const [img,setImg] = useState(false);
+  // const defaultImage = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlAMBIgACEQEDEQH/xAAbAAEAAwEBAQEAAAAAAAAAAAAABAUGAwECB//EADoQAAICAQEGAgYIBAcAAAAAAAABAgMEEQUSITFBURNhBiIyUnGxFCNCgZGhwdEVQ+HwJDM1U2KSsv/EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwD9RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI+dkfRsd2Jay5RXmB2sshXHesnGMe7ehGltLEX85P4JlBbbO6bnbNyk+rZ8AaD+KYn+4/+rPqO0cSX83T4pmdAGrhOFkN+uSlF9YvU+jL4+RbjT36paPs+TNBh5UMuvehwkvaj2YEgAAAAAAAAAAAAAAABGazsmWRfNyb3U9Ix15Gl6opNj0K3bcINaqE5Saflrp+egHtWwc+2tT8OMNeKU5aM8/gW0U9PAT899GxAGSh6OZ75+FH4zPqXo5mxXCdMvJSf7GrAGCysW/EnuZFbhLmuz+DOuy7nTmR92z1ZfoX/AKVRT2dCTXFWrR/czNYqbyql/wA18wNQB5gAAAAAAAAAAAAAAET0fp12rm2+42tfNv8AoS0tWl3Z32biyxsnMUtGpzjJPvw/fUCeAAAAAqvSaDlsttL2Zxf6fqZrZkd7PpT76/gmzbX0wyKZ02rWE1pIzuyNmTjtTI118KhuG++rfL8gLAH1ZHcslHs9D5AAAAAAAAAAAAAAHLiWsdHFPutSqLHHsjOuKTWqXFAdQAAAAA8e7BN6JLmz0jZd0dxwi9W+HDoBDlJyk5PrxPAAAAAAAAAAAAAAAAdcWW7fHXk+ByGunFdALYHOi1W1p9eqOgAA8bSWrfAD5vko0zflwKwkZFkr5KEPZ1/Ej/EAAAAAAAAAAAAAAAAAAAO1Gu9LRkpWyXREajWORGD9zl5viS90D5dsnySRzmpT4yep23Txgc4QSepXX5Cr2jLGkl60VKDT/J/mS9oZkMLGlbLRy5Qj7zMdZdbZe75TfiN7295gaoETAzI5VaT0Vq9qPfzRLAAAAAAAAAAAADldk00L62yKfbm/wKzJ2vJ+rjQ3V70+YFpddXRHetmorzImLmyzs6uiiLjVrrOT5tL5FHOc7JuVk3J929S22AnCORbBeu0oQfbq38gNAov6Wpf3yJJFx5NRXi8ZLr3FttvHc0QEiTOdtkKq5WWvSEU3JnGnI3mo26Rl36Modu7R+kWvHqf1UH6zX2pfsBC2lmyzsl2S1UFwhHsiKAB6m0002muqJ+LtS2r1bvrY9/tIrwBqMfIqyIb1U0+66r4o6mUhOVc1OuTjJdU9CyxtsTjpHIjvL3o8wLkHOjIqyI602KXl1R0AAAAVe2smdahTXNx3lvS0LQzW0bfHzLJL2U91fBAR/mAADNH6PV/4Fyf2pv8AQzjNTsJabLp+Mv8A0wJ6WgB83WwpqnZN6RgtWBWbcyVj0+FD/Ms7dF3M4uR1ysieVkTunzk+C91djkAAAAAAAAB7GUoSUoScZLk0y92TmSyK5QtlrZDjr3RQkvZdnhZtfab3X9/9QNEAAOWTJwxrZR4NQbX4GXQAAAAGavYv+l0ff82ABNKX0ltmoU1J6Qlq5LvpyAAoUAAAAAAAAAAB7FuMlJPRp6oADWgAD//Z"
 
-  // const [user, setUser] = useState({
-  //   first_name:"",
-  //   last_name:"",
-  //   email:"",
-  //   password:"",
-  //   confirmpassword:"",
-  //   date_of_birth:"",
-  //   phone_no:"",
-  //   gender:"",
-  //   address:"",
-  //   city:"",
-  //   ic_no:"",
-  //   emp_id:"",
-  //   job_type:"",
-  //   postal_code:"",
-  //   department:"",
-  //   faculty:"",
-  // })
-
-  // const handleInput = (e) => {
-  //   setEmailError({});
-  //   setPasswordError({});
-  //   const {name,value} = e.target;
-  //   setUser((prevUser) => ({...prevUser, [name]: value}))
-  // }
-
-  // how to find the image uploaded or not
-  // const handleImage = (e) => {
-  //   setError({})
-  //   const file = e.target.files[0];
-  //   setUser((prevUser) => ({...prevUser, image: file}))
-  //   setImg(true)
-  //   }
-
-  // const handleSubmit =async (e) => {
-  //   e.preventDefault();
-    
-  //   const {first_name,last_name,email,password,confirmpassword,date_of_birth,phone_no,gender,address,city,ic_no,
-  //     emp_id,job_type,postal_code,department,faculty} = user;
-    
-
-  //   if(password != confirmpassword){
-  //     alert("Password and Confirm Password does not match");
-  //     setPasswordError({border:"2px solid red"});
-  //     return;
-  //   }
-
-    
-  //   try{
-  //     const response = await axios.post("http://localhost:8080/auth/signup", {first_name,last_name,email,password,date_of_birth,phone_no,gender,address,city,ic_no,
-  //       emp_id,job_type,postal_code,department,faculty});
-      
-  //     if(response.data === false){
-  //       alert("Email already exists");
-  //       setEmailError({border:"2px solid red"});
-  //       return;
-  //     }
-
-  //     alert("register sucessfully");
-  //     Navigate("/login");
-
-  //   }catch{
-  //     console.log("error")
-  //   }
-
-  // }
 
   const {register, handleSubmit, formState : {errors}} = useForm();
 
   const onSubmit = async (data) => {
+
+    const formData = new FormData();
+    if(data.image){
+      formData.append("image",data.image[0]);
+      console.log("default "+ data.image[0])
+    }
+
+
+    Object.keys(data).forEach(key => {
+      if(key === 'date_of_birth'){
+        formData.append(key, data[key].split('-').reverse().join('-'))
+      }
+      if(key !== "image" || key !== "date_of_birth"){
+        formData.append(key, data[key]);
+      }
+    })
+
 
     if(data.password != data.confirmpassword){
       alert("Password and Confirm Password does not match");
@@ -88,7 +39,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/signup", data);
+      const response = await axios.post("http://localhost:8080/api/auth/signup", formData);
 
       if(response.data === false){
         alert("Email already exists");
@@ -126,6 +77,7 @@ const Signup = () => {
 
           <form onSubmit={handleSubmit(onSubmit)}>
             
+
             <div className="half">
               <div className="firstname">
                 <label htmlFor="firstname">Firstname<span className="importantastrick"> *</span></label>
@@ -175,7 +127,7 @@ const Signup = () => {
                 },
                 pattern:{
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ,
-                            message: "Email is not valid"
+                  message: "Email is not valid"
                 }
                 })}/>
                 {errors.email && <span className="error">{errors.email.message}</span>}
@@ -192,10 +144,10 @@ const Signup = () => {
 
             {/* <div className="half">
               <div>
-                <label htmlFor="username">Username</label>
+              <label htmlFor="username">Username</label>
                 <input type="text" id="username" name="username" value={user.username} onChange={handleInput} placeholder="user name" required />
-              </div>
-            </div> */}
+                </div>
+                </div> */}
       
             <div className="half">
               <div className="password">
@@ -312,15 +264,14 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* <div>
+            <div>
               <div className="signup-profile-div">
                 <label htmlFor="profile_img">Upload profile image
                   <img src="https://uxwing.com/wp-content/themes/uxwing/download/video-photography-multimedia/image-photography-icon.png" alt="" />
-                  <input type="file" id="profile_img" placeholder="profile_img" accept="image/png, image/jpg, image/jpeg"  name="image" onChange={handleImage} value={user.image} required/>
+                  <input type="file" id="profile_img" placeholder="profile_img" accept="image/png, image/jpg, image/jpeg, image/webp"  name="image" {...register("image")}/>
                 </label>
               </div>
-                <span className={`profile-img-verify ${img? "show-img":""}`}>Image Added Successfully</span>
-            </div> */}
+            </div>
 
             <div className="signup-submit-btn">
               <input type="submit" value={"Submit"} />

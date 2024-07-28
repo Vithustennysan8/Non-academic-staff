@@ -9,6 +9,7 @@ const Home = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [isloading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
+  const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,19 +18,16 @@ const Home = () => {
         if (token) {
           setIsLogin(true);
           try {
-            const response = await axios.get(
-              "http://localhost:8080/api/auth/user/info",
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
+            const response = await axios.get("http://localhost:8080/api/auth/user/info", {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
             setUser(response.data);
             setIsLoading(false);
+            setSrc(`data:${response.data.image_type};base64,${response.data.image_data}`);
           } catch (error) {
             console.log("message ", error);
-            alert("error");
           }
         } else {
           setIsLoading(false);
@@ -76,8 +74,9 @@ const Home = () => {
                 <div className="home-banner-profile">
                   <div className="homeProfilePic">
                     <img
-                      src="https://cdn2.momjunction.com/wp-content/uploads/2015/08/33-Funky-Short-Hairstyles-For-Kids.jpg.webp"
-                      alt=""
+                      // src="https://cdn2.momjunction.com/wp-content/uploads/2015/08/33-Funky-Short-Hairstyles-For-Kids.jpg.webp"
+                      src={src}
+                      alt="userProfile"
                     />
                   </div>
                   <h2>

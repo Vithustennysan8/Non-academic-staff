@@ -5,11 +5,11 @@ const SideNav = ({ isOpen, toggleNav }) => {
   return (
     <div className={`sidenav ${isOpen ? 'open' : ''}`}>
       <button className="closebtn" onClick={toggleNav}>×</button>
-      <Link href="/">Home</Link>
-      <Link href="/staffs">Staffs</Link>
-      <Link href="/forms">Forms</Link>
-      <Link href="/forum">Forum</Link>
-      <Link href="/contact">Contact</Link>
+      <Link to="/">Home</Link>
+      <Link to="/staffs">Staffs</Link>
+      <Link to="/forms">Forms</Link>
+      <Link to="/forum">Forum</Link>
+      <Link to="/contact">Contact</Link>
     </div>
   );
 };

@@ -7,12 +7,14 @@ import axios from "axios";
 const Header = ({isLogin}) => {
   const [user, setUser] = useState({});
   const navigate = useNavigate();
+  const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
   
   useEffect(() => {
     const token = localStorage.getItem("token");
     
     const getUserDetail = async () => {
       if (token) {
+
         const response = await axios.get(
           "http://localhost:8080/api/auth/user/info",
           {
@@ -22,10 +24,11 @@ const Header = ({isLogin}) => {
           }
         );
         setUser(response.data);
+        setSrc(`data:${user.image_type};base64,${user.image_data}`)
       }
     };
     getUserDetail();
-  });
+  },[user.image_data, user.image_type, isLogin]);
   
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
 
@@ -78,7 +81,7 @@ const Header = ({isLogin}) => {
             <p className="username">{user.first_name}</p>
             <Link to="/profile">
               <img
-                src="https://cdn2.momjunction.com/wp-content/uploads/2015/08/33-Funky-Short-Hairstyles-For-Kids.jpg.webp"
+                src={src}
                 alt="Profile-image"
               />
             </Link>

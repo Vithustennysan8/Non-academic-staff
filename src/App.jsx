@@ -18,16 +18,13 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     
     setInterval(() => {
-    if (!token) {
-      console.log("Token is not found");
-      return;
-    }
+    if (token) {
       try {
         if (typeof token !== "string") {
           throw new Error("Token is not a string");
@@ -48,15 +45,18 @@ function App() {
         if (currentTime > expiryTime) {
           console.log("Token is not valid");
           localStorage.removeItem("token");
+          localStorage.removeItem("isLogin");
         } else {
           console.log("Token is valid");
+          console.log("isLogin "+ isLogin);
         }
       } catch (error) {
         console.error("Failed to decode token:", error);
         localStorage.removeItem("token");
       }
+    }
     }, 60000);
-  }, []);
+  }, [isLogin]);
 
   return (
     <>
