@@ -18,9 +18,7 @@ const Signup = () => {
     const formData = new FormData();
     if(data.image){
       formData.append("image",data.image[0]);
-      console.log("default "+ data.image[0])
     }
-
 
     Object.keys(data).forEach(key => {
       if(key === 'date_of_birth'){
@@ -253,12 +251,12 @@ const Signup = () => {
 
                   
                   <option value="">select one....</option>
-                  <option value="engineering">Engineering</option>
-                  <option value="arts">Arts</option>
-                  <option value="science">Science</option>
-                  <option value="management">Management</option>
-                  <option value="medical">Medical</option>
-                  <option value="vetenary">Vetenary</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Arts">Arts</option>
+                  <option value="Science">Science</option>
+                  <option value="Management">Management</option>
+                  <option value="Medical">Medical</option>
+                  <option value="Vetenary">Vetenary</option>
                 </select>
                   {errors.faculty && <span className="error">{errors.faculty.message}</span>}
               </div>
@@ -268,7 +266,7 @@ const Signup = () => {
               <div className="signup-profile-div">
                 <label htmlFor="profile_img">Upload profile image
                   <img src="https://uxwing.com/wp-content/themes/uxwing/download/video-photography-multimedia/image-photography-icon.png" alt="" />
-                  <input type="file" id="profile_img" placeholder="profile_img" accept="image/png, image/jpg, image/jpeg, image/webp"  name="image" {...register("image")}/>
+                  <input type="file" id="profile_img" accept="image/png, image/jpg, image/jpeg, image/webp"  name="image" {...register("image")}/>
                 </label>
               </div>
             </div>

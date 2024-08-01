@@ -1,6 +1,8 @@
-import  { useEffect, useState } from 'react';
+import  { useEffect } from 'react';
 import '../css/transfer.css'; 
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 const TransferForm = () => {
     const naviagte = useNavigate();
@@ -11,81 +13,99 @@ const TransferForm = () => {
         }
     },[naviagte])
 
-    const [formData, setFormData] = useState({
-        name: '',
-        EmpID: '',
-        Dept: '',
-        email: '',
-        experience: '',
-        preference1: 'colombo',
-        preference2: 'colombo',
-        preference3: 'colombo',
-        reason: '',
-        file: null
-    });
+    const {register, handleSubmit, formState: {errors}} = useForm();
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setFormData({ ...formData, file });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
         
-        alert(`Transfer application submitted:
-        Name: ${formData.name}
-        Email: ${formData.email}
-        Preference 1: ${formData.preference1}
-        Preference 2: ${formData.preference2}
-        Preference 3: ${formData.preference3}
-        Reason: ${formData.reason}`);
-    };
+        const formData = new FormData();
+        if(data.file){
+            formData.append('file', data.file[0]);
+        }
 
+        Object.keys(data).forEach((key) => {
+            if (key === "job_start_date"){
+                formData.append(key, data[key].split('-').reverse().join("-"));
+            }
+            if( key != "file" || key != "job_start_date"){
+                formData.append(key, data[key]);
+            }
+        })
+
+        console.log(formData);
+
+        try {
+            const response = await axios.post("http://localhost:8080/api/auth/transfer_form/send", formData);
+            console.log(response.data);
+            alert("form submitted successfully");
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
     
     return (
         <div className="transferform">
             <div className="transfer-container">
                 <h2>Transfer Application Form</h2>
-                <form id="TransferForm" onSubmit={handleSubmit} encType="multipart/form-data">
+                <form id="TransferForm" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
 
                     <div className="form-group">
                         <label htmlFor="name">Name:</label>
-                        <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
+                        <input type="text" id="name" name="name" {...register("name", {required: {
+                            value: true,
+                            message: "Name is required"
+                        }})} />
+                        {errors.name && <span className='error'>{errors.name.message}</span>}
                     </div>
 
                     <div className="form-group label-inline">
                         <label htmlFor="EmpID">EmpID:</label>
-                        <input type="text" id="EmpID" name="EmpID" value={formData.EmpID} onChange={handleChange} required />
+                        <input type="text" id="EmpID" name="emp_id" {...register("emp_id", {required: {
+                            value: true,
+                            message: "EmpID is required"
+                        }})} />
+                        {errors.emp_id && <span className='error'>{errors.emp_id.message}</span>}
                     </div>
 
                     <div className="form-group label-inline">
                         <label htmlFor="Facul">Faculty:</label>
-                        <input type="text" id="Facul" name="Facul" value={formData.Facul} onChange={handleChange} required />
+                        <input type="text" id="Facul" name="faculty" {...register("faculty", {required: {
+                            value: true,
+                            message: "Faculty is required"
+                        }})}/>
+                        {errors.faculty && <span className='error'>{errors.faculty.message}</span>}
                     </div>
 
                     <div className="form-group label-inline">
                         <label htmlFor="Dept">Department:</label>
-                        <input type="text" id="Dept" name="Dept" value={formData.Dept} onChange={handleChange} required />
+                        <input type="text" id="Dept" name="department" {...register("department", {required: {
+                            value: true,
+                            message: "Department is required"
+                        }})} />
+                        {errors.department && <span className='error'>{errors.department.message}</span>}
                     </div>
 
                     <div className="form-group label-inline">
                         <label htmlFor="jobStartDate">Job Start Date:</label>
-                        <input type="date" id="jobStartDate" name="job_start_date" value={formData.job_start_date} onChange={handleChange} required />
+                        <input type="date" id="jobStartDate" name="job_start_date" {...register("job_start_date", {required: {
+                            value: true,
+                            message: "Job Start Date is required"
+                        }})} />
+                        {errors.job_start_date && <span className='error'>{errors.job_start_date.message}</span>}
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="experience">Experience (working duration):</label>
-                        <input type="text" id="experience" name="experience" value={formData.experience} onChange={handleChange} required />
+                        <input type="text" id="experience" name="experience" {...register("experience")} />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="preference1">Preference 1:</label>
-                        <select id="preference1" name="preference1" value={formData.preference1} onChange={handleChange} required>
+                        <select id="preference1" name="preference1" {...register("preference1", {required: {
+                            value: true,
+                            message: "Preference 1 is required"
+                        }})}>
+                            <option value="">Select one...</option>
                             <option value="colombo">University of Colombo</option>
                             <option value="Jayepura">University of Sri Jayewardenepura</option>
                             <option value="ruhuna">University of Ruhuna</option>
@@ -96,11 +116,16 @@ const TransferForm = () => {
                             <option value="sabaragamuwa">Sabaragamuwa University</option>
                             <option value="south eastern">South Eastern University</option>
                         </select>
+                        {errors.preference1 && <span className='error'>{errors.preference1.message}</span>}
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="preference2">Preference 2:</label>
-                        <select id="preference2" name="preference2" value={formData.preference2} onChange={handleChange} required>
+                        <select id="preference2" name="preference2" {...register("preference2", {required: {
+                            value: true,
+                            message: "Preference 2 is required"
+                        }})} >
+                            <option value="">Select one...</option>
                             <option value="colombo">University of Colombo</option>
                             <option value="Jayepura">University of Sri Jayewardenepura</option>
                             <option value="ruhuna">University of Ruhuna</option>
@@ -111,11 +136,16 @@ const TransferForm = () => {
                             <option value="sabaragamuwa">Sabaragamuwa University</option>
                             <option value="south eastern">South Eastern University</option>
                         </select>
+                        {errors.preference2 && <span className='error'>{errors.preference2.message}</span>}
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="preference3">Preference 3:</label>
-                        <select id="preference3" name="preference3" value={formData.preference3} onChange={handleChange} required>
+                        <select id="preference3" name="preference3" {...register("preference3", {required: {
+                            value: true,
+                            message: "Preference 3 is required"
+                        }})} >
+                            <option value="">Select one...</option>
                             <option value="colombo">University of Colombo</option>
                             <option value="Jayepura">University of Sri Jayewardenepura</option>
                             <option value="ruhuna">University of Ruhuna</option>
@@ -126,16 +156,21 @@ const TransferForm = () => {
                             <option value="sabaragamuwa">Sabaragamuwa University</option>
                             <option value="south eastern">South Eastern University</option>
                         </select>
+                        {errors.preference3 && <span className='error'>{errors.preference3.message}</span>}
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="reason">Reason:</label>
-                        <textarea id="reason" name="reason" rows="4" value={formData.reason} onChange={handleChange} required></textarea>
+                        <textarea id="reason" name="reason" rows="4" {...register("reason", {required: {
+                            value: true,
+                            message: "Reason is required"
+                        }})} ></textarea>
+                        {errors.reason && <span className='error'>{errors.reason.message}</span>}
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="file">Additional Documnets:</label>
-                        <input type="file" id="file" name="file" onChange={handleFileChange} />
+                        <input type="file" id="file" name="file" {...register('file')} />
                     </div>
 
                     <button type="submit">Submit</button>

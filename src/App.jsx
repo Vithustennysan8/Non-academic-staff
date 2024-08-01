@@ -46,6 +46,7 @@ function App() {
           console.log("Token is not valid");
           localStorage.removeItem("token");
           localStorage.removeItem("isLogin");
+          setIsLogin(localStorage.getItem("islogin"))
         } else {
           console.log("Token is valid");
           console.log("isLogin "+ isLogin);
@@ -54,6 +55,9 @@ function App() {
         console.error("Failed to decode token:", error);
         localStorage.removeItem("token");
       }
+    }
+    else{
+      console.log("No token found");
     }
     }, 60000);
   }, [isLogin]);

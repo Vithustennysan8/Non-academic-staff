@@ -31,9 +31,9 @@ const Profile = ({setIsLogin}) => {
     setTimeout(() => {
       
       const getUserDetail = async () => {
+
         if (token) {
-          const response = await axios.get(
-          "http://localhost:8080/api/auth/user/info",
+          const response = await axios.get("http://localhost:8080/api/auth/user/info",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -278,7 +278,7 @@ const Profile = ({setIsLogin}) => {
                 type="text"
                 name="date_of_birth"
                 id="date_of_birth"
-                value={user.date_of_birth}
+                value={user.date_of_birth.substring(0,10)}
                 onChange={handleChange}
                 onClick={(e) => (e.target.type = "date")}
                 placeholder="date_of_birth"
