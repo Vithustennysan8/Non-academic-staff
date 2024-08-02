@@ -80,7 +80,7 @@ function App() {
           <Route path="/subtitute" element={<Subtitute />} />
           <Route path="/forum" element={<Forum />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/resetPassword" element={<ResetPassword setIsLogin={setIsLogin}/>} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       <Footer/>

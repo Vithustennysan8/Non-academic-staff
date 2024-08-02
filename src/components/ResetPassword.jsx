@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import LoadingAnimation from './LoadingAnimation'
 
-const ResetPassword = () => {
+const ResetPassword = ({setIsLogin}) => {
     const token = localStorage.getItem("token");
   const [isloading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -65,6 +65,8 @@ const ResetPassword = () => {
             console.log(response.data);
             alert("Account deleted successfully");
             localStorage.removeItem("token");
+            localStorage.setItem("isLogin", true);
+            setIsLogin(false)
             navigate("/login");
         }catch(err){
             console.log(err);

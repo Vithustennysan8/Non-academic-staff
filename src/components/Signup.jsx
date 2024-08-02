@@ -8,6 +8,7 @@ const Signup = () => {
   const Navigate = useNavigate();
   const [emailError,setEmailError] = useState({});
   const [passwordError,setPasswordError] = useState({});
+  const [selectedFaculty,setSelectedFaculty] = useState('');
 
 
   const {register, handleSubmit, formState : {errors}} = useForm();
@@ -66,6 +67,47 @@ const Signup = () => {
     }
   }
   
+  const faculties = [
+              {faculty:"Faculty of Engineering",
+                department:"Chemical and Process Engineering, Computer Engineering, Civil Engineering, Electrical and Electronic Engineering, Engineering Mathematics, Materials Science and Engineering, Mechanical Engineering, Dean's Office "},
+              {faculty:"Faculty of Science",
+                department:"Botany, Chemistry, Computer Science, Mathematics, Molecular Biology and Biotechnology, Physics, Statistics, Zoology, Dean's Office"},
+              {faculty:"Faculty of Arts",
+                department:"Archaeology, Economics, English, Fine Arts, Geography, History, Linguistics, Philosophy, Sinhala, Sociology, Dean's Office"},
+              {faculty:"Faculty of Management",
+                department:"something"},
+              {faculty:"Faculty of Medicine",
+                department:"Anatomy, Biochemistry, Community Medicine, Forensic Medicine, Medicine, Obstetrics and Gynaecology, Paediatrics, Pathology, Pharmacology, Surgery, Dean's Office"},
+              {faculty:"Faculty of Veterinary Medicine and Animal Science",
+                department:"Anatomy, Clinical Sciences, Farm Animal Production and Health, Paraclinical Sciences, Pathobiology, Pharmacology, Physiology, Public Health, Dean's Office"},
+              {faculty:"Faculty of Agriculture",
+                department:"Agricultural Biology, Agricultural Economics & Business Management, Agricultural Engineering, Agricultural Extension, Animal Science, Crop Science, Food Science and Technology, Soil Science, Maintenance, Dean's Office"},
+              {faculty:"Faculty of Allied Health Sciences",
+                department:"Medical Laboratory Sciences, Nursing, Pharmacy, Physiotherapy, Radiography and Radiotherapy, Dean's Office"},
+              {faculty:"Faculty of Dental Sciences",
+                department:"Conservative Dentistry, Oral Medicine and Radiology, Oral Surgery, Orthodontics, Paediatric Dentistry, Periodontology, Prosthodontics, Dean's Office"},
+              {faculty:"Registrar’s Office",
+                department:"Administrative Section"},
+              {faculty:"Administration Office",
+                department:"Administrative Section"},
+              {faculty:"IT Services",
+                department:"Technical Section"},
+              {faculty:"Library Services",
+                department:"Library Section"},
+              {faculty:"Facilities Management",
+                department:"Maintenance Section"},
+              {faculty:"Security Services",
+                department:"Security Section"},
+              {faculty:"Finance Department",
+                department:"Finance Section"},
+              {faculty:"Human Resources Department",
+                department:"HR Section"},
+              {faculty:"Student Affairs Office",
+                department:"Student Affairs Section"},
+            ]
+
+  const departments = faculties.find(faculty => faculty.faculty === selectedFaculty)?.department.split(', ') || [];
+
   return (
     <>
       <div className="signup">
@@ -98,7 +140,7 @@ const Signup = () => {
 
             <div className="half">
               <div className="bdate">
-                <label htmlFor="bdate">Date of birth</label>
+                <label htmlFor="bdate">Date of birth<span className="importantastrick"> *</span></label>
                 <input type="date" id="bdate" name="date_of_birth" {...register("date_of_birth", {required:{
                   value:true,
                   message:"Date of birth is required"
@@ -207,10 +249,21 @@ const Signup = () => {
             <div className="half">
               <div className="job_type">
                 <label htmlFor="job_type">Job_type<span className="importantastrick"> *</span></label>
-                <input type="text" id="job_type" placeholder="job_type" name="job_type" {...register("job_type", {required: {
+                <select type="text" id="job_type" placeholder="job_type" name="job_type" {...register("job_type", {required: {
                   value: true,
                   message: "Job_type is required"
-                }})}/>
+                }})}>
+                <option value="">Select job type</option>
+                <option value="Technical Officer">Technical Officer</option>
+                <option value="Management Assistant">Management Assistant</option>
+                <option value="Book Keeper">Book Keeper</option>
+                <option value="Typist">Typist</option>
+                <option value="Office Machine Operator">Office Machine Operator</option>
+                <option value="Lab Attendant">Lab Attendant</option>
+                <option value="Labourer">Labourer</option>
+                <option value="Driver">Driver</option>
+                <option value="Carpenter">Carpenter</option>
+                </select>
                 {errors.job_type && <span className="error">{errors.job_type.message}</span>}
               </div>
               {/* <div className="role">
@@ -229,36 +282,33 @@ const Signup = () => {
                   <select name="faculty" id="faculty" {...register("faculty", {required:{
                     value:true,
                     message:"Faculty is required"
-                  }})}>
+                  }})} 
+                  onChange={e => setSelectedFaculty(e.target.value)}
+                  >
                     <option value="">select one....</option>
-                    <option value="Faculty of Engineering">Faculty of Engineering</option>
-                    <option value="Faculty of Arts">Faculty of Arts</option>
-                    <option value="Faculty of Science">Faculty of Science</option>
-                    <option value="Faculty of Management">Faculty of Management</option>
-                    <option value="Faculty of Medicine">Faculty of Medicine</option>
-                    <option value="Faculty of Veterinary Medicine and Animal Science">Faculty of Veterinary Medicine and Animal Science</option>
-                    <option value="Faculty of Agriculture">Faculty of Agriculture</option>
-                    <option value="Faculty of Allied Health Sciences">Faculty of Allied Health Sciences</option>
-                    <option value="Faculty of Dental Sciences">Faculty of Dental Sciences</option>
-                    <option value="Registrar’s Office">Registrar’s Office</option>
-                    <option value="Administration Office">Administration Office</option>
-                    <option value="IT Services">IT Services</option>
-                    <option value="Library Services">Library Services</option>
-                    <option value="Facilities Management">Facilities Management</option>
-                    <option value="Security Services">Security Services</option>
-                    <option value="Finance Department ">Finance Department </option>
-                    <option value="Human Resources Department">Human Resources Department</option>
-                    <option value="Student Affairs Office">Student Affairs Office</option>
+                    {faculties.map((faculty,index) => (
+                      <option key={index} value={faculty.faculty}>{faculty.faculty}</option>
+                    ))}
+                    
                   </select>
                     {errors.faculty && <span className="error">{errors.faculty.message}</span>}
                 </div>
               
+              
+              
               <div className="department">
                 <label htmlFor="department">Department<span className="importantastrick"> *</span></label>
-                <input type="text" id="department" placeholder="department" name="department" {...register("department", {required:{
+                <select id="department" name="department" {...register("department", {required:{
                   value:true,
                   message:"Department is required"
-                }})}/>
+                }})}>
+                  <option value="">select one....</option>
+                  
+                  {departments.map((department, index) => (
+                    <option key={index} value={department}>{department}</option>
+                  ))}
+
+                </select>
                 {errors.department && <span className="error">{errors.department.message}</span>}
               </div>
             </div>

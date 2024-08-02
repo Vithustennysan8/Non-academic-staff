@@ -50,7 +50,7 @@ body{
 }
 .home-banner-profile{
     /* background: url(https://img.lovepik.com/background/20211021/large/lovepik-blue-banner-background-image_500452484.jpg); */
-    background: linear-gradient(90deg,white, rgb(255, 0, 0), white);
+    background: linear-gradient(90deg,#f3f3f3, rgb(255, 0, 0), #f3f3f3);
     width: 100%;
     position: absolute;
     top: 0;
