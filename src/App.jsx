@@ -20,6 +20,7 @@ import Header from "./components/Header";
 function App() {
   const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
 
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     
@@ -45,8 +46,8 @@ function App() {
         if (currentTime > expiryTime) {
           console.log("Token is not valid");
           localStorage.removeItem("token");
-          localStorage.removeItem("isLogin");
-          setIsLogin(localStorage.getItem("islogin"))
+          localStorage.setItem("isLogin",false);
+          setIsLogin(false)
         } else {
           console.log("Token is valid");
           console.log("isLogin "+ isLogin);
@@ -65,7 +66,7 @@ function App() {
   return (
     <>
     <Router>
-      <Header  isLogin={isLogin}/>
+      <Header  isLogin={isLogin} setIsLogin={setIsLogin}/>
         <Routes>
           <Route path="/login" element={<Login setIsLogin={setIsLogin}/>} />
           <Route path="/" element={<Home />} />

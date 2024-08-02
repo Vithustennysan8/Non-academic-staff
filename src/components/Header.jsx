@@ -4,31 +4,43 @@ import SideNav from "./SideNav";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Header = ({isLogin}) => {
+const Header = ({isLogin, setIsLogin}) => {
   const [user, setUser] = useState({});
   const navigate = useNavigate();
-  const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
+  const [src, setSrc] = useState("https:/.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
   
   useEffect(() => {
     const token = localStorage.getItem("token");
-    
     const getUserDetail = async () => {
       if (token) {
 
-        const response = await axios.get(
-          "http://localhost:8080/api/auth/user/info",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setUser(response.data);
-        setSrc(`data:${user.image_type};base64,${user.image_data}`)
+        try {
+          const response = await axios.get(
+            "http://localhost:8080/api/auth/user/info",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setUser(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+
+        if(user.image_data){
+          setSrc(`data:${user.image_type};base64,${user.image_data}`)
+        }else{
+          setSrc("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg")
+        }
+        
+      }else{
+        setUser({});
+        setIsLogin(false);
       }
     };
     getUserDetail();
-  },[user.image_data, user.image_type, isLogin]);
+  },[user.image_data, user.image_type, isLogin, setIsLogin]);
   
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
 

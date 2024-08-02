@@ -25,7 +25,9 @@ const Home = () => {
             });
             setUser(response.data);
             setIsLoading(false);
-            setSrc(`data:${response.data.image_type};base64,${response.data.image_data}`);
+            if(response.data.image_data){
+              setSrc(`data:${response.data.image_type};base64,${response.data.image_data}`);
+            }
           } catch (error) {
             console.log("message ", error);
           }

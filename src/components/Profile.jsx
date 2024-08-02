@@ -42,7 +42,9 @@ const Profile = ({setIsLogin}) => {
         );
         setUser(response.data);
         setIsLoading(false);
-        setSrc(`data:${user.image_type};base64,${user.image_data}`)
+        if(user.image_data){
+          setSrc(`data:${user.image_type};base64,${user.image_data}`)
+        }
       } else {
         navigate("/login");
       }
@@ -56,7 +58,7 @@ const Profile = ({setIsLogin}) => {
   // logout implimentation
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("isLogin");
+    localStorage.setItem("isLogin",false);
     alert("do you want to logout!");
     setIsLogin(false)
     navigate("/login");
@@ -278,7 +280,7 @@ const Profile = ({setIsLogin}) => {
                 type="text"
                 name="date_of_birth"
                 id="date_of_birth"
-                value={user.date_of_birth.substring(0,10)}
+                value={user.date_of_birth?.substring(0,10)}
                 onChange={handleChange}
                 onClick={(e) => (e.target.type = "date")}
                 placeholder="date_of_birth"

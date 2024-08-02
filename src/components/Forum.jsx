@@ -28,7 +28,6 @@ const Forum = () => {
                 
                 const response = await axios.get("http://localhost:8080/api/auth/forum/get");
                 setForums(response.data);
-                console.log(forums.user);
                 setIsLoading(false);
             };
             fetchForums();
@@ -84,7 +83,6 @@ const Forum = () => {
             <form onSubmit={handleSubmit(onSubmit)} >
                 <div>
                     <label htmlFor="ForumInputSubject">Subject</label>
-                    {/* <input type="text" placeholder="Enter the title" id="forumInputSubject" name="subject" value={addForum.subject} onChange={handleChange}/> */}
                     <input type="text" placeholder="Enter the title" id="forumInputSubject" name="subject" {...register("subject",{required:{
                         value:true,
                         message:"Please enter the subject"
@@ -93,7 +91,6 @@ const Forum = () => {
                 </div>
                 <div>
                     <label htmlFor="ForumInputContent">content</label>
-                    {/* <textarea name="body" value={addForum.body} onChange={handleChange} id="ForumInputContent" rows={7} placeholder="Enter your thoughts here....."></textarea> */}
                     <textarea name="body" {...register("body",{required:{
                         value:true,
                         message:"Please enter your thoughts here"
