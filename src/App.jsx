@@ -16,6 +16,7 @@ import ResetPassword from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import FullLeaveForms from "./components/FullLeaveForms";
 
 function App() {
   const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
@@ -50,7 +51,6 @@ function App() {
           setIsLogin(false)
         } else {
           console.log("Token is valid");
-          console.log("isLogin "+ isLogin);
         }
       } catch (error) {
         console.error("Failed to decode token:", error);
@@ -82,6 +82,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/resetPassword" element={<ResetPassword setIsLogin={setIsLogin}/>} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/fullLeaveForms" element={<FullLeaveForms />} />
         </Routes>
       <Footer/>
     </Router>

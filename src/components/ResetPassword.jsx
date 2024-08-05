@@ -17,6 +17,7 @@ const ResetPassword = ({setIsLogin}) => {
 
     useEffect(()=>{
         if(!token){
+            window.scrollTo({top: 0, behavior: 'smooth'});
             navigate("/login");
         }
         setTimeout(() => {
@@ -43,6 +44,7 @@ const ResetPassword = ({setIsLogin}) => {
             console.log(response.data);
             alert("Password changed successfully");
             if(response.status === 200){
+                window.scrollTo({top: 0, behavior: 'smooth'});
                 navigate("/login");
             }
         }catch(err){
@@ -67,6 +69,7 @@ const ResetPassword = ({setIsLogin}) => {
             localStorage.removeItem("token");
             localStorage.setItem("isLogin", true);
             setIsLogin(false)
+            window.scrollTo({top: 0, behavior: 'smooth'});
             navigate("/login");
         }catch(err){
             console.log(err);

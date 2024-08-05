@@ -6,6 +6,7 @@ const FormCard = ({ title, content, img, url }) => {
     const navigate = useNavigate()
 
     const handleClick = () =>{
+        window.scrollTo({top: 0, behavior: 'smooth'});
         navigate(url)
     }
 

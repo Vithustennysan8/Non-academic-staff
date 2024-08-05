@@ -17,6 +17,10 @@ const Forum = () => {
         subject:'',
         body:''
     });
+    const [ error, setError] = useState({
+        subject: false,
+        body: false
+    })
 
 
     const token = localStorage.getItem("token")
@@ -32,7 +36,13 @@ const Forum = () => {
         try {
             const fetchForums = async ()=>{
                 
-                const response = await axios.get("http://localhost:8080/api/auth/forum/get");
+                const response = await axios.get("http://localhost:8080/api/auth/forum/get",
+                    {
+                        headers: {
+                            Authorization:`bearer ${localStorage.getItem("token")}`
+                        }
+                    }
+                );
                 setForums(response.data);
                 setIsLoading(false);
             };
@@ -50,11 +60,15 @@ const Forum = () => {
         setForum({...forum, [e.target.name]:e.target.value})
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if(handleError()){
+            return
+        }
         setForumPopup(false);
         const {subject, body} = forum
         setForum({subject:'',body:''})
-
+            
         try {
             const response = await axios.post("http://localhost:8080/api/auth/forum/add",{subject,body},
                 {
@@ -63,8 +77,8 @@ const Forum = () => {
                     }
                 }
             )
-            console.log(response.data);
-            setForums([response.data,...forums]);
+        console.log(response.data);
+        setForums([response.data,...forums]);
         } catch (error) {
             console.log("useFormError "+error)
         }
@@ -92,18 +106,44 @@ const Forum = () => {
         setForum(forum);
     }
 
-    const handleUpdate = async () => {
+    const handleUpdate = async (e) => {
+        e.preventDefault();
         setForumPopup(false);
         setEditBtn(false)
         const {id,subject, body} = forum
         setForum({subject:'',body:''})
 
         try {
-            const response = await axios.put(`http://localhost:8080/api/auth/forum/update/${id}`, {subject,body})
+            const response = await axios.put(`http://localhost:8080/api/auth/forum/update/${id}`, {subject,body},
+                {
+                    headers:{
+                        "Authorization": `Bearer ${token}`
+                    }
+                }
+            )
             setForums(response.data);
         } catch (error) {
             console.log("useFormError "+error)
         }
+    }
+
+    const handleError = () => {
+        const newError = {
+            subject: false,
+            body: false
+        };
+    
+        if (forum.subject.trim() === '' || forum.subject.trim() === null) {
+            newError.subject = true;
+        }
+    
+        if (forum.body.trim() === '' || forum.body.trim() === null) {
+            newError.body = true;
+        }
+    
+        setError(newError);
+    
+        return newError.subject || newError.body;
     }
 
 
@@ -127,7 +167,7 @@ const Forum = () => {
                         value:true,
                         message:"Please enter the subject"
                     }})}/> */}
-                    {/* {errors.subject && <p className="error">{errors.subject.message}</p>} */}
+                    { error.subject && <p className="error">Subject is required</p>}
                 </div>
                 <div>
                     <label htmlFor="ForumInputContent">content</label>
@@ -136,8 +176,13 @@ const Forum = () => {
                         value:true,
                         message:"Please enter your thoughts here"
                     }})} id="ForumInputContent" rows={7} placeholder="Enter your thoughts here....."></textarea> */}
-                    {/* {errors.body && <p className="error">{errors.body.message}</p>} */}
+                    { error.body && <p className="error">Body is required</p>}
                 </div>
+
+                {/* <div>
+                    <label htmlFor="ForumInputFile">Add any files</label>
+                    <input type="file" id="ForumInputFile" />
+                </div> */}
  
                 { editBtn && <button className="forumFormSubmitbtn" onClick={handleUpdate}>Edit Forum</button>}
                 { !editBtn && <button className="forumFormSubmitbtn"  onClick={handleSubmit}>Add To Forum</button>}
@@ -158,7 +203,7 @@ const Forum = () => {
                     heading={forum.subject}
                     paragraph={forum.body}
                     date={datePart}
-                    user={forum.user}
+                    user={forum.userName}
                     time={timePart}
                     handleDelete={()=>handleDelete(forum.id)}
                     handleEdit={()=>handleEdit(forum)}

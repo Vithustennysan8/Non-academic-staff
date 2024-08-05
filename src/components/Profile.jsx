@@ -11,6 +11,7 @@ const Profile = ({setIsLogin}) => {
   const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
 
   const [user, setUser] = useState({
+    id:'',
     first_name: "",
     last_name: "",
     email: "",
@@ -32,27 +33,35 @@ const Profile = ({setIsLogin}) => {
       
       const getUserDetail = async () => {
 
-        if (token) {
+      if (token) {
+        try {
           const response = await axios.get("http://localhost:8080/api/auth/user/info",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setUser(response.data);
+          setIsLoading(false);
+          if(user.image_data){
+            setSrc(`data:${user.image_type};base64,${user.image_data}`)
           }
-        );
-        setUser(response.data);
-        setIsLoading(false);
-        if(user.image_data){
-          setSrc(`data:${user.image_type};base64,${user.image_data}`)
+        } catch (error) {
+          localStorage.removeItem("token");
+          localStorage.setItem("isLogin",false)
+          setIsLogin(false)
         }
       } else {
+        setIsLoading(false);
+        window.scrollTo({top: 0, behavior: 'smooth'});
         navigate("/login");
       }
       };
       getUserDetail();
     }, 600);
 
-  }, [navigate, token, user.image_data, user.image_type]);
+  }, [navigate, token, user.image_data, user.image_type, setIsLogin]);
 
 
   // logout implimentation
@@ -61,6 +70,7 @@ const Profile = ({setIsLogin}) => {
     localStorage.setItem("isLogin",false);
     alert("do you want to logout!");
     setIsLogin(false)
+    window.scrollTo({top: 0, behavior: 'smooth'});
     navigate("/login");
   };
 
@@ -144,13 +154,23 @@ const Profile = ({setIsLogin}) => {
             </Link>
           </p>
         </div>
+        
+        <div className="profile-detail-wrapper">
 
-        <div className="profile-img">
-          <img
-            src={src}
-            alt=""
+        <div className="profile-img" >
+            <img
+              src={src}
+              alt=""
             />
+          <div className="profile-blur-shadow" style={{
+            background:`url(data:${user.image_type};base64,${user.image_data})`,
+             backgroundPosition:"center",
+             filter:'blur(5px)',
+             backgroundRepeat:'no-repeat',
+             backgroundSize:'cover'}}>
+          </div>
         </div>
+
         <div className="profile-detail-container">
           <div className="profile-namebox">
             <label htmlFor="firstname">
@@ -179,21 +199,32 @@ const Profile = ({setIsLogin}) => {
             </label>
           </div>
 
-          <div className="profile-emailbox">
+          <div className="profile-state">
             <label htmlFor="emailAddress">
-              Email Address
+             Email Address
               <input
-                type="email"
-                name="email"
-                id="email"
-                value={user.email}
-                readOnly
-                placeholder="emailAddress"
-                />
+                 type="email"
+                 name="email"
+                 id="email"
+                 value={user.email}
+                 readOnly
+                 placeholder="emailAddress"
+                 />
+            </label>
+            <label htmlFor="userId">
+              UserId
+              <input
+                 type="text"
+                 name="id"
+                 id="userId"
+                 value={user.id}
+                 readOnly
+                 placeholder="userId"
+                 />
             </label>
           </div>
 
-          <div className="profile-phoneNumber">
+          <div className="profile-state">
             <label htmlFor="phoneNumber">
               Phone Number
               <input
@@ -206,9 +237,6 @@ const Profile = ({setIsLogin}) => {
                 placeholder="phoneNumber"
                 />
             </label>
-          </div>
-
-          <div className="profile-streetAddress">
             <label htmlFor="streetAddress">
               Address
               <input
@@ -219,7 +247,7 @@ const Profile = ({setIsLogin}) => {
                 onChange={handleChange}
                 placeholder="streetAddress"
                 required
-              />
+                />
             </label>
           </div>
 
@@ -284,45 +312,22 @@ const Profile = ({setIsLogin}) => {
                 onChange={handleChange}
                 onClick={(e) => (e.target.type = "date")}
                 placeholder="date_of_birth"
-              />
+                />
             </label>
             <label htmlFor="job_type">
               Job type
-              <input
-                type="text"
-                name="job_type"
-                id="job_type"
-                value={user.job_type}
-                onChange={handleChange}
-                placeholder="job_type"
-                />
+              <p>{user.job_type}</p>
             </label>
           </div>
 
           <div className="profile-state">
             <label htmlFor="faculty">
               Faculty
-              <input
-                type="text"
-                name="faculty"
-                id="faculty"
-                required
-                value={user.faculty}
-                onChange={handleChange}
-                placeholder="faculty"
-              />
+              <p>{user.faculty}</p>
             </label>
             <label htmlFor="department">
               Department
-              <input
-                type="text"
-                name="department"
-                id="department"
-                value={user.department}
-                onChange={handleChange}
-                required
-                placeholder="department"
-                />
+              <p>{user.department}</p>
             </label>
           </div>
 
@@ -337,6 +342,7 @@ const Profile = ({setIsLogin}) => {
           <div className=" logout-btn">
             <input type="button" value="Logout" onClick={handleLogout} />
           </div>
+        </div>
         </div>
       </div>
     </>}

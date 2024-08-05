@@ -12,6 +12,7 @@ const Login = ({setIsLogin}) => {
 
 
     const handleSignup = ()=>{
+        window.scrollTo({top: 0, behavior: 'smooth'});
         Navigate("/signup")
     }
 
@@ -25,6 +26,7 @@ const Login = ({setIsLogin}) => {
                 localStorage.setItem("isLogin", true);  
                 console.log("Stored token:", token);
                 setIsLogin(localStorage.getItem("isLogin"))
+                window.scrollTo({top: 0, behavior: 'smooth'});
                 Navigate("/");
             }
             else{

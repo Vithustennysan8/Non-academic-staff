@@ -9,6 +9,8 @@ const Signup = () => {
   const [emailError,setEmailError] = useState({});
   const [passwordError,setPasswordError] = useState({});
   const [selectedFaculty,setSelectedFaculty] = useState('');
+  // const [image, setImage] = useState('');
+  const [isImageAdded, setIsImageAdded] = useState(false);
 
 
   const {register, handleSubmit, formState : {errors}} = useForm();
@@ -16,6 +18,8 @@ const Signup = () => {
   const onSubmit = async (data) => {
 
     const formData = new FormData();
+    console.log(data.image[0]);
+    
     if(data.image){
       formData.append("image",data.image[0]);
     }else{
@@ -48,6 +52,7 @@ const Signup = () => {
         }
 
         alert("register sucessfully");
+        window.scrollTo({top: 0, behavior: 'smooth'});
         Navigate("/login");
 
     } catch (error) {
@@ -69,24 +74,24 @@ const Signup = () => {
   
   const faculties = [
               {faculty:"Faculty of Engineering",
-                department:"Chemical and Process Engineering, Computer Engineering, Civil Engineering, Electrical and Electronic Engineering, Engineering Mathematics, Materials Science and Engineering, Mechanical Engineering, Dean's Office "},
+                department:"Chemical and Process Engineering, Computer Engineering, Civil Engineering, Electrical and Electronic Engineering, Engineering Mathematics, Manufacturing and Industrial Engineering, Mechanical Engineering, Dean's Office"},
               {faculty:"Faculty of Science",
-                department:"Botany, Chemistry, Computer Science, Mathematics, Molecular Biology and Biotechnology, Physics, Statistics, Zoology, Dean's Office"},
+                department:"Botany, Chemistry, Environmental and Industrial Sciences, Geology, Statistics and Computer Science, Mathematics, Molecular Biology and Biotechnology, Physics, Zoology, Dean's Office"},
               {faculty:"Faculty of Arts",
-                department:"Archaeology, Economics, English, Fine Arts, Geography, History, Linguistics, Philosophy, Sinhala, Sociology, Dean's Office"},
-              {faculty:"Faculty of Management",
-                department:"something"},
+                department:"Arabic and Islamic Civilization, Archaeology, Classical Languages, Economics and Statistics, Education, English, English Language Teaching, Fine Arts, Geography, History, Information Technology, Law, Philosophy, Psychology, Political Science, Pali and Buddhist Studies, Sinhala, Sociology, Tamil, Dean's Office"},
               {faculty:"Faculty of Medicine",
-                department:"Anatomy, Biochemistry, Community Medicine, Forensic Medicine, Medicine, Obstetrics and Gynaecology, Paediatrics, Pathology, Pharmacology, Surgery, Dean's Office"},
+                department:"Anatomy, Anaesthesiology and Critical Care, Biochemistry, Community Medicine, Family Medicine, Forensic Medicine, Medical Education, Medicine, Microbiology, Obstetrics and Gynaecology, Paediatrics, Parasitology, Pathology, Pharmacology, Physiology, Psychiatry, Radiology, Surgery, Dean's Office"},
               {faculty:"Faculty of Veterinary Medicine and Animal Science",
-                department:"Anatomy, Clinical Sciences, Farm Animal Production and Health, Paraclinical Sciences, Pathobiology, Pharmacology, Physiology, Public Health, Dean's Office"},
+                department:"Basic Veterinary Sciences, Veterinary Clinical Sciences, Farm Animal Production and Health, Veterinary Pathobiology, Veterinary Public Health and Pharmacology, Dean's Office"},
               {faculty:"Faculty of Agriculture",
-                department:"Agricultural Biology, Agricultural Economics & Business Management, Agricultural Engineering, Agricultural Extension, Animal Science, Crop Science, Food Science and Technology, Soil Science, Maintenance, Dean's Office"},
+                department:"Agricultural Biology, Agricultural Economics and Business Management, Agricultural Engineering, Agricultural Extension, Animal Science, Crop Science, Food Science and Technology, Soil Science, Dean's Office"},
               {faculty:"Faculty of Allied Health Sciences",
-                department:"Medical Laboratory Sciences, Nursing, Pharmacy, Physiotherapy, Radiography and Radiotherapy, Dean's Office"},
+                department:"Medical Laboratory Sciences, Nursing, Pharmacy, Physiotherapy, Radiography and Radiotherapy, Basic Sciences, Dean's Office"},
               {faculty:"Faculty of Dental Sciences",
-                department:"Conservative Dentistry, Oral Medicine and Radiology, Oral Surgery, Orthodontics, Paediatric Dentistry, Periodontology, Prosthodontics, Dean's Office"},
-              {faculty:"Registrar’s Office",
+                department:"Basic Sciences, Community Dental Health, Comprehensive Oral Health Care, Oral Medicine and Periodontology, Oral Pathology, Prosthetic Dentistry, Restorative Dentistry, Oral and Maxillofacial Surgery, Dean's Office"},
+              {faculty:"Faculty of Management",
+                department:"Business Finance, Human Resource Management, Management Studies, Marketing Management, Operations Management"},
+              {faculty:"Registrar's Office",
                 department:"Administrative Section"},
               {faculty:"Administration Office",
                 department:"Administrative Section"},
@@ -317,8 +322,9 @@ const Signup = () => {
               <div className="signup-profile-div">
                 <label htmlFor="profile_img">Upload profile image
                   <img src="https://uxwing.com/wp-content/themes/uxwing/download/video-photography-multimedia/image-photography-icon.png" alt="" />
-                  <input type="file" id="profile_img" accept="image/png, image/jpg, image/jpeg, image/webp"  name="image" {...register("image")}/>
-                </label>
+                  <input type="file" id="profile_img" accept="image/png, image/jpg, image/jpeg, image/webp"  name="image" {...register("image")} />
+                  </label>
+                {/* { isImageAdded && <div className="imageUploadSuccess">Image: {image} added</div>} */}
               </div>
             </div>
 

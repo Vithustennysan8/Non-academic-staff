@@ -35,9 +35,17 @@ const HalfLeaveForm = () => {
     console.log(formData);
     
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/short_leave_form/send", formData);
+      const response = await axios.post("http://localhost:8080/api/auth/short_leave_form/send", formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+          }
+        }
+      );
       console.log(response);
       alert("form submitted successfully");
+      naviagte("/forms");
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +70,7 @@ const HalfLeaveForm = () => {
 
           <div className="form-group label-inline">
             <label htmlFor="EmpID">EmpID:</label>
-            <input type="text" id="EmpID" name="emp_id" {...register('emp_id', {required:{
+            <input type="text" id="EmpID" name="empId" {...register('empId', {required:{
               value: true,
               message: "EmpID is required"
             }})} />

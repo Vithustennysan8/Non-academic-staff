@@ -24,6 +24,13 @@
 }
 
 
+#profile-container label {
+  display: flex;
+  /* align-items: center; */
+  text-align: left;
+  
+}
+
 .small-navbar {
   display: flex;
   flex-wrap: wrap;
@@ -66,14 +73,26 @@
 }
 
 .profile-img {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   cursor: pointer;
-  margin-top: 20px;
+  margin-bottom: 40px;
+  width: 50%;
+  margin-left: 5px;
+}
+
+.profile-blur-shadow{
+  width: 90%;
+  height: 100%;
+  border-radius: 12px;
 }
 
 .profile-img img {
+  position: absolute;
+  z-index: 2;
+  top: 30%;
   width: 150px;
   height: 150px;
   object-fit: cover;
@@ -81,6 +100,15 @@
   margin: 15px 20px;
   border: 3px solid #5a5a5a;
   box-shadow: 1px 1px 9px rgb(89, 89, 89);
+}
+.profile-detail-wrapper {
+  display: flex;
+  margin-top: 20px;
+  padding-top: 20px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 1px 1px 7px 1px #ccc;
+  
 }
 
 .profile-detail-container {
@@ -99,6 +127,11 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+}
+.profile-state p{
+  font-size: 1.1rem;
+  color: black;
+  margin-bottom: 10px;
 }
 
 .profile-emailbox,
@@ -125,11 +158,11 @@
   margin: 0 0 10px;
   border-radius: 5px;
   border: none;
-  width: 100%;
-  background-color: #f3f3f3;
+  width: fit-content;
+  background-color: white;
   font-size: 1.1rem;
   outline: none;
-
+  /* width: 100%; */
 }
 .submit_btn{
   width: 100%;
@@ -203,7 +236,7 @@
   .profile-namebox,
   .profile-city,
   .profile-state {
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: flex-start;
   }
 
@@ -214,6 +247,9 @@
   .profile-detail-container {
     padding: 10px;
   }
+  .profile-detail-container input {
+    width: 92%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -221,13 +257,17 @@
     width: 90%;
   }
 
-  .profile-detail-container {
-    width: 100%;
+  .profile-detail-wrapper {
+    flex-direction: column;
   }
 
+  .profile-img {
+    width: unset;
+  }
   .profile-img img {
     width: 150px;
     height: 150px;
+    position: unset;
   }
 
   .small-navbar {
@@ -247,12 +287,21 @@
   }
 }
 
+@media (max-width: 620px) {
+  .profile-namebox,
+  .profile-city,
+  .profile-state {
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 480px) {
   .profile-heading h3 {
     font-size: 1.4rem;
   }
-  .profile-detail-container input{
-      font-size: 1.15rem;
+  .profile-detail-container input, .profile-state p{
+      font-size: 1rem;
   }
   .profile-detail-container label{
       font-size: 0.7rem;
