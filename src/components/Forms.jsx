@@ -2,7 +2,6 @@ import { useState } from "react";
 import "../css/forms.css";
 import FormCard from "./FormCard";
 import LoadingAnimation from "./LoadingAnimation";
-import FullLeaveForms from "./FullLeaveForms";
 
 const Forms = () => {
   const [isloading, setIsLoading] = useState(true);
@@ -44,7 +43,6 @@ const Forms = () => {
             url={"/subtitute"}
             />
         </div>
-        <FullLeaveForms/>
       </div>
     }
     </>

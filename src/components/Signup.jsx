@@ -9,38 +9,37 @@ const Signup = () => {
   const [emailError,setEmailError] = useState({});
   const [passwordError,setPasswordError] = useState({});
   const [selectedFaculty,setSelectedFaculty] = useState('');
-  // const [image, setImage] = useState('');
-  const [isImageAdded, setIsImageAdded] = useState(false);
+  const [img, setImg] = useState(null);
 
-
-  const {register, handleSubmit, formState : {errors}} = useForm();
+  const {register, handleSubmit, formState : {errors}, setValue} = useForm();
 
   const onSubmit = async (data) => {
 
     const formData = new FormData();
-    console.log(data.image[0]);
     
     if(data.image){
-      formData.append("image",data.image[0]);
+      if(data.image > 1*1024*1024){
+        alert("Image size should be less than 1MB");
+        return;
+      }
+      formData.append("image",data.image);
     }else{
       formData.append("image",null);
     }
 
+    if(data.password !== data.confirmpassword){
+      alert("Password and Confirm Password does not match");
+      setPasswordError({border:"2px solid red"});
+      return;
+    }
+
     Object.keys(data).forEach(key => {
-      if(key === 'date_of_birth'){
-        formData.append(key, data[key].split('-').reverse().join('-'))
-      }
       if(key !== "image" || key !== "date_of_birth"){
         formData.append(key, data[key]);
       }
     })
 
 
-    if(data.password != data.confirmpassword){
-      alert("Password and Confirm Password does not match");
-      setPasswordError({border:"2px solid red"});
-      return;
-    }
 
     try {
       const response = await axios.post("http://localhost:8080/api/auth/signup", formData);
@@ -119,7 +118,7 @@ const Signup = () => {
         <div className="signup-container">
 
           <h2>Registration Form</h2>
-          <p>Fill about yourself here..</p>
+          <p className="sigup-greet">Fill about yourself here..</p>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             
@@ -134,7 +133,7 @@ const Signup = () => {
                 {errors.first_name && <span className="error">{errors.first_name.message}</span>}
               </div>
               <div className="lastname">
-                <label htmlFor="fistname">Lastname</label>
+                <label htmlFor="fistname">Lastname<span className="importantastrick"> *</span></label>
                 <input type="text" id="lastname" placeholder="lastname" name="last_name" {...register("last_name", {required :{
                   value:true,
                   message:"Last name is required"
@@ -150,6 +149,7 @@ const Signup = () => {
                   value:true,
                   message:"Date of birth is required"
                 }})}/>
+                  {errors.date_of_birth && <span className="error">{errors.date_of_birth}</span>}
               </div>
               <div className="gender">
                 <label htmlFor="gender">Gender</label>
@@ -176,13 +176,14 @@ const Signup = () => {
                 })}/>
                 {errors.email && <span className="error">{errors.email.message}</span>}
               </div>
-              <div className="phone">
-                <label htmlFor="phone">Phone No<span className="importantastrick"> *</span></label>
-                <input type="tel" id="phone" placeholder="123456789" name="phone_no" {...register("phone_no", {required:{
+              <div className="appPassword">
+                <label htmlFor="appPassword">App password for Email<span className="importantastrick"> *</span></label>
+                <img id="appPassimg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("appPassimg","appPassword")}/>
+                <input type="password" id="appPassword" placeholder="123456789" name="phone_no" {...register("app_password", {required:{
                   value:true,
-                  message:"Phone number is required"
+                  message:"App password is required"
                 }})}/>
-                {errors.phone_no && <span className="error">{errors.phone_no.message}</span>}
+                {errors.app_password && <span className="error">{errors.app_password}</span>}
               </div>
             </div>
 
@@ -192,6 +193,7 @@ const Signup = () => {
                 <input type="text" id="username" name="username" value={user.username} onChange={handleInput} placeholder="user name" required />
                 </div>
                 </div> */}
+            
       
             <div className="half">
               <div className="password">
@@ -200,7 +202,12 @@ const Signup = () => {
                 <input type="password" id="password" placeholder="password" name="password" {...register("password", {required:{
                   value:true,
                   message:"Password is required"
-                }})} size={8}/>
+                },
+                pattern:{
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$]).{8,}$/ ,
+                  message:"Password is not valid"
+                }
+                })} size={8}/>
               </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
               <div className="confirmpassword">
@@ -209,26 +216,44 @@ const Signup = () => {
                 <input type="password" id="confirmpassword" style={passwordError} placeholder="confirmpassword" name="confirmpassword" {...register("confirmpassword", {required:{
                   value:true,
                   message:"Confirm password is required"
-                }})} size={8}/>
+                },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$]).{8,}$/ ,
+                  message:"ConfirmPassword is not valid"
+                }
+                })} size={8}/>
               </div>
                 {errors.confirmpassword && <span className="error">{errors.confirmpassword.message}</span>}
             </div>
+
+            <div className="div">
+              <p className="password-requirements">(password should contain atleast one uppercase letter & lowercase letter & number & special character and at least 8 characters long)</p>
+            </div>
+
 
             <div className="half">
               <div>
                 <label htmlFor="address">Address</label>
                 <input type="text" id="address" placeholder="address" name="address" {...register("address")} />
               </div>
-            </div>
-
-            <div className="half">
               <div className="city">
                 <label htmlFor="city">City</label>
                 <input type="text" id="city" placeholder="city" name="city" {...register("city")} />
               </div>
+            </div>
+
+            <div className="half">
               <div className="postalcode">
                 <label htmlFor="postalcode">Postal code</label>
                 <input type="number" id="postalcode" placeholder="postalcode" name="postal_code" {...register("postal_code")} />
+              </div>
+              <div className="phone">
+                <label htmlFor="phone">Phone No<span className="importantastrick"> *</span></label>
+                <input type="tel" id="phone" placeholder="123456789" name="phone_no" {...register("phone_no", {required:{
+                  value:true,
+                  message:"Phone number is required"
+                }})}/>
+                {errors.phone_no && <span className="error">{errors.phone_no.message}</span>}
               </div>
             </div>
 
@@ -322,9 +347,11 @@ const Signup = () => {
               <div className="signup-profile-div">
                 <label htmlFor="profile_img">Upload profile image
                   <img src="https://uxwing.com/wp-content/themes/uxwing/download/video-photography-multimedia/image-photography-icon.png" alt="" />
-                  <input type="file" id="profile_img" accept="image/png, image/jpg, image/jpeg, image/webp"  name="image" {...register("image")} />
+                  <input type="file" id="profile_img" accept="image/png, image/jpg, image/jpeg, image/webp"  name="image" {...register("image")}
+                    onChange={e => {setImg(e.target.value); setValue("image",e.target.files[0]);}}
+                  />
+                { img && <div className="imageUploadSuccess">Image: {img} added</div>}
                   </label>
-                {/* { isImageAdded && <div className="imageUploadSuccess">Image: {image} added</div>} */}
               </div>
             </div>
 

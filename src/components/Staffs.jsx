@@ -1,10 +1,12 @@
 import LoadingAnimation from "./LoadingAnimation";
 import "../css/staffs.css";
 import StaffCard from "./StaffCard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { LoginContext } from "../Contexts/LoginContext";
 
 const Staffs = () => {
+  const {isLogin, setIsLogin} = useContext(LoginContext);
   const [search, setSearch] = useState("");
   const [staffs, setStaffs] = useState([]);
   const [isloading, setIsLoading] = useState(true);
@@ -13,7 +15,7 @@ const Staffs = () => {
   useEffect(() => {
     setTimeout(() => {
       const getUsers = async () => {
-        if (token) {
+        if (isLogin) {
           try {
             const response = await axios.get(
               "http://localhost:8080/api/auth/user/staffs",
@@ -25,7 +27,6 @@ const Staffs = () => {
             );
             setStaffs(response.data);
             setIsLoading(false)
-            
           } catch (error) {
             console.log(error);
           }
@@ -36,7 +37,7 @@ const Staffs = () => {
       getUsers();
     },600);
 
-  },[token]);
+  },[token, isLogin]);
 
   return (
     <>
@@ -58,6 +59,8 @@ const Staffs = () => {
         </div>
 
         <div className="staffs-detail">
+          {/* default head images for the head of every department */}
+          {!sessionStorage.getItem("isLogin") && <>
           <h3>Head of the Non-academic staffs</h3>
           <div className="staff-container">
                 <StaffCard
@@ -90,13 +93,16 @@ const Staffs = () => {
                   title={"MR. W.M.S.B. WALISUNDARA"}
                   body={"EEE"}
                   />
-          </div>
+          </div> </>}
 
-          <h3>{staffs[0].department}</h3>
+          {/* based on the department staff will display */}
+          {sessionStorage.getItem("isLogin") && <h3>{staffs[0].department+" ("+staffs[0].faculty+")"}</h3>}
           <div className="staff-container">
             {staffs
               .filter((item) => item.first_name.concat(" "+item.last_name).toLowerCase().includes(search))
               .map((staff) => {
+
+                // adding default image to the staff card if there is no profile image is added
                 let src = staff.image_data? `data:${staff.image_type};base64,${staff.image_data}`: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
                 
                 return(

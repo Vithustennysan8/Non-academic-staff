@@ -1,19 +1,20 @@
-import { useEffect } from "react";
-import "../css/fullLeaveForm.css";
 import { useNavigate } from "react-router-dom";
+import "../../css/halfLeaveForm.css"
+import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { LoginContext } from "../../Contexts/LoginContext";
 
-const FullLeaveForm = () => {
+const HalfLeaveForm = () => {
   const naviagte = useNavigate();
+  const {isLogin} = useContext(LoginContext);
     
   useEffect(()=>{
-      if(localStorage.getItem("token") == null){
+      if(!isLogin){
         naviagte("/login");
       }
-    },[naviagte])
-    
-  
+  },[naviagte, isLogin])
+
   const {register, handleSubmit, formState: {errors} } = useForm(); 
   
   const onSubmit = async (data) => {
@@ -24,19 +25,19 @@ const FullLeaveForm = () => {
     }
     
     Object.keys(data).forEach((key)=>{
-      if( key === 'start_date' || key === 'end_date' || key === "job_start_date"){
+      if( key === 'leave_date' || key === 'job_start_date'){
         formData.append(key, data[key].split('-').reverse().join('-'))
       }
       
-      if( key != "files" || key != 'start_date' || key!= 'end_date' || key != "job_start_date"){
+      if( key != "files" || key != 'leave_date' || key != 'job_start_date' ){
         formData.append(key, data[key]);
       }
     })
     
     console.log(formData);
-
+    
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/full_leave_form/send", formData,
+      const response = await axios.post("http://localhost:8080/api/auth/short_leave_form/send", formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -54,13 +55,13 @@ const FullLeaveForm = () => {
   };
   
   return (
-    <div className="fullLeaveForm">
-      <div className="fullleave-container">
-        <h2><u>Leave Application Form</u></h2>
+    <div className="halfLeaveForm">
+    <div className="halfleave-container">
+      <h2><u>ShortLeave Application Form</u></h2>
+      <form id="halfleaveForm" onSubmit={handleSubmit(onSubmit)}>
 
-        <form id="leaveForm" onSubmit={handleSubmit(onSubmit)} >
 
-          <div className="form-group">
+      <div className="form-group">
             <label htmlFor="name">Name:</label>
             <input type="text" id="name" name="name" {...register('name', { required:{
               value: true,
@@ -111,11 +112,11 @@ const FullLeaveForm = () => {
             <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
           </div> */}
 
-          <div className="form-group">
-            <label htmlFor="leaveDays">Leave days:</label>
-            <input type="number" id="leaveDays" name="duration" {...register('leave_days', {required: {
+          <div className="form-group label-inline radio">
+            <label htmlFor="duration">Time duration(hr):</label>
+            <input type="number" id="duration" name="duration" {...register("duration", {required: {
               value: true,
-              message: "Leave days is required"
+              message: "Time duration is required"
             }})} />
             {errors.duration && <span className='error'>{errors.duration.message}</span> }
           </div>
@@ -136,31 +137,18 @@ const FullLeaveForm = () => {
           </div>
 
           <div className="form-group label-inline">
-            <label htmlFor="startDate">Start Date:</label>
-            <input type="date" id="startDate" name="start_date" {...register('start_date', {required: {
+            <label htmlFor="leaveDate">leave Date:</label>
+            <input type="date" id="leaveDate" name="leave_date" {...register('leave_date', {required: {
               value: true,
               message: "Start Date is required"
             }})} />
-            {errors.start_date && <span className='error'>{errors.start_date.message}</span> }
+            {errors.leave_date && <span className='error'>{errors.leave_date.message}</span> }
           </div>
 
-          <div className="form-group label-inline">
-            <label htmlFor="endDate">End Date:</label>
-            <input type="date" id="endDate" name="end_date" {...register("end_date", {required: {
-              value: true,
-              message: "End Date is required"
-            }})} />
-            {errors.end_date && <span className='error'>{errors.end_date.message}</span> }
-          </div>
-
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="Acting">Acting:</label>
-            <input type="text" id="Acting" name="acting" {...register("acting", {required: {
-              value: true,
-              message: "Acting is required"
-            }})} />
-            {errors.acting && <span className='error'>{errors.acting.message}</span> }
-          </div>
+            <input type="text" id="Acting" name="Acting" value={form.acting} onChange={handleChange} required />
+          </div> */}
 
           <div className="form-group">
             <label htmlFor="reason">Reason:</label>
@@ -172,16 +160,17 @@ const FullLeaveForm = () => {
               {errors.reason && <span className='error'>{errors.reason.message}</span> }
           </div>
 
-          <label htmlFor="files">Select a file to upload:</label>
+          <label htmlFor="file">Select a file to upload:</label>
           <input type="file" id="file" name="files" {...register("files")}/>
 
-          <div className="submit">
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
 
-export default FullLeaveForm;
+        <div className="submit">
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  )
+}
+
+export default HalfLeaveForm

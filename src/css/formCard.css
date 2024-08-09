@@ -7,6 +7,7 @@
     padding: 15px;
     margin: 12px 0;
     margin-bottom: 30px;
+    transition: transform 0.3s;
   }
   
   /* Styles for the form heading */
@@ -48,3 +49,7 @@
     color: white;
   }
   
+  .form-card:hover{
+    transform: translate(-5px, -5px);
+    box-shadow: 0 1px 15px rgba(0, 0, 0, 0.2);
+  }

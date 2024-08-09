@@ -146,10 +146,10 @@ body{
     margin: 40px 0 30px;
     width: 100%;
     display: flex;
-    scale: 0.5 1;
-    opacity: 0.6;
-    animation: info;
-    animation-timeline: view();
+    /* scale: 0.5; */
+    /* opacity: 0.6; */
+    /* animation: info; */
+    /* animation-timeline: view(); */
 }
 @keyframes info{
     to{
@@ -178,7 +178,7 @@ body{
 .home-main-img img{
     border-radius: 12px 0 0 12px;
     width: 100%;
-    object-fit: center;
+    object-fit: cover;
     height: 100%;
 }
 .homeQuikLinks{
@@ -194,7 +194,7 @@ body{
 .homeLinks{
     font-size: 1.2rem;
     margin: auto;
-    max-width:750px;
+    max-width:850px;
 }
 .homeLinks a{
     text-decoration: none;
@@ -214,12 +214,12 @@ body{
 }
 .leftLink{
     /* background: linear-gradient(90deg, rgb(15, 15, 207),rgb(15, 15, 207),white); */
-    background: linear-gradient(90deg,rgb(71, 71, 71),rgb(104, 104, 104),white);
+    background: linear-gradient(90deg,rgb(71, 71, 71),rgb(104, 104, 104),#f3f3f3);
     color: white;
     border-radius: 8px;
 }
 .rightLink{
-    background: linear-gradient(90deg,white, red, rgb(230, 0, 0));
+    background: linear-gradient(90deg,#f3f3f3, red, rgb(230, 0, 0));
     color: white;
     text-align: right;
     border-radius: 8px;

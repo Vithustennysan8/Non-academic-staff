@@ -1,10 +1,13 @@
 import '../css/resetPassword.css'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import LoadingAnimation from './LoadingAnimation'
+import { LoginContext } from '../Contexts/LoginContext'
 
-const ResetPassword = ({setIsLogin}) => {
+const ResetPassword = () => {
+    const {isLogin, setIsLogin} = useContext(LoginContext);
+
     const token = localStorage.getItem("token");
   const [isloading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -16,7 +19,7 @@ const ResetPassword = ({setIsLogin}) => {
     })
 
     useEffect(()=>{
-        if(!token){
+        if(!isLogin){
             window.scrollTo({top: 0, behavior: 'smooth'});
             navigate("/login");
         }
@@ -55,24 +58,30 @@ const ResetPassword = ({setIsLogin}) => {
     const handleDelete = async (e) => {
         e.preventDefault();
 
-        try{
-            const response  = await axios.delete("http://localhost:8080/api/auth/user/delete",
-                {
-                    headers: {
-                        "Authorization": `Bearer ${token}`
+        if( reset.password_for_delete !== '' ){
+
+            try{
+                const response  = await axios.delete("http://localhost:8080/api/auth/user/delete",
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${token}`
                         },
                         data:reset
-                }
-            );
-            console.log(response.data);
-            alert("Account deleted successfully");
-            localStorage.removeItem("token");
-            localStorage.setItem("isLogin", true);
-            setIsLogin(false)
-            window.scrollTo({top: 0, behavior: 'smooth'});
-            navigate("/login");
-        }catch(err){
-            console.log(err);
+                    }
+                );
+                console.log(response.data);
+                alert("Account deleted successfully");
+                localStorage.removeItem("token");
+                sessionStorage.setItem("isLogin", true);
+                setIsLogin(false)
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                navigate("/login");
+            }catch(err){
+                alert("Password not match!");
+                console.log(err);
+            }
+        }else{
+            alert("Please enter your password to delete account");
         }
     }
 

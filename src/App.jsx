@@ -5,10 +5,10 @@ import Signup from "./components/Signup";
 import Profile from "./components/Profile";
 import Forms from "./components/Forms";
 import Staffs from "./components/Staffs";
-import FullLeaveForm from "./components/FullLeaveForm";
-import HalfLeaveForm from "./components/HalfLeaveForm";
-import TransferForm from "./components/TransferForm";
-import Subtitute from "./components/Subtitute";
+import FullLeaveForm from "./components/forms/FullLeaveForm";
+import HalfLeaveForm from "./components/forms/HalfLeaveForm";
+import TransferForm from "./components/forms/TransferForm";
+import Subtitute from "./components/forms/Subtitute";
 import Forum from "./components/Forum";
 import Contact from "./components/Contact";
 import { useEffect, useState } from "react";
@@ -16,15 +16,19 @@ import ResetPassword from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import FullLeaveForms from "./components/FullLeaveForms";
+import FullLeaveForms from "./components/forms/FullLeaveForms";
+import { LoginContext } from "./Contexts/LoginContext";
+import { UserContext } from "./Contexts/UserContext";
+import RequestForms from "./components/Admin/RequestForms";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
+  const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
+  const [user, setUser] = useState({});
 
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    
+
     setInterval(() => {
     if (token) {
       try {
@@ -47,7 +51,7 @@ function App() {
         if (currentTime > expiryTime) {
           console.log("Token is not valid");
           localStorage.removeItem("token");
-          localStorage.setItem("isLogin",false);
+          sessionStorage.setItem("isLogin",false);
           setIsLogin(false)
         } else {
           console.log("Token is valid");
@@ -60,18 +64,21 @@ function App() {
     else{
       console.log("No token found");
     }
-    }, 60000);
+    }, 30000);
   }, [isLogin]);
 
   return (
-    <>
+    <>  
+    <LoginContext.Provider value={{isLogin, setIsLogin}}>
+    <UserContext.Provider value={{user, setUser}}>
+
     <Router>
-      <Header  isLogin={isLogin} setIsLogin={setIsLogin}/>
+      <Header/>
         <Routes>
-          <Route path="/login" element={<Login setIsLogin={setIsLogin}/>} />
+          <Route path="/login" element={<Login/>} />
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile setIsLogin={setIsLogin}/>} />
+          <Route path="/profile" element={<Profile/>} />
           <Route path="/forms" element={<Forms />} />
           <Route path="/staffs" element={<Staffs />} />
           <Route path="/fullLeaveForm" element={<FullLeaveForm />} />
@@ -80,12 +87,16 @@ function App() {
           <Route path="/subtitute" element={<Subtitute />} />
           <Route path="/forum" element={<Forum />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/resetPassword" element={<ResetPassword setIsLogin={setIsLogin}/>} />
+          <Route path="/resetPassword" element={<ResetPassword/>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/fullLeaveForms" element={<FullLeaveForms />} />
+          <Route path="/requestForms" element={<RequestForms/>} />
         </Routes>
       <Footer/>
     </Router>
+
+    </UserContext.Provider>
+    </LoginContext.Provider>
     </>
   );
 }

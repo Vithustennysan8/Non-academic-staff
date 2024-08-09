@@ -1,21 +1,25 @@
 import "../css/home.css";
 import Cards from "./Cards";
 import lab8 from "../pdfs/co226_lab8.pdf";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import LoadingAnimation from "./LoadingAnimation";
+import AdminHomePage from "./Admin/AdminHomePage";
+import { UserContext } from "../Contexts/UserContext";
+import { LoginContext } from "../Contexts/LoginContext";
 
 const Home = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const {isLogin, setIsLogin} = useContext(LoginContext);
   const [isloading, setIsLoading] = useState(true);
-  const [user, setUser] = useState({});
+  const {user, setUser} = useContext(UserContext);
   const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
+  const [role, setRole] = useState("USER");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setTimeout(() => {
       const getUserDetail = async () => {
-        if (token) {
+        if (isLogin) {
           setIsLogin(true);
           try {
             const response = await axios.get("http://localhost:8080/api/auth/user/info", {
@@ -24,6 +28,7 @@ const Home = () => {
               },
             });
             setUser(response.data);
+            setRole(response.data.role);
             setIsLoading(false);
             if(response.data.image_data){
               setSrc(`data:${response.data.image_type};base64,${response.data.image_data}`);
@@ -38,7 +43,7 @@ const Home = () => {
 
       getUserDetail();
     }, 600);
-  }, []);
+  }, [setUser, isLogin, setIsLogin]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideInterval = useRef(null);
@@ -68,7 +73,7 @@ const Home = () => {
       {isloading ? (
         <LoadingAnimation />
       ) : (
-        <div className="home-wrapper">
+        <>
           {isLogin ? (
             /* --------- user profile ----------- */
             <div>
@@ -88,44 +93,51 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="form-shortcut-container">
-                <div className="form-shortcut">
-                  <p>
-                    <img
-                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
-                      alt=""
-                    />
-                    <a href="/forms">Apply for Leaves & Transer</a>
-                  </p>
-                </div>
-              </div>
             </div>
           ) : (
             <div className="home-img-slider">
               <img
                 src="https://arts.pdn.ac.lk/images/slider/slide1.jpg"
                 alt=""
-              />
+                />
               <h1>University Of Peradeniya</h1>
             </div>
           )}
 
+          
+        <div className="home-wrapper">
+
           {isLogin ? (
-            /* ----- image slider ---------- */
-            <div className="home-image-slide">
+            <>
+
+            { role == "ADMIN" && <AdminHomePage/>}
+              <div className="form-shortcut-container">
+                <div className="form-shortcut">
+                  <p>
+                    <img
+                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
+                      alt=""
+                      />
+                    <a href="/forms">Apply for Leaves & Transer</a>
+                  </p>
+                </div>
+              </div>
+            {/* ----- image slider ---------- */}
+            { role !== "ADMIN" && <div className="home-image-slide">
               {slides.map((slide, index) => (
                 <div
                   key={index}
                   className={`slide ${index === currentSlide ? "active" : ""}`}
                   style={slide}
-                ></div>
-              ))}
-            </div>
+                  ></div>
+                ))}
+            </div>}
+            </>
           ) : (
             <div className="home-container">
               <div className="home-main-img">
                 <img
-                  src="https://adaderanaenglish.s3.amazonaws.com/1710299909-strike-trade-union-action-l.jpg"
+                  src="https://news.kln.ac.lk/images/2022/07/04/_88A9993.jpg"
                   alt=""
                 />
               </div>
@@ -194,7 +206,7 @@ const Home = () => {
               </a>
             </div>
           </div>
-
+          
           {/* ----------- news feed ---------- */}
           <div className="newsFeed">
             <h2>Important Announcements</h2>
@@ -274,6 +286,7 @@ const Home = () => {
             </div>
           </div>
         </div>
+        </>
       )}
     </>
   );

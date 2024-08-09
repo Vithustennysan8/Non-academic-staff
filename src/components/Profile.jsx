@@ -1,39 +1,47 @@
 import "../css/profile.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingAnimation from "./LoadingAnimation";
+import { LoginContext } from "../Contexts/LoginContext";
+import { UserContext } from "../Contexts/UserContext";
 
-const Profile = ({setIsLogin}) => {
-    const token = localStorage.getItem("token");
+const Profile = () => {
+  const {isLogin, setIsLogin} = useContext(LoginContext);
+  
+
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [isloading, setIsLoading] = useState(true);
   const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
+  const [readOnly, setReadOnly] = useState(true);
 
-  const [user, setUser] = useState({
-    id:'',
-    first_name: "",
-    last_name: "",
-    email: "",
-    date_of_birth: "",
-    phone_no: "",
-    address: "",
-    city: "",
-    ic_no: "",
-    emp_id: "",
-    job_type: "",
-    postal_code: "",
-    department: "",
-    faculty: "",
-  });
 
-  // fetch the user data
+  const {user, setUser} = useContext(UserContext)
+  // const [user, setUser] = useState({
+  //   id:'',
+  //   first_name: "",
+  //   last_name: "",
+  //   email: "",
+  //   // date_of_birth: "",
+  //   phone_no: "",
+  //   address: "",
+  //   city: "",
+  //   ic_no: "",
+  //   emp_id: "",
+  //   job_type: "",
+  //   postal_code: "",
+  //   department: "",
+  //   faculty: "",
+  // });
+  const [image, setImage] = useState('');
+
   useEffect(() => {
     setTimeout(() => {
       
       const getUserDetail = async () => {
 
-      if (token) {
+      if (isLogin) {
         try {
           const response = await axios.get("http://localhost:8080/api/auth/user/info",
             {
@@ -49,7 +57,7 @@ const Profile = ({setIsLogin}) => {
           }
         } catch (error) {
           localStorage.removeItem("token");
-          localStorage.setItem("isLogin",false)
+          sessionStorage.setItem("isLogin",false)
           setIsLogin(false)
         }
       } else {
@@ -61,13 +69,13 @@ const Profile = ({setIsLogin}) => {
       getUserDetail();
     }, 600);
 
-  }, [navigate, token, user.image_data, user.image_type, setIsLogin]);
+  }, [navigate, token, user.image_data, user.image_type, setIsLogin, setUser, isLogin]);
 
 
   // logout implimentation
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.setItem("isLogin",false);
+    sessionStorage.setItem("isLogin",false);
     alert("do you want to logout!");
     setIsLogin(false)
     window.scrollTo({top: 0, behavior: 'smooth'});
@@ -82,13 +90,41 @@ const Profile = ({setIsLogin}) => {
 
   // update the data to the database
   const handleUpdate = async () => {
-    await axios.put("http://localhost:8080/api/auth/user/update", user, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+
+    const formData = new FormData();
+
+    if (image) {
+      if(image.size > 1*1024*1024){
+        alert("Image size should be less than 1MB");
+        return;
+      }
+      formData.append('image', image);
+    }
+
+    Object.keys(user).forEach(key => {
+      if (key !== 'image'){
+        formData.append(key, user[key]);
+      }
     });
-    document.getElementById("update").style.display = "none";
-    alert("update success");
+
+    try {
+      const response = await axios.put("http://localhost:8080/api/auth/user/update", formData, {
+        headers: {
+         "Content-type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      document.getElementById("update").style.display = "none";
+      document.getElementById("date_of_birth").type = "text";
+      setReadOnly(true);
+      if(user.image_data){
+        setSrc(`data:${user.image_type};base64,${user.image_data}`)
+      }
+      alert("update success");
+      setUser(response.data);
+    }catch{
+      alert("update failed");
+    }
   };
 
 
@@ -107,8 +143,10 @@ const Profile = ({setIsLogin}) => {
             <Link
             to={""}
               onClick={() => {
-                alert("you can modify the details by click on details!");
+                alert("you can modify the details by click on details shown!");
                 document.getElementById("update").style.display = "block";
+                document.getElementById("date_of_birth").type = "date";
+                setReadOnly(false);
               }}
             >
               <span>
@@ -158,20 +196,27 @@ const Profile = ({setIsLogin}) => {
         <div className="profile-detail-wrapper">
 
         <div className="profile-img" >
-            <img
-              src={src}
-              alt=""
-            />
+              <img
+                className="profile-pic"
+                src={src}
+                alt=""
+                />
           <div className="profile-blur-shadow" style={{
-            background:`url(data:${user.image_type};base64,${user.image_data})`,
-             backgroundPosition:"center",
-             filter:'blur(5px)',
-             backgroundRepeat:'no-repeat',
-             backgroundSize:'cover'}}>
+            backgroundImage:`url(data:${user.image_type};base64,${user.image_data})`,
+            backgroundRepeat:'no-repeat',
+            backgroundSize:'cover',
+            backgroundPosition:"center",
+            filter:'blur(5px)'}}>
           </div>
         </div>
 
         <div className="profile-detail-container">
+
+          {!readOnly && <div className="profileImageChange">
+            <label htmlFor="">Change profile Picture</label>
+            <input type="file" onChange={e => setImage(e.target.files[0])}/>
+          </div>}
+
           <div className="profile-namebox">
             <label htmlFor="firstname">
               First Name
@@ -182,6 +227,7 @@ const Profile = ({setIsLogin}) => {
                 value={user.first_name}
                 onChange={handleChange}
                 required
+                readOnly={readOnly}
                 placeholder="firstname"
                 />
             </label>
@@ -194,6 +240,7 @@ const Profile = ({setIsLogin}) => {
                 onChange={handleChange}
                 id="lastname"
                 required
+                readOnly={readOnly}
                 placeholder="lastname"
                 />
             </label>
@@ -202,25 +249,11 @@ const Profile = ({setIsLogin}) => {
           <div className="profile-state">
             <label htmlFor="emailAddress">
              Email Address
-              <input
-                 type="email"
-                 name="email"
-                 id="email"
-                 value={user.email}
-                 readOnly
-                 placeholder="emailAddress"
-                 />
+              <p>{user.email}</p>
             </label>
             <label htmlFor="userId">
               UserId
-              <input
-                 type="text"
-                 name="id"
-                 id="userId"
-                 value={user.id}
-                 readOnly
-                 placeholder="userId"
-                 />
+              <p>{user.id}</p>
             </label>
           </div>
 
@@ -234,6 +267,7 @@ const Profile = ({setIsLogin}) => {
                 value={user.phone_no}
                 onChange={handleChange}
                 required
+                readOnly={readOnly}
                 placeholder="phoneNumber"
                 />
             </label>
@@ -246,6 +280,7 @@ const Profile = ({setIsLogin}) => {
                 value={user.address}
                 onChange={handleChange}
                 placeholder="streetAddress"
+                readOnly={readOnly}
                 required
                 />
             </label>
@@ -255,12 +290,13 @@ const Profile = ({setIsLogin}) => {
             <label htmlFor="postal_code">
               Postal Code
               <input
-                type="number"
+                type="text"
                 name="postal_code"
                 id="postal_code"
                 value={user.postal_code}
                 onChange={handleChange}
                 placeholder="postal_code"
+                readOnly={readOnly}
                 />
             </label>
             <label htmlFor="city">
@@ -272,6 +308,7 @@ const Profile = ({setIsLogin}) => {
                 value={user.city}
                 onChange={handleChange}
                 placeholder="city"
+                readOnly={readOnly}
                 />
             </label>
           </div>
@@ -280,12 +317,13 @@ const Profile = ({setIsLogin}) => {
             <label htmlFor="postal_code">
               IdentyCard No
               <input
-                type="text"
+                type="number"
                 name="ic_no"
                 id="ic_no"
                 value={user.ic_no}
                 onChange={handleChange}
                 placeholder="postal_code"
+                readOnly={readOnly}
                 />
             </label>
             <label htmlFor="city">
@@ -297,6 +335,7 @@ const Profile = ({setIsLogin}) => {
                 value={user.emp_id}
                 onChange={handleChange}
                 placeholder="city"
+                readOnly={readOnly}
                 />
             </label>
           </div>
@@ -308,10 +347,10 @@ const Profile = ({setIsLogin}) => {
                 type="text"
                 name="date_of_birth"
                 id="date_of_birth"
-                value={user.date_of_birth?.substring(0,10)}
+                value={user.date_of_birth.substring(0,10)}
                 onChange={handleChange}
-                onClick={(e) => (e.target.type = "date")}
                 placeholder="date_of_birth"
+                readOnly={readOnly}
                 />
             </label>
             <label htmlFor="job_type">

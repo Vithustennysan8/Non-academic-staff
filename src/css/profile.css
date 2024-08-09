@@ -83,13 +83,24 @@
   margin-left: 5px;
 }
 
+.profileImageChange{
+  width: 100%;
+  border-bottom: 1px solid #a5a5a5;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.profileImageChange input{
+  padding: 10px 0 0 0;
+  cursor: pointer;
+}
+
 .profile-blur-shadow{
   width: 90%;
   height: 100%;
   border-radius: 12px;
 }
 
-.profile-img img {
+.profile-img .profile-pic {
   position: absolute;
   z-index: 2;
   top: 30%;
@@ -156,13 +167,11 @@
 
 .profile-detail-container input {
   margin: 0 0 10px;
-  border-radius: 5px;
   border: none;
   width: fit-content;
   background-color: white;
   font-size: 1.1rem;
   outline: none;
-  /* width: 100%; */
 }
 .submit_btn{
   width: 100%;

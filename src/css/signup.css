@@ -25,7 +25,13 @@
     color: #333;
     text-align: center;
     font-size: 0.75rem;
+}
+.sigup-greet{
     margin-bottom: 25px;
+}
+.signup-container .password-requirements{
+    color: rgb(12, 0, 234);
+    font-size: 0.8rem;
 }
 .half{
     display: flex;
@@ -100,10 +106,10 @@
     display: block;
     width: 100%;
 }
-.password, .confirmpassword{
+.password, .confirmpassword, .appPassword{
     position: relative;
 }
-.password img, .confirmpassword img{
+.password img, .confirmpassword img, .appPassword img{
     position: absolute;
     width: 20px;
     right: 15px;

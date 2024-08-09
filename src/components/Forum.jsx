@@ -1,12 +1,14 @@
 import ForumCard from "./ForumCard";
 import "../css/forum.css"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { format } from "date-fns";
 import LoadingAnimation from "./LoadingAnimation";
+import { LoginContext } from "../Contexts/LoginContext";
 
 const Forum = () => {
+    const {isLogin, setIsLogin} = useContext(LoginContext);
     const naviagte = useNavigate();
     const [forumPopup, setForumPopup] = useState(false);
     const [isloading, setIsLoading] = useState(true);
@@ -29,7 +31,7 @@ const Forum = () => {
 
         setTimeout(() => {
             
-            if(token == null){
+            if(!isLogin){
                 naviagte("/login");
             }
 
@@ -52,7 +54,7 @@ const Forum = () => {
         }
 
         }, 600);
-    },[naviagte,token])
+    },[naviagte,token, isLogin])
 
 
     // const {register, handleSubmit, formState : {errors}} = useForm();

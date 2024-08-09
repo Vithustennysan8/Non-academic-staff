@@ -1,17 +1,19 @@
 import { useNavigate } from 'react-router-dom';
-import '../css/subtitute.css';
-import { useEffect } from 'react';
+import '../../css/subtitute.css';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { LoginContext } from '../../Contexts/LoginContext';
 
 const Subtitute = () => {
   const naviagte = useNavigate();
+  const {isLogin} = useContext(LoginContext);
     
   useEffect(()=>{
-      if(localStorage.getItem("token") == null){
+      if(!isLogin){
         naviagte("/login");
       }
-  },[naviagte])
+  },[naviagte, isLogin])
 
   const {register, handleSubmit, formState: {errors} } = useForm(); 
   

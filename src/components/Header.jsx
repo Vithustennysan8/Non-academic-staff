@@ -1,11 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../css/header.css";
 import SideNav from "./SideNav";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { LoginContext } from "../Contexts/LoginContext";
+import { UserContext } from "../Contexts/UserContext";
 
-const Header = ({isLogin, setIsLogin}) => {
-  const [user, setUser] = useState({});
+const Header = () => {
+  const {isLogin, setIsLogin} = useContext(LoginContext);
+
+  const {user, setUser} = useContext(UserContext);
   const navigate = useNavigate();
   const [src, setSrc] = useState("https:/.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
   
@@ -40,7 +44,7 @@ const Header = ({isLogin, setIsLogin}) => {
       }
     };
     getUserDetail();
-  },[user.image_data, user.image_type, isLogin, setIsLogin]);
+  },[user.image_data, user.image_type, isLogin, setIsLogin, setUser]);
   
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
 

@@ -1,8 +1,8 @@
-import "../css/fullLeaveFormPreview.css";
+import "../../css/fullLeaveFormPreview.css";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-const SubtituteFormPreview = ({ application }) => {
+const TransferFormPreview = ({ application }) => {
 
     const generatePDF = () => {
         const input = document.getElementById("pdfContent");
@@ -54,14 +54,14 @@ const SubtituteFormPreview = ({ application }) => {
         <div className="review-container" >
             <div id="pdfContent">
 
-                <h2 className="review-header">Subtitute Application Review</h2>
+                <h2 className="review-header">Transfer Application Review</h2>
                 <div className="review-row">
                     <div className="review-label">Name:</div>
                     <div className="review-value">{application.name}</div>
                 </div>
                 <div className="review-row">
                     <div className="review-label">Employee ID:</div>
-                    <div className="review-value">{application.empId}</div>
+                    <div className="review-value">{application.emp_id}</div>
                 </div>
                 <div className="review-row">
                     <div className="review-label">Faculty:</div>
@@ -72,16 +72,24 @@ const SubtituteFormPreview = ({ application }) => {
                     <div className="review-value">{application.department}</div>
                 </div>
                 <div className="review-row">
-                    <div className="review-label">Start Date:</div>
-                    <div className="review-value">{application.start_date?.substring(0,10)}</div>
+                    <div className="review-label">Job Start Date:</div>
+                    <div className="review-value">{application.job_start_date?.substring(0,10)}</div>
                 </div>
                 <div className="review-row">
-                    <div className="review-label">End Date:</div>
-                    <div className="review-value">{application.end_date?.substring(0,10)}</div>
+                    <div className="review-label">Experience:</div>
+                    <div className="review-value">{application.experience}</div>
                 </div>
                 <div className="review-row">
-                    <div className="review-label">Acting Personnel:</div>
-                    <div className="review-value">{application.acting}</div>
+                    <div className="review-label">Preference 1:                    </div>
+                    <div className="review-value">{application.preference1}</div>
+                </div>
+                <div className="review-row">
+                    <div className="review-label">Preference 2:</div>
+                    <div className="review-value">{application.preference2}</div>
+                </div>
+                <div className="review-row">
+                    <div className="review-label">Preference 3:</div>
+                    <div className="review-value">{application.preference3}</div>
                 </div>
                 <div className="review-row">
                     <div className="review-label">Reason:</div>
@@ -101,4 +109,4 @@ const SubtituteFormPreview = ({ application }) => {
     );
 };
 
-export default SubtituteFormPreview;
+export default TransferFormPreview;

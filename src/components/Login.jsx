@@ -2,10 +2,13 @@ import { useNavigate } from 'react-router-dom'
 import '../css/login.css'
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { useContext } from 'react';
+import { LoginContext } from '../Contexts/LoginContext';
 
 
-const Login = ({setIsLogin}) => {
+const Login = () => {
     const Navigate = useNavigate();
+    const {isLogin, setIsLogin} = useContext(LoginContext);
 
 
     const {register, handleSubmit, formState:{errors}} = useForm();
@@ -23,13 +26,14 @@ const Login = ({setIsLogin}) => {
             const token = response.data.token
             if (token) {
                 localStorage.setItem("token", token); 
-                localStorage.setItem("isLogin", true);  
+                sessionStorage.setItem("isLogin", true);  
                 console.log("Stored token:", token);
                 setIsLogin(localStorage.getItem("isLogin"))
                 window.scrollTo({top: 0, behavior: 'smooth'});
                 Navigate("/");
             }
             else{
+                alert("User not verified :(");
                 throw new Error("Token not received");
             }
         } catch (error) {
@@ -63,7 +67,6 @@ const Login = ({setIsLogin}) => {
 
                 <div className="email-box">
                     <label htmlFor="login-email" >Email Address</label>
-                        {/* <input type="email" name="email" id="login-email" placeholder='abc123@gmail.com' onChange={handleChange} value={loginUser.email} required/> */}
                         <input type="email" name="email" id="login-email" placeholder='abc123@gmail.com' {...register("email", {required:{
                             value: true,
                             message: "Email is required"
@@ -80,7 +83,6 @@ const Login = ({setIsLogin}) => {
                     <label htmlFor="password">Password</label>
                         <div>
                             <img id="loginPasswordimg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("loginPasswordimg","login-password")}/>
-                            {/* <input type="password" name="password" id="login-password" placeholder='password' onChange={handleChange} value={loginUser.password} required/> */}
                             <input type="password" name="password" id="login-password" placeholder='password' {...register("password",{required:{
                                 value: true,
                                 message: "Password is required"

@@ -1,8 +1,8 @@
-import "../css/fullLeaveFormPreview.css";
+import "../../css/fullLeaveFormPreview.css";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-const ShortLeaveFormPreview = ({ application }) => {
+const SubtituteFormPreview = ({ application }) => {
 
     const generatePDF = () => {
         const input = document.getElementById("pdfContent");
@@ -54,14 +54,14 @@ const ShortLeaveFormPreview = ({ application }) => {
         <div className="review-container" >
             <div id="pdfContent">
 
-                <h2 className="review-header">ShortLeave Application Review</h2>
+                <h2 className="review-header">Subtitute Application Review</h2>
                 <div className="review-row">
                     <div className="review-label">Name:</div>
                     <div className="review-value">{application.name}</div>
                 </div>
                 <div className="review-row">
                     <div className="review-label">Employee ID:</div>
-                    <div className="review-value">{application.emp_id}</div>
+                    <div className="review-value">{application.empId}</div>
                 </div>
                 <div className="review-row">
                     <div className="review-label">Faculty:</div>
@@ -72,16 +72,16 @@ const ShortLeaveFormPreview = ({ application }) => {
                     <div className="review-value">{application.department}</div>
                 </div>
                 <div className="review-row">
-                    <div className="review-label">Job Start Date:</div>
-                    <div className="review-value">{application.job_start_date?.substring(0,10)}</div>
+                    <div className="review-label">Start Date:</div>
+                    <div className="review-value">{application.start_date?.substring(0,10)}</div>
                 </div>
                 <div className="review-row">
-                    <div className="review-label">Leave Type:</div>
-                    <div className="review-value">{application.leave_type}</div>
+                    <div className="review-label">End Date:</div>
+                    <div className="review-value">{application.end_date?.substring(0,10)}</div>
                 </div>
                 <div className="review-row">
-                    <div className="review-label">Leave Date:</div>
-                    <div className="review-value">{application.leave_date?.substring(0,10)}</div>
+                    <div className="review-label">Acting Personnel:</div>
+                    <div className="review-value">{application.acting}</div>
                 </div>
                 <div className="review-row">
                     <div className="review-label">Reason:</div>
@@ -101,4 +101,4 @@ const ShortLeaveFormPreview = ({ application }) => {
     );
 };
 
-export default ShortLeaveFormPreview;
+export default SubtituteFormPreview;
