@@ -11,7 +11,7 @@ const Header = () => {
 
   const {user, setUser} = useContext(UserContext);
   const navigate = useNavigate();
-  const [src, setSrc] = useState("https:/.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
+  const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
   
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -61,12 +61,12 @@ const Header = () => {
       <header className="header-container">
         <div className="logo-head">
           <div className="nav-logo">
-            <a href="#">
+            <Link to={"/"}>
               <img
                 src="https://w1.pngwing.com/pngs/659/960/png-transparent-gold-badge-university-of-ceylon-university-of-sri-lanka-higher-education-college-faculty-university-of-peradeniya-logo-thumbnail.png"
                 alt="Uni-logo"
               />
-            </a>
+            </Link>
           </div>
           <div className="head">
             <h2>Non Academic Staffs</h2>

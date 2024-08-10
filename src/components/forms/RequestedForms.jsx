@@ -1,21 +1,24 @@
 import axios from 'axios'
 import {  useState } from 'react'
-import FullLeaveFormPreview from './FullLeaveFormPreview'
+import FullLeaveFormPreview from './FormPreview'
 import { useForm } from 'react-hook-form'
-// import ShortLeaveFormPreview from './ShortLeaveFormReview'
-// import SubtituteFormPreview from './SubtituteFormPreview'
-// import TransferFormPreview from './TransferFormPreview'
+import "../../css/requestedForms.css"
+import FormReqTap from '../Admin/FormReqTap'
 
-const FullLeaveForms = () => {
+
+const RequestedForms = () => {
     const [Forms, setForms] = useState([])
+    const [Form, setForm] = useState([])
+    const [showForm, setShowForm] = useState(false);
 
 
     // const [department, setDepartment] = useState('')
         const onSubmit = async (data) => {
+          setShowForm(false);
             const {faculty, department, formType} = data
 
             try {
-                const response = await axios.post(`http://localhost:8080/api/admin/${formType}`,{faculty,department},
+                const response = await axios.post(`http://localhost:8080/api/admin/req/${formType}`,{faculty,department},
                     {
                         headers:{
                             Authorization:`Bearer ${localStorage.getItem("token")}`
@@ -72,16 +75,22 @@ const FullLeaveForms = () => {
           department:"Student Affairs Section"},
       ]
 
-const departments = faculties.find(faculty => faculty.faculty === selectedFaculty)?.department.split(', ') || [];
+  const departments = faculties.find(faculty => faculty.faculty === selectedFaculty)?.department.split(', ') || [];
+
+  const handleSingleForm = (id) => {
+    setForm(Forms.find(form => form.id === id))
+    setShowForm(true);
+  }
 
   return (
     <>
-    <div>
+    <div className='RequestedForms'>
         <h1>Request Forms</h1>
+
         <form onSubmit={handleSubmit(onSubmit)}>
 
-            <div className="half">
-                <div className="Faculty">
+            <div className='selection-area'>
+                <div>
                   <label htmlFor="faculty">Faculty</label>
                   <select name="faculty" id="faculty" {...register("faculty", {required:{
                       value:true,
@@ -100,25 +109,22 @@ const departments = faculties.find(faculty => faculty.faculty === selectedFacult
               
               
               
-              <div className="department">
+              <div>
                 <label htmlFor="department">Department</label>
-                <select id="department" name="department" {...register("department", {required:{
-                    value:true,
-                    message:"Department is required"
-                }})}>
+                <select id="department" name="department" {...register("department")}>
                   <option value="">select one....</option>
-                  
                   {departments.map((department, index) => (
                       <option key={index} value={department}>{department}</option>
                     ))}
-
                 </select>
-                {errors.department && <span className="error">{errors.department.message}</span>}
               </div>
 
               <div>
                 <label htmlFor="">Form type</label>
-                <select name="formType" id="" {...register("formType")}>
+                <select name="formType" id="" {...register("formType", {required:{
+                  value:true,
+                  message:"Form type is required"
+                }})}>
                     <option value="">Select a form type</option>
                     <option value="fullLeaveForm">FullLeaveForm</option>
                     <option value="shortLeaveForm">ShortLeaveForm</option>
@@ -127,25 +133,28 @@ const departments = faculties.find(faculty => faculty.faculty === selectedFacult
                 </select>
               </div>
             </div>
-
-            <input type="submit" value="Submit" />
+            
+            <div className='search-btn'>
+              <input type="submit" value="Submit" />
+            </div>
 
         </form>
 
 
-        <ul>
-            FullLeaveForm
-            {Forms.map((form, index) => (
-                <li key={index} style={{border:"1px solid #ccc", padding:"10px"}}>
-                    <FullLeaveFormPreview application={form}/>
+        { !showForm && <ul>
+            {Forms.map((form) => (
+                <li key={form.id} style={{listStyle:"none"}} 
+                onClick={() => handleSingleForm(form.id)}>
+                    <FormReqTap form={form}/>
                 </li>
             ))}
+        </ul>}
 
-        </ul>
+        { showForm && <FullLeaveFormPreview application={Form}/>}
 
     </div>
     </>
   )
 }
 
-export default FullLeaveForms
+export default RequestedForms

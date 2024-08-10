@@ -1,0 +1,56 @@
+.RequestedForms{
+    width: 85%;
+    margin: 0 auto 40px;
+}
+
+.RequestedForms h1{
+    margin: 30px 0px 20px;
+    font-size: 2rem;
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.RequestedForms  .selection-area{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+.selection-area label{
+    display: block;
+}
+.selection-area div{
+    width: 100%;
+    
+}
+.selection-area select{
+    width: 100%;
+    border-radius: 8px;
+    padding: 7px 15px;
+    border: 1px solid #c3c3c3;
+    outline-color: rgb(90, 124, 249);
+}
+.search-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+}
+.search-btn input{
+    padding: 6px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    background-color: rgb(202, 5, 5);
+    border: 1px solid #c3c3c3;
+    color: white;
+    transition: background-color 0.2s ease-in-out;
+}
+.search-btn input:hover{
+    background-color: rgb(173, 1, 1);
+}
+
+@media only screen and (max-width: 430px){
+    .RequestedForms h1{
+        font-size: 1.4rem;
+    }
+}

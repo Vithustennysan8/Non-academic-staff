@@ -115,15 +115,6 @@ const FullLeaveForm = () => {
           </div> */}
 
           <div className="form-group">
-            <label htmlFor="leaveDays">Leave days:</label>
-            <input type="number" id="leaveDays" name="duration" {...register('leave_days', {required: {
-              value: true,
-              message: "Leave days is required"
-            }})} />
-            {errors.duration && <span className='error'>{errors.duration.message}</span> }
-          </div>
-
-          <div className="form-group">
             <label htmlFor="leaveType">Type of Leave:</label>
             <select id="leaveType" name="leave_type"  {...register("leave_type", {required: {
               value: true,

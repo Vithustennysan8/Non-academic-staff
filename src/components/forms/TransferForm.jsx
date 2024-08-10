@@ -36,7 +36,7 @@ const TransferForm = () => {
         console.log(formData);
 
         try {
-            const response = await axios.post("http://localhost:8080/api/auth/transfer_form/send", formData,
+            const response = await axios.post("http://localhost:8080/api/auth/full_leave_form/send", formData,
                 {
                     headers: {
                       'Content-Type': 'multipart/form-data',

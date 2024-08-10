@@ -21,7 +21,7 @@ const Subtitute = () => {
   
 
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/subtitute_form/send", data, 
+      const response = await axios.post("http://localhost:8080/api/auth/full_leave_form/send", data, 
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem("token")}`

@@ -61,14 +61,14 @@ const AdminHomePage = () => {
 
         <div className="homeadminpage-content">
             <div className="homeadminpage-content-bars-faculty">
-              <p className="admin-card" onClick={() => navigate("/fullLeaveForms")}>Faculty of Agriculture</p>
-              <p className="admin-card" onClick={() => navigate("/fullLeaveForms")}>Faculty of Allied Health Science</p>
-              <p className="admin-card" onClick={() => navigate("/fullLeaveForms")}>Faculty of Arts</p>
-              <p className="admin-card" onClick={() => navigate("/fullLeaveForms")}>Faculty of Dental Sciences</p>
-              <p className="admin-card" onClick={() => navigate("/fullLeaveForms")}>Faculty of Engineering</p>
-              <p className="admin-card" onClick={() => navigate("/fullLeaveForms")}>Faculty of Management</p>
-              <p className="admin-card" onClick={() => navigate("/fullLeaveForms")}>Faculty of Science</p>
-              <p className="admin-card" onClick={() => navigate("/fullLeaveForms")}>Faculty of Veterinary Medicine and Animal Science</p>
+              <p className="admin-card" onClick={() => navigate("/requestedForms")}>Faculty of Agriculture</p>
+              <p className="admin-card" onClick={() => navigate("/requestedForms")}>Faculty of Allied Health Science</p>
+              <p className="admin-card" onClick={() => navigate("/requestedForms")}>Faculty of Arts</p>
+              <p className="admin-card" onClick={() => navigate("/requestedForms")}>Faculty of Dental Sciences</p>
+              <p className="admin-card" onClick={() => navigate("/requestedForms")}>Faculty of Engineering</p>
+              <p className="admin-card" onClick={() => navigate("/requestedForms")}>Faculty of Management</p>
+              <p className="admin-card" onClick={() => navigate("/requestedForms")}>Faculty of Science</p>
+              <p className="admin-card" onClick={() => navigate("/requestedForms")}>Faculty of Veterinary Medicine and Animal Science</p>
             </div>
           <div className="homeadminpage-content-statics-bar">
             <h3>Monthly Leave Statics</h3>

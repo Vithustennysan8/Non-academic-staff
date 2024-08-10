@@ -11,9 +11,6 @@ const ForumCard = ({heading, user, date, time, paragraph, handleDelete, handleEd
             <p>{time}</p>
         </div>
         <p className="formCardContent">{paragraph}</p>
-        {/* <div className="docs">
-            It will contain any text or files
-        </div> */}
         
         <div className="deleteForum" >
           <img onClick={handleEdit} src="https://cdn-icons-png.flaticon.com/128/3124/3124772.png" alt="deleteIcon" />

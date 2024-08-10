@@ -75,8 +75,11 @@ body{
 .home-banner-profile p{
     color: #c8c8c8;
 }
-
 .form-shortcut-container{
+    display: flex;
+    gap: 30px;
+}
+.form-shortcuts{
     width: 100%;
     padding: 5px;
     height: 100px;
@@ -92,12 +95,11 @@ body{
     font-size: 1.7rem;
     transition: border-left 0.5s ease-in-out, border-right 0.5s ease-in-out;
 }
-.form-shortcut-container:hover{
+.form-shortcuts:hover{
     border-left: 25px solid #d60101;
     border-right: 25px solid #d60101;
 }
 .form-shortcut{
-    width: 100%;
     text-align: center;
 }
 .form-shortcut img{

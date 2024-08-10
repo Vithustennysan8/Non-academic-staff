@@ -4,7 +4,6 @@ import lab8 from "../pdfs/co226_lab8.pdf";
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import LoadingAnimation from "./LoadingAnimation";
-import AdminHomePage from "./Admin/AdminHomePage";
 import { UserContext } from "../Contexts/UserContext";
 import { LoginContext } from "../Contexts/LoginContext";
 
@@ -13,7 +12,7 @@ const Home = () => {
   const [isloading, setIsLoading] = useState(true);
   const {user, setUser} = useContext(UserContext);
   const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
-  const [role, setRole] = useState("USER");
+  // const [role, setRole] = useState("USER");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -28,7 +27,7 @@ const Home = () => {
               },
             });
             setUser(response.data);
-            setRole(response.data.role);
+            // setRole(response.data.role);
             setIsLoading(false);
             if(response.data.image_data){
               setSrc(`data:${response.data.image_type};base64,${response.data.image_data}`);
@@ -81,7 +80,6 @@ const Home = () => {
                 <div className="home-banner-profile">
                   <div className="homeProfilePic">
                     <img
-                      // src="https://cdn2.momjunction.com/wp-content/uploads/2015/08/33-Funky-Short-Hairstyles-For-Kids.jpg.webp"
                       src={src}
                       alt="userProfile"
                     />
@@ -109,21 +107,33 @@ const Home = () => {
 
           {isLogin ? (
             <>
-
-            { role == "ADMIN" && <AdminHomePage/>}
               <div className="form-shortcut-container">
-                <div className="form-shortcut">
-                  <p>
-                    <img
-                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
-                      alt=""
-                      />
-                    <a href="/forms">Apply for Leaves & Transer</a>
-                  </p>
+                <div className="form-shortcuts">
+                  <div className="form-shortcut">
+                    <p>
+                      <img
+                        src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
+                        alt=""
+                        />
+                      <a href="/forms">Apply for Leaves</a>
+                    </p>
+                  </div>
+                </div>
+                <div className="form-shortcuts">
+                  <div className="form-shortcut">
+                    <p>
+                      <img
+                        src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
+                        alt=""
+                        />
+                      <a href="/forms">Apply for Leaves</a>
+                    </p>
+                  </div>
                 </div>
               </div>
+
             {/* ----- image slider ---------- */}
-            { role !== "ADMIN" && <div className="home-image-slide">
+            <div className="home-image-slide">
               {slides.map((slide, index) => (
                 <div
                   key={index}
@@ -131,7 +141,7 @@ const Home = () => {
                   style={slide}
                   ></div>
                 ))}
-            </div>}
+            </div>
             </>
           ) : (
             <div className="home-container">

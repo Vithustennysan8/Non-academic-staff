@@ -54,57 +54,73 @@ const FullLeaveFormPreview = ({ application }) => {
         <div className="review-container" >
             <div id="pdfContent">
 
-                <h2 className="review-header">FullLeave Application Review</h2>
-                <div className="review-row">
+                <h2 className="review-header">Request Form</h2>
+                {application.name && <div className="review-row">
                     <div className="review-label">Name:</div>
                     <div className="review-value">{application.name}</div>
-                </div>
-                <div className="review-row">
+                </div>}
+                { application.emp_id &&<div className="review-row">
                     <div className="review-label">Employee ID:</div>
-                    <div className="review-value">{application.empId}</div>
-                </div>
-                <div className="review-row">
+                    <div className="review-value">{application.emp_id}</div>
+                </div>}
+                {application.faculty && <div className="review-row">
                     <div className="review-label">Faculty:</div>
                     <div className="review-value">{application.faculty}</div>
-                </div>
-                <div className="review-row">
+                </div>}
+                { application.department && <div className="review-row">
                     <div className="review-label">Department:</div>
                     <div className="review-value">{application.department}</div>
-                </div>
-                <div className="review-row">
+                </div>}
+                {application.job_start_date && <div className="review-row">
                     <div className="review-label">Job Start Date:</div>
                     <div className="review-value">{application.job_start_date?.substring(0,10)}</div>
-                </div>
-                <div className="review-row">
-                    <div className="review-label">Leave Days:</div>
-                    <div className="review-value">{application.leave_days}</div>
-                </div>
-                <div className="review-row">
+                </div>}
+                {application.duration && <div className="review-row">
+                    <div className="review-label">Duration(hr):</div>
+                    <div className="review-value">{application.duration}</div>
+                </div>}
+                {application.leave_type && <div className="review-row">
                     <div className="review-label">Leave Type:</div>
                     <div className="review-value">{application.leave_type}</div>
-                </div>
-                <div className="review-row">
+                </div>}
+                {application.start_date && <div className="review-row">
                     <div className="review-label">Start Date:</div>
                     <div className="review-value">{application.start_date?.substring(0,10)}</div>
-                </div>
-                <div className="review-row">
+                </div>}
+                {application.end_date && <div className="review-row">
                     <div className="review-label">End Date:</div>
                     <div className="review-value">{application.end_date?.substring(0,10)}</div>
-                </div>
-                <div className="review-row">
+                </div>}
+                {application.acting && <div className="review-row">
                     <div className="review-label">Acting Personnel:</div>
                     <div className="review-value">{application.acting}</div>
-                </div>
-                <div className="review-row">
+                </div>}
+                {application.experience && <div className="review-row">
+                    <div className="review-label">Experience:</div>
+                    <div className="review-value">{application.experience}</div>
+                </div>}
+                {application.preference1 && <div className="review-row">
+                    <div className="review-label">Preference 1:                    </div>
+                    <div className="review-value">{application.preference1}</div>
+                </div>}
+                {application.preference2 && <div className="review-row">
+                    <div className="review-label">Preference 2:</div>
+                    <div className="review-value">{application.preference2}</div>
+                </div>}
+                {application.preference3 && <div className="review-row">
+                    <div className="review-label">Preference 3:</div>
+                    <div className="review-value">{application.preference3}</div>
+                </div>}
+                {application.reason && <div className="review-row">
                     <div className="review-label">Reason:</div>
                     <div className="review-value">{application.reason}</div>
-                </div>
-                <div className="review-row">
+                </div>}
+                {application.status && <div className="review-row">
                     <div className="review-label">Status:</div>
                     <div className={`review-value ${!application.status ? 'status-approved' : 'status-pending'}`}>
                         {!application.status ? "Approved" : "Pending"}
                     </div>
-                </div>
+                </div>}
             </div>
             <button onClick={downloadImage} className="download-pdf-btn">Download Image</button>
             <button onClick={generatePDF} className="download-pdf-btn">Download PDF</button>

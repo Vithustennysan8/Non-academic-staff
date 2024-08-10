@@ -8,7 +8,7 @@ import LoadingAnimation from "./LoadingAnimation";
 import { LoginContext } from "../Contexts/LoginContext";
 
 const Forum = () => {
-    const {isLogin, setIsLogin} = useContext(LoginContext);
+    const {isLogin} = useContext(LoginContext);
     const naviagte = useNavigate();
     const [forumPopup, setForumPopup] = useState(false);
     const [isloading, setIsLoading] = useState(true);
@@ -57,7 +57,6 @@ const Forum = () => {
     },[naviagte,token, isLogin])
 
 
-    // const {register, handleSubmit, formState : {errors}} = useForm();
     const handleChange = (e) => {
         setForum({...forum, [e.target.name]:e.target.value})
     }
@@ -165,26 +164,13 @@ const Forum = () => {
                 <div>
                     <label htmlFor="ForumInputSubject">Subject</label>
                     <input type="text" placeholder="Enter the title" id="forumInputSubject" name="subject" value={forum.subject} onChange={handleChange}  />
-                    {/* <input type="text" placeholder="Enter the title" id="forumInputSubject" name="subject" {...register("subject",{required:{
-                        value:true,
-                        message:"Please enter the subject"
-                    }})}/> */}
                     { error.subject && <p className="error">Subject is required</p>}
                 </div>
                 <div>
                     <label htmlFor="ForumInputContent">content</label>
                     <textarea name="body" value={forum.body} onChange={handleChange} id="ForumInputContent" rows={7} placeholder="Enter your thoughts here....."></textarea>
-                    {/* <textarea name="body" {...register("body",{required:{
-                        value:true,
-                        message:"Please enter your thoughts here"
-                    }})} id="ForumInputContent" rows={7} placeholder="Enter your thoughts here....."></textarea> */}
                     { error.body && <p className="error">Body is required</p>}
                 </div>
-
-                {/* <div>
-                    <label htmlFor="ForumInputFile">Add any files</label>
-                    <input type="file" id="ForumInputFile" />
-                </div> */}
  
                 { editBtn && <button className="forumFormSubmitbtn" onClick={handleUpdate}>Edit Forum</button>}
                 { !editBtn && <button className="forumFormSubmitbtn"  onClick={handleSubmit}>Add To Forum</button>}

@@ -18,22 +18,7 @@ const Profile = () => {
 
 
   const {user, setUser} = useContext(UserContext)
-  // const [user, setUser] = useState({
-  //   id:'',
-  //   first_name: "",
-  //   last_name: "",
-  //   email: "",
-  //   // date_of_birth: "",
-  //   phone_no: "",
-  //   address: "",
-  //   city: "",
-  //   ic_no: "",
-  //   emp_id: "",
-  //   job_type: "",
-  //   postal_code: "",
-  //   department: "",
-  //   faculty: "",
-  // });
+
   const [image, setImage] = useState('');
 
   useEffect(() => {
@@ -98,6 +83,7 @@ const Profile = () => {
         alert("Image size should be less than 1MB");
         return;
       }
+      console.log("image upload: "+image); 
       formData.append('image', image);
     }
 
@@ -114,6 +100,7 @@ const Profile = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      setUser(response.data);
       document.getElementById("update").style.display = "none";
       document.getElementById("date_of_birth").type = "text";
       setReadOnly(true);
@@ -121,7 +108,6 @@ const Profile = () => {
         setSrc(`data:${user.image_type};base64,${user.image_data}`)
       }
       alert("update success");
-      setUser(response.data);
     }catch{
       alert("update failed");
     }

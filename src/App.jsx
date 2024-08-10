@@ -16,55 +16,58 @@ import ResetPassword from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import FullLeaveForms from "./components/forms/FullLeaveForms";
 import { LoginContext } from "./Contexts/LoginContext";
 import { UserContext } from "./Contexts/UserContext";
-import RequestForms from "./components/Admin/RequestForms";
+import RequestedForms from "./components/forms/RequestedForms";
 
 function App() {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
   const [user, setUser] = useState({});
-
-
+  
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
-
+    
     setInterval(() => {
-    if (token) {
-      try {
-        if (typeof token !== "string") {
-          throw new Error("Token is not a string");
-        }
+      console.log("token: "+token);
+      if (localStorage.getItem("token")) {
+        try {
+          if (typeof localStorage.getItem("token") !== "string") {
+              throw new Error("Token is not a string");
+            }
+            
+          let Token = localStorage.getItem("token");
+          const tokenParts = Token.split(".");
+          if (tokenParts.length !== 3) {
+            throw new Error("Invalid token format");
+          }
 
-        const tokenParts = token.split(".");
-        if (tokenParts.length !== 3) {
-          throw new Error("Invalid token format");
-        }
-
-        const base64Url = tokenParts[1];
-        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-        const payload = JSON.parse(atob(base64));
-        
-        const currentTime = Math.floor(Date.now() / 1000);
-        const expiryTime = payload.exp;
-        
-        if (currentTime > expiryTime) {
-          console.log("Token is not valid");
+          const base64Url = tokenParts[1];
+          const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+          const payload = JSON.parse(atob(base64));
+          
+          const currentTime = Math.floor(Date.now() / 1000);
+          const expiryTime = payload.exp;
+          
+          if (currentTime > expiryTime) {
+            console.log("Token is not valid");
+            localStorage.removeItem("token");
+            sessionStorage.setItem("isLogin",false);
+            setIsLogin(false);
+          } else {
+            console.log("Token is valid");
+          }
+        } catch (error) {
+          console.error("Failed to decode token:", error);
           localStorage.removeItem("token");
-          sessionStorage.setItem("isLogin",false);
-          setIsLogin(false)
-        } else {
-          console.log("Token is valid");
         }
-      } catch (error) {
-        console.error("Failed to decode token:", error);
-        localStorage.removeItem("token");
       }
-    }
-    else{
-      console.log("No token found");
-    }
-    }, 30000);
+      else{
+        console.log("Err token: "+token);
+        console.log("No token found");
+      }
+    }, 60000);
+
   }, [isLogin]);
 
   return (
@@ -89,8 +92,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/resetPassword" element={<ResetPassword/>} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/fullLeaveForms" element={<FullLeaveForms />} />
-          <Route path="/requestForms" element={<RequestForms/>} />
+          <Route path="/requestedForms" element={<RequestedForms />} />
         </Routes>
       <Footer/>
     </Router>

@@ -6,7 +6,7 @@ import axios from "axios";
 import { LoginContext } from "../Contexts/LoginContext";
 
 const Staffs = () => {
-  const {isLogin, setIsLogin} = useContext(LoginContext);
+  const {isLogin} = useContext(LoginContext);
   const [search, setSearch] = useState("");
   const [staffs, setStaffs] = useState([]);
   const [isloading, setIsLoading] = useState(true);
@@ -60,7 +60,7 @@ const Staffs = () => {
 
         <div className="staffs-detail">
           {/* default head images for the head of every department */}
-          {!sessionStorage.getItem("isLogin") && <>
+          {!isLogin && <>
           <h3>Head of the Non-academic staffs</h3>
           <div className="staff-container">
                 <StaffCard
@@ -96,7 +96,7 @@ const Staffs = () => {
           </div> </>}
 
           {/* based on the department staff will display */}
-          {sessionStorage.getItem("isLogin") && <h3>{staffs[0].department+" ("+staffs[0].faculty+")"}</h3>}
+          {isLogin && <h3>{staffs[0]?.department+" ("+staffs[0]?.faculty+")"}</h3>}
           <div className="staff-container">
             {staffs
               .filter((item) => item.first_name.concat(" "+item.last_name).toLowerCase().includes(search))

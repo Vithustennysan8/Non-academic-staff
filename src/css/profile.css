@@ -35,7 +35,7 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  justify-content: space-around;
+  justify-content: space-between;
   height: 40px;
   border-bottom: 2px solid hsla(0, 7%, 25%, 0.289);
   padding-bottom: 5px;
@@ -272,6 +272,7 @@
 
   .profile-img {
     width: unset;
+    margin-bottom: 200px;
   }
   .profile-img img {
     width: 150px;
@@ -282,7 +283,6 @@
   .small-navbar {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
     padding-bottom: 10px;
   }
   
@@ -301,6 +301,9 @@
   .profile-city,
   .profile-state {
     flex-direction: column;
+    justify-content: center;
+  }
+  .small-navbar{
     justify-content: center;
   }
 }
