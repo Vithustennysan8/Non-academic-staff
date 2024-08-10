@@ -141,7 +141,7 @@ const Home = () => {
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
                         />
-                      <a href="/forms">Requests for Leaves</a>
+                      <a href="/requestedForms">Requests for Leaves</a>
                     </p>
                   </div>
                 </div>

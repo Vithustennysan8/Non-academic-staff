@@ -126,10 +126,16 @@ const RequestedForms = () => {
                   message:"Form type is required"
                 }})}>
                     <option value="">Select a form type</option>
-                    <option value="fullLeaveForm">FullLeaveForm</option>
-                    <option value="shortLeaveForm">ShortLeaveForm</option>
-                    <option value="subtituteForm">SubtituteForm</option>
-                    <option value="transferForm">TransferForm</option>
+                    <option value="fullLeaveForm">Normal Leave</option>
+                    <option value="Normal Leave">Normal Leave</option>
+                    <option value="Vacation Leave">Vacation Leave</option>
+                    <option value="Overseas Leave">Overseas Leave</option>
+                    <option value="Medical Leave">Medical Leave</option>
+                    <option value="Special Leave Granted to an Employee">Special Leave Granted to an Employee</option>
+                    <option value="Maternity Leave">Maternity Leave</option>
+                    <option value="Sabbatical Leave">Sabbatical Leave</option>
+                    <option value="Accident Leave">Accident Leave</option>
+                    <option value="Paternal Leave">Paternal Leave</option>
                 </select>
               </div>
             </div>
