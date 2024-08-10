@@ -1,20 +1,87 @@
 .contactCard{
-    padding: 8px 10px;
+    padding: 4px 10px 12px;
     margin: auto;
     margin-bottom: 20px;
-    max-width: 850px;
+    width: 85%;
+    display: flex;
     border-bottom: 2px solid #ccc;
 }
-.contactCard h3{
-    font-size: 1.2rem;
+.contact-img{
+    width: 20%;
+    flex-shrink: 0;
+    width: 150px;
+    height: 170px;
 }
-.contactNameAndNo{
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    padding: 0 10px;
+.contact-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+}
+.contact-details{
+    padding: 10px 15px;
+}
+.CC-name{
+    font-size: 1.3rem;
+    color: rgba(15, 15, 201, 0.957);
+    cursor: pointer;
+}
+.CC-position{
     color: #4d4d4d;
+    font-size: 1rem;
 }
-.ContactNo{
-    color: rgb(221, 0, 0);
+.CC-phone, .CC-email{
+    font-size: 0.9rem;
+    color: rgba(149, 4, 4, 0.875);
+
+    margin-top: 4px;
+}
+.CC-email a{
+    text-decoration: none;
+    color: purple;
+    display: flex;
+    align-items: center;
+}
+.CC-email img, .CC-phone img{
+    width: 18px;
+    margin-right: 8px;
+}
+
+@media (max-width: 768px){
+    .contactCard{
+        width: 100%;
+    }
+    .contact-img{
+        width: 130px;
+        height: 150px;
+        flex-shrink: 0;
+    }
+    .CC-name{
+        font-size: 1.2rem;
+    }
+    .CC-email, .CC-phone{
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 450px){
+    .contactCard{
+        width: 100%;
+    }
+    .contact-img{
+        /* width: 20%; */
+        width: 90px;
+        height: 110px;
+        flex-shrink: 0;
+    }
+    .CC-name{
+        font-size: 1.05rem;
+    }
+    .CC-position{
+        font-size: 0.8rem;
+    }
+    .CC-phone, .CC-email{
+        font-size: 0.7rem;
+    }    
 }

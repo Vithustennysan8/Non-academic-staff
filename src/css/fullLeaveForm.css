@@ -1,10 +1,28 @@
 .fullLeaveForm{
-    width:100%;
-    margin: 0 auto;
+    width:90%;
+    margin: 30px auto 40px;
 }
-
+.leaveApplicationSelection{
+    min-width: 300px;
+    width: 40%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.leaveApplicationSelection label{
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+.leaveApplicationSelection select{
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1px solid #adadad;
+    outline: none;
+    text-align: center;
+}
 .fullleave-container{
-    width: 50%;
     background: white;
     padding: 20px;
     border-radius: 12px;
@@ -15,15 +33,29 @@
 .fullleave-container h2 {
     text-align: center;
     margin-bottom: 20px;
+    font-weight: 600;
+}
+#leaveForm table{
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000000;
+    background-color: white;
+    font-size: 0.9rem;
+}
+#leaveForm input[type = "date"]{
+    background-color: white;
 }
 
-.form-group {
+.fullLeaveForm td{
+    padding: 0 5px ;
+}
+/* .form-group {
     margin-bottom: 15px;
 }
 .form-group div {
     display: flex;
     align-items: center;
-}
+} */
 #leaveForm{
     width: 100%;
 }
@@ -35,9 +67,7 @@
 #leaveForm input,#leaveForm select,#leaveForm textarea,#leaveForm button {
     width: 100%;
     padding: 8px 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    border: none;
 }
 .radio div{
     width: 100px; 
@@ -45,14 +75,15 @@
 }
 .submit{
     margin-top: 20px;
+    width: 250px;
+    margin: 0 auto;
 }
 .submit button {
     background-color: rgb(185, 6, 6);
+    border-radius: 8px;
     color: white;
     border: none;
     cursor: pointer;
-    width: 100px;
-    margin: 0 auto;
 }
 
 #leaveForm button:hover {
@@ -60,7 +91,10 @@
 }
 
 @media only screen and (max-width: 868px) {
+    .fullLeaveForm{
+        width: 100%;
+    }
     .fullleave-container{
-        width: 90%;
+        width: 92%;
     }
 }

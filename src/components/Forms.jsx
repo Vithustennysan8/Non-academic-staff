@@ -30,7 +30,7 @@ const Forms = () => {
             img={"https://static.thenounproject.com/png/2409660-200.png"}
             url={"/transferForm"}
             />
-          <FormCard
+          {/* <FormCard
             title={"Short Leave Form"}
             content={"Open Short Leave Form"}
             img={"https://pngimg.com/d/exit_PNG19.png"}
@@ -41,7 +41,7 @@ const Forms = () => {
             content={"Open Substitute Procedure Form"}
             img={"https://static.thenounproject.com/png/2118961-200.png"}
             url={"/subtitute"}
-            />
+            /> */}
         </div>
       </div>
     }

@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { LoginContext } from "../../Contexts/LoginContext";
+import { tr } from "date-fns/locale";
 
 const FullLeaveForm = () => {
   const naviagte = useNavigate();
   const {isLogin} = useContext(LoginContext);
     
   useEffect(()=>{
-      if(!isLogin){
+      if(isLogin){
         naviagte("/login");
       }
     },[naviagte, isLogin])
@@ -58,12 +59,156 @@ const FullLeaveForm = () => {
   
   return (
     <div className="fullLeaveForm">
+
+      <div className="leaveApplicationSelection">
+        <label htmlFor="LeaveType">Select the Leave Type</label>
+        <select name="leaveType" id="LeaveType">
+          <option value="">Select Form type....</option>
+          <option value="Normal Leave">Normal Leave</option>
+          <option value="Vacation Leave">Vacation Leave</option>
+          <option value="Overseas Leave">Overseas Leave</option>
+          <option value="Medical Leave">Medical Leave</option>
+          <option value="Special Leave Granted to an Employee">Special Leave Granted to an Employee</option>
+          <option value="Maternity Leave">Maternity Leave</option>
+          <option value="Sabbatical Leave">Sabbatical Leave</option>
+          <option value="Accident Leave">Accident Leave</option>
+          <option value="Paternal Leave">Paternal Leave</option>
+        </select>
+      </div>
+
       <div className="fullleave-container">
-        <h2><u>Leave Application Form</u></h2>
+        <h2>Normal Leave Form</h2>
 
         <form id="leaveForm" onSubmit={handleSubmit(onSubmit)} >
 
-          <div className="form-group">
+          <table border={"1px"}>
+
+            <tr>
+              <th colSpan={12}>Leave Application</th>
+            </tr>
+
+            <tr>
+              <td colSpan={2}>Department</td>
+              <td colSpan={6}><input type="text" name="department" {...register("department", {required:{
+                value: true,
+                message: "Department is required"
+              }})}/>
+              </td>
+              <td colSpan={2}>U.P.F No.</td>
+              <td colSpan={2}><input type="text" name="upfNo" {...register("upfNo", {required:{
+                value: true,
+                message: "U.P.F No is required"
+              }})}/>
+              </td>
+            </tr>
+
+            <tr>
+              <td colSpan={3}>Name</td>
+              <td colSpan={5}><input type="text" name="name" {...register("name", {required:{
+                value: true,
+                message: "Name is required"
+              }})} />
+              </td>
+              <td colSpan={2}>First Appointment Date</td>
+              <td colSpan={2}><input type="date" name="firstAppointmentDate" {...register("firstAppointmentDate", {required:{
+                value: true,
+                message: "FirstAppointmentDate is required"
+              }})}/>
+              </td>
+            </tr>
+
+            <tr>
+              <td colSpan={3}>Designation</td>
+              <td colSpan={9}><input type="text" name="designation" {...register("designation", {required:{
+                value: true,
+                message: "Designation is required"
+                }})}/>
+                </td>
+            </tr>
+
+            <tr>
+              <td colSpan={4} rowSpan={3}>Full Pay Leave already taken</td>
+              <td></td>
+              <td>Casual</td>
+              <td>Vacation</td>
+              <td>Sick</td>
+              <td>Duty</td>
+              <td>Half Pay</td>
+              <td>Nopay</td>
+              <td>Total</td>
+            </tr>
+
+            <tr>
+              <td>Last Year</td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+            </tr>
+
+            <tr>
+              <td>This Year</td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+              <td><input type="number" name="" id="" /></td>
+            </tr>
+
+            <tr>
+              <td colSpan={4}>Number of days of Leave applied for</td>
+              <td colSpan={4}>
+                <input type="text" />
+              </td>
+              <td>Casual</td>
+              <td>Vacation</td>
+              <td>Sick</td>
+              <td>Duty</td>
+            </tr>
+
+            <tr>
+              <td colSpan={4}>Date of commencement of Leave</td>
+              <td colSpan={8}><input type="date" name="dateOfCommencementOfLeave"/></td>
+            </tr>
+
+            <tr>
+              <td colSpan={4}>Reason for apply leave</td>
+              <td colSpan={8}>
+                <textarea name="reasonForApplyLeave" rows="3" cols="30"></textarea>
+              </td>
+            </tr>
+
+            <tr>
+              <td colSpan={4}>Arrangement of Applicant during the leave period</td>
+              <td colSpan={8}>
+                <textarea name="arrangementOfApplicant" rows="3" cols="30"></textarea>
+              </td>
+            </tr>
+
+            <tr>
+              <td colSpan={4}>Address of Applicant during the leave period</td>
+              <td colSpan={8}>
+                <input type="text" name="address"/>
+              </td>
+            </tr>
+
+            <tr>
+              <td colSpan={4}>Order of Head of the Department</td>
+              <td colSpan={8}>
+                <textarea name="orderOfHeadOfTheDepartment" rows="3" cols="30"></textarea>
+              </td>
+            </tr>
+
+            <tr>
+
+            </tr>
+          </table>
+          {/* <div className="form-group">
             <label htmlFor="name">Name:</label>
             <input type="text" id="name" name="name" {...register('name', { required:{
               value: true,
@@ -114,7 +259,7 @@ const FullLeaveForm = () => {
             <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required />
           </div> */}
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="leaveType">Type of Leave:</label>
             <select id="leaveType" name="leave_type"  {...register("leave_type", {required: {
               value: true,
@@ -167,7 +312,7 @@ const FullLeaveForm = () => {
           </div>
 
           <label htmlFor="files">Select a file to upload:</label>
-          <input type="file" id="file" name="files" {...register("files")}/>
+          <input type="file" id="file" name="files" {...register("files")}/> */}
 
           <div className="submit">
             <button type="submit">Submit</button>

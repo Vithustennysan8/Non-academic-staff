@@ -329,6 +329,11 @@ body{
         font-size: 1.3rem;
     }
 }
+@media only screen and (max-width: 450px) {
+    .home-img-slider img{
+        height: 250px;
+    }
+}
 
 @media only screen and (max-width: 350px) {
     .home-img-slider h1{
