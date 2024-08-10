@@ -12,7 +12,7 @@ const Home = () => {
   const [isloading, setIsLoading] = useState(true);
   const {user, setUser} = useContext(UserContext);
   const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
-  // const [role, setRole] = useState("USER");
+  const [role, setRole] = useState("USER");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,7 +27,7 @@ const Home = () => {
               },
             });
             setUser(response.data);
-            // setRole(response.data.role);
+            setRole(response.data.role);
             setIsLoading(false);
             if(response.data.image_data){
               setSrc(`data:${response.data.image_type};base64,${response.data.image_data}`);
@@ -107,7 +107,7 @@ const Home = () => {
 
           {isLogin ? (
             <>
-              <div className="form-shortcut-container">
+              {role === "USER" && <div className="form-shortcut-container">
                 <div className="form-shortcuts">
                   <div className="form-shortcut">
                     <p>
@@ -130,7 +130,34 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div>}
+
+              { role === "ADMIN" && <div className="form-shortcut-container">
+                <div className="form-shortcuts">
+                  <div className="form-shortcut">
+                    <div className="notifyCounts">4</div>
+                    <p>
+                      <img
+                        src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
+                        alt=""
+                        />
+                      <a href="/forms">Requests for Leaves</a>
+                    </p>
+                  </div>
+                </div>
+                <div className="form-shortcuts">
+                  <div className="form-shortcut">
+                    <div className="notifyCounts">3</div>
+                    <p>
+                      <img
+                        src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
+                        alt=""
+                        />
+                      <a href="/forms">Requests for Leaves</a>
+                    </p>
+                  </div>
+                </div>
+              </div>}
 
             {/* ----- image slider ---------- */}
             <div className="home-image-slide">

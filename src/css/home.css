@@ -21,7 +21,6 @@ body{
     width: 100%;
     height: 500px;
     object-fit: cover;
-    border-radius: 0 0 12px 12PX;
 }
 .home-img-slider h1{
     /* -webkit-text-stroke: 1px #e9e9e9; */
@@ -94,6 +93,21 @@ body{
     margin-bottom: 45px;
     font-size: 1.7rem;
     transition: border-left 0.5s ease-in-out, border-right 0.5s ease-in-out;
+    position: relative;
+}
+.notifyCounts{
+    position: absolute;
+    width:35px;
+    height: 35px;
+    background-color: #d60101;
+    border-radius: 50%;
+    color: white;
+    top: -15px;
+    right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
 }
 .form-shortcuts:hover{
     border-left: 25px solid #d60101;

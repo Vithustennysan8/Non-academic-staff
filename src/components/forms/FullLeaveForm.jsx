@@ -11,7 +11,7 @@ const FullLeaveForm = () => {
   const {isLogin} = useContext(LoginContext);
     
   useEffect(()=>{
-      if(isLogin){
+      if(!isLogin){
         naviagte("/login");
       }
     },[naviagte, isLogin])
@@ -205,7 +205,7 @@ const FullLeaveForm = () => {
             </tr>
 
             <tr>
-
+              
             </tr>
           </table>
           {/* <div className="form-group">
