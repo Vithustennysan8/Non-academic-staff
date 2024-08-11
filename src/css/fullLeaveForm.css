@@ -58,6 +58,7 @@
 } */
 #leaveForm{
     width: 100%;
+    overflow-x: auto;
 }
 #leaveForm label {
     display: block;
