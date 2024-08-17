@@ -14,7 +14,7 @@ const Forms = () => {
     <>
     {isloading? <LoadingAnimation/> :
       <div className="form-content">
-        <div className="form-heading">Request Forms</div>
+        <div className="form-heading">Leave or Transfer Request</div>
         <div className="form-attributes">
           <FormCard
             title={"Leave Form"}

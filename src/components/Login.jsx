@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import '../css/login.css'
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { LoginContext } from '../Contexts/LoginContext';
+import { Axios } from './AxiosReqestBuilder';
 
 
 const Login = () => {
@@ -22,7 +22,7 @@ const Login = () => {
     const onSubmit = async (data) => {
 
         try {
-            const response = await axios.post("http://localhost:8080/api/auth/login", data,);
+            const response = await Axios.post("/auth/login", data,);
             const token = response.data.token
             if (token) {
                 localStorage.setItem("token", token); 

@@ -2,8 +2,8 @@ import { useNavigate } from "react-router-dom";
 import "../../css/halfLeaveForm.css"
 import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { LoginContext } from "../../Contexts/LoginContext";
+import { Axios } from "../AxiosReqestBuilder";
 
 const HalfLeaveForm = () => {
   const naviagte = useNavigate();
@@ -37,7 +37,7 @@ const HalfLeaveForm = () => {
     console.log(formData);
     
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/full_leave_form/send", formData,
+      const response = await Axios.post("/auth/full_leave_form/send", formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',

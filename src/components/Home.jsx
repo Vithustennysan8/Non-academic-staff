@@ -2,10 +2,10 @@ import "../css/home.css";
 import Cards from "./Cards";
 import lab8 from "../pdfs/co226_lab8.pdf";
 import { useContext, useEffect, useRef, useState } from "react";
-import axios from "axios";
 import LoadingAnimation from "./LoadingAnimation";
 import { UserContext } from "../Contexts/UserContext";
 import { LoginContext } from "../Contexts/LoginContext";
+import { Axios } from "./AxiosReqestBuilder";
 
 const Home = () => {
   const {isLogin, setIsLogin} = useContext(LoginContext);
@@ -21,7 +21,7 @@ const Home = () => {
         if (isLogin) {
           setIsLogin(true);
           try {
-            const response = await axios.get("http://localhost:8080/api/auth/user/info", {
+            const response = await Axios.get("/auth/user/info", {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -50,10 +50,7 @@ const Home = () => {
   const slides = [
     { backgroundImage: "url(https://arts.pdn.ac.lk/images/slider/slide1.jpg)" },
     { backgroundImage: "url(https://arts.pdn.ac.lk/images/slider/slide2.jpg)" },
-    {
-      backgroundImage:
-        "url(https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg)",
-    },
+    { backgroundImage:"url(https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg)"},
     { backgroundImage: "url(https://arts.pdn.ac.lk/images/slider/slide3.jpg)" },
   ];
 
@@ -126,7 +123,7 @@ const Home = () => {
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
                         />
-                      <a href="/forms">Apply for Leaves</a>
+                      <a href="/forms">Apply for Transfer</a>
                     </p>
                   </div>
                 </div>
@@ -153,7 +150,7 @@ const Home = () => {
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
                         />
-                      <a href="/forms">Requests for Leaves</a>
+                      <a href="/forms">Requests for Transfers</a>
                     </p>
                   </div>
                 </div>

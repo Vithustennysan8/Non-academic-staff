@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "../css/signup.css"
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Axios } from "./AxiosReqestBuilder";
 
 const Signup = () => {
   const Navigate = useNavigate();
@@ -42,7 +42,7 @@ const Signup = () => {
 
 
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/signup", formData);
+      const response = await Axios.post("/auth/signup", formData);
 
       if(response.data === false){
         alert("Email already exists");

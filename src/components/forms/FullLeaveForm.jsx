@@ -2,9 +2,8 @@ import { useContext, useEffect } from "react";
 import "../../css/fullLeaveForm.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { LoginContext } from "../../Contexts/LoginContext";
-import { tr } from "date-fns/locale";
+import { Axios } from "../AxiosReqestBuilder";
 
 const FullLeaveForm = () => {
   const naviagte = useNavigate();
@@ -39,7 +38,7 @@ const FullLeaveForm = () => {
     console.log(formData);
 
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/full_leave_form/send", formData,
+      const response = await Axios.post("auth/full_leave_form/send", formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -160,15 +159,15 @@ const FullLeaveForm = () => {
               <td><input type="number" name="" id="" /></td>
             </tr>
 
-            <tr>
+            <tr >
               <td colSpan={4}>Number of days of Leave applied for</td>
               <td colSpan={4}>
                 <input type="text" />
               </td>
-              <td>Casual</td>
-              <td>Vacation</td>
-              <td>Sick</td>
-              <td>Duty</td>
+              <td className="noOfDaysLeaveCheckBox"><input type="checkbox" name="noOfDays" id="" /> Casual</td>
+              <td className="noOfDaysLeaveCheckBox"><input type="checkbox" name="noOfDays" id="" />Vacation</td>
+              <td className="noOfDaysLeaveCheckBox"><input type="checkbox" name="noOfDays" id="" />Sick</td>
+              <td className="noOfDaysLeaveCheckBox"><input type="checkbox" name="noOfDays" id="" />Duty</td>
             </tr>
 
             <tr>

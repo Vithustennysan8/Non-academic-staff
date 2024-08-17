@@ -1,9 +1,9 @@
 import '../css/resetPassword.css'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import LoadingAnimation from './LoadingAnimation'
 import { LoginContext } from '../Contexts/LoginContext'
+import { Axios } from './AxiosReqestBuilder'
 
 const ResetPassword = () => {
     const {isLogin, setIsLogin} = useContext(LoginContext);
@@ -37,7 +37,7 @@ const ResetPassword = () => {
         }
 
         try{
-            const response  = await axios.put("http://localhost:8080/api/auth/user/reset",reset,
+            const response  = await Axios.put("/auth/user/reset", reset,
                 {
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -61,7 +61,7 @@ const ResetPassword = () => {
         if( reset.password_for_delete !== '' ){
 
             try{
-                const response  = await axios.delete("http://localhost:8080/api/auth/user/delete",
+                const response  = await Axios.delete("/auth/user/delete",
                     {
                         headers: {
                             "Authorization": `Bearer ${token}`

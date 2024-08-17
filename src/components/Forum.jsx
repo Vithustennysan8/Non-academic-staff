@@ -2,10 +2,10 @@ import ForumCard from "./ForumCard";
 import "../css/forum.css"
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { format } from "date-fns";
 import LoadingAnimation from "./LoadingAnimation";
 import { LoginContext } from "../Contexts/LoginContext";
+import { Axios } from "./AxiosReqestBuilder";
 
 const Forum = () => {
     const {isLogin} = useContext(LoginContext);
@@ -38,7 +38,7 @@ const Forum = () => {
         try {
             const fetchForums = async ()=>{
                 
-                const response = await axios.get("http://localhost:8080/api/auth/forum/get",
+                const response = await Axios.get("/auth/forum/get",
                     {
                         headers: {
                             Authorization:`bearer ${localStorage.getItem("token")}`
@@ -71,7 +71,7 @@ const Forum = () => {
         setForum({subject:'',body:''})
             
         try {
-            const response = await axios.post("http://localhost:8080/api/auth/forum/add",{subject,body},
+            const response = await Axios.post("/api/auth/forum/add",{subject,body},
                 {
                     headers:{
                         "Authorization": `Bearer ${token}`
@@ -88,7 +88,7 @@ const Forum = () => {
     const handleDelete = async (id) => {
         
         try {
-            const response = await axios.delete(`http://localhost:8080/api/auth/forum/delete/${id}`,
+            const response = await Axios.delete(`/api/auth/forum/delete/${id}`,
             {
                 headers:{
                     "Authorization": `Bearer ${token}`
@@ -115,7 +115,7 @@ const Forum = () => {
         setForum({subject:'',body:''})
 
         try {
-            const response = await axios.put(`http://localhost:8080/api/auth/forum/update/${id}`, {subject,body},
+            const response = await Axios.put(`/api/auth/forum/update/${id}`, {subject,body},
                 {
                     headers:{
                         "Authorization": `Bearer ${token}`

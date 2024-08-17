@@ -1,9 +1,9 @@
-import axios from 'axios'
 import {  useState } from 'react'
 import FullLeaveFormPreview from './FormPreview'
 import { useForm } from 'react-hook-form'
 import "../../css/requestedForms.css"
 import FormReqTap from '../Admin/FormReqTap'
+import { Axios } from '../AxiosReqestBuilder'
 
 
 const RequestedForms = () => {
@@ -18,7 +18,7 @@ const RequestedForms = () => {
             const {faculty, department, formType} = data
 
             try {
-                const response = await axios.post(`http://localhost:8080/api/admin/req/${formType}`,{faculty,department},
+                const response = await Axios.post(`/admin/req/${formType}`,{faculty,department},
                     {
                         headers:{
                             Authorization:`Bearer ${localStorage.getItem("token")}`
@@ -85,7 +85,7 @@ const RequestedForms = () => {
   return (
     <>
     <div className='RequestedForms'>
-        <h1>Request Forms</h1>
+        <h1>Submitted Application</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
 

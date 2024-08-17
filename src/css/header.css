@@ -20,6 +20,9 @@
 .head h5{
     font-size: 1rem;
 }
+.head p{
+    font-size: 0.8rem;
+}
 .nav-logo{
     width: fit-content;
 }
@@ -69,7 +72,7 @@
     background-color: rgb(243, 243, 243);
     transition: 0.4s all ease-out;
     padding: 8px 18px;
-    border-radius: 10px;
+    border-radius: 7px;
     border: none;
     font-weight: 700;
     font-size: 0.9rem;
@@ -188,6 +191,9 @@
         top: 80px;
         display: block;
     }
+    .head p{
+        font-size: 0.7rem;
+    }
 }
 
 @media only screen and (max-width: 460px) {
@@ -229,6 +235,13 @@
     }
     .username{
         font-size: 0.65rem;
+    }
+    .head p{
+        font-size: 0.55rem;
+    }
+    .header-login{
+        width: fit-content;
+        margin-right: 10px;
     }
 }
 

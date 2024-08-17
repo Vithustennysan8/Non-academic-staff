@@ -2,8 +2,8 @@ import LoadingAnimation from "./LoadingAnimation";
 import "../css/staffs.css";
 import StaffCard from "./StaffCard";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { LoginContext } from "../Contexts/LoginContext";
+import { Axios } from "./AxiosReqestBuilder";
 
 const Staffs = () => {
   const {isLogin} = useContext(LoginContext);
@@ -17,8 +17,7 @@ const Staffs = () => {
       const getUsers = async () => {
         if (isLogin) {
           try {
-            const response = await axios.get(
-              "http://localhost:8080/api/auth/user/staffs",
+            const response = await Axios.get("/auth/user/staffs",
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -64,36 +63,23 @@ const Staffs = () => {
           <h3>Head of the Non-academic staffs</h3>
           <div className="staff-container">
                 <StaffCard
-                  photo={"https://people.ce.pdn.ac.lk/images/staff/non-academic-staff/bandara.jpg"}
-                  title={"Bandara Wasundara"}
-                  body={"Engineering"}
+                  photo={"https://site.pdn.ac.lk/images/About/Organization/chancellor.jpg"}
+                  title={"Prof.GH. Periris"}
+                  body={"Chancellor"}
                 />
                 <StaffCard
-                  photo={"https://people.ce.pdn.ac.lk/images/staff/non-academic-staff/kelum.jpg"}
-                  title={"Kelum Gunarathne"}
-                  body={"Engineering"}
+                  photo={"https://site.pdn.ac.lk/images/About/DeputyViceChancellor.jpg"}
+                  title={"Prof.Terrance Madhujith"}
+                  body={"Vice Chancellor"}
                   />
                 <StaffCard
-                  photo={"https://mgt.pdn.ac.lk/siteimages/staff/Ranjith.jpg"}
-                  title={"Mr. H.R.L. Abeyrathne"}
-                  body={"Management"}
+                  photo={"https://inro.pdn.ac.lk/assets/images/bom/Mr.%20EMGMB%20Ekanayake.jpg"}
+                  title={"Mr. EMGMB. Ekanayake"}
+                  body={"Registrar"}
                   />
-                <StaffCard
-                  photo={"https://med.pdn.ac.lk/departments/anaesthesiology/pathum.gif"}
-                  title={"Mr. W.R.P.T. Wickramasinghe"}
-                  body={"Medicine"}
-                  />
-                <StaffCard
-                  photo={"https://sci.pdn.ac.lk/botany/assets/img/nstaff/3.webp"}
-                  title={"Mr. A.B. Kotuwegedara"}
-                  body={"Botany"}
-                  />
-                <StaffCard
-                  photo={"https://web2.ee.pdn.ac.lk/sites/default/files/inline-images/MrWalisundara.jpg"}
-                  title={"MR. W.M.S.B. WALISUNDARA"}
-                  body={"EEE"}
-                  />
-          </div> </>}
+          </div>
+          <h3>Other Departments .....</h3>
+          </>}
 
           {/* based on the department staff will display */}
           {isLogin && <h3>{staffs[0]?.department+" ("+staffs[0]?.faculty+")"}</h3>}

@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import "../css/header.css";
 import SideNav from "./SideNav";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { LoginContext } from "../Contexts/LoginContext";
 import { UserContext } from "../Contexts/UserContext";
+import { Axios } from "./AxiosReqestBuilder";
 
 const Header = () => {
   const {isLogin, setIsLogin} = useContext(LoginContext);
@@ -19,8 +19,7 @@ const Header = () => {
       if (token) {
 
         try {
-          const response = await axios.get(
-            "http://localhost:8080/api/auth/user/info",
+          const response = await Axios.get("/auth/user/info",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -71,6 +70,7 @@ const Header = () => {
           <div className="head">
             <h2>Non Academic Staffs</h2>
             <h5>University of Peradeniya</h5>
+            <p>Leave & Transfer Management System</p>
           </div>
         </div>
 

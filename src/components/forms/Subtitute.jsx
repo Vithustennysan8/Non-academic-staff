@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/subtitute.css';
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { LoginContext } from '../../Contexts/LoginContext';
+import { Axios } from '../AxiosReqestBuilder';
 
 const Subtitute = () => {
   const naviagte = useNavigate();
@@ -21,7 +21,7 @@ const Subtitute = () => {
   
 
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/full_leave_form/send", data, 
+      const response = await Axios.post("/auth/full_leave_form/send", data, 
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem("token")}`

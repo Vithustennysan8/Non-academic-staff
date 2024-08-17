@@ -317,6 +317,10 @@ body{
     .home-img-slider{
         width: 100%;
     }
+    .form-shortcuts{
+        font-size: 1.4rem;
+        height: 70px;
+    }
 }
 @media only screen and (max-width: 600px) {
     .home-img-slider img{
@@ -342,6 +346,12 @@ body{
     }
     .form-shortcut-container{
         font-size: 1.3rem;
+        flex-direction: column;
+        margin-bottom: 40px;
+    }
+    .form-shortcuts{
+        margin-bottom: unset;
+        height: 50px;
     }
 }
 @media only screen and (max-width: 450px) {

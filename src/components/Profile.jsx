@@ -1,10 +1,10 @@
 import "../css/profile.css";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingAnimation from "./LoadingAnimation";
 import { LoginContext } from "../Contexts/LoginContext";
 import { UserContext } from "../Contexts/UserContext";
+import { Axios } from "./AxiosReqestBuilder";
 
 const Profile = () => {
   const {isLogin, setIsLogin} = useContext(LoginContext);
@@ -28,7 +28,7 @@ const Profile = () => {
 
       if (isLogin) {
         try {
-          const response = await axios.get("http://localhost:8080/api/auth/user/info",
+          const response = await Axios.get("/auth/user/info",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ const Profile = () => {
     });
 
     try {
-      const response = await axios.put("http://localhost:8080/api/auth/user/update", formData, {
+      const response = await Axios.put("/auth/user/update", formData, {
         headers: {
          "Content-type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
