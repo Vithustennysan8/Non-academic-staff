@@ -1,7 +1,8 @@
 import "../css/staffcard.css";
 
-const Card = ({ photo, title, body }) => {
 
+const Card = ({ photo, title, body }) => {
+    
     return (
         <div className="staff-card">
             <img src={photo}/>

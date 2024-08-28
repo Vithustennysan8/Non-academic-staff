@@ -5,8 +5,8 @@ import Signup from "./components/Signup";
 import Profile from "./components/Profile";
 import Forms from "./components/Forms";
 import Staffs from "./components/Staffs";
-import FullLeaveForm from "./components/forms/FullLeaveForm";
-import HalfLeaveForm from "./components/forms/HalfLeaveForm";
+import FullLeaveForm from "./components/forms/NormalLeaveForm";
+import HalfLeaveForm from "./components/forms/AccidentLeaveForm";
 import TransferForm from "./components/forms/TransferForm";
 import Subtitute from "./components/forms/Subtitute";
 import Forum from "./components/Forum";
@@ -19,6 +19,7 @@ import Header from "./components/Header";
 import { LoginContext } from "./Contexts/LoginContext";
 import { UserContext } from "./Contexts/UserContext";
 import RequestedForms from "./components/forms/RequestedForms";
+import LeaveForms from "./components/forms/LeaveForms";
 
 function App() {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
@@ -84,6 +85,7 @@ function App() {
           <Route path="/profile" element={<Profile/>} />
           <Route path="/forms" element={<Forms />} />
           <Route path="/staffs" element={<Staffs />} />
+          <Route path="/leaveForms" element={<LeaveForms />} />
           <Route path="/fullLeaveForm" element={<FullLeaveForm />} />
           <Route path="/halfLeaveForm" element={<HalfLeaveForm />} />
           <Route path="/transferForm" element={<TransferForm />} />

@@ -2,8 +2,9 @@ import "../../css/fullLeaveFormPreview.css";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-const FullLeaveFormPreview = ({ application }) => {
 
+const FullLeaveFormPreview = ({ application }) => {
+    
     const generatePDF = () => {
         const input = document.getElementById("pdfContent");
         html2canvas(input,{
@@ -12,7 +13,7 @@ const FullLeaveFormPreview = ({ application }) => {
             allowTaint: true, // Allow cross-origin images
             logging: true,
         })
-            .then((canvas) => {
+        .then((canvas) => {
             const imgData = canvas.toDataURL("image/png");
             const pdf = new jsPDF();
             const imgWidth = 210; // A4 page width in mm (for portrait orientation)
@@ -20,22 +21,22 @@ const FullLeaveFormPreview = ({ application }) => {
 
             const x = (pdf.internal.pageSize.getWidth() - imgWidth) / 2; // Center the image horizontally
             const y = (pdf.internal.pageSize.getHeight() - imgHeight) / 2; // Center the image horizontally
-
+            
             pdf.addImage(imgData, "PNG", x,20, imgWidth, imgHeight);
-                pdf.save(`${application.name}_Leave_Application.pdf`);
-            })
-            .catch((error) => {
-                console.error("Error generating PDF:", error);
-            });
+            pdf.save(`${application.name}_Leave_Application.pdf`);
+        })
+        .catch((error) => {
+            console.error("Error generating PDF:", error);
+        });
     };
-
+    
     const downloadImage = () => {
         const input = document.getElementById("pdfContent");
         html2canvas(input,{
             scale: 2, // Increase the scale to improve resolution
-        useCORS: true, // Use CORS to load images from external sources
-        allowTaint: true, // Allow cross-origin images
-        logging: true,
+            useCORS: true, // Use CORS to load images from external sources
+            allowTaint: true, // Allow cross-origin images
+            logging: true,
         })
         .then((canvas) => {
             const dataURL = canvas.toDataURL("image/png");
@@ -46,11 +47,11 @@ const FullLeaveFormPreview = ({ application }) => {
             })
             .catch((error) => {
                 console.error("Error generating image:", error);
-                });
-    }
-
-    return (
-        <>
+            });
+        }
+        
+        return (
+            <>
         <div className="review-container" >
             <div id="pdfContent">
 

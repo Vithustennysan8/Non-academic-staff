@@ -21,13 +21,7 @@ const Subtitute = () => {
   
 
     try {
-      const response = await Axios.post("/auth/full_leave_form/send", data, 
-        {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      );
+      const response = await Axios.post("/auth/full_leave_form/send", data);
       console.log(response);
       alert("form submitted successfully");
       naviagte("/forms");

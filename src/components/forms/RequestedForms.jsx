@@ -18,13 +18,7 @@ const RequestedForms = () => {
             const {faculty, department, formType} = data
 
             try {
-                const response = await Axios.post(`/admin/req/${formType}`,{faculty,department},
-                    {
-                        headers:{
-                            Authorization:`Bearer ${localStorage.getItem("token")}`
-                        }
-                    }
-                );
+                const response = await Axios.post(`/admin/req/${formType}`,{faculty,department});
                 setForms(response.data);
                 console.log(response.data)
             } catch (error) {

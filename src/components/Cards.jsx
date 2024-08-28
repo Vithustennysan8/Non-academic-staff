@@ -1,8 +1,8 @@
 import "../css/card.css"
 
 const Card = ({title, body, reporter}) => {
-
-  return (
+  
+return (
     <div className="card" > 
         <p className="card-head">{title}</p>
         <div className="newsDateAndTime">

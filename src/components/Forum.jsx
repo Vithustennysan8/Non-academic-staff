@@ -28,30 +28,23 @@ const Forum = () => {
     const token = localStorage.getItem("token")
     
     useEffect(()=>{
-
         setTimeout(() => {
             
             if(!isLogin){
                 naviagte("/login");
             }
 
-        try {
-            const fetchForums = async ()=>{
-                
-                const response = await Axios.get("/auth/forum/get",
-                    {
-                        headers: {
-                            Authorization:`bearer ${localStorage.getItem("token")}`
-                        }
-                    }
-                );
-                setForums(response.data);
-                setIsLoading(false);
-            };
-            fetchForums();
-        } catch (error) {
-            console.log("fetchError " + error)
-        }
+            try {
+                const fetchForums = async ()=>{
+                    
+                    const response = await Axios.get("/auth/forum/get");
+                    setForums(response.data);
+                    setIsLoading(false);
+                };
+                fetchForums();
+            } catch (error) {
+                console.log("fetchError " + error)
+            }
 
         }, 600);
     },[naviagte,token, isLogin])
@@ -71,13 +64,7 @@ const Forum = () => {
         setForum({subject:'',body:''})
             
         try {
-            const response = await Axios.post("/api/auth/forum/add",{subject,body},
-                {
-                    headers:{
-                        "Authorization": `Bearer ${token}`
-                    }
-                }
-            )
+            const response = await Axios.post("/api/auth/forum/add",{subject,body});
         console.log(response.data);
         setForums([response.data,...forums]);
         } catch (error) {
@@ -88,12 +75,7 @@ const Forum = () => {
     const handleDelete = async (id) => {
         
         try {
-            const response = await Axios.delete(`/api/auth/forum/delete/${id}`,
-            {
-                headers:{
-                    "Authorization": `Bearer ${token}`
-                    }
-                })
+            const response = await Axios.delete(`/api/auth/forum/delete/${id}`);
             setForums(response.data);
             console.log("deleteSuccess");
         } catch (error) {
@@ -115,13 +97,7 @@ const Forum = () => {
         setForum({subject:'',body:''})
 
         try {
-            const response = await Axios.put(`/api/auth/forum/update/${id}`, {subject,body},
-                {
-                    headers:{
-                        "Authorization": `Bearer ${token}`
-                    }
-                }
-            )
+            const response = await Axios.put(`/api/auth/forum/update/${id}`, {subject,body});
             setForums(response.data);
         } catch (error) {
             console.log("useFormError "+error)

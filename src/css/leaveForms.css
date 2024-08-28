@@ -1,0 +1,24 @@
+.leaveApplicationSelection{
+    min-width: 300px;
+    width: 40%;
+    margin: 20px auto 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+.leaveApplicationSelection label{
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+.fullleave-container th{
+    font-weight: 600;
+    padding: 5px 0;
+}
+.leaveApplicationSelection select{
+    padding: 7px 12px;
+    border-radius: 7px;
+    border: 1px solid #adadad;
+    outline: none;
+    text-align: center;
+}

@@ -22,7 +22,7 @@ const Forms = () => {
             img={
               "https://cdn.iconscout.com/icon/premium/png-256-thumb/leaving-1649219-1399243.png"
             }
-            url={"/fullLeaveForm"}
+            url={"/LeaveForms"}
             />
           <FormCard
             title={"Transfer Form"}

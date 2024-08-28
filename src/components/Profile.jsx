@@ -28,13 +28,7 @@ const Profile = () => {
 
       if (isLogin) {
         try {
-          const response = await Axios.get("/auth/user/info",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+          const response = await Axios.get("/auth/user/info");
           setUser(response.data);
           setIsLoading(false);
           if(user.image_data){
@@ -59,12 +53,13 @@ const Profile = () => {
 
   // logout implimentation
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    sessionStorage.setItem("isLogin",false);
-    alert("do you want to logout!");
-    setIsLogin(false)
-    window.scrollTo({top: 0, behavior: 'smooth'});
-    navigate("/login");
+    if(confirm("do you want to logout!")){
+      localStorage.removeItem("token");
+      sessionStorage.setItem("isLogin",false);
+      setIsLogin(false)
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      navigate("/login");
+    }
   };
 
   // updating the changes to the details

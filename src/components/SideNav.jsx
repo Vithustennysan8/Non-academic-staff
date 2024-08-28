@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "../css/sideNav.css"
 
+
 const SideNav = ({ isOpen, toggleNav }) => {
   
   return (

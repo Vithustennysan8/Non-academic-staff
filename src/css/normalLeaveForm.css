@@ -1,40 +1,17 @@
-.fullLeaveForm{
+.noramlLeaveForm{
     width:90%;
-    margin: 30px auto 40px;
+    margin:20px auto 30px;
 }
-.leaveApplicationSelection{
-    min-width: 300px;
-    width: 40%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-}
-.leaveApplicationSelection label{
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-}
-.fullleave-container th{
-    font-weight: 600;
-    padding: 5px 0;
-}
-.leaveApplicationSelection select{
-    padding: 7px 12px;
-    border-radius: 7px;
-    border: 1px solid #adadad;
-    outline: none;
-    text-align: center;
-}
-.fullleave-container{
+
+.normalleave-container{
     background: white;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 50px auto;
+    margin: 40px auto;
 }
 
-.fullleave-container h2 {
+.normalleave-container h2 {
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
@@ -50,12 +27,14 @@
     background-color: white;
 }
 
-.fullLeaveForm td{
+#leaveForm td{
     padding: 0 5px ;
 }
 .noOfDaysLeaveCheckBox{
-
+    text-align: center;
 }
+
+
 /* .form-group {
     margin-bottom: 15px;
 }
@@ -76,6 +55,7 @@
     width: 100%;
     padding: 8px 10px;
     border: none;
+    outline: none;
 }
 .radio div{
     width: 100px; 
@@ -84,7 +64,7 @@
 .submit{
     margin-top: 20px;
     width: 250px;
-    margin: 0 auto;
+    margin: 20px auto 0;
 }
 .submit button {
     background-color: rgb(185, 6, 6);
@@ -92,6 +72,7 @@
     color: white;
     border: none;
     cursor: pointer;
+    font-size: 0.9rem;
 }
 
 #leaveForm button:hover {
@@ -102,7 +83,7 @@
     .fullLeaveForm{
         width: 100%;
     }
-    .fullleave-container{
+    .normalleave-container{
         width: 92%;
     }
 }

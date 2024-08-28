@@ -1,5 +1,6 @@
 import "../css/forumCard.css"
 
+
 const ForumCard = ({heading, user, date, time, paragraph, handleDelete, handleEdit}) => {
   return (
     <>

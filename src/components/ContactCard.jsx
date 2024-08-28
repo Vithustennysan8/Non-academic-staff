@@ -1,5 +1,6 @@
 import '../css/contactCard.css'
 
+
 const ContactCard = ({link, img, position, name, number, email}) => {
   return (
     <div className='contactCard'>

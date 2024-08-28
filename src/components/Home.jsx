@@ -6,6 +6,7 @@ import LoadingAnimation from "./LoadingAnimation";
 import { UserContext } from "../Contexts/UserContext";
 import { LoginContext } from "../Contexts/LoginContext";
 import { Axios } from "./AxiosReqestBuilder";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const {isLogin, setIsLogin} = useContext(LoginContext);
@@ -15,17 +16,12 @@ const Home = () => {
   const [role, setRole] = useState("USER");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     setTimeout(() => {
       const getUserDetail = async () => {
         if (isLogin) {
           setIsLogin(true);
           try {
-            const response = await Axios.get("/auth/user/info", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
+            const response = await Axios.get("/auth/user/info");
             setUser(response.data);
             setRole(response.data.role);
             setIsLoading(false);
@@ -112,7 +108,7 @@ const Home = () => {
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
                         />
-                      <a href="/forms">Apply for Leaves</a>
+                      <Link to="/forms">Apply for Leaves</Link>
                     </p>
                   </div>
                 </div>
@@ -123,7 +119,7 @@ const Home = () => {
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
                         />
-                      <a href="/forms">Apply for Transfer</a>
+                      <Link to="/forms">Apply for Transfer</Link>
                     </p>
                   </div>
                 </div>
@@ -138,7 +134,7 @@ const Home = () => {
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
                         />
-                      <a href="/requestedForms">Requests for Leaves</a>
+                      <Link to="/requestedForms">Requests for Leaves</Link>
                     </p>
                   </div>
                 </div>
@@ -150,7 +146,7 @@ const Home = () => {
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
                         />
-                      <a href="/forms">Requests for Transfers</a>
+                      <Link to="/forms">Requests for Transfers</Link>
                     </p>
                   </div>
                 </div>
@@ -246,32 +242,15 @@ const Home = () => {
             <h2>Important Announcements</h2>
             <Cards
               title={"news"}
-              body={
-                "cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"
-              }
+              body={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, iure voluptate quae tenetur hic sapiente vero nobis nesciunt nemo voluptas ipsam praesentium, harum corporis ipsum. Dicta enim porro aut pariatur."}
               reporter={"Vithu"}
             />
             <Cards
               title={"news"}
-              body={
-                " sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"
-              }
+              body={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae at nemo odit magni eligendi suscipit reprehenderit voluptates quisquam, enim harum expedita dolore aspernatur itaque sequi quaerat neque consequatur hic temporibus impedit reiciendis eum nobis. Similique facere sapiente eum cumque qui!"}
               reporter={"Tennysan"}
             />
-            <Cards
-              title={"news"}
-              body={
-                "cdsihv iad vca sfdf sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"
-              }
-              reporter={"Vithu"}
-            />
-            <Cards
-              title={"news"}
-              body={
-                "cdsih sdf s dfsd f sdf sd fs dfs dfsdfsdf sdfsdf sdf sdkfaebiufbicbiubcuc sa csicbibc cjs cu csou oquscbqos cqs cuqsc few widc cwdcbwiudbcwdcw dciw dcbwudbcdc ad ca c cuabcua scua scasca sas a sda sf"
-              }
-              reporter={"Samir"}
-            />
+
           </div>
 
           {/* ----------- social media links -----------*/}

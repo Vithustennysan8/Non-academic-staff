@@ -1,0 +1,64 @@
+.AccidentLeaveForm{
+    margin: 0 auto 40px;
+    background-color: white;
+    margin-top: 30px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 12px #ccc;
+    width: 80%;
+    max-width: 800px;
+}
+.AccidentLeaveForm > h2{
+    margin-bottom: 15px;
+    text-align: center;
+}
+.AccidentLeaveForm .input-group{
+    margin-bottom: 12px;
+}
+.AccidentLeaveForm label{
+    display: block;
+    font-size: 0.95rem;
+    color: #333333;
+    margin-bottom: 2px;
+}
+.AccidentLeaveForm input, .AccidentLeaveForm select{
+    width: 100%;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+.AccidentLeaveForm button{
+    padding: 6px 40px;
+    border-radius: 5px;
+    border: none;
+    width: 200px;
+    background-color: rgb(185, 6, 6);
+    color: white;
+    font-size: 0.9rem;
+    margin: 20px auto 10px;
+    display: block;
+}
+.AccidentLeaveForm button:hover{
+    background-color: rgb(145,5,5);
+}
+.complaint input, .complaint label{
+    width: unset;
+    display: unset;
+}
+.complaint p{
+    font-size: 0.8rem;
+    color: #333333;
+    margin-bottom: 8px;
+}
+.complaint div{
+    display: flex;
+    gap: 12px;
+    margin-left: 24px;
+}
+
+@media only screen and (max-width: 768px) {
+    .AccidentLeaveForm{
+        width: 90%;
+    }
+}

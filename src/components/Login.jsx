@@ -8,11 +8,9 @@ import { Axios } from './AxiosReqestBuilder';
 
 const Login = () => {
     const Navigate = useNavigate();
-    const {isLogin, setIsLogin} = useContext(LoginContext);
-
+    const {setIsLogin} = useContext(LoginContext);
 
     const {register, handleSubmit, formState:{errors}} = useForm();
-
 
     const handleSignup = ()=>{
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -22,6 +20,7 @@ const Login = () => {
     const onSubmit = async (data) => {
 
         try {
+            localStorage.removeItem("token");
             const response = await Axios.post("/auth/login", data,);
             const token = response.data.token
             if (token) {

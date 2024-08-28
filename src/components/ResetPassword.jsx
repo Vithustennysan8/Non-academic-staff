@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import LoadingAnimation from './LoadingAnimation'
 import { LoginContext } from '../Contexts/LoginContext'
 import { Axios } from './AxiosReqestBuilder'
+import { useForm } from 'react-hook-form'
 
 const ResetPassword = () => {
     const {isLogin, setIsLogin} = useContext(LoginContext);
@@ -12,11 +13,10 @@ const ResetPassword = () => {
   const [isloading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const [reset, setReset] = useState({
-        old_password:'',
-        new_password:'',
-        confirm_new_password:'',
         password_for_delete:'',
     })
+
+    const {register, handleSubmit, formState: {errors}} = useForm();
 
     useEffect(()=>{
         if(!isLogin){
@@ -28,22 +28,15 @@ const ResetPassword = () => {
         }, 600);
     })
 
-    const handleReset =async (e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
 
-        if(reset.new_password != reset.confirm_new_password){
+        if(data.new_password != data.confirm_new_password){
             alert("Password does not match");
             return;
         }
 
         try{
-            const response  = await Axios.put("/auth/user/reset", reset,
-                {
-                    headers: {
-                        "Authorization": `Bearer ${token}`
-                        }
-                }
-            );
+            const response  = await Axios.put("/auth/user/reset", data);
             console.log(response.data);
             alert("Password changed successfully");
             if(response.status === 200){
@@ -108,24 +101,47 @@ const ResetPassword = () => {
         <div className="resetPassword">
             <h1>SECURITY</h1>
             <div className="resetPassword_container">
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <h2>Change Password</h2>
                     <p>To change the old Password, you should enter the old password<span> *</span></p>
                     <div>
                         <img id="resetOldPasswordImg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("resetOldPasswordImg","resetOldPassword")}/>
-                        <input type="password" placeholder="Old Password" id="resetOldPassword" name='old_password' value={reset.old_password} onChange={handleChange}/>
+                        <input type="password" placeholder="Old Password" id="resetOldPassword" name='old_password' {...register("old_password", {required:{
+                            value: true,
+                            message: "Please enter your old password",
+                        }})} />
+                        {errors.old_password && <span className='error'>{errors.old_password.message}</span>}
                     </div>
                     <hr />
                     <p>Your new password must be at least six characters and not same as the old password!<span> *</span></p>
                     <div>
                         <img id="resetNewPasswordImg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("resetNewPasswordImg","resetNewPassword")}/>
-                       <input type="password" placeholder="New Password" id="resetNewPassword" name='new_password' value={reset.new_password} onChange={handleChange}/>
+                       <input type="password" placeholder="New Password" id="resetNewPassword" name='new_password' {...register("new_password", {required:{
+                        value: true,
+                        message: "Please enter your new password",
+                       },
+                       pattern:{
+                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$]).{8,}$/ ,
+                        message:"Password is not valid"
+                      }
+                       })}/>
+                        {errors.new_password && <span className='error'>{errors.new_password.message}</span>}
                     </div>
                     <div>
                         <img id="resetConfirmNewPasswordImg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("resetConfirmNewPasswordImg","resetNewConfirmPassword")}/>
-                        <input id="resetNewConfirmPassword" type="password" placeholder="Confirm Password" name='confirm_new_password' value={reset.confirm_new_password} onChange={handleChange}/>
+                        <input id="resetNewConfirmPassword" type="password" placeholder="Confirm Password" name='confirm_new_password' {...register("confirm_new_password", {required:{
+                            value: true,
+                            message: "Please enter your confirm password",
+                        },
+                        pattern:{
+                            value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$]).{8,}$/ ,
+                            message:"Password is not valid"
+                          }
+                        })}/>
+                        {errors.confirm_new_password && <span className='error'>{errors.confirm_new_password.message}</span>}
                     </div>
-                    <button className="resetPassword_button" onClick={handleReset}>Change Password</button>
+                    <button className="resetPassword_button" type='submit'>Change Password</button>
+
                 </form>
             </div>
 
