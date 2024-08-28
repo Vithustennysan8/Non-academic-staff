@@ -18,15 +18,16 @@
 .AccidentLeaveForm label{
     display: block;
     font-size: 0.95rem;
-    color: #333333;
+    color: #4b4b4b;
     margin-bottom: 2px;
 }
-.AccidentLeaveForm input, .AccidentLeaveForm select{
+.AccidentLeaveForm input, .AccidentLeaveForm select, .AccidentLeaveForm p{
     width: 100%;
     padding: 4px 8px;
     border-radius: 6px;
     border: 1px solid #ccc;
     outline: none;
+    font-size: 0.9rem;
 }
 .AccidentLeaveForm button{
     padding: 6px 40px;

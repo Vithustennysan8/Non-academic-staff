@@ -3,11 +3,13 @@ import "../../css/accidentLeaveForm.css"
 import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { LoginContext } from "../../Contexts/LoginContext";
+import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
 
 const AccidentLeaveForm = () => {
   const naviagte = useNavigate();
   const {isLogin} = useContext(LoginContext);
+  const {user} = useContext(UserContext);
     
   useEffect(()=>{
       if(!isLogin){
@@ -62,29 +64,17 @@ const AccidentLeaveForm = () => {
 
         <div className="input-group">
           <label htmlFor="name">Name of the applicant: </label>
-          <input type="text" name="name" id="name" {...register("name", {required:{
-            value: true,
-            message: "Please enter your name"
-          }})} />
-          {errors.name && <span className="error">{errors.name.message}</span>}
+          <p>{user.first_name}</p>
         </div>
 
         <div className="input-group">
           <label htmlFor="faculty">Faculty/unit: </label>
-          <input type="text" name="faculty" id="faculty" {...register("faculty", {required:{
-            value: true,
-            message: "Please enter faculty"
-          }})} />
-          {errors.faculty && <span className="error">{errors.faculty.message}</span>}
+          <p>{user.faculty}</p>
         </div>
 
         <div className="input-group">
           <label htmlFor="department">Division/Department: </label>
-          <input type="text" name="department" id="department" {...register("department", {required:{
-            value: true,
-            message: "Please enter department"
-          }})} />
-          {errors.department && <span className="error">{errors.department.message}</span>}
+          <p>{user.department}</p>
         </div>
 
         <div className="input-group">

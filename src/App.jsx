@@ -30,7 +30,7 @@ function App() {
     const token = localStorage.getItem("token");
     
     setInterval(() => {
-      console.log("token: "+token);
+      // console.log("token: "+token);
       if (localStorage.getItem("token")) {
         try {
           if (typeof localStorage.getItem("token") !== "string") {

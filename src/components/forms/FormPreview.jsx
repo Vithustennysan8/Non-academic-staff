@@ -1,9 +1,10 @@
 import "../../css/fullLeaveFormPreview.css";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { Axios } from "../AxiosReqestBuilder";
 
 
-const FullLeaveFormPreview = ({ application }) => {
+const FullLeaveFormPreview = ({ application, approver, setForm }) => {
     
     const generatePDF = () => {
         const input = document.getElementById("pdfContent");
@@ -30,25 +31,43 @@ const FullLeaveFormPreview = ({ application }) => {
         });
     };
     
-    const downloadImage = () => {
-        const input = document.getElementById("pdfContent");
-        html2canvas(input,{
-            scale: 2, // Increase the scale to improve resolution
-            useCORS: true, // Use CORS to load images from external sources
-            allowTaint: true, // Allow cross-origin images
-            logging: true,
-        })
-        .then((canvas) => {
-            const dataURL = canvas.toDataURL("image/png");
-            const link = document.createElement("a");
-            link.href = dataURL;
-            link.download = `${application.name}_Leave_Application.png`;
-            link.click();
-            })
-            .catch((error) => {
-                console.error("Error generating image:", error);
-            });
+    // const downloadImage = () => {
+    //     const input = document.getElementById("pdfContent");
+    //     html2canvas(input,{
+    //         scale: 2, // Increase the scale to improve resolution
+    //         useCORS: true, // Use CORS to load images from external sources
+    //         allowTaint: true, // Allow cross-origin images
+    //         logging: true,
+    //     })
+    //     .then((canvas) => {
+    //         const dataURL = canvas.toDataURL("image/png");
+    //         const link = document.createElement("a");
+    //         link.href = dataURL;
+    //         link.download = `${application.name}_Leave_Application.png`;
+    //         link.click();
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error generating image:", error);
+    //         });
+    //     }
+
+    const handleAccept = async (id) => {
+        try{
+            const response = await Axios.put(`/admin/accept/${id}`, approver);
+            setForm(response.data);
+        }catch(error){
+            console.log(error);
         }
+    }
+
+    const handleReject = async (id) => {
+        try{
+            const response = await Axios.put(`/admin/reject/${id}`, approver);
+            setForm(response.data);
+        }catch(error){
+            console.log(error);
+        }
+    }
         
         return (
             <>
@@ -122,9 +141,21 @@ const FullLeaveFormPreview = ({ application }) => {
                         {!application.status ? "Approved" : "Pending"}
                     </div>
                 </div>}
+
+                <div className="leaveFlowContainer">
+                    <p>Approver1 - {application.approver1}</p>
+                    <p>Approver2 - {application.approver2}</p>
+                </div>
             </div>
-            <button onClick={downloadImage} className="download-pdf-btn">Download Image</button>
-            <button onClick={generatePDF} className="download-pdf-btn">Download PDF</button>
+            {/* <button onClick={downloadImage} className="download-pdf-btn">Download Image</button> */}
+            <div style={{
+                display: "flex",
+                justifyContent: "center",
+            }}>
+                <button onClick={() => handleAccept(application.id)} className="download-pdf-btn approve">Approve</button>
+                <button onClick={() => handleReject(application.id)} className="download-pdf-btn reject">Reject</button>
+                <button onClick={generatePDF} className="download-pdf-btn">Download</button>
+            </div>
         </div>
     </>
     );

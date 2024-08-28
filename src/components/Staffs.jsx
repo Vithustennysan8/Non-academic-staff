@@ -63,11 +63,6 @@ const Staffs = () => {
           <h3>Head of the Non-academic staffs</h3>
           <div className="staff-container">
                 <StaffCard
-                  photo={"https://site.pdn.ac.lk/images/About/Organization/chancellor.jpg"}
-                  title={"Prof.GH. Periris"}
-                  body={"Chancellor"}
-                />
-                <StaffCard
                   photo={"https://site.pdn.ac.lk/images/About/DeputyViceChancellor.jpg"}
                   title={"Prof.Terrance Madhujith"}
                   body={"Vice Chancellor"}

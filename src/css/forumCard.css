@@ -32,7 +32,7 @@
 }
 .deleteForum{
     position: absolute;
-    width: 27px;
+    width: fit-content;
     top: 8px;
     right: 18px;
     display: flex;

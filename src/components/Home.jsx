@@ -1,5 +1,4 @@
 import "../css/home.css";
-import Cards from "./Cards";
 import lab8 from "../pdfs/co226_lab8.pdf";
 import { useContext, useEffect, useRef, useState } from "react";
 import LoadingAnimation from "./LoadingAnimation";
@@ -7,6 +6,7 @@ import { UserContext } from "../Contexts/UserContext";
 import { LoginContext } from "../Contexts/LoginContext";
 import { Axios } from "./AxiosReqestBuilder";
 import { Link } from "react-router-dom";
+import News from "./News";
 
 const Home = () => {
   const {isLogin, setIsLogin} = useContext(LoginContext);
@@ -238,20 +238,7 @@ const Home = () => {
           </div>
           
           {/* ----------- news feed ---------- */}
-          <div className="newsFeed">
-            <h2>Important Announcements</h2>
-            <Cards
-              title={"news"}
-              body={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci, iure voluptate quae tenetur hic sapiente vero nobis nesciunt nemo voluptas ipsam praesentium, harum corporis ipsum. Dicta enim porro aut pariatur."}
-              reporter={"Vithu"}
-            />
-            <Cards
-              title={"news"}
-              body={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae at nemo odit magni eligendi suscipit reprehenderit voluptates quisquam, enim harum expedita dolore aspernatur itaque sequi quaerat neque consequatur hic temporibus impedit reiciendis eum nobis. Similique facere sapiente eum cumque qui!"}
-              reporter={"Tennysan"}
-            />
-
-          </div>
+          <News role={role}/>
 
           {/* ----------- social media links -----------*/}
           <div className="linkto">

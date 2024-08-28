@@ -296,14 +296,19 @@ const Signup = () => {
                 </select>
                 {errors.job_type && <span className="error">{errors.job_type.message}</span>}
               </div>
-              {/* <div className="role">
+              <div className="role">
                 <label htmlFor="role">Are you </label>
-                <select name="role" id="role" onChange={handleInput} value={user.role} required>
+                <select name="role" id="role" {...register("role", {required: {
+                  value:true,
+                  message:"Role is required"
+                }})}>
                 <option value="">select one....</option>
-                <option value="user">user</option>
-                <option value="admin">admin</option>
+                <option value="USER">User</option>
+                <option value="ADMIN">Admin</option>
+                <option value="MANAGER">Manager</option>
                 </select>
-                </div> */}
+                {errors.role && <span className="error">{errors.role.message}</span>}
+                </div>
             </div>
 
             <div className="half">

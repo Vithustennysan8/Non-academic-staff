@@ -6,9 +6,11 @@ import { format } from "date-fns";
 import LoadingAnimation from "./LoadingAnimation";
 import { LoginContext } from "../Contexts/LoginContext";
 import { Axios } from "./AxiosReqestBuilder";
+import { UserContext } from "../Contexts/UserContext";
 
 const Forum = () => {
     const {isLogin} = useContext(LoginContext);
+    const {user} = useContext(UserContext);
     const naviagte = useNavigate();
     const [forumPopup, setForumPopup] = useState(false);
     const [isloading, setIsLoading] = useState(true);
@@ -64,7 +66,7 @@ const Forum = () => {
         setForum({subject:'',body:''})
             
         try {
-            const response = await Axios.post("/api/auth/forum/add",{subject,body});
+            const response = await Axios.post("/auth/forum/add",{subject,body});
         console.log(response.data);
         setForums([response.data,...forums]);
         } catch (error) {
@@ -75,7 +77,7 @@ const Forum = () => {
     const handleDelete = async (id) => {
         
         try {
-            const response = await Axios.delete(`/api/auth/forum/delete/${id}`);
+            const response = await Axios.delete(`/auth/forum/delete/${id}`);
             setForums(response.data);
             console.log("deleteSuccess");
         } catch (error) {
@@ -97,7 +99,7 @@ const Forum = () => {
         setForum({subject:'',body:''})
 
         try {
-            const response = await Axios.put(`/api/auth/forum/update/${id}`, {subject,body});
+            const response = await Axios.put(`/auth/forum/update/${id}`, {subject,body});
             setForums(response.data);
         } catch (error) {
             console.log("useFormError "+error)
@@ -171,6 +173,9 @@ const Forum = () => {
                     time={timePart}
                     handleDelete={()=>handleDelete(forum.id)}
                     handleEdit={()=>handleEdit(forum)}
+                    ownerId={forum.user.id}
+                    currentUserId={user.id}
+                    role={user.role}
                     />)
                 })}
         </div>

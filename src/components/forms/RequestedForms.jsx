@@ -1,30 +1,41 @@
-import {  useState } from 'react'
+import {  useContext, useEffect, useState } from 'react'
 import FullLeaveFormPreview from './FormPreview'
 import { useForm } from 'react-hook-form'
 import "../../css/requestedForms.css"
 import FormReqTap from '../Admin/FormReqTap'
 import { Axios } from '../AxiosReqestBuilder'
+import { UserContext } from '../../Contexts/UserContext'
+import { useNavigate } from 'react-router-dom'
+import { LoginContext } from '../../Contexts/LoginContext'
 
 
 const RequestedForms = () => {
+  const navigate = useNavigate();
+  const {isLogin} = useContext(LoginContext);
     const [Forms, setForms] = useState([])
     const [Form, setForm] = useState([])
     const [showForm, setShowForm] = useState(false);
+    const {user} = useContext(UserContext);
+
+    useEffect(()=>{
+      if(!isLogin){
+        navigate("/login");
+      }
+    },[navigate, isLogin])
 
 
-    // const [department, setDepartment] = useState('')
-        const onSubmit = async (data) => {
-          setShowForm(false);
-            const {faculty, department, formType} = data
+    const onSubmit = async (data) => {
+      setShowForm(false);
+        const {faculty, department, formType} = data
 
-            try {
-                const response = await Axios.post(`/admin/req/${formType}`,{faculty,department});
-                setForms(response.data);
-                console.log(response.data)
-            } catch (error) {
-                console.log(">>> " + error);
-            }
+        try {
+            const response = await Axios.post(`/admin/req/${formType}`,{faculty,department});
+            setForms(response.data);
+            console.log(response.data)
+        } catch (error) {
+            console.log(">>> " + error);
         }
+    }  
 
   const {register, handleSubmit, formState: errors} = useForm();
   const [selectedFaculty,setSelectedFaculty] = useState('');
@@ -121,6 +132,8 @@ const RequestedForms = () => {
                 }})}>
                     <option value="">Select a form type</option>
                     <option value="fullLeaveForm">Normal Leave</option>
+                    <option value="sample">Sample</option>
+                    <option value="Accident Leave">Accident Leave</option>
                     <option value="Normal Leave">Normal Leave</option>
                     <option value="Vacation Leave">Vacation Leave</option>
                     <option value="Overseas Leave">Overseas Leave</option>
@@ -128,7 +141,6 @@ const RequestedForms = () => {
                     <option value="Special Leave Granted to an Employee">Special Leave Granted to an Employee</option>
                     <option value="Maternity Leave">Maternity Leave</option>
                     <option value="Sabbatical Leave">Sabbatical Leave</option>
-                    <option value="Accident Leave">Accident Leave</option>
                     <option value="Paternal Leave">Paternal Leave</option>
                 </select>
               </div>
@@ -150,7 +162,7 @@ const RequestedForms = () => {
             ))}
         </ul>}
 
-        { showForm && <FullLeaveFormPreview application={Form}/>}
+        { showForm && <FullLeaveFormPreview application={Form} approver={user} setForm={setForm}/>}
 
     </div>
     </>

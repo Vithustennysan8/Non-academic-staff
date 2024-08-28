@@ -21,7 +21,7 @@ const Login = () => {
 
         try {
             localStorage.removeItem("token");
-            const response = await Axios.post("/auth/login", data,);
+            const response = await Axios.post("/auth/login", data);
             const token = response.data.token
             if (token) {
                 localStorage.setItem("token", token); 

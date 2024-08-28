@@ -1,0 +1,51 @@
+.newsFeed{
+    width: 100%;
+    margin-bottom: 60px;
+    margin-top: 40px;  
+}
+
+.newsFeed h2{
+    font-size: 1.8rem;
+    border-left: 4px solid rgb(219, 0, 0);
+    text-transform: uppercase;
+    padding-left: 10px;
+    margin-bottom: 30px;
+}
+.newsFeed .newsBtn{
+    margin-top: 16px;
+    margin-right: 10px;
+    border-radius: 6px;
+    border: none;
+    background: #646464;
+    color: #fff;
+    padding: 8px 36px;
+    transition: 0.1s ease;
+}
+.newsFeed .newsBtn:hover{
+    background-color: #8f8f8f;
+}
+.newsFeed label, .newsFeed input, .newsFeed textarea{
+    display: block;
+    border-radius: 8px;
+    width: 100%;
+    padding:4px 8px;
+    outline: none;
+    border: 1px solid #ccc;
+}
+.newsFeed form{
+    background-color: white;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 2px 2px 8px #ccc;
+}
+.newsFeed label{
+    border: unset;
+    margin: unset;
+    margin-left: -5px;
+}
+.newsFeed .cancelNews{
+    background-color: rgb(217, 6, 6);
+}
+.newsFeed .cancelNews:hover{
+    background-color: rgb(177, 3, 3);
+}

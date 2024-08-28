@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
+import { UserContext } from "../../Contexts/UserContext";
 
 const NormalLeaveForm = () => {
   const naviagte = useNavigate();
   const {isLogin} = useContext(LoginContext);
+  const {user} = useContext(UserContext);
     
   useEffect(()=>{
       if(!isLogin){
@@ -73,10 +75,7 @@ const NormalLeaveForm = () => {
             <tbody>
               <tr>
                 <td colSpan={2}>Department</td>
-                <td colSpan={6}><input type="text" name="department" {...register("department", {required:{
-                  value: true,
-                  message: "Department is required"
-                }})}/>
+                <td colSpan={6}><p>{user.department}</p>
                 </td>
                 <td colSpan={2}>U.P.F No.</td>
                 <td colSpan={2}><input type="text" name="upfNo" {...register("upfNo", {required:{
@@ -88,26 +87,26 @@ const NormalLeaveForm = () => {
 
               <tr>
                 <td colSpan={3}>Name</td>
-                <td colSpan={5}><input type="text" name="name" {...register("name", {required:{
-                  value: true,
-                  message: "Name is required"
-                }})} />
+                <td colSpan={5}><p>{user.first_name}</p>
                 </td>
-                <td colSpan={2}>First Appointment Date</td>
-                <td colSpan={2}><input type="date" name="firstAppointmentDate" {...register("firstAppointmentDate", {required:{
-                  value: true,
-                  message: "FirstAppointmentDate is required"
-                }})}/>
+                <td colSpan={2}>Faculty</td>
+                <td colSpan={2}><p>{user.faculty}</p>
                 </td>
               </tr>
 
               <tr>
                 <td colSpan={3}>Designation</td>
-                <td colSpan={9}><input type="text" name="designation" {...register("designation", {required:{
+                <td colSpan={5}><input type="text" name="designation" {...register("designation", {required:{
                   value: true,
                   message: "Designation is required"
                 }})}/>
                   </td>
+                  <td colSpan={2}>First Appointment Date</td>
+                <td colSpan={2}><input type="date" name="firstAppointmentDate" {...register("firstAppointmentDate", {required:{
+                  value: true,
+                  message: "FirstAppointmentDate is required"
+                }})}/>
+                </td>
               </tr>
 
               <tr>

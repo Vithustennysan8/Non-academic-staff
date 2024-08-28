@@ -1,7 +1,7 @@
 import "../css/forumCard.css"
 
 
-const ForumCard = ({heading, user, date, time, paragraph, handleDelete, handleEdit}) => {
+const ForumCard = ({heading, user, date, time, paragraph, handleDelete, handleEdit, ownerId, currentUserId, role}) => {
   return (
     <>
     <div className="forumCard">
@@ -14,8 +14,8 @@ const ForumCard = ({heading, user, date, time, paragraph, handleDelete, handleEd
         <p className="formCardContent">{paragraph}</p>
         
         <div className="deleteForum" >
-          <img onClick={handleEdit} src="https://cdn-icons-png.flaticon.com/128/3124/3124772.png" alt="deleteIcon" />
-          <img onClick={handleDelete} src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="deleteIcon" />
+          {(ownerId === currentUserId) && <img onClick={handleEdit} src="https://cdn-icons-png.flaticon.com/128/3124/3124772.png" alt="deleteIcon" />}
+          {(ownerId === currentUserId || role == "ADMIN") && <img onClick={handleDelete} src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="deleteIcon" />}
         </div>
     </div>
     </>

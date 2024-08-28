@@ -67,3 +67,12 @@
 .download-pdf-btn:hover {
     background-color: #0056b3;
 }
+
+.approve{
+    background-color: green;
+}
+.reject{
+    background-color: red;
+}
+
+.leaveFlowContainer{}

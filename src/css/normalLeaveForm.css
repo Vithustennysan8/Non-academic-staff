@@ -33,15 +33,6 @@
 .noOfDaysLeaveCheckBox{
     text-align: center;
 }
-
-
-/* .form-group {
-    margin-bottom: 15px;
-}
-.form-group div {
-    display: flex;
-    align-items: center;
-} */
 #leaveForm{
     width: 100%;
     overflow-x: auto;
@@ -51,7 +42,7 @@
     margin-bottom: 5px;
 }
 
-#leaveForm input,#leaveForm select,#leaveForm textarea,#leaveForm button {
+#leaveForm input,#leaveForm select,#leaveForm textarea,#leaveForm button, #leaveForm p, #leaveForm th{
     width: 100%;
     padding: 8px 10px;
     border: none;

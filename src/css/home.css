@@ -23,7 +23,6 @@ body{
     object-fit: cover;
 }
 .home-img-slider h1{
-    /* -webkit-text-stroke: 1px #e9e9e9; */
     position: absolute;
     top: 50%;
     left: 50%;
@@ -31,7 +30,6 @@ body{
     text-transform: uppercase;
     font-weight: 700;
     font-size: 7rem;
-    /* width: 80%; */
     text-align: center;
     text-shadow: 6px 4px 5px rgb(66, 66, 66);
     color: rgb(255, 255, 255);
@@ -48,7 +46,6 @@ body{
     object-fit: cover;
 }
 .home-banner-profile{
-    /* background: url(https://img.lovepik.com/background/20211021/large/lovepik-blue-banner-background-image_500452484.jpg); */
     background: linear-gradient(90deg,#f3f3f3, rgb(255, 0, 0), #f3f3f3);
     width: 100%;
     position: absolute;
@@ -240,19 +237,6 @@ body{
     color: white;
     text-align: right;
     border-radius: 8px;
-}
-.newsFeed{
-    width: 100%;
-    margin-bottom: 60px;
-    margin-top: 40px;  
-}
-
-.newsFeed h2{
-    font-size: 1.8rem;
-    border-left: 4px solid rgb(219, 0, 0);
-    text-transform: uppercase;
-    padding-left: 10px;
-    margin-bottom: 30px;
 }
 .linkto{
     margin-bottom: 60px;
