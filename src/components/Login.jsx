@@ -27,7 +27,7 @@ const Login = () => {
                 localStorage.setItem("token", token); 
                 sessionStorage.setItem("isLogin", true);  
                 console.log("Stored token:", token);
-                setIsLogin(localStorage.getItem("isLogin"))
+                setIsLogin(true)
                 window.scrollTo({top: 0, behavior: 'smooth'});
                 Navigate("/");
             }
@@ -91,12 +91,12 @@ const Login = () => {
                 </div>
 
                 <div className="login-btn">
-                    <input type="submit" value="Log in"/>
+                    <input type="submit" className='bttn redbtn' value="Log in"/>
                 </div>
 
                 <div className="signup-opt">
                     <p>Do you need new account?</p>
-                    <input type="button" onClick={handleSignup}  value="Sign up"/>
+                    <input type="button" className='bttn ashbtn' onClick={handleSignup}  value="Sign up"/>
                 </div>
 
                 <div className="others">

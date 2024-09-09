@@ -14,28 +14,12 @@
 .ForumAddBtn{
     margin: 70px 0 40px;
 }
-.ForumAddBtn button{
-    border-radius: 8px;
-    border: 1px solid ;
-    background: #646464;
-    color: #fff;
-    padding: 8px 15px;
-    transition: 0.2s ease;
-}
-.ForumAddBtn button:hover{
-    cursor: pointer;
-    background: #787878;
-}
-.ForumAddBtn button:active{
-    background: #565656;
-}
 .forumInputContainer{
     padding: 15px;
-    box-shadow: 1px 1px 6px 2px #ffb8b8;
+    box-shadow: 1px 1px 6px 2px #999999;
     border-radius: 10px;
-    border: 2px solid rgb(241, 75, 75);
     margin-bottom: 20px;
-    background-color: #f1f1f1;
+    background-color: #ffffff;
 }
 .forumInputContainer label, .forumInputContainer input, .forumInputContainer textarea {
     display: block;
@@ -51,32 +35,11 @@
     border: none;
 }
 .forumFormCancelbtn, .forumFormSubmitbtn{
-    border-radius: 8px;
-    border: 1px solid ;
-    background: #646464;
-    color: #fff;
-    padding: 5px 8px;
     margin: 10px 10px 0 0;
-}
-.forumFormSubmitbtn:hover{
-    background: #939393;
-    cursor: pointer;
 }
 .forumFormSubmitbtnactive{
     background: #b5b5b5;
 }
-.forumFormCancelbtn{
-    background-color: rgb(198, 0, 0);
-}
-.forumFormCancelbtn:hover{
-    background: #eb0000;
-    cursor: pointer;
-}
-.forumFormCancelbtn:active{
-    background-color: rgb(198, 0, 0);
-
-}
-
 @media only screen and ( max-width: 780px){
     .forum-container{
         width: 90%;

@@ -47,7 +47,7 @@ const News = ({role}) => {
 
     <div className="newsFeed">
         <h2>Important Announcements</h2>
-        { role === "ADMIN" && !showForm && <button className="newsBtn" onClick={()=>setShowForm(!showForm)}>Add</button>}
+        { role === "ADMIN" && !showForm && <button className="ashbtn bttn newsbtn" onClick={()=>setShowForm(!showForm)}>Add</button>}
 
         { showForm &&
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -69,8 +69,8 @@ const News = ({role}) => {
                 {errors.body && <span className="error">{errors.body.message}</span>}
             </div>
             <div className="addNews">
-                <button type="submit" className="newsBtn">Add News</button>
-                <button className="newsBtn cancelNews" onClick={()=>setShowForm(false)}>Cancel</button>
+                <button type="submit" className="ashbtn bttn newsbtn">Add News</button>
+                <button className="bttn redbtn" onClick={()=>setShowForm(false)}>Cancel</button>
             </div>
         </form>}
 

@@ -6,8 +6,8 @@
     cursor: pointer;
     background-color: white;
 }
-.opened{
-    
+.formReq-container .name{
+    font-size: 1rem;
 }
 .formReq-container h3{
     color: rgb(0, 115, 255);

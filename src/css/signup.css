@@ -58,20 +58,9 @@
     width: 50%;
 }
 .signup-submit-btn input{
-    background-color: rgb(25, 25, 193);
-    color: white;
+    border-radius: 5px;
     font-size: 1rem;
-    transition: 0.3s;
-}
-.signup-submit-btn input:hover{
-    cursor: pointer;
-    color:rgb(13, 13, 251) ;
-    background-color: rgb(143, 143, 143);
-    font-weight: 700;
-}
-.signup-submit-btn input:active{
-    background-color: rgb(20, 20, 217);
-    color: white;
+    border: unset;
 }
 #error{
     border: 2px solid red;

@@ -8,47 +8,100 @@ import { Axios } from "./AxiosReqestBuilder";
 
 const Profile = () => {
   const {isLogin, setIsLogin} = useContext(LoginContext);
+  const {user, setUser} = useContext(UserContext)
   
-
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [isloading, setIsLoading] = useState(true);
   const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
   const [readOnly, setReadOnly] = useState(true);
-
-
-  const {user, setUser} = useContext(UserContext)
-
+  const [leave, setLeave] = useState(0);
+  const [transfer, setTranfer] = useState(0);
+  const [register, setRegister] = useState(0);
+  const [appliedLeave, setAppliedLeave] = useState(0);
+  const [appliedTransfer, setAppliedTransfer] = useState(0);
   const [image, setImage] = useState('');
+
 
   useEffect(() => {
     setTimeout(() => {
       
       const getUserDetail = async () => {
-
-      if (isLogin) {
-        try {
-          const response = await Axios.get("/auth/user/info");
-          setUser(response.data);
-          setIsLoading(false);
-          if(user.image_data){
-            setSrc(`data:${user.image_type};base64,${user.image_data}`)
+        if (isLogin) {
+          try {
+            const response = await Axios.get("/auth/user/info");
+            setUser(response.data);
+            setIsLoading(false);
+            if(user.image_data){
+              setSrc(`data:${user.image_type};base64,${user.image_data}`)
+            }
+          } catch (error) {
+            localStorage.removeItem("token");
+            sessionStorage.setItem("isLogin",false)
+            setIsLogin(false)
           }
-        } catch (error) {
-          localStorage.removeItem("token");
-          sessionStorage.setItem("isLogin",false)
-          setIsLogin(false)
+        } else {
+          setIsLoading(false);
+          window.scrollTo({top: 0, behavior: 'smooth'});
+          navigate("/login");
         }
-      } else {
-        setIsLoading(false);
-        window.scrollTo({top: 0, behavior: 'smooth'});
-        navigate("/login");
-      }
       };
+
+      const fetchLeaveRequestCount = async () => {
+        try{
+          const response = await Axios.get("admin/leaveForms/notify");
+          setLeave(response.data.length);
+        }catch{
+          console.log("Error fetching leave requests");
+        }}
+  
+      const fetchRegisterRequests = async () => {
+        try{
+          const response = await Axios.get("admin/verifyRequests");
+          setRegister(response.data.length);
+        }catch{
+          console.log("Error fetching register requests");
+        }}
+  
+      // const fetchTransferRequests = async () => {
+      //   try{
+      //     const response = await Axios.get("admin/verifyRequests");
+      //     if(response.data.length > 0){
+      //       setTransfer(response.data.length);
+      //     }
+      //   }catch{
+      //     console.log("Error fetching transfer requests");
+      //   }}
+
+      const fetchTransferFormsApplied = async () => {
+        try{
+          const response = await Axios.get("admin/verifyRequests");
+          setAppliedLeave(response.data.length);
+        }catch(error){
+          console.log("Error fetching appliedTransferForms requests", error);
+        }}
+        
+        const fetchLeaveFormsApplied = async () => {
+          try{
+            const response = await Axios.get("auth/normalLeaveForm/get");
+          setAppliedTransfer(response.data.length);
+        }catch(error){
+          console.log("Error fetching appliedLeaveForms requests", error);
+        }}
+  
+  
+      if(user.role === "ADMIN" || user.role === "SUPER_ADMIN"){
+        fetchLeaveRequestCount();
+        fetchRegisterRequests(); 
+        // fetchTransferRequests();
+      }
+      fetchLeaveFormsApplied();
+      // fetchTransferFormsApplied();
+  
       getUserDetail();
     }, 600);
 
-  }, [navigate, token, user.image_data, user.image_type, setIsLogin, setUser, isLogin]);
+  }, [navigate, token, user.image_data, user.image_type, user.role, setIsLogin, setUser, isLogin]);
 
 
   // logout implimentation
@@ -151,13 +204,13 @@ const Profile = () => {
             </Link>
           </p>
           <p>
-            <Link to={''} >
+            <Link to={'/notifications'} >
               <span>
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/3602/3602123.png"
                   alt="icon3"
                 />
-                Notification
+                Notification { (leave+register+transfer+appliedLeave+appliedTransfer) > 0 && <span className="notificationCount">{leave+register+appliedLeave+appliedTransfer+transfer}</span>}
               </span>
             </Link>
           </p>
@@ -298,12 +351,12 @@ const Profile = () => {
             <label htmlFor="postal_code">
               IdentyCard No
               <input
-                type="number"
+                type="text"
                 name="ic_no"
                 id="ic_no"
                 value={user.ic_no}
                 onChange={handleChange}
-                placeholder="postal_code"
+                placeholder="Ic_no"
                 readOnly={readOnly}
                 />
             </label>
@@ -328,7 +381,7 @@ const Profile = () => {
                 type="text"
                 name="date_of_birth"
                 id="date_of_birth"
-                value={user.date_of_birth.substring(0,10)}
+                value={user.date_of_birth?.substring(0,10)}
                 onChange={handleChange}
                 placeholder="date_of_birth"
                 readOnly={readOnly}
@@ -356,11 +409,12 @@ const Profile = () => {
               type="button"
               value="Update"
               id="update"
+              className="bttn redbtn"
               onClick={handleUpdate}
               />
           </div>
           <div className=" logout-btn">
-            <input type="button" value="Logout" onClick={handleLogout} />
+            <input type="button" value="Logout" className="bttn ashbtn" onClick={handleLogout} />
           </div>
         </div>
         </div>

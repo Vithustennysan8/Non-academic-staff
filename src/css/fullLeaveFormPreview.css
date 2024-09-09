@@ -52,7 +52,7 @@
     color: orange;
     font-weight: bold;
 }
-.download-pdf-btn {
+.btn {
     margin: 20px 20px 10px 0;
     padding: 8px 15px;
     background-color: #007bff;
@@ -69,10 +69,29 @@
 }
 
 .approve{
-    background-color: green;
+    background-color: rgb(0, 164, 0);
+}
+.approve:hover{
+    background-color: rgb(0, 128, 0);
 }
 .reject{
     background-color: red;
 }
+.reject:hover{
+    background-color: rgb(218, 3, 3);
+}
 
-.leaveFlowContainer{}
+.description label{
+    color: rgb(222, 5, 5);
+}
+.description textarea{
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 5px 8px;
+    outline: none;
+}
+.approverContainer{
+    border-top: 3px dashed #7c7c7c;
+    margin-top: 20px;
+    padding-top: 20px;
+}

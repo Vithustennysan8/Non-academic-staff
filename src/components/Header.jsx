@@ -98,7 +98,7 @@ const Header = () => {
           </div>
         </> : <>
           <div className="header-login">
-            <button onClick={handleHeaderLogin}>Login</button>
+            <button className="bttn" onClick={handleHeaderLogin}>Login</button>
           </div>
         </>}
       </header>

@@ -16,7 +16,7 @@ const Signup = () => {
   const onSubmit = async (data) => {
 
     const formData = new FormData();
-    
+    // check the size of the image
     if(data.image){
       if(data.image > 1*1024*1024){
         alert("Image size should be less than 1MB");
@@ -34,12 +34,13 @@ const Signup = () => {
     }
 
     Object.keys(data).forEach(key => {
-      if(key !== "image" || key !== "date_of_birth"){
+      if( key === "email"){
+        formData.append(key, data[key].toLowerCase());
+      }
+      else if(key !== "image"){
         formData.append(key, data[key]);
       }
     })
-
-
 
     try {
       const response = await Axios.post("/auth/signup", formData);
@@ -125,16 +126,16 @@ const Signup = () => {
 
             <div className="half">
               <div className="firstname">
-                <label htmlFor="firstname">Firstname<span className="importantastrick"> *</span></label>
-                <input type="text" id="firstname" placeholder="fistname" name="first_name" {...register("first_name", {required:{
+                <label htmlFor="first_name">Firstname<span className="importantastrick"> *</span></label>
+                <input type="text" id="first_name" placeholder="first_name" name="first_name" {...register("first_name", {required:{
                   value:true,
                   message:"First name is required"
                 }})}/>
                 {errors.first_name && <span className="error">{errors.first_name.message}</span>}
               </div>
               <div className="lastname">
-                <label htmlFor="fistname">Lastname<span className="importantastrick"> *</span></label>
-                <input type="text" id="lastname" placeholder="lastname" name="last_name" {...register("last_name", {required :{
+                <label htmlFor="last_name">Lastname<span className="importantastrick"> *</span></label>
+                <input type="text" id="last_name" placeholder="last_name" name="last_name" {...register("last_name", {required :{
                   value:true,
                   message:"Last name is required"
                 }})} />
@@ -284,6 +285,7 @@ const Signup = () => {
                   message: "Job_type is required"
                 }})}>
                 <option value="">Select job type</option>
+                <option value="Head of the Department">Head of the Department</option>
                 <option value="Technical Officer">Technical Officer</option>
                 <option value="Management Assistant">Management Assistant</option>
                 <option value="Book Keeper">Book Keeper</option>
@@ -305,7 +307,7 @@ const Signup = () => {
                 <option value="">select one....</option>
                 <option value="USER">User</option>
                 <option value="ADMIN">Admin</option>
-                <option value="MANAGER">Manager</option>
+                <option value="SUPER_ADMIN">super_admin</option>
                 </select>
                 {errors.role && <span className="error">{errors.role.message}</span>}
                 </div>
@@ -361,7 +363,7 @@ const Signup = () => {
             </div>
 
             <div className="signup-submit-btn">
-              <input type="submit" value={"Submit"} />
+              <input type="submit" className="bttn redbtn" value={"Submit"} />
             </div>
 
           </form>

@@ -133,7 +133,7 @@ const Forum = () => {
         <h2>Non-Academic Forum</h2>
 
         { !forumPopup &&<div className="ForumAddBtn">
-            <button onClick={()=>setForumPopup(true)}>Add New Topic</button>
+            <button className="bttn ashbtn" onClick={()=>setForumPopup(true)}>Add New Topic</button>
         </div>}
         
         { forumPopup && <div  className='forumInputContainer'>
@@ -150,9 +150,9 @@ const Forum = () => {
                     { error.body && <p className="error">Body is required</p>}
                 </div>
  
-                { editBtn && <button className="forumFormSubmitbtn" onClick={handleUpdate}>Edit Forum</button>}
-                { !editBtn && <button className="forumFormSubmitbtn"  onClick={handleSubmit}>Add To Forum</button>}
-                <button className="forumFormCancelbtn" onClick={()=>setForumPopup(false)}>Cancel</button>
+                { editBtn && <button className="forumFormSubmitbtn bttn ashbtn" onClick={handleUpdate}>Edit Forum</button>}
+                { !editBtn && <button className="forumFormSubmitbtn bttn ashbtn"  onClick={handleSubmit}>Add To Forum</button>}
+                <button className="forumFormCancelbtn bttn redbtn" onClick={()=>setForumPopup(false)}>Cancel</button>
             </form>
         </div>
         }

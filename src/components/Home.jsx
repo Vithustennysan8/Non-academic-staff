@@ -14,6 +14,7 @@ const Home = () => {
   const {user, setUser} = useContext(UserContext);
   const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
   const [role, setRole] = useState("USER");
+  const [allLeaveFormRequests, setAllLeaveFormRequests] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -35,10 +36,20 @@ const Home = () => {
           setIsLoading(false);
         }
       };
+    
+      const getNotification = async () => {
+        try {
+          const response = await Axios.get("admin/leaveForms/notify");
+          setAllLeaveFormRequests(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
 
+      getNotification()
       getUserDetail();
     }, 600);
-  }, [setUser, isLogin, setIsLogin]);
+  }, [setUser, isLogin, setIsLogin, setAllLeaveFormRequests]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideInterval = useRef(null);
@@ -128,7 +139,7 @@ const Home = () => {
               { role === "ADMIN" && <div className="form-shortcut-container">
                 <div className="form-shortcuts">
                   <div className="form-shortcut">
-                    <div className="notifyCounts">4</div>
+                    {allLeaveFormRequests.length > 0 && <div className="notifyCounts">{allLeaveFormRequests.length}</div>}
                     <p>
                       <img
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"

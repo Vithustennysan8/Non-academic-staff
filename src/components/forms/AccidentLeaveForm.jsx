@@ -200,7 +200,7 @@ const AccidentLeaveForm = () => {
           {errors.compensation && <span className="error">{errors.compensation.message}</span>}
         </div>
 
-          <button type="submit">Submit</button>
+          <button type="submit" className="bttn redbtn">Submit</button>
       </form>
     </div>
   )

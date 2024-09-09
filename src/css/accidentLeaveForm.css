@@ -30,19 +30,12 @@
     font-size: 0.9rem;
 }
 .AccidentLeaveForm button{
-    padding: 6px 40px;
-    border-radius: 5px;
-    border: none;
     width: 200px;
-    background-color: rgb(185, 6, 6);
-    color: white;
     font-size: 0.9rem;
     margin: 20px auto 10px;
     display: block;
 }
-.AccidentLeaveForm button:hover{
-    background-color: rgb(145,5,5);
-}
+
 .complaint input, .complaint label{
     width: unset;
     display: unset;

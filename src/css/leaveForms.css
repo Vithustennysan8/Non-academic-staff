@@ -16,6 +16,7 @@
     padding: 5px 0;
 }
 .leaveApplicationSelection select{
+    cursor: pointer;
     padding: 7px 12px;
     border-radius: 7px;
     border: 1px solid #adadad;

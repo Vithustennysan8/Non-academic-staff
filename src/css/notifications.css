@@ -1,0 +1,61 @@
+.notifications{
+    display: grid;
+    grid-template-columns: minmax(10%, 300px) 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+        " requestsTap requests"
+    ;
+}
+.requestsTap{
+    grid-area: requestsTap;
+    background-color: rgb(176, 176, 176);
+    background-image: linear-gradient(60deg, #29323c 200%,#485563 100%);
+    padding: 50px 0;
+}
+.requestsTap button{
+    position: relative;
+    font-size: 1.3rem;
+    border: none;
+    background-color: rgb(176, 176, 176);
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 8px 0;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+.requestsTap button:hover{
+    background-color: rgb(119, 118, 118);
+}
+.requests{
+    grid-area: requests;
+}
+.requestCount{
+    font-size: 0.7rem;
+    color: white;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    background-color: red;
+    border-radius: 50%;
+    align-content: center;
+}
+
+@media (max-width: 768px) {
+    .notifications{
+        grid-template-columns: 1fr;
+        grid-template-rows:  1fr;
+        grid-template-areas: 
+            "requestsTap"
+            "requests"
+        ;
+    }
+    .requestsTap{
+        padding: 20px 0;
+        gap: 20px;
+    }
+}

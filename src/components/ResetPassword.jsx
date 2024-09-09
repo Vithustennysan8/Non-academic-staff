@@ -140,7 +140,7 @@ const ResetPassword = () => {
                         })}/>
                         {errors.confirm_new_password && <span className='error'>{errors.confirm_new_password.message}</span>}
                     </div>
-                    <button className="resetPassword_button" type='submit'>Change Password</button>
+                    <button className="resetPassword_button bttn redbtn" type='submit'>Change Password</button>
 
                 </form>
             </div>
@@ -156,7 +156,7 @@ const ResetPassword = () => {
                         <input type="password" placeholder="Current Password" id="PasswordForDelete" name='password_for_delete' value={reset.password_for_delete} onChange={handleChange}/>
                     </div>
                     <p className='deleteConfirmInfo'>Are you sure you want to delete your account?<span className='importantastrick'> *</span></p>
-                    <button className="deleteAccount_button" onClick={handleDelete}>Delete Account</button>
+                    <button className="deleteAccount_button bttn redbtn" onClick={handleDelete}>Delete Account</button>
                 </form>
 
             </div>
