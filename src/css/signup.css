@@ -95,14 +95,15 @@
     display: block;
     width: 100%;
 }
-.password, .confirmpassword, .appPassword{
+.show{
     position: relative;
 }
+
 .password img, .confirmpassword img, .appPassword img{
     position: absolute;
     width: 20px;
     right: 15px;
-    bottom: 22%;
+    bottom: 30%;
     cursor: pointer;
     opacity: 0.7;
 }

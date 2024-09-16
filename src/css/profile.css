@@ -172,6 +172,8 @@
   background-color: white;
   font-size: 1.1rem;
   outline: none;
+  padding: 3px;
+  border-radius: 8px;
 }
 .submit_btn{
   width: 100%;

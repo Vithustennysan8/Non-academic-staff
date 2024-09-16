@@ -42,8 +42,8 @@ const RegisterRequests = ({requests, setRequests}) => {
               <p><span className="highlight">Employee No:</span> {request.user.emp_id}</p>
               <p><span className="highlight">Job Type:</span> {request.user.job_type}</p>
               <p><span className="highlight">Requested to Register:</span> {request.user.createdAt}</p>
-              <button onClick={() => handleVerify(request.token)} className="view-more bttn ashbtn">View Details</button>
-              <button onClick={() => handleVerify(request.token)} className="verify bttn">Verify</button>
+              <button className="view-more bttn ashbtn">View Details</button>
+              <button onClick={() => handleVerify(request.token)} className="verify greenbtn bttn">Verify</button>
             </div>
           ))
         }

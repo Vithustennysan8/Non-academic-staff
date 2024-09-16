@@ -105,10 +105,7 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
     },
   ];
 
-  const departments =
-    faculties
-      .find((faculty) => faculty.faculty === selectedFaculty)
-      ?.department.split(", ") || [];
+  const departments = faculties.find((faculty) => faculty.faculty === selectedFaculty)?.department.split(", ") || [];
 
   const handleSingleForm = (id) => {
     setForm(Forms.find((form) => form.id === id));
@@ -136,21 +133,16 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
   return (
     <>
       <div className="RequestedForms">
-        <h1>Submitted Application</h1>
+        <h1>Requested Leave Forms</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="selection-area">
-            { user.role === "SUPER_ADMIN" && <> <div>
+            { user.job_type === "Dean" && <> <div>
               <label htmlFor="faculty">Faculty</label>
               <select
                 name="faculty"
                 id="faculty"
-                {...register("faculty", {
-                  required: {
-                    value: true,
-                    message: "Faculty is required",
-                  },
-                })}
+                {...register("faculty")}
                 onChange={(e) => setSelectedFaculty(e.target.value)}
               >
                 <option value="">select one....</option>
@@ -195,9 +187,7 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
               >
                 <option value="">Select a form type</option>
                 <option value="normalLeaveForm">Normal Leave</option>
-                <option value="sample">Sample</option>
-                <option value="Accident Leave">Accident Leave</option>
-                <option value="Normal Leave">Normal Leave</option>
+                <option value="accidentLeaveForm">Accident Leave</option>
                 <option value="Vacation Leave">Vacation Leave</option>
                 <option value="Overseas Leave">Overseas Leave</option>
                 <option value="Medical Leave">Medical Leave</option>

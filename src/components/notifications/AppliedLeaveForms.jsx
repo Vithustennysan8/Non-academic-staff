@@ -39,9 +39,9 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
             ) : (
                 <>
                     <div className="leaveFilterTaps">
-                        <button onClick={() => handleFilterChange('All')}>Applied Leave Forms</button>
-                        <button onClick={() => handleFilterChange('Accepted')}>Accepted Forms</button>
-                        <button onClick={() => handleFilterChange('Rejected')}>Rejected Forms</button>
+                        <button className='bttn ashbtn' onClick={() => handleFilterChange('All')}>Applied Leave Forms</button>
+                        <button className='bttn greenbtn' onClick={() => handleFilterChange('Accepted')}>Accepted Forms</button>
+                        <button className='bttn redbtn' onClick={() => handleFilterChange('Rejected')}>Rejected Forms</button>
                     </div>
 
                     <div className='ownLeaveForms'>

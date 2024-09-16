@@ -21,6 +21,8 @@ const Profile = () => {
   const [appliedLeave, setAppliedLeave] = useState(0);
   const [appliedTransfer, setAppliedTransfer] = useState(0);
   const [image, setImage] = useState('');
+  const [editProfile, setEditProfile] = useState(false);
+  const [outline, setOutline] = useState("2px solid #ccc");
 
 
   useEffect(() => {
@@ -123,6 +125,7 @@ const Profile = () => {
 
   // update the data to the database
   const handleUpdate = async () => {
+    setEditProfile(false);
 
     const formData = new FormData();
 
@@ -181,6 +184,7 @@ const Profile = () => {
                 document.getElementById("update").style.display = "block";
                 document.getElementById("date_of_birth").type = "date";
                 setReadOnly(false);
+                setEditProfile(true);
               }}
             >
               <span>
@@ -209,7 +213,7 @@ const Profile = () => {
                 <img
                   src="https://cdn-icons-png.flaticon.com/128/3602/3602123.png"
                   alt="icon3"
-                />
+                  />
                 Notification { (leave+register+transfer+appliedLeave+appliedTransfer) > 0 && <span className="notificationCount">{leave+register+appliedLeave+appliedTransfer+transfer}</span>}
               </span>
             </Link>
@@ -263,6 +267,7 @@ const Profile = () => {
                 required
                 readOnly={readOnly}
                 placeholder="firstname"
+                style={editProfile? {outline}:{}}
                 />
             </label>
             <label htmlFor="lastname">
@@ -276,6 +281,7 @@ const Profile = () => {
                 required
                 readOnly={readOnly}
                 placeholder="lastname"
+                style={editProfile? {outline}:{}}
                 />
             </label>
           </div>
@@ -295,6 +301,8 @@ const Profile = () => {
             <label htmlFor="phoneNumber">
               Phone Number
               <input
+                className={"outlineEffect"}
+                style={editProfile? {outline}:{}}
                 type="number"
                 name="phone_no"
                 id="phone_no"
@@ -316,6 +324,7 @@ const Profile = () => {
                 placeholder="streetAddress"
                 readOnly={readOnly}
                 required
+                style={editProfile? {outline}:{}}
                 />
             </label>
           </div>
@@ -331,6 +340,7 @@ const Profile = () => {
                 onChange={handleChange}
                 placeholder="postal_code"
                 readOnly={readOnly}
+                style={editProfile? {outline}:{}}
                 />
             </label>
             <label htmlFor="city">
@@ -343,6 +353,7 @@ const Profile = () => {
                 onChange={handleChange}
                 placeholder="city"
                 readOnly={readOnly}
+                style={editProfile? {outline}:{}}
                 />
             </label>
           </div>
@@ -358,6 +369,7 @@ const Profile = () => {
                 onChange={handleChange}
                 placeholder="Ic_no"
                 readOnly={readOnly}
+                style={editProfile? {outline}:{}}
                 />
             </label>
             <label htmlFor="city">
@@ -370,6 +382,7 @@ const Profile = () => {
                 onChange={handleChange}
                 placeholder="city"
                 readOnly={readOnly}
+                style={editProfile? {outline}:{}}
                 />
             </label>
           </div>
@@ -385,6 +398,7 @@ const Profile = () => {
                 onChange={handleChange}
                 placeholder="date_of_birth"
                 readOnly={readOnly}
+                style={editProfile? {outline}:{}}
                 />
             </label>
             <label htmlFor="job_type">

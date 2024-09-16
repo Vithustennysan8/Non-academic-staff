@@ -2,7 +2,6 @@ import { useState } from "react"
 import "../../css/leaveForms.css"
 import AccidentLeaveForm from "./AccidentLeaveForm"
 import NormalLeaveForm from "./NormalLeaveForm"
-import Sample from "../Sample"
 
 const LeaveForms = () => {
     const [form,setForm] = useState("NormalLeave");
@@ -30,7 +29,6 @@ const LeaveForms = () => {
 
       {form === "NormalLeave" && <NormalLeaveForm/>}
       {form === "AccidentLeave" && <AccidentLeaveForm/>}
-      {form === "VacationLeave" && <Sample/>}
     </>
   )
 }

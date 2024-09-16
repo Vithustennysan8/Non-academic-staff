@@ -28,13 +28,14 @@
 .verify, .view-more{
     margin: 12px 8px 6px 0;
 }
-.verify{
-    font-weight: 600;
+.greenbtn{
+    /* font-weight: 600; */
+    color: white;
     background: linear-gradient(145deg, #9dffa0, #00ff08)
 }
-.verify:hover{
+.greenbtn:hover{
     background: linear-gradient(145deg, #00ff08, #00ff08)
 }
-.verify:active{
+.greenbtn:active{
     background: linear-gradient(145deg, #00bc06, #00bc06)
 }

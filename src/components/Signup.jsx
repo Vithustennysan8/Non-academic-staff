@@ -150,7 +150,7 @@ const Signup = () => {
                   value:true,
                   message:"Date of birth is required"
                 }})}/>
-                  {errors.date_of_birth && <span className="error">{errors.date_of_birth}</span>}
+                  {errors.date_of_birth && <span className="error">{errors.date_of_birth.message}</span>}
               </div>
               <div className="gender">
                 <label htmlFor="gender">Gender</label>
@@ -177,15 +177,17 @@ const Signup = () => {
                 })}/>
                 {errors.email && <span className="error">{errors.email.message}</span>}
               </div>
-              <div className="appPassword">
+              {/* <div className="appPassword">
                 <label htmlFor="appPassword">App password for Email<span className="importantastrick"> *</span></label>
-                <img id="appPassimg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("appPassimg","appPassword")}/>
-                <input type="password" id="appPassword" placeholder="123456789" name="phone_no" {...register("app_password", {required:{
-                  value:true,
-                  message:"App password is required"
-                }})}/>
-                {errors.app_password && <span className="error">{errors.app_password}</span>}
-              </div>
+                <div className="show">
+                  <img id="appPassimg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("appPassimg","appPassword")}/>
+                  <input type="password" id="appPassword" placeholder="123456789" name="phone_no" {...register("app_password", {required:{
+                    value:true,
+                    message:"App password is required"
+                    }})}/>
+                </div>
+                  {errors.app_password && <span className="error">{errors.app_password.message}</span>}
+              </div> */}
             </div>
 
             {/* <div className="half">
@@ -199,32 +201,37 @@ const Signup = () => {
             <div className="half">
               <div className="password">
                 <label htmlFor="password">Password<span className="importantastrick"> *</span></label>
-                <img id="passimg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("passimg","password")}/>
-                <input type="password" id="password" placeholder="password" name="password" {...register("password", {required:{
-                  value:true,
-                  message:"Password is required"
-                },
-                pattern:{
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$]).{8,}$/ ,
-                  message:"Password is not valid"
-                }
-                })} size={8}/>
-              </div>
+                <div className="show">
+                  <img id="passimg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("passimg","password")}/>
+                  <input type="password" id="password" placeholder="password" name="password" {...register("password", {required:{
+                    value:true,
+                    message:"Password is required"
+                  },
+                  pattern:{
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$]).{8,}$/ ,
+                    message:"Password is not valid"
+                  }
+                  })} size={8}/>
+                </div>
                 {errors.password && <span className="error">{errors.password.message}</span>}
+              </div>
               <div className="confirmpassword">
                 <label htmlFor="confirmpassword">Confirm password<span className="importantastrick"> *</span></label>
-                <img id="confirmPassImg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("confirmPassImg","confirmpassword")}/>
-                <input type="password" id="confirmpassword" style={passwordError} placeholder="confirmpassword" name="confirmpassword" {...register("confirmpassword", {required:{
-                  value:true,
-                  message:"Confirm password is required"
-                },
-                pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$]).{8,}$/ ,
-                  message:"ConfirmPassword is not valid"
-                }
-                })} size={8}/>
-              </div>
+                <div className="show">
+                  <img id="confirmPassImg" src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png" alt="" title="show password" onClick={()=>handleVissiblePassword("confirmPassImg","confirmpassword")}/>
+                  <input type="password" id="confirmpassword" style={passwordError} placeholder="confirmpassword" name="confirmpassword" {...register("confirmpassword", {required:{
+
+                    value:true,
+                    message:"Confirm password is required"
+                  },
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$]).{8,}$/ ,
+                    message:"ConfirmPassword is not valid"
+                  }
+                  })} size={8}/>
+                </div>
                 {errors.confirmpassword && <span className="error">{errors.confirmpassword.message}</span>}
+              </div>
             </div>
 
             <div className="div">

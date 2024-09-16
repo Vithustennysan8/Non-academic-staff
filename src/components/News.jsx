@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import '../css/news.css'
 import NewsCards from "./NewsCards";
 import { useForm } from "react-hook-form";
 import { Axios } from "./AxiosReqestBuilder";
 import { format } from "date-fns";
+import { LoginContext } from "../Contexts/LoginContext";
 
 const News = ({role}) => {
+    const {isLogin} = useContext(LoginContext);
     const [news, setNews] = useState([]);
     const [showForm, setShowForm] = useState(false);
 
@@ -74,24 +76,36 @@ const News = ({role}) => {
             </div>
         </form>}
 
-
-        {news.map(news => {
-            const date = new Date(news.updatedAt);
-            const datePart = format(date, 'MMMM do, yyyy');
-            const timePart = format(date, 'hh:mm a');
-            
-            return(
+        {isLogin ? (
+            news.map(news => {
+                const date = new Date(news.updatedAt);
+                const datePart = format(date, 'MMMM do, yyyy');
+                const timePart = format(date, 'hh:mm a');
+                
+                return(
                 <NewsCards 
-                    role={role}
-                    key={news.id}
-                    heading={news.heading}
-                    body={news.body}
-                    date={datePart}
-                    time={timePart}
-                    user={news.user}
-                    handleDelete={()=>handleDelete(news.id)}
+                role={role}
+                key={news.id}
+                heading={news.heading}
+                body={news.body}
+                date={datePart}
+                time={timePart}
+                user={news.user}
+                handleDelete={()=>handleDelete(news.id)}
                 />)
-        })}
+        })):(
+            <div className="card">
+                <div className="noNews">
+                    <p className="card-head">{"Convacation"}</p>
+                    <div className="newsDateAndTime">
+                    <p className="newsDate">Date: {"23rd Aug, 2024"}</p>
+                    <p className="newsTime">Time: {"8.30 am"}</p>
+                    </div>
+                    <p className="card-body">{"Happy to share that, Our University convacation will happen......."}</p>
+                    <p className="reporter">by - {"Vice chanceller"}</p>
+                </div>
+            </div>
+        )}      
 
         </div>
   )

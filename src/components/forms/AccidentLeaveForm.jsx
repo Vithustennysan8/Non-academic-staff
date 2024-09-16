@@ -22,31 +22,20 @@ const AccidentLeaveForm = () => {
   const onSubmit = async (data) => {
     
     const formData = new FormData();
-    if(data.files){
-      formData.append('files', data.files[0]);
-    }
+    // if(data.files){
+    //   formData.append('files', data.files[0]);
+    // }
     
     Object.keys(data).forEach((key)=>{
-      if( key === 'leave_date' || key === 'job_start_date'){
-        formData.append(key, data[key].split('-').reverse().join('-'))
-      }
-      
-      if( key != "files" || key != 'leave_date' || key != 'job_start_date' ){
+      // if( key != "files" ){
         formData.append(key, data[key]);
-      }
+      // }
     })
     
     console.log(formData);
     
     try {
-      const response = await Axios.post("/auth/full_leave_form/send", formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${localStorage.getItem("token")}`
-          }
-        }
-      );
+      const response = await Axios.post("/auth/accidentLeaveForm/add", data);
       console.log(response);
       alert("form submitted successfully");
       naviagte("/forms");
@@ -78,39 +67,39 @@ const AccidentLeaveForm = () => {
         </div>
 
         <div className="input-group">
-          <label htmlFor="accidentDuring">The accident occurred during: </label>
-          <input type="text" name="accidentDuring" id="accidentDuring" {...register("accidentDuring", {required:{
+          <label htmlFor="accidentOccurredDuring">The accident occurred during: </label>
+          <input type="text" name="accidentOccurredDuring" id="accidentOccurredDuring" {...register("accidentOccurredDuring", {required:{
             value: true,
-            message: "Please enter accidentDuring"
+            message: "Please enter accidentOccurredDuring"
           }})} />
-          {errors.accidentDuring && <span className="error">{errors.accidentDuring.message}</span>}
+          {errors.accidentOccurredDuring && <span className="error">{errors.accidentOccurredDuring.message}</span>}
         </div>
 
         <div className="input-group">
-          <label htmlFor="dateAndTime">Date and time of the accident: </label>
-          <input type="datetime" name="dateAndTime" id="dateAndTime" {...register("dateAndTime", {required:{
+          <label htmlFor="DateAndTimeOfAccident">Date and time of the accident: </label>
+          <input type="datetime-local" name="DateAndTimeOfAccident" id="DateAndTimeOfAccident" {...register("DateAndTimeOfAccident", {required:{
             value: true,
-            message: "Please enter dateAndTime"
+            message: "Please enter DateAndTimeOfAccident"
           }})} />
-          {errors.dateAndTime && <span className="error">{errors.dateAndTime.message}</span>}
+          {errors.DateAndTimeOfAccident && <span className="error">{errors.DateAndTimeOfAccident.message}</span>}
         </div>
 
         <div className="input-group">
-          <label htmlFor="place">Place of accident: </label>
-          <input type="text" name="place" id="place" {...register("place", {required:{
+          <label htmlFor="placeOFAccident">PlaceOFAccident of accident: </label>
+          <input type="text" name="placeOFAccident" id="placeOFAccident" {...register("placeOFAccident", {required:{
             value: true,
-            message: "Please enter place"
+            message: "Please enter placeOFAccident"
           }})} />
-          {errors.place && <span className="error">{errors.place.message}</span>}
+          {errors.placeOFAccident && <span className="error">{errors.placeOFAccident.message}</span>}
         </div>
 
         <div className="input-group">
-          <label htmlFor="whileDuty">While performing any duty: </label>
-          <input type="text" name="whileDuty" id="whileDuty" {...register("whileDuty", {required:{
+          <label htmlFor="whilePerformingAnyDuty">While performing any duty: </label>
+          <input type="text" name="whilePerformingAnyDuty" id="whilePerformingAnyDuty" {...register("whilePerformingAnyDuty", {required:{
             value: true,
-            message: "Please enter whileDuty"
+            message: "Please enter whilePerformingAnyDuty"
           }})} />
-          {errors.whileDuty && <span className="error">{errors.whileDuty.message}</span>}
+          {errors.whilePerformingAnyDuty && <span className="error">{errors.whilePerformingAnyDuty.message}</span>}
         </div>
 
         <div className="input-group">
@@ -123,44 +112,44 @@ const AccidentLeaveForm = () => {
         </div>
 
         <div className="input-group">
-          <label htmlFor="inspecter">Name of the nearest person / officer who will inspect the accident: </label>
-          <input type="text" name="inspecter" id="inspecter" {...register("inspecter", {required:{
+          <label htmlFor="whoInspectTheAccident">Name of the nearest person / officer who will inspect the accident: </label>
+          <input type="text" name="whoInspectTheAccident" id="whoInspectTheAccident" {...register("whoInspectTheAccident", {required:{
             value: true,
-            message: "Please enter inspecter"
+            message: "Please enter whoInspectTheAccident"
           }})} />
-          {errors.inspecter && <span className="error">{errors.inspecter.message}</span>}
+          {errors.whoInspectTheAccident && <span className="error">{errors.whoInspectTheAccident.message}</span>}
         </div>
 
         <div className="input-group">
-          <label htmlFor="officer">The officer who informed immediately after the accident was the: </label>
-          <select name="officer" id="officer" {...register("officer", {required: {
+          <label htmlFor="whoInformedAfterAccident">The officer who informed immediately after the accident was the: </label>
+          <select name="whoInformedAfterAccident" id="whoInformedAfterAccident" {...register("whoInformedAfterAccident", {required: {
             value: true,
-            message: "Please select officer"
+            message: "Please select whoInformedAfterAccident"
           }})}>
             <option value="">Select</option>
             <option value="headOfTheDepartment">Head of the Department</option>
             <option value="Dean">Dean</option>
             <option value="SecurityOfficer">Security Officer</option>
           </select>
-          {errors.officer && <span className="error">{errors.officer.message}</span>}
+          {errors.whoInformedAfterAccident && <span className="error">{errors.whoInformedAfterAccident.message}</span>}
         </div>
 
         <div className="input-group">
-          <label htmlFor="referral">Referral for Treatment: </label>
-          <select name="referral" id="referral" {...register("referral", {required: {
+          <label htmlFor="referralForTreatment">Referral for Treatment: </label>
+          <select name="referralForTreatment" id="referralForTreatment" {...register("referralForTreatment", {required: {
             value: true,
-            message: "Please select referral"
+            message: "Please select referralForTreatment"
           }})}>
             <option value="">Select</option>
             <option value="Hospital">Hospital</option>
             <option value="UniversityMedicalCentre">University Medical Centre</option>
           </select>
-          {errors.referral && <span className="error">{errors.referral.message}</span>}
+          {errors.referralForTreatment && <span className="error">{errors.referralForTreatment.message}</span>}
         </div>
 
         <div className="input-group">
           <label htmlFor="dateAndTimeOfReport">Date and Time of Report to Hospital / Medical Centre: </label>
-          <input type="datetime" name="dateAndTimeOfReport" id="dateAndTimeOfReport" {...register("dateAndTimeOfReport", {required:{
+          <input type="datetime-local" name="dateAndTimeOfReport" id="dateAndTimeOfReport" {...register("dateAndTimeOfReport", {required:{
             value: true,
             message: "Please enter dateAndTimeOfReport"
           }})} />
@@ -168,36 +157,36 @@ const AccidentLeaveForm = () => {
         </div>
 
         <div className="input-group">
-          <label htmlFor="durationOfStay">Duration of hospital stay: </label>
-          <input type="number" name="durationOfStay" id="durationOfStay" {...register("durationOfStay", {required:{
+          <label htmlFor="durationOfHospitalStay">Duration of hospital stay: </label>
+          <input type="number" name="durationOfHospitalStay" id="durationOfHospitalStay" {...register("durationOfHospitalStay", {required:{
             value: true,
-            message: "Please enter durationOfStay"
+            message: "Please enter durationOfHospitalStay"
           }})} />
-          {errors.durationOfStay && <span className="error">{errors.durationOfStay.message}</span>}
+          {errors.durationOfHospitalStay && <span className="error">{errors.durationOfHospitalStay.message}</span>}
         </div>
 
         <div className="input-group complaint">
-          <label htmlFor="complint">In case of a road accident, whether a police complaint was made: </label>
+          <label htmlFor="isPoliceComplaint">In case of a road accident, whether a police complaint was made: </label>
           <p>( a copy of the police report / copy of the court order should be attached )</p>
           <div>
-            <input type="radio" name="complaint" id="yes"/>
+            <input type="radio" name="isPoliceComplaint" id="yes" {...register("isPoliceComplaint")}/>
             <label htmlFor="yes">Yes</label>
           </div>
           <div>
-            <input type="radio" name="complaint" id="no" />
+            <input type="radio" name="isPoliceComplaint" id="no" {...register("isPoliceComplaint")}/>
             <label htmlFor="no">No</label>
           </div>
-          {errors.durationOfStay && <span className="error">{errors.durationOfStay.message}</span>}
+          {errors.isPoliceComplaint && <span className="error">{errors.isPoliceComplaint.message}</span>}
           <input type="file"/>
         </div>
 
         <div className="input-group">
-          <label htmlFor="compensation">Whether to expect accident compensation: </label>
-          <input type="number" name="compensation" id="compensation" {...register("compensation", {required:{
+          <label htmlFor="expectAccidentCompensation">Whether to expect accident compensation: </label>
+          <input type="text" name="expectAccidentCompensation" id="expectAccidentCompensation" {...register("expectAccidentCompensation", {required:{
             value: true,
-            message: "Please enter compensation"
+            message: "Please enter expectAccidentCompensation"
           }})} />
-          {errors.compensation && <span className="error">{errors.compensation.message}</span>}
+          {errors.expectAccidentCompensation && <span className="error">{errors.expectAccidentCompensation.message}</span>}
         </div>
 
           <button type="submit" className="bttn redbtn">Submit</button>

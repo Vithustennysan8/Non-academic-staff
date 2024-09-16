@@ -73,7 +73,7 @@ const FormPreview = ({ application, approver, setForm }) => {
             return;
         }
         try{
-            const response = await Axios.put(`/admin/accept/${id}`, {user:approver.id,description});
+            const response = await Axios.put(`/admin/accept/${id}`, {user:approver.id,description, formType:application.formType});
             setForm({...response.data});
         }catch(error){
             console.error("Error accepting application:", error);
@@ -83,7 +83,7 @@ const FormPreview = ({ application, approver, setForm }) => {
 
     const handleReject = async (id) => {
         try{
-            const response = await Axios.put(`/admin/reject/${id}`, {user:approver.id,description});
+            const response = await Axios.put(`/admin/reject/${id}`, {user:approver.id,description,formType:application.formType});
             setForm({...response.data});
         }catch(error){
             console.error("Error rejecting application:", error);
@@ -227,6 +227,57 @@ const FormPreview = ({ application, approver, setForm }) => {
             {application.orderOfHead && <div className="review-row">
                 <div className="review-label">Order Of Head of the Department:</div>
                 <div className="review-value">{application.orderOfHead}</div>
+            </div>}
+
+                
+            {/* AcccidentLeaveForm */}
+            {application.accidentOccurredDuring && <div className="review-row">
+                <div className="review-label">The accident occurred during: </div>
+                <div className="review-value">{application.accidentOccurredDuring}</div>
+            </div>}
+            {application.DateAndTimeOfAccident && <div className="review-row">
+                <div className="review-label">Date and time of the accident: </div>
+                <div className="review-value">{application.DateAndTimeOfAccident}</div>
+            </div>}
+            {application.placeOFAccident && <div className="review-row">
+                <div className="review-label">PlaceOFAccident of accident: </div>
+                <div className="review-value">{application.placeOFAccident}</div>
+            </div>}
+            {application.whilePerformingAnyDuty && <div className="review-row">
+                <div className="review-label">While performing any duty: </div>
+                <div className="review-value">{application.whilePerformingAnyDuty}</div>
+            </div>}
+            {application.natureOfDanger && <div className="review-row">
+                <div className="review-label">Nature of danger: </div>
+                <div className="review-value">{application.natureOfDanger}</div>
+            </div>}
+            {application.whoInspectTheAccident && <div className="review-row">
+                <div className="review-label">Name of the nearest person / officer who will inspect the accident: </div>
+                <div className="review-value">{application.whoInspectTheAccident}</div>
+            </div>}
+            {application.whoInformedAfterAccident && <div className="review-row">
+                <div className="review-label">The officer who informed immediately after the accident was the: </div>
+                <div className="review-value">{application.whoInformedAfterAccident}</div>
+            </div>}
+            {application.referralForTreatment && <div className="review-row">
+                <div className="review-label">Referral for Treatment: </div>
+                <div className="review-value">{application.referralForTreatment}</div>
+            </div>}
+            {application.dateAndTimeOfReport && <div className="review-row">
+                <div className="review-label">Date and Time of Report to Hospital / Medical Centre: </div>
+                <div className="review-value">{application.dateAndTimeOfReport}</div>
+            </div>}
+            {application.durationOfHospitalStay && <div className="review-row">
+                <div className="review-label">Duration of hospital stay: </div>
+                <div className="review-value">{application.durationOfHospitalStay}</div>
+            </div>}
+            {application.isPoliceComplaint && <div className="review-row">
+                <div className="review-label">Police complaint was made: </div>
+                <div className="review-value">{application.isPoliceComplaint}</div>
+            </div>}
+            {application.expectAccidentCompensation && <div className="review-row">
+                <div className="review-label">Whether to expect accident compensation: </div>
+                <div className="review-value">{application.expectAccidentCompensation}</div>
             </div>}
 
 
