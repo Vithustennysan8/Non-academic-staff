@@ -13,6 +13,7 @@ const AccidentLeaveForm = () => {
     
   useEffect(()=>{
       if(!isLogin){
+        window.scrollTo({top:0, behavior:"smooth"})
         naviagte("/login");
       }
   },[naviagte, isLogin])

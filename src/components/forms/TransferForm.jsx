@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { LoginContext } from '../../Contexts/LoginContext';
 import { Axios } from '../AxiosReqestBuilder';
+import { UserContext } from '../../Contexts/UserContext';
 
 const TransferForm = () => {
     const naviagte = useNavigate();
     const {isLogin} = useContext(LoginContext);
+    const {user} = useContext(UserContext);
     
     useEffect(()=>{
         if(!isLogin){
@@ -61,38 +63,22 @@ const TransferForm = () => {
 
                     <div className="form-group">
                         <label htmlFor="name">Name:</label>
-                        <input type="text" id="name" name="name" {...register("name", {required: {
-                            value: true,
-                            message: "Name is required"
-                        }})} />
-                        {errors.name && <span className='error'>{errors.name.message}</span>}
+                        <p>{user.first_name}</p>
                     </div>
 
                     <div className="form-group label-inline">
                         <label htmlFor="EmpID">EmpID:</label>
-                        <input type="text" id="EmpID" name="empId" {...register("empId", {required: {
-                            value: true,
-                            message: "EmpID is required"
-                        }})} />
-                        {errors.emp_id && <span className='error'>{errors.emp_id.message}</span>}
+                        <p>{user.emp_id}</p>
                     </div>
 
                     <div className="form-group label-inline">
                         <label htmlFor="Facul">Faculty:</label>
-                        <input type="text" id="Facul" name="faculty" {...register("faculty", {required: {
-                            value: true,
-                            message: "Faculty is required"
-                        }})}/>
-                        {errors.faculty && <span className='error'>{errors.faculty.message}</span>}
+                        <p>{user.faculty}</p>
                     </div>
 
                     <div className="form-group label-inline">
                         <label htmlFor="Dept">Department:</label>
-                        <input type="text" id="Dept" name="department" {...register("department", {required: {
-                            value: true,
-                            message: "Department is required"
-                        }})} />
-                        {errors.department && <span className='error'>{errors.department.message}</span>}
+                        <p>{user.department}</p>
                     </div>
 
                     <div className="form-group label-inline">
@@ -183,7 +169,9 @@ const TransferForm = () => {
                         <input type="file" id="file" name="file" {...register('file')} />
                     </div>
 
-                    <button type="submit">Submit</button>
+                    <div className="deletebtn">
+                        <button type="submit" className='bttn redbtn'>Submit</button>
+                    </div>
                 </form>
             </div>
         </div>

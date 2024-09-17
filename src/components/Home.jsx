@@ -115,10 +115,10 @@ const Home = () => {
                 <div className="form-shortcuts">
                   <div className="form-shortcut">
                     <p>
-                      <img
+                      {/* <img
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
-                        />
+                        /> */}
                       <Link to="/forms">Apply for Leaves</Link>
                     </p>
                   </div>
@@ -126,10 +126,10 @@ const Home = () => {
                 <div className="form-shortcuts">
                   <div className="form-shortcut">
                     <p>
-                      <img
+                      {/* <img
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
-                        />
+                        /> */}
                       <Link to="/forms">Apply for Transfer</Link>
                     </p>
                   </div>
@@ -141,10 +141,10 @@ const Home = () => {
                   <div className="form-shortcut">
                     {allLeaveFormRequests.length > 0 && <div className="notifyCounts">{allLeaveFormRequests.length}</div>}
                     <p>
-                      <img
+                      {/* <img
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
-                        />
+                        /> */}
                       <Link to="/notifications">Requests for Leaves</Link>
                     </p>
                   </div>
@@ -153,10 +153,10 @@ const Home = () => {
                   <div className="form-shortcut">
                     <div className="notifyCounts">3</div>
                     <p>
-                      <img
+                      {/* <img
                         src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
                         alt=""
-                        />
+                        /> */}
                       <Link to="/forms">Requests for Transfers</Link>
                     </p>
                   </div>

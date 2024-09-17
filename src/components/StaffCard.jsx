@@ -1,10 +1,10 @@
 import "../css/staffcard.css";
 
 
-const Card = ({ photo, title, body }) => {
+const Card = ({user, photo, title, body, setSelectedUser }) => {
     
     return (
-        <div className="staff-card">
+        <div className="staff-card" onClick={()=>setSelectedUser(user)}> 
             <img src={photo}/>
             <h4>{title}</h4>
             <p>{body}</p>

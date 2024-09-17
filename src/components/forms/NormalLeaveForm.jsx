@@ -15,6 +15,7 @@ const NormalLeaveForm = () => {
     
   useEffect(()=>{
       if(!isLogin){
+        window.scrollTo({top:0, behavior:"smooth"})
         naviagte("/login");
       }
   },[naviagte, isLogin])
@@ -251,7 +252,7 @@ const NormalLeaveForm = () => {
                 </td>
               </tr>
 
-              <tr>
+              {/* <tr>
                 <td colSpan={4}>Order of Head of the Department</td>
                 <td colSpan={8}>
                   <textarea name="orderOfHead" rows="3" cols="30" {...register("orderOfHead", {required:{
@@ -260,7 +261,7 @@ const NormalLeaveForm = () => {
                   }})}/>
                   {errors.orderOfHead && <span className="error">{errors.orderOfHead.message}</span>}
                 </td>
-              </tr>
+              </tr> */}
 
             </tbody>
           </table>

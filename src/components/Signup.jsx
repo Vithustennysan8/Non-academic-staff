@@ -46,7 +46,7 @@ const Signup = () => {
       const response = await Axios.post("/auth/signup", formData);
 
       if(response.data === false){
-        alert("Email already exists");
+        alert("Email is already exists");
         setEmailError({border:"2px solid red"});
         return;
         }
@@ -56,7 +56,7 @@ const Signup = () => {
         Navigate("/login");
 
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -292,6 +292,7 @@ const Signup = () => {
                   message: "Job_type is required"
                 }})}>
                 <option value="">Select job type</option>
+                <option value="Dean">Dean</option>
                 <option value="Head of the Department">Head of the Department</option>
                 <option value="Technical Officer">Technical Officer</option>
                 <option value="Management Assistant">Management Assistant</option>

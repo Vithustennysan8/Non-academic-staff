@@ -4,9 +4,8 @@ import html2canvas from "html2canvas";
 import { Axios } from "../AxiosReqestBuilder";
 import { useEffect, useState } from "react";
 
-
 const FormPreview = ({ application, approver, setForm }) => {
-    const [formStatus, setFormStatus] = useState('pending');
+    const [formStatus, setFormStatus] = useState('');
     const [description, setDescription] = useState('');
 
     useEffect(()=>{
@@ -14,13 +13,14 @@ const FormPreview = ({ application, approver, setForm }) => {
             case "Head of the Department":
                 setFormStatus(application.approverOneStatus);
                 break;
-            case "Management Assistant":
+            case "Dean":
                 setFormStatus(application?.approverTwoStatus);
                 break;
             default:
                 break;
         }
     },[application, approver.job_type])
+
 
     const generatePDF = () => {
         const input = document.getElementById("pdfContent");
@@ -82,6 +82,11 @@ const FormPreview = ({ application, approver, setForm }) => {
     }
 
     const handleReject = async (id) => {
+        if(description === ''){
+            alert("Add description");
+            return;
+        }
+
         try{
             const response = await Axios.put(`/admin/reject/${id}`, {user:approver.id,description,formType:application.formType});
             setForm({...response.data});
@@ -102,67 +107,24 @@ const FormPreview = ({ application, approver, setForm }) => {
 
             <h2 className="review-header">{application.formType}</h2>
 
-            {application.name && <div className="review-row">
-                <div className="review-label">Name:</div>
-                <div className="review-value">{application.name}</div>
-            </div>}
-            { application.emp_id &&<div className="review-row">
-                <div className="review-label">Employee ID:</div>
-                <div className="review-value">{application.emp_id}</div>
-            </div>}
-            {application.faculty && <div className="review-row">
-                <div className="review-label">Faculty:</div>
-                <div className="review-value">{application.faculty}</div>
-            </div>}
-            { application.department && <div className="review-row">
-                <div className="review-label">Department:</div>
-                <div className="review-value">{application.department}</div>
-            </div>}
-            {application.job_start_date && <div className="review-row">
-                <div className="review-label">Job Start Date:</div>
-                <div className="review-value">{application.job_start_date?.substring(0,10)}</div>
-            </div>}
-            {application.duration && <div className="review-row">
-                <div className="review-label">Duration(hr):</div>
-                <div className="review-value">{application.duration}</div>
-            </div>}
-            {application.leave_type && <div className="review-row">
-                <div className="review-label">Leave Type:</div>
-                <div className="review-value">{application.leave_type}</div>
-            </div>}
-            {application.start_date && <div className="review-row">
-                <div className="review-label">Start Date:</div>
-                <div className="review-value">{application.start_date?.substring(0,10)}</div>
-            </div>}
-            {application.end_date && <div className="review-row">
-                <div className="review-label">End Date:</div>
-                <div className="review-value">{application.end_date?.substring(0,10)}</div>
-            </div>}
-            {application.acting && <div className="review-row">
-                <div className="review-label">Acting Personnel:</div>
-                <div className="review-value">{application.acting}</div>
-            </div>}
-            {application.experience && <div className="review-row">
-                <div className="review-label">Experience:</div>
-                <div className="review-value">{application.experience}</div>
-            </div>}
-            {application.preference1 && <div className="review-row">
-                <div className="review-label">Preference 1:                    </div>
-                <div className="review-value">{application.preference1}</div>
-            </div>}
-            {application.preference2 && <div className="review-row">
-                <div className="review-label">Preference 2:</div>
-                <div className="review-value">{application.preference2}</div>
-            </div>}
-            {application.preference3 && <div className="review-row">
-                <div className="review-label">Preference 3:</div>
-                <div className="review-value">{application.preference3}</div>
-            </div>}
+
 
             {/*  Normal Leave Form */}
             {application.user.first_name && <div className="review-row">
                 <div className="review-label">Applicant name:</div>
                 <div className="review-value">{application.user.first_name}</div>
+            </div>}
+            { application.user.emp_id &&<div className="review-row">
+                <div className="review-label">Employee ID:</div>
+                <div className="review-value">{application.user.emp_id}</div>
+            </div>}
+            {application.user.faculty && <div className="review-row">
+                <div className="review-label">Faculty:</div>
+                <div className="review-value">{application.user.faculty}</div>
+            </div>}
+            { application.user.department && <div className="review-row">
+                <div className="review-label">Department:</div>
+                <div className="review-value">{application.user.department}</div>
             </div>}
             {application.upfNo && <div className="review-row">
                 <div className="review-label">UPF no:</div>
@@ -285,16 +247,18 @@ const FormPreview = ({ application, approver, setForm }) => {
 
             {application.status && <div className="review-row">
                 <div className="review-label">Status:</div>
-                <div className={`review-value ${!application.status ? 'status-approved' : 'status-pending'}`}>
-                    {application.status === "accepted" ? "Approved" : "Pending"}
+                <div className={`review-value ${application.status === "Rejected" && 'status-rejected'} ${application.status === "Accepted" && 'status-approved'} ${application.status === "Pending" && 'status-pending'}`}>
+                    {application.status}
                 </div>
             </div>}
 
+            {/* This will show the form flow of the approvers depend on  the type of the
+            application */}
             <div className="approverContainer">
                 <div className="leaveFlowContainer">
                     {application.approverOneStatus && 
                         <div className="review-row">
-                            <div className="review-label">Approver1: </div> 
+                            <div className="review-label">Head of the Department: </div> 
                             <div className={`review-value ${application.approverOneStatus}`}>{application.approverOneStatus}</div>
                         </div>
                     }
@@ -307,7 +271,7 @@ const FormPreview = ({ application, approver, setForm }) => {
 
                     {application.approverTwoStatus && 
                         <div className="review-row">
-                            <div className="review-label">Approver2: </div> 
+                            <div className="review-label">Dean: </div> 
                             <div className="review-value">{application.approverTwoStatus}</div>
                         </div>
                     }
@@ -367,18 +331,14 @@ const FormPreview = ({ application, approver, setForm }) => {
             }
         </div>
         {/* <button onClick={downloadImage} className="download-pdf-btn">Download Image</button> */}
-        <div style={{
-            display: "flex",
-            justifyContent: "center",
-        }}>
-
+        <div className="buttonDiv">
             { formStatus === "pending" && approver.role === "ADMIN" &&
                 <>
-                <button onClick={() => handleAccept(application.id)} className=" btn approve">Approve</button>
-                <button onClick={() => handleReject(application.id)} className="btn reject">Reject</button>
+                <button onClick={() => handleAccept(application.id)} className=" bttn greenbtn">Approve</button>
+                <button onClick={() => handleReject(application.id)} className="bttn redbtn">Reject</button>
                 </>
             }
-            <button onClick={generatePDF} className="download-pdf-btn btn">Download</button>
+            <button onClick={generatePDF} className="download-pdf-btn bttn">Download</button>
         </div>
     </div>
     </>

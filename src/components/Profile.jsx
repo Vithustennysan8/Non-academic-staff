@@ -85,7 +85,7 @@ const Profile = () => {
         
         const fetchLeaveFormsApplied = async () => {
           try{
-            const response = await Axios.get("auth/normalLeaveForm/get");
+            const response = await Axios.get("auth/user/leaveForms");
           setAppliedTransfer(response.data.length);
         }catch(error){
           console.log("Error fetching appliedLeaveForms requests", error);

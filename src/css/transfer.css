@@ -27,7 +27,7 @@
     margin-bottom: 1px; 
 }
 
-#TransferForm input,#TransferForm select,#TransferForm textarea,#TransferForm button {
+#TransferForm input,#TransferForm select,#TransferForm textarea, #TransferForm p {
     width: 100%;
     padding: 8px 10px;
     margin-top: 5px;
@@ -36,16 +36,14 @@
     box-sizing: border-box;
 }
 
-#TransferForm button {
-    background-color: rgb(185, 6, 6);
-    border: none; 
-    cursor: pointer;
-    color: white;
+#TransferForm .deletebtn button {
+    width: 200px;
+}
+#TransferForm .deletebtn {
+    display: flex;
+    justify-content: center;    
 }
 
-#TransferForm button:hover {
-    background-color: rgb(148, 5, 5);
-}
 
 @media only screen and (max-width: 850px) {
     .transfer-container{

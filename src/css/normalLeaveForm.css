@@ -42,11 +42,12 @@
     margin-bottom: 5px;
 }
 
-#leaveForm input,#leaveForm select,#leaveForm textarea,#leaveForm button, #leaveForm p, #leaveForm th{
+#leaveForm input, #leaveForm select, #leaveForm textarea ,#leaveForm button, #leaveForm p, #leaveForm th{
     width: 100%;
     padding: 8px 10px;
     border: none;
     outline: none;
+    font-size: 0.9rem;
 }
 .radio div{
     width: 100px; 

@@ -69,8 +69,8 @@ const Notifications = () => {
         
         const fetchLeaveFormsApplied = async () => {
           try{
-            const response = await Axios.get("auth/normalLeaveForm/get");
-          setAppliedLeaveForms(response.data);
+            const response = await Axios.get("auth/user/leaveForms");
+            setAppliedLeaveForms(response.data);
         }catch(error){
           console.log("Error fetching appliedLeaveForms requests", error);
         }}

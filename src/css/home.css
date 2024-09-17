@@ -79,19 +79,24 @@ body{
     width: 100%;
     padding: 5px;
     height: 100px;
-    border-radius: 12px;
-    border-left: 5px solid #ff0000;
-    border-right: 5px solid #ff0000;
-    box-shadow: 4px 4px 8px #606060;
+    border-radius: 8px;
+    /* border-left: 5px solid #ff0000; */
+    /* border-right: 5px solid #ff0000; */
+    box-shadow: 4px 4px 8px #c9c9c9;
+    border: 1px solid #ccc;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(180deg , #8b8b8b,#f1f1f1,#b8b8b8) ;
+    /* background: linear-gradient(180deg , #8b8b8b,#f1f1f1,#b8b8b8) ; */
+    background-color: white;
     margin-bottom: 45px;
     font-size: 1.7rem;
-    transition: border-left 0.5s ease-in-out, border-right 0.5s ease-in-out;
+    /* transition: border-left 0.5s ease-in-out, border-right 0.5s ease-in-out; */
     position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
 }
+
 .notifyCounts{
     position: absolute;
     width:25px;
@@ -106,10 +111,12 @@ body{
     justify-content: center;
     align-items: center;
     border: 2locapx solid white;
+    
 }
 .form-shortcuts:hover{
-    border-left: 25px solid #d60101;
-    border-right: 25px solid #d60101;
+    /* border-left: 25px solid #d60101; */
+    /* border-right: 25px solid #d60101; */
+    transform: scale(1.05);
 }
 .form-shortcut{
     text-align: center;
@@ -123,6 +130,14 @@ body{
     text-decoration: none;
     color: rgb(220, 0, 0);
     font-weight: 600;
+    animation: zoomInOut 2s infinite linear;
+}
+@keyframes zoomInOut{
+    from{
+        font-size: 1.4rem;
+    }to{
+        font-size: 1.8rem;
+    }
 }
 .form-shortcut a:hover{
     color: black;

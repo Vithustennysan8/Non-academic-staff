@@ -12,6 +12,7 @@ const SideNav = ({ isOpen, toggleNav }) => {
       <Link to="/forms" onClick={toggleNav}>Forms</Link>
       <Link to="/forum" onClick={toggleNav}>Forum</Link>
       <Link to="/contact" onClick={toggleNav}>Contact</Link>
+      <Link to="/profile" onClick={toggleNav}>Profile</Link>
     </div>
   );
 };

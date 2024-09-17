@@ -12,16 +12,16 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
     // Memoize filtered forms based on the selected filter
     const filteredForms = useMemo(() => {
         if (filter === 'Accepted') {
-            return appliedLeaveForms.filter((form) => form.status === 'accepted');
+            return appliedLeaveForms.filter((form) => form.status === 'Accepted');
         } else if (filter === 'Rejected') {
-            return appliedLeaveForms.filter((form) => form.status === 'rejected');
+            return appliedLeaveForms.filter((form) => form.status === 'Rjected');
         }
         return appliedLeaveForms;
     }, [appliedLeaveForms, filter]);
 
     // Handle form selection for preview
-    const handleSingleForm = (id) => {
-        const selectedForm = appliedLeaveForms.find((form) => form.id === id);
+    const handleSingleForm = (id, formType) => {
+        const selectedForm = appliedLeaveForms.find((form) => form.id === id && form.formType === formType);
         setForm(selectedForm);
     };
 
@@ -58,7 +58,7 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
                                     <li
                                         key={form.id}
                                         style={{ listStyle: "none" }}
-                                        onClick={() => handleSingleForm(form.id)}
+                                        onClick={() => handleSingleForm(form.id, form.formType)}
                                     >
                                         <FormReqTap form={form} />
                                     </li>

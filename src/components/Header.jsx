@@ -84,17 +84,22 @@ const Header = () => {
           <p>
             <Link to="/contact">Contact</Link>
           </p>
+          <p>
+            <Link to="/profile">Profile</Link>
+          </p>
         </div>
 
         {isLogin ? <>
           <div className="header-profile">
             <p className="username">{user.first_name}</p>
-            <Link to="/profile">
-              <img
-                src={src}
-                alt="Profile-image"
-              />
-            </Link>
+            <div>
+              <Link to="/profile">
+                <img
+                  src={src}
+                  alt="Profile-image"
+                  />
+              </Link>
+            </div>
           </div>
         </> : <>
           <div className="header-login">

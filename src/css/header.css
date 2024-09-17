@@ -42,17 +42,22 @@
     justify-content: space-evenly;
 }
 .nav p{
-    width: 100px;
+    /* width: 100px; */
     text-align: end;
+    transition: transform 0.3s ease;
+}
+.nav p:hover{
+    transform: scale(1.05);
 }
 .nav a{
     color: white;
     text-decoration: none;
-    font-size: 1.2rem;
-    transition: color 0.4s;
+    font-size: 1.1rem;
+    transition: color 0.3s;
 }
 .nav p a:hover{
-    color: rgba(0, 0, 0, 0.808);
+    /* color: rgba(0, 0, 0, 0.808); */
+    color: #f7f7f7;
     font-weight: 600;
 }
 .nav p a:active{
@@ -92,12 +97,19 @@
     align-items: center;
     gap: 5px;
     margin-right: 10px;
+    height: 30px;
+}
+.header-profile div{
+    height: 100%;
 }
 .header-profile img{
     width: 30px;
     height: 30px;
     border-radius: 50%;
     object-fit: cover;
+}
+.header-profile img:hover{
+    border: 2px solid rgb(255, 255, 255);
 }
 .username{
     color: white;

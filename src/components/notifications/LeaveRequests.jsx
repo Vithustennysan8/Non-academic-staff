@@ -28,12 +28,9 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
   const onSubmit = async (data) => {
     setShowForm(false);
     const { faculty, department, formType } = data;
-
+    
     try {
-      const response = await Axios.post(`/admin/req/${formType}`, {
-        faculty,
-        department,
-      });
+      const response = await Axios.post(`/admin/req/${formType}`, {faculty,department,});
       setForms(response.data);
       setIsAllNotificationsOpen(false);
       setAll(false);
@@ -43,7 +40,7 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
   };
 
   const { register, handleSubmit, formState: {errors} } = useForm();
-  const [selectedFaculty, setSelectedFaculty] = useState("");
+  const [selectedFaculty, setSelectedFaculty] = useState(user.faculty);
 
   const faculties = [
     {
@@ -112,8 +109,8 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
     setShowForm(true);
   };
 
-  const handleSingleLeaveRequestForm = (id) => {
-    setRequestForm(allLeaveFormRequests.find((form) => form.id === id));
+  const handleSingleLeaveRequestForm = (id, formType) => {
+    setRequestForm(allLeaveFormRequests.find((form) => form.id === id && form.formType === formType));
     setAll(true);
     setIsAllNotificationsOpen(false);
   };
@@ -137,7 +134,8 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="selection-area">
-            { user.job_type === "Dean" && <> <div>
+        {user.job_type === "VC" &&
+             <div>
               <label htmlFor="faculty">Faculty</label>
               <select
                 name="faculty"
@@ -156,7 +154,9 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
                 <span className="error">{errors.faculty.message}</span>
               )}
             </div>
+          }
 
+          { user.job_type === "Dean" &&
             <div>
               <label htmlFor="department">Department</label>
               <select
@@ -171,7 +171,7 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
                   </option>
                 ))}
               </select>
-            </div> </>}
+            </div>}
 
             <div>
               <label htmlFor="">Form type</label>
@@ -245,7 +245,7 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
             {allLeaveFormRequests.map((request, index) => (
               <div
                 key={index}
-                onClick={() => handleSingleLeaveRequestForm(request.id)}
+                onClick={() => handleSingleLeaveRequestForm(request.id, request.formType)}
               >
                 <FormReqTap form={request} />
               </div>
