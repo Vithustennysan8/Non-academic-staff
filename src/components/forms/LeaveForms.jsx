@@ -1,5 +1,5 @@
 import { useState } from "react"
-import "../../css/leaveForms.css"
+import "../../css/Forms/leaveForms.css"
 import AccidentLeaveForm from "./AccidentLeaveForm"
 import NormalLeaveForm from "./NormalLeaveForm"
 

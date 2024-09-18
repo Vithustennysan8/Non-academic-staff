@@ -1,4 +1,4 @@
-import "../../css/appliedTransferForms.css"
+import "../../css/Notifications/appliedTransferForms.css"
 
 const AppliedTransferForms = () => {
   return (

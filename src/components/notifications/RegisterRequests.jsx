@@ -1,5 +1,5 @@
 import { useState } from "react"
-import "../../css/registerRequests.css"
+import "../../css/Notifications/registerRequests.css"
 import { Axios } from "../AxiosReqestBuilder"
 
 const RegisterRequests = ({requests, setRequests}) => {

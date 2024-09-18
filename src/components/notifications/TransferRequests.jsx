@@ -1,4 +1,4 @@
-import "../../css/transferRequests.css"
+import "../../css/Notifications/transferRequests.css"
 
 const TransferRequests = () => {
   return (

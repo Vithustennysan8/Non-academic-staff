@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import FormPreview from "../forms/FormPreview";
 import { useForm } from "react-hook-form";
-import "../../css/requestedForms.css";
-import FormReqTap from "../Admin/FormReqTap";
+import "../../css/Notifications/requestedForms.css";
+import FormReqTap from "./FormReqTap";
 import { Axios } from "../AxiosReqestBuilder";
 import { UserContext } from "../../Contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../Contexts/LoginContext";
 
-const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
+const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
   const navigate = useNavigate();
   const { isLogin } = useContext(LoginContext);
   const [Forms, setForms] = useState([]);
@@ -28,9 +28,12 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
   const onSubmit = async (data) => {
     setShowForm(false);
     const { faculty, department, formType } = data;
-    
+
     try {
-      const response = await Axios.post(`/admin/req/${formType}`, {faculty,department,});
+      const response = await Axios.post(`/admin/req/${formType}`, {
+        faculty,
+        department,
+      });
       setForms(response.data);
       setIsAllNotificationsOpen(false);
       setAll(false);
@@ -39,7 +42,11 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
     }
   };
 
-  const { register, handleSubmit, formState: {errors} } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [selectedFaculty, setSelectedFaculty] = useState(user.faculty);
 
   const faculties = [
@@ -102,7 +109,10 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
     },
   ];
 
-  const departments = faculties.find((faculty) => faculty.faculty === selectedFaculty)?.department.split(", ") || [];
+  const departments =
+    faculties
+      .find((faculty) => faculty.faculty === selectedFaculty)
+      ?.department.split(", ") || [];
 
   const handleSingleForm = (id) => {
     setForm(Forms.find((form) => form.id === id));
@@ -110,7 +120,11 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
   };
 
   const handleSingleLeaveRequestForm = (id, formType) => {
-    setRequestForm(allLeaveFormRequests.find((form) => form.id === id && form.formType === formType));
+    setRequestForm(
+      allLeaveFormRequests.find(
+        (form) => form.id === id && form.formType === formType
+      )
+    );
     setAll(true);
     setIsAllNotificationsOpen(false);
   };
@@ -134,44 +148,45 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="selection-area">
-        {user.job_type === "VC" &&
-             <div>
-              <label htmlFor="faculty">Faculty</label>
-              <select
-                name="faculty"
-                id="faculty"
-                {...register("faculty")}
-                onChange={(e) => setSelectedFaculty(e.target.value)}
-              >
-                <option value="">select one....</option>
-                {faculties.map((faculty, index) => (
-                  <option key={index} value={faculty.faculty}>
-                    {faculty.faculty}
-                  </option>
-                ))}
-              </select>
-              {errors.faculty && (
-                <span className="error">{errors.faculty.message}</span>
-              )}
-            </div>
-          }
+            {user.job_type === "VC" && (
+              <div>
+                <label htmlFor="faculty">Faculty</label>
+                <select
+                  name="faculty"
+                  id="faculty"
+                  {...register("faculty")}
+                  onChange={(e) => setSelectedFaculty(e.target.value)}
+                >
+                  <option value="">select one....</option>
+                  {faculties.map((faculty, index) => (
+                    <option key={index} value={faculty.faculty}>
+                      {faculty.faculty}
+                    </option>
+                  ))}
+                </select>
+                {errors.faculty && (
+                  <span className="error">{errors.faculty.message}</span>
+                )}
+              </div>
+            )}
 
-          { user.job_type === "Dean" &&
-            <div>
-              <label htmlFor="department">Department</label>
-              <select
-                id="department"
-                name="department"
-                {...register("department")}
-              >
-                <option value="">select one....</option>
-                {departments.map((department, index) => (
-                  <option key={index} value={department}>
-                    {department}
-                  </option>
-                ))}
-              </select>
-            </div>}
+            {user.job_type === "Dean" && (
+              <div>
+                <label htmlFor="department">Department</label>
+                <select
+                  id="department"
+                  name="department"
+                  {...register("department")}
+                >
+                  <option value="">select one....</option>
+                  {departments.map((department, index) => (
+                    <option key={index} value={department}>
+                      {department}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div>
               <label htmlFor="">Form type</label>
@@ -198,12 +213,18 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
                 <option value="Sabbatical Leave">Sabbatical Leave</option>
                 <option value="Paternal Leave">Paternal Leave</option>
               </select>
-              {errors.formType && <span className="error">{errors.formType.message}</span>}
+              {errors.formType && (
+                <span className="error">{errors.formType.message}</span>
+              )}
             </div>
           </div>
 
           <div className="search-btn">
-            <input type="submit" className="bttn redbtn" value="Get the Filtered Forms" />
+            <input
+              type="submit"
+              className="bttn redbtn"
+              value="Get the Filtered Forms"
+            />
           </div>
           <div className="allLeaveRequest-btn">
             <input
@@ -230,22 +251,24 @@ const RequestedForms = ({allLeaveFormRequests, setAllLeaveFormRequests}) => {
           </ul>
         )}
         {showForm && !isAllNotificationsOpen && (
-          <FormPreview
-            application={Form}
-            approver={user}
-            setForm={setForm}
-          />
+          <FormPreview application={Form} approver={user} setForm={setForm} />
         )}
 
         {/* All leave Notifications */}
         {isAllNotificationsOpen && (
           <div className="allNotifications">
-            {allLeaveFormRequests.length > 0 ? <h2>All Notifications</h2> : <p>No LeaveForms Found.......</p>}
+            {allLeaveFormRequests.length > 0 ? (
+              <h2>All Notifications</h2>
+            ) : (
+              <p>No LeaveForms Found.......</p>
+            )}
 
             {allLeaveFormRequests.map((request, index) => (
               <div
                 key={index}
-                onClick={() => handleSingleLeaveRequestForm(request.id, request.formType)}
+                onClick={() =>
+                  handleSingleLeaveRequestForm(request.id, request.formType)
+                }
               >
                 <FormReqTap form={request} />
               </div>

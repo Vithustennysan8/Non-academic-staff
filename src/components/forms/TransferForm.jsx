@@ -1,5 +1,5 @@
 import  { useContext, useEffect } from 'react';
-import '../../css/transfer.css'; 
+import '../../css/Forms/transfer.css'; 
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { LoginContext } from '../../Contexts/LoginContext';

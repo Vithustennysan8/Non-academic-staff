@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import "../../css/normalLeaveForm.css";
+import "../../css/Forms/normalLeaveForm.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { LoginContext } from "../../Contexts/LoginContext";
