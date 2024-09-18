@@ -13,7 +13,7 @@ import Forum from "./components/Forum";
 import Contact from "./components/Contact";
 import { useEffect, useState } from "react";
 import ResetPassword from "./components/ResetPassword";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/Dashboard/Dashboard";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { LoginContext } from "./Contexts/LoginContext";

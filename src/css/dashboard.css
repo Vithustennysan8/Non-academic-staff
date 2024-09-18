@@ -16,7 +16,6 @@
     padding-left: 10px;
     font-weight: 600;
 }
-
 .dashboard-card {
     background-color: #f8f9fa;
     transition: transform 0.3s, box-shadow 0.3s;
@@ -29,7 +28,6 @@
     text-align: center;
     cursor: pointer;
 }
-
 .dashboard-card:hover {
     transform: translatex(-7px);
     box-shadow: 0 8px 13px rgba(0, 0, 0, 0.229);
@@ -43,3 +41,23 @@
 .dashboard-card p {
     color: #6c757d;
 }
+
+.dashboard-controls {
+    display: flex;
+    justify-content: space-evenly;
+    padding-left: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+  
+.filter-dropdown {
+    padding: 8px;
+    font-size: 14px;
+}
+  
+.search-bar {
+    padding: 8px;
+    font-size: 14px;
+    width: 200px;
+}
+  
