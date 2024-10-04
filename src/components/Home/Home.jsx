@@ -19,9 +19,8 @@ const Home = () => {
   const [allLeaveFormRequests, setAllLeaveFormRequests] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      const getUserDetail = async () => {
-        if (isLogin) {
+    const getUserDetail = async () => {
+      if (isLogin) {
           setIsLogin(true);
           try {
             const response = await Axios.get("/auth/user/info");
@@ -49,9 +48,10 @@ const Home = () => {
           console.log(error);
         }
       };
-
+      
       getNotification();
       getUserDetail();
+      setTimeout(() => {
     }, 600);
   }, [setUser, isLogin, setIsLogin, setAllLeaveFormRequests]);
 

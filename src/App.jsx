@@ -29,6 +29,8 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
+    // document.addEventListener("contextmenu", (event)=>{event.preventDefault()})
+
     setInterval(() => {
       // console.log("token: "+token);
       if (localStorage.getItem("token")) {

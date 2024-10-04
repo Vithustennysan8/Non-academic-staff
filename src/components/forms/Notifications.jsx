@@ -123,21 +123,25 @@ const Notifications = () => {
               </>
             )}
 
-            <button onClick={() => setRequest("AppliedLeaveForms")}>
-              Applied Leave Forms
-              {appliedLeaveForms.length > 0 && (
-                <span className="requestCount">{appliedLeaveForms.length}</span>
-              )}
-            </button>
+            { user.role === "USER" && <>
+            
+              <button onClick={() => setRequest("AppliedLeaveForms")}>
+                Applied Leave Forms
+                {appliedLeaveForms.length > 0 && (
+                  <span className="requestCount">{appliedLeaveForms.length}</span>
+                )}
+              </button>
 
-            <button onClick={() => setRequest("AppliedTransferForms")}>
-              Applied Transfer Forms
-              {appliedTransferForms.length > 0 && (
-                <span className="requestCount">
-                  {appliedTransferForms.length}
-                </span>
-              )}
-            </button>
+              <button onClick={() => setRequest("AppliedTransferForms")}>
+                Applied Transfer Forms
+                {appliedTransferForms.length > 0 && (
+                  <span className="requestCount">
+                    {appliedTransferForms.length}
+                  </span>
+                )}
+              </button>
+
+            </> }
           </div>
 
           <div className="requests">

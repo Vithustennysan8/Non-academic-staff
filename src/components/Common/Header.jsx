@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "../../css/Common/header.css";
 import SideNav from "./SideNav";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,9 +11,32 @@ const Header = () => {
 
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const [src, setSrc] = useState(
-    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
-  );
+  const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
+  const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+  const sideNavRef = useRef(null);
+  const sideNavImg = useRef(null);
+
+  useEffect(() => {
+    const handleClick = (event) => {
+      if( sideNavRef.current && !event.composedPath().includes(sideNavRef.current) && !event.composedPath().includes(sideNavImg.current)){
+        setIsSideNavOpen(false);
+      }
+    }
+    
+    const handleEscape = (event) => {
+      if(event.code === "Escape" || event.keyCode === 27){
+        setIsSideNavOpen(false);
+      }
+    }
+
+    document.body.addEventListener("click", handleClick);
+    document.addEventListener("keydown", handleEscape)
+
+    return ()=>{
+      document.removeEventListener("click", handleClick);
+      document.removeEventListener("keydown", handleEscape)
+    }
+  }, [])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,7 +64,6 @@ const Header = () => {
     getUserDetail();
   }, [user.image_data, user.image_type, isLogin, setIsLogin, setUser]);
 
-  const [isSideNavOpen, setIsSideNavOpen] = useState(false);
 
   const toggleSideNav = () => {
     setIsSideNavOpen(!isSideNavOpen);
@@ -71,26 +93,12 @@ const Header = () => {
         </div>
 
         <div className="nav">
-          <p>
-            <Link to={"/"}>Home</Link>
-          </p>
-          { isLogin &&
-          <p>
-            <Link to="/staffs">Staffs</Link>
-          </p>
-          }
-          <p>
-            <Link to="/forms">Forms</Link>
-          </p>
-          <p>
-            <Link to="/forum">Forum</Link>
-          </p>
-          <p>
-            <Link to="/contact">Contact</Link>
-          </p>
-          <p>
-            <Link to="/profile">Profile</Link>
-          </p>
+          <p><Link to={"/"}>Home</Link></p>
+          { isLogin && <p><Link to="/staffs">Staffs</Link></p>}
+          { user.role === "USER" && <p><Link to="/forms">Applications</Link></p>}
+          { isLogin && <p><Link to="/forum">Forum</Link></p> }
+          <p><Link to="/contact">Contact</Link></p>
+          <p><Link to="/profile">Profile</Link></p>
         </div>
 
         {isLogin ? (
@@ -116,14 +124,14 @@ const Header = () => {
       </header>
 
       {/* Side Navbar buttton and component */}
-      <button id="side-nav-btn" onClick={toggleSideNav}>
+      <button ref={sideNavImg} id="side-nav-btn" onClick={toggleSideNav}>
         <img
           id="side-nav-img"
           src="https://uxwing.com/wp-content/themes/uxwing/download/arrow-direction/chevron-direction-left-round-outline-icon.png"
           alt=""
         />
       </button>
-      <SideNav isOpen={isSideNavOpen} toggleNav={toggleSideNav} />
+      <SideNav refFunc={sideNavRef} isOpen={isSideNavOpen} toggleNav={toggleSideNav} />
     </>
   );
 };

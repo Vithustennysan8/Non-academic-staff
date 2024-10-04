@@ -50,9 +50,9 @@ const Contact = () => {
                 email={"registrar@pdn.ac.lk / registrar@gs.pdn.ac.lk"}
               />
             </div>
-            <div className="contact-info">
+            {/* <div className="contact-info">
               <h3>More Staffs......</h3>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
