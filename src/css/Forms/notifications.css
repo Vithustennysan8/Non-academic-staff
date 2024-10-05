@@ -53,6 +53,7 @@
             "requestsTap"
             "requests"
         ;
+        overflow: auto;
     }
     .requestsTap{
         padding: 10px 0;

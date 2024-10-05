@@ -48,7 +48,7 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
               Applied Leave Forms
             </button>
             <button
-              className="bttn greenbtn"
+              className="bttn ashbtn"
               onClick={() => handleFilterChange("Accepted")}
             >
               Accepted Forms

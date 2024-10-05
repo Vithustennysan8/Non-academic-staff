@@ -77,12 +77,12 @@ const AccidentLeaveForm = () => {
         </div>
 
         <div className="input-group">
-          <label htmlFor="DateAndTimeOfAccident">Date and time of the accident: </label>
-          <input type="datetime-local" name="DateAndTimeOfAccident" id="DateAndTimeOfAccident" {...register("DateAndTimeOfAccident", {required:{
+          <label htmlFor="dateAndTimeOfAccident">Date and time of the accident: </label>
+          <input type="datetime-local" name="dateAndTimeOfAccident" id="dateAndTimeOfAccident" {...register("dateAndTimeOfAccident", {required:{
             value: true,
             message: "Please enter DateAndTimeOfAccident"
           }})} />
-          {errors.DateAndTimeOfAccident && <span className="error">{errors.DateAndTimeOfAccident.message}</span>}
+          {errors.dateAndTimeOfAccident && <span className="error">{errors.dateAndTimeOfAccident.message}</span>}
         </div>
 
         <div className="input-group">

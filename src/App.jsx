@@ -8,7 +8,6 @@ import Staffs from "./components/Staff_page/Staffs";
 import FullLeaveForm from "./components/forms/NormalLeaveForm";
 import HalfLeaveForm from "./components/forms/AccidentLeaveForm";
 import TransferForm from "./components/forms/TransferForm";
-import Subtitute from "./components/forms/Subtitute";
 import Forum from "./components/Forum_page/Forum";
 import Contact from "./components/Contact_page/Contact";
 import { useEffect, useState } from "react";
@@ -27,8 +26,6 @@ function App() {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     // document.addEventListener("contextmenu", (event)=>{event.preventDefault()})
 
     setInterval(() => {
@@ -65,8 +62,8 @@ function App() {
           localStorage.removeItem("token");
         }
       } else {
-        console.log("Err token: " + token);
         console.log("No token found");
+        // window.location.href = "/login";
       }
     }, 60000);
   }, [isLogin]);
@@ -88,7 +85,6 @@ function App() {
               <Route path="/fullLeaveForm" element={<FullLeaveForm />} />
               <Route path="/halfLeaveForm" element={<HalfLeaveForm />} />
               <Route path="/transferForm" element={<TransferForm />} />
-              <Route path="/subtitute" element={<Subtitute />} />
               <Route path="/forum" element={<Forum />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/resetPassword" element={<ResetPassword />} />

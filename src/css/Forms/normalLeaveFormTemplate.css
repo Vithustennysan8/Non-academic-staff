@@ -1,0 +1,45 @@
+.normalLeaveTemplate-container{
+    overflow: auto;
+}
+.normalLeaveTemplate-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.normalLeaveTemplate-container table{
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #000000;
+    background-color: white;
+    font-size: 0.9rem;
+}
+.normalLeaveTemplate-container input[type = "date"]{
+    background-color: white;
+}
+
+.normalLeaveTemplate-container td{
+    padding: 0 5px ;
+}
+.noOfDaysLeaveCheckBox{
+    text-align: center;
+}
+.normalLeaveTemplate-container{
+    width: 100%;
+    overflow-x: auto;
+}
+.normalLeaveTemplate-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.normalLeaveTemplate-container input, .normalLeaveTemplate-container select, .normalLeaveTemplate-container textarea ,.normalLeaveTemplate-container button, .normalLeaveTemplate-container p, .normalLeaveTemplate-container th{
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+}
+.radio div{
+    width: 100px; 
+    display: flex;
+}

@@ -1,0 +1,55 @@
+.PaternalLeaveForm{
+    margin: 0 auto 40px;
+    background-color: white;
+    margin-top: 30px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 12px #ccc;
+    width: 80%;
+    max-width: 700px;
+}
+.PaternalLeaveForm > h2{
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+.PaternalLeaveForm .input-group{
+    margin-bottom: 12px;
+}
+.PaternalLeaveForm label{
+    display: block;
+    font-size: 0.95rem;
+    color: #4b4b4b;
+    margin-bottom: 2px;
+}
+.PaternalLeaveForm input, .PaternalLeaveForm select, .PaternalLeaveForm p{
+    width: 100%;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 0.9rem;
+}
+.PaternalLeaveForm button{
+    width: 200px;
+    font-size: 0.9rem;
+    margin: 20px auto 10px;
+    display: block;
+}
+
+.PaternalLeaveForm .submit-btn{
+    display: flex;
+    justify-content: center;
+}
+
+.PaternalLeaveForm .submit-btn input{
+    width: 200px;
+    margin: 30px 0 10px;
+    padding: 7px 0;
+}
+
+@media only screen and (max-width: 768px) {
+    .PaternalLeaveForm{
+        width: 90%;
+    }
+}

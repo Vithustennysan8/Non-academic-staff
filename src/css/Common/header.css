@@ -50,7 +50,7 @@
 .nav a{
     color: white;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1rem;
     transition: color 0.3s;
 }
 .nav p a:hover{
@@ -150,13 +150,16 @@
 
 @media only screen and (max-width: 1440px) {
     .nav{
-        max-width: 600px;
+        /* max-width: 600px; */
     }
 }
 
 @media only screen and (max-width: 1024px) {
     .nav{
-        max-width: 400px;
+        max-width: 450px;
+    }
+    .nav a{
+        font-size: 0.9rem;
     }
 }
 

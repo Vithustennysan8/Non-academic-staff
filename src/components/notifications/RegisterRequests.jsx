@@ -45,16 +45,16 @@ const RegisterRequests = ({requests, setRequests}) => {
       <div className="request"> 
         {
           requests.map((request)=>(
-            <div key={request.id} className="singleRequestTap review-container">
+            <div key={request.id} className="singleRequestTap">
               <p><span className="highlight">Name:</span> {request.user.first_name}</p>
               <p><span className="highlight">Email:</span> {request.user.email}</p>
               <p><span className="highlight">Employee No:</span> {request.user.emp_id}</p>
               <p><span className="highlight">Job Type:</span> {request.user.job_type}</p>
               <p><span className="highlight">Requested to Register:</span> {request.user.createdAt}</p>
               <div className="buttons">
-                <button className="view-more bttn ashbtn" onClick={() => setSelectedUser(request)}>View Details</button>
-                <button className="verify greenbtn bttn" onClick={() => handleVerify(request.token)} >Verify</button>
-                <button className="reject bttn redbtn" onClick={() => handleDelete(request.user.id)}>Reject</button>
+                <button className="view-more" onClick={() => setSelectedUser(request)}> <img src="https://cdn-icons-png.flaticon.com/128/7216/7216143.png" alt="" /></button>
+                <button className="verify" onClick={() => handleVerify(request.token)} ><img src="https://cdn-icons-png.flaticon.com/128/5290/5290058.png" alt="" /></button>
+                <button className="reject" onClick={() => handleDelete(request.user.id)} ><img src="https://cdn-icons-png.flaticon.com/128/10621/10621089.png" alt="" /></button>
               </div>
             </div>
           ))

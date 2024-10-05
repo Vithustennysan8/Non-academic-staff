@@ -9,6 +9,7 @@
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 40px auto;
+    width: 92%;
 }
 
 .normalleave-container h2 {
@@ -67,6 +68,6 @@
         width: 100%;
     }
     .normalleave-container{
-        width: 92%;
+        width: 100%;
     }
 }

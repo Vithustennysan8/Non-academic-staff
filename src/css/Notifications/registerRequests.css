@@ -29,13 +29,25 @@
     margin-bottom: 5px;
     border-radius: 8px;
 }
+.singleRequestTap button{
+    background-color: white;
+    border: none;
+    padding-right: 10px;
+}
+.singleRequestTap button img{
+    width: 40px;
+}
+.singleRequestTap button img:hover{
+    transform: scale(1.2);
+}
 .verify, .view-more, .reject{
     margin: 12px 8px 6px 0;
 }
 .greenbtn{
     /* font-weight: 600; */
     color: white;
-    background: linear-gradient(145deg, #9dffa0, #00ff08)
+    /* background: linear-gradient(145deg, #9dffa0, #00ff08); */
+    background-color: black;
 }
 .greenbtn:hover{
     background: linear-gradient(145deg, #00ff08, #00ff08)

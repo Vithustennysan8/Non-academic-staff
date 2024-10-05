@@ -1,8 +1,10 @@
-import "../../css/Forms/fullLeaveFormPreview.css";
+import "../../css/Forms/formPreview.css"
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Axios } from "../AxiosReqestBuilder";
 import { useEffect, useState } from "react";
+import NormalLeaveFormTemplate from "../notifications/NormalLeaveFormTemplate";
+import AccidentLeaveFormTemplate from "../notifications/AccidentLeaveFormTemplate";
 
 const FormPreview = ({ application, approver, setForm }) => {
     const [formStatus, setFormStatus] = useState('');
@@ -40,7 +42,7 @@ const FormPreview = ({ application, approver, setForm }) => {
             const y = (pdf.internal.pageSize.getHeight() - imgHeight) / 2; // Center the image horizontally
             
             pdf.addImage(imgData, "PNG", x,20, imgWidth, imgHeight);
-            pdf.save(`${application.name}_Leave_Application.pdf`);
+            pdf.save(`${application.user.first_name}_Leave_Application.pdf`);
         })
         .catch((error) => {
             console.error("Error generating PDF:", error);
@@ -72,6 +74,7 @@ const FormPreview = ({ application, approver, setForm }) => {
             alert("Add description");
             return;
         }
+
         try{
             const response = await Axios.put(`/admin/accept/${id}`, {user:approver.id,description, formType:application.formType});
             setForm({...response.data});
@@ -101,148 +104,12 @@ const FormPreview = ({ application, approver, setForm }) => {
     }
         
     return (
-        <>
+    <>
     <div className="review-container" >
         <div id="pdfContent">
 
-            <h2 className="review-header">{application.formType}</h2>
-
-
-
-            {/*  Normal Leave Form */}
-            {application.user.first_name && <div className="review-row">
-                <div className="review-label">Applicant name:</div>
-                <div className="review-value">{application.user.first_name}</div>
-            </div>}
-            { application.user.emp_id &&<div className="review-row">
-                <div className="review-label">Employee ID:</div>
-                <div className="review-value">{application.user.emp_id}</div>
-            </div>}
-            {application.user.faculty && <div className="review-row">
-                <div className="review-label">Faculty:</div>
-                <div className="review-value">{application.user.faculty}</div>
-            </div>}
-            { application.user.department && <div className="review-row">
-                <div className="review-label">Department:</div>
-                <div className="review-value">{application.user.department}</div>
-            </div>}
-            {application.upfNo && <div className="review-row">
-                <div className="review-label">UPF no:</div>
-                <div className="review-value">{application.upfNo}</div>
-            </div>}
-            {application.designation && <div className="review-row">
-                <div className="review-label">Designation:</div>
-                <div className="review-value">{application.designation}</div>
-            </div>}
-            {application.firstAppointmentDate && <div className="review-row">
-                <div className="review-label">First Appointment Date:</div>
-                <div className="review-value">{application.firstAppointmentDate?.substring(0,10)}</div>
-            </div>}
-            {application.casualLeaveLastYear > -1 && <div className="review-row">
-                <div className="review-label">Casual Leave LastYear:</div>
-                <div className="review-value">{application.casualLeaveLastYear}</div>
-            </div>}
-            {application.vacationLeaveLastYear > -1 && <div className="review-row">
-                <div className="review-label">Vacation Leave LastYear:</div>
-                <div className="review-value">{application.vacationLeaveLastYear}</div>
-            </div>}
-            {application.sickLeaveLastYear >-1 && <div className="review-row">
-                <div className="review-label">Sick Leave LastYear:</div>
-                <div className="review-value">{application.sickLeaveLastYear}</div>
-            </div>}
-            {application.casualLeaveThisYear > -1 && <div className="review-row">
-                <div className="review-label">Casual Leave ThisYear:</div>
-                <div className="review-value">{application.casualLeaveThisYear}</div>
-            </div>}
-            {application.vacationLeaveThisYear > -1 && <div className="review-row">
-                <div className="review-label">Vacation Leave ThisYear:</div>
-                <div className="review-value">{application.vacationLeaveThisYear}</div>
-            </div>}
-            {application.sickLeaveThisYear > -1 && <div className="review-row">
-                <div className="review-label">Sick Leave ThisYear:</div>
-                <div className="review-value">{application.sickLeaveThisYear}</div>
-            </div>}
-            {application.noOfLeaveDays > -1 && <div className="review-row">
-                <div className="review-label">No Of Leave Days:</div>
-                <div className="review-value">{application.noOfLeaveDays}</div>
-            </div>}
-            {application.leaveType && <div className="review-row">
-                <div className="review-label">Leave Type:</div>
-                <div className="review-value">{application.leaveType}</div>
-            </div>}
-            {application.leaveAppliedDate && <div className="review-row">
-                <div className="review-label">Leave Applied Date:</div>
-                <div className="review-value">{application.leaveAppliedDate?.substring(0,10)}</div>
-            </div>}
-            {application.reason && <div className="review-row">
-                <div className="review-label">Reason:</div>
-                <div className="review-value">{application.reason}</div>
-            </div>}
-            {application.arrangement && <div className="review-row">
-                <div className="review-label">Arrangement:</div>
-                <div className="review-value">{application.arrangement}</div>
-            </div>}
-            {application.addressDuringTheLeave && <div className="review-row">
-                <div className="review-label">Address During The Leave:</div>
-                <div className="review-value">{application.addressDuringTheLeave}</div>
-            </div>}
-            {application.orderOfHead && <div className="review-row">
-                <div className="review-label">Order Of Head of the Department:</div>
-                <div className="review-value">{application.orderOfHead}</div>
-            </div>}
-
-                
-            {/* AcccidentLeaveForm */}
-            {application.accidentOccurredDuring && <div className="review-row">
-                <div className="review-label">The accident occurred during: </div>
-                <div className="review-value">{application.accidentOccurredDuring}</div>
-            </div>}
-            {application.DateAndTimeOfAccident && <div className="review-row">
-                <div className="review-label">Date and time of the accident: </div>
-                <div className="review-value">{application.DateAndTimeOfAccident}</div>
-            </div>}
-            {application.placeOFAccident && <div className="review-row">
-                <div className="review-label">PlaceOFAccident of accident: </div>
-                <div className="review-value">{application.placeOFAccident}</div>
-            </div>}
-            {application.whilePerformingAnyDuty && <div className="review-row">
-                <div className="review-label">While performing any duty: </div>
-                <div className="review-value">{application.whilePerformingAnyDuty}</div>
-            </div>}
-            {application.natureOfDanger && <div className="review-row">
-                <div className="review-label">Nature of danger: </div>
-                <div className="review-value">{application.natureOfDanger}</div>
-            </div>}
-            {application.whoInspectTheAccident && <div className="review-row">
-                <div className="review-label">Name of the nearest person / officer who will inspect the accident: </div>
-                <div className="review-value">{application.whoInspectTheAccident}</div>
-            </div>}
-            {application.whoInformedAfterAccident && <div className="review-row">
-                <div className="review-label">The officer who informed immediately after the accident was the: </div>
-                <div className="review-value">{application.whoInformedAfterAccident}</div>
-            </div>}
-            {application.referralForTreatment && <div className="review-row">
-                <div className="review-label">Referral for Treatment: </div>
-                <div className="review-value">{application.referralForTreatment}</div>
-            </div>}
-            {application.dateAndTimeOfReport && <div className="review-row">
-                <div className="review-label">Date and Time of Report to Hospital / Medical Centre: </div>
-                <div className="review-value">{application.dateAndTimeOfReport}</div>
-            </div>}
-            {application.durationOfHospitalStay && <div className="review-row">
-                <div className="review-label">Duration of hospital stay: </div>
-                <div className="review-value">{application.durationOfHospitalStay}</div>
-            </div>}
-            {application.isPoliceComplaint && <div className="review-row">
-                <div className="review-label">Police complaint was made: </div>
-                <div className="review-value">{application.isPoliceComplaint}</div>
-            </div>}
-            {application.expectAccidentCompensation && <div className="review-row">
-                <div className="review-label">Whether to expect accident compensation: </div>
-                <div className="review-value">{application.expectAccidentCompensation}</div>
-            </div>}
-
-
+            {application.formType === "Normal Leave Form" && <NormalLeaveFormTemplate application={application}/>}
+            {application.formType === "Accident Leave Form" && <AccidentLeaveFormTemplate application={application}/>}
 
 
             {application.status && <div className="review-row">
@@ -334,11 +201,11 @@ const FormPreview = ({ application, approver, setForm }) => {
         <div className="buttonDiv">
             { formStatus === "pending" && approver.role === "ADMIN" &&
                 <>
-                <button onClick={() => handleAccept(application.id)} className=" bttn greenbtn">Approve</button>
-                <button onClick={() => handleReject(application.id)} className="bttn redbtn">Reject</button>
+                <button onClick={() => handleAccept(application.id)} className=""><img src="https://cdn-icons-png.flaticon.com/128/5290/5290058.png" alt="" /></button>
+                <button onClick={() => handleReject(application.id)} className=""><img src="https://cdn-icons-png.flaticon.com/128/10621/10621089.png" alt="" /></button>
                 </>
             }
-            <button onClick={generatePDF} className="download-pdf-btn bttn">Download</button>
+            <button onClick={generatePDF} className=""><img src="https://cdn-icons-png.flaticon.com/128/4208/4208397.png" alt="" /></button>
         </div>
     </div>
     </>
