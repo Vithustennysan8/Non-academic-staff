@@ -1,11 +1,26 @@
+import { useNavigate } from "react-router-dom";
 import "../../css/Forms/normalLeaveFormTemplate.css";
+import { Axios } from "../AxiosReqestBuilder";
 
 const NormalLeaveFormTemplate = ({application}) => {
+  const navigate = useNavigate();
     
+  const handleDelete = async (form) => {
+    try {
+        const response = await Axios.delete(`/auth/${form?.formType}/delete/${form?.id}`);
+        console.log(response.data);
+        alert("Form Deleted Successfully");
+        navigate("/notifications");
+    }catch(error){
+        console.error(error);
+    }
+}
   return (
     <>
 
     <div className="normalLeaveTemplate-container">
+        <button className="deleteBtn" onClick={() => handleDelete(application)}><img src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="DeleteIcon" /></button>
+
         <h2>{application.formType}</h2>
 
           <table border={"1px"}>

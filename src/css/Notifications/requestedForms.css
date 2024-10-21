@@ -52,6 +52,11 @@
 .allLeaveRequest-btn input{
     font-size: 0.9rem;    
 }
+.filteredFormHeading{
+    text-align: center;
+    font-size: 1.5rem;
+    margin: 40px auto 20px;
+}
 
 @media only screen and (max-width: 430px){
     .RequestedForms h1{

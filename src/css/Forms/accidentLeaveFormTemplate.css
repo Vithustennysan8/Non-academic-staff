@@ -1,5 +1,25 @@
-.AccidentLeaveTemplate h2{
+.OtherLeaveFormsTemplate{
+    position: relative;
+}
+
+.OtherLeaveFormsTemplate h2{
     text-align: center;
     margin-bottom: 20px;
     font-weight: 600;
+}
+
+.OtherLeaveFormsTemplate .deleteBtn{
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    padding: 5px;
+}
+
+.OtherLeaveFormsTemplate .deleteBtn img{
+    width: 20px;
+    height: 20px;
+}
+
+.OtherLeaveFormsTemplate .deleteBtn img:hover{
+    transform: scale(1.2);
 }

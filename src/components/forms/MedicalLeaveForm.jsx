@@ -1,15 +1,41 @@
 import "../../css/Forms/medicalLeaveForm.css"
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../Contexts/UserContext";
 import { useForm } from "react-hook-form";
+import { Axios } from "../AxiosReqestBuilder";
+import { useNavigate } from "react-router-dom";
+import { LoginContext } from "../../Contexts/LoginContext";
 
 const MedicalLeaveForm = () => {
+    const {isLogin} = useContext(LoginContext);
     const {user} = useContext(UserContext);
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(!isLogin){
+          window.scrollTo({top:0, behavior:"smooth"});
+          navigate("/login");
+        }
+    },[navigate, isLogin])
 
     const {register, handleSubmit, formState : {errors}} = useForm();
 
-    const onSubmit = async () => {
+    const onSubmit = async (data) => {
+        const formData = new FormData();
+        formData.append('designation', data.designation);
+        formData.append('requestPeriodStart', data.requestPeriodStart);
+        formData.append('requestPeriodEnd', data.requestPeriodEnd);
+        formData.append('file', data.medical[0]);
 
+        try {
+            const response = await Axios.post("auth/medicalLeaveForm/add", formData);
+            console.log(response.data);
+            alert("Form Submitted successfuly");
+            window.scrollTo({top:0, behavior:"smooth" });
+            navigate("/forms");
+        } catch (error) {
+            console.log(error);
+        }
     }
 
   return (
@@ -67,7 +93,7 @@ const MedicalLeaveForm = () => {
 
                 <div className="input-group">
                     <label htmlFor="medical">Medical Certificate: </label>
-                    <input type="file" name="medical" />
+                    <input type="file" name="medical" {...register("medical")}/>
                 </div>
                     
                 <div className="submit-btn">

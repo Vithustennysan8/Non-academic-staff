@@ -15,7 +15,7 @@ const NormalLeaveForm = () => {
     
   useEffect(()=>{
       if(!isLogin){
-        window.scrollTo({top:0, behavior:"smooth"})
+        window.scrollTo({top:0, behavior:"smooth"});
         naviagte("/login");
       }
   },[naviagte, isLogin])
@@ -46,6 +46,7 @@ const NormalLeaveForm = () => {
       const response = await Axios.post("auth/normalLeaveForm/add", data);
       console.log(response.data);
       alert("form submitted successfully");
+      window.scrollTo({top:0, behavior:"smooth"});
       naviagte("/forms");
     } catch (error) {
       console.log(error);

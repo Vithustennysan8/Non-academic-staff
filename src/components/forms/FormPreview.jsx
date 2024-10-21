@@ -4,7 +4,7 @@ import html2canvas from "html2canvas";
 import { Axios } from "../AxiosReqestBuilder";
 import { useEffect, useState } from "react";
 import NormalLeaveFormTemplate from "../notifications/NormalLeaveFormTemplate";
-import AccidentLeaveFormTemplate from "../notifications/AccidentLeaveFormTemplate";
+import OtherLeaveFormsTemplate from "../notifications/OtherLeaveFormsTemplate";
 
 const FormPreview = ({ application, approver, setForm }) => {
     const [formStatus, setFormStatus] = useState('');
@@ -13,10 +13,19 @@ const FormPreview = ({ application, approver, setForm }) => {
     useEffect(()=>{
         switch (approver.job_type) {
             case "Head of the Department":
-                setFormStatus(application.approverOneStatus);
+                setFormStatus(application?.headStatus);
                 break;
             case "Dean":
-                setFormStatus(application?.approverTwoStatus);
+                setFormStatus(application?.deanStatus);
+                break;
+            case "Chief Medical Officer":
+                setFormStatus(application?.cmoStatus);
+                break;
+            case "Registrar":
+                setFormStatus(application?.registrarStatus);
+                break;
+            case "Non Academic Establishment Division":
+                setFormStatus(application?.naeStatus);
                 break;
             default:
                 break;
@@ -108,8 +117,10 @@ const FormPreview = ({ application, approver, setForm }) => {
     <div className="review-container" >
         <div id="pdfContent">
 
-            {application.formType === "Normal Leave Form" && <NormalLeaveFormTemplate application={application}/>}
-            {application.formType === "Accident Leave Form" && <AccidentLeaveFormTemplate application={application}/>}
+            {application.formType === "Normal Leave Form" ? 
+            <NormalLeaveFormTemplate application={application}/>:
+            <OtherLeaveFormsTemplate application={application}/>}
+
 
 
             {application.status && <div className="review-row">
@@ -123,68 +134,68 @@ const FormPreview = ({ application, approver, setForm }) => {
             application */}
             <div className="approverContainer">
                 <div className="leaveFlowContainer">
-                    {application.approverOneStatus && 
+                    {application.headStatus && 
                         <div className="review-row">
                             <div className="review-label">Head of the Department: </div> 
-                            <div className={`review-value ${application.approverOneStatus}`}>{application.approverOneStatus}</div>
+                            <div className={"review-value"}>{application.headStatus}</div>
                         </div>
                     }
-                    {application.approverOneDescription && 
+                    {application.headDescription && 
                         <div className="review-row">
                             <div className="review-label">Description: </div> 
-                            <div className="review-value" >{application.approverOneDescription}</div>
+                            <div className="review-value" >{application.headDescription}</div>
                         </div>
                     }
 
-                    {application.approverTwoStatus && 
+                    {application.deanStatus && 
                         <div className="review-row">
                             <div className="review-label">Dean: </div> 
-                            <div className="review-value">{application.approverTwoStatus}</div>
+                            <div className="review-value">{application.deanStatus}</div>
                         </div>
                     }
-                    {application.approverTwoDescription && 
+                    {application.deanDescription && 
                         <div className="review-row">
                             <div className="review-label">Description: </div> 
-                            <div className="review-value">{application.approverTwoDescription}</div>
+                            <div className="review-value">{application.deanDescription}</div>
                         </div>
                     }
 
-                    {application.approverThreeStatus && 
+                    {application.cmoStatus && 
                         <div className="review-row">
-                            <div className="review-label">Approver3: </div> 
-                            <div className="review-value" >{application.approverThreeStatus}</div>
+                            <div className="review-label">CMO: </div> 
+                            <div className="review-value" >{application.cmoStatus}</div>
                         </div>
                     }
-                    {application.approverThreeDescription && 
+                    {application.cmoDescription && 
                         <div className="review-row">
                             <div className="review-label">Description: </div> 
-                            <div className="review-value">{application.approverThreeDescription}</div>
+                            <div className="review-value">{application.cmoDescription}</div>
                         </div>
                     }
 
-                    {application.approverFourStatus && 
+                    {application.registrarStatus && 
                         <div className="review-row">
-                            <div className="review-label">Approver4: </div> 
-                            <div className="review-value">{application.approverFourStatus}</div>
+                            <div className="review-label">Registrar: </div> 
+                            <div className="review-value">{application.registrarStatus}</div>
                         </div>
                     }
-                    {application.approverFourDescription && 
+                    {application.registrarDescription && 
                         <div className="review-row">
                             <div className="review-label">Description: </div> 
-                            <div className="review-value">{application.approverFourDescription}</div>
+                            <div className="review-value">{application.registrarDescription}</div>
                         </div>
                     }
 
-                    {application.approverFiveStatus && 
+                    {application.naeStatus && 
                         <div className="review-row">
-                            <div className="review-label">Approver5: </div> 
-                            <div className="review-value">{application.approverFiveStatus}</div>
+                            <div className="review-label">NAE: </div> 
+                            <div className="review-value">{application.naeStatus}</div>
                         </div>
                     }
-                    {application.approverFiveDescription && 
+                    {application.naeDescription && 
                         <div className="review-row">
                             <div className="review-label">Description: </div> 
-                            <div className="review-value">{application.approverFiveDescription}</div>
+                            <div className="review-value">{application.naeDescription}</div>
                         </div>
                     }
                 </div>

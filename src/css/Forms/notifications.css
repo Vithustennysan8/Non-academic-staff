@@ -1,46 +1,47 @@
 .notifications{
     display: grid;
-    grid-template-columns: minmax(10%, 300px) 1fr;
+    grid-template-columns: minmax(8%, 230px) 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: 
-        " requestsTap requests"
+    " requestsTap requests"
     ;
 }
 .requestsTap{
     grid-area: requestsTap;
     /* background-color: white; */
     padding: 50px 0;
-    border-right: 2px solid #9c9c9c;
+    width: fit-content;
+    /* border-right: 2px id #9c9c9c; */
+    box-shadow: 2px 0px 12px 1px rgba(0,0,0,0.28);
 }
 .requestsTap button{
     position: relative;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border: none;
-    background-color: rgb(176, 176, 176);
     background-color: transparent;
-    color: black;
+    color: rgb(46, 46, 46);
     width: 100%;
     margin-bottom: 15px;
-    padding: 8px 0;
+    padding: 8px 20px;
     font-weight: 600;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
     transition: background-color 0.3s ease;
 }
 .requestsTap button:hover{
-    background-color: rgb(119, 118, 118);
+    background-color: rgb(208, 208, 208);
 }
 .requests{
     grid-area: requests;
 }
 .requestCount{
+    display: inline-block;
+    position: absolute;
     font-size: 0.6rem;
     color: white;
     width: 15px;
     height: 15px;
     text-align: center;
-    background-color: red;
+    background-color: rgb(91, 91, 91);
     border-radius: 50%;
     align-content: center;
 }
@@ -52,16 +53,19 @@
         grid-template-areas: 
             "requestsTap"
             "requests"
-        ;
+            ;
         overflow: auto;
     }
     .requestsTap{
         padding: 10px 0;
         gap: 20px;
-        border-right: unset;
-        border-bottom: 2px solid #9c9c9c;
+        box-shadow: 0px 2px 12px 1px rgba(151, 151, 151, 0.28);
+        margin: auto;
+        width: 100%;
     }
     .requestsTap button{
+        display: unset;
+        text-align: center;
         margin-bottom: 0;
     }
 }

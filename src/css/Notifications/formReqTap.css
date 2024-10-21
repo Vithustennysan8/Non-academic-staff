@@ -1,8 +1,10 @@
 .formReq-container{
-    width: 40%;
+    width: 70%;
     margin: auto;
     padding: 5px 10px;
     border: 1px solid #ccc;
+    border-radius:8px ;
+    margin-bottom: 4px;
     cursor: pointer;
     background-color: white;
 }
@@ -14,12 +16,12 @@
 }
 .formReq-container p{
     font-size: 0.8rem;
-    color: #5c5c5c;
+    color: #747474;
 }
 
 @media (max-width: 768px){
     .formReq-container{
-        width: 90%;
+        width: 95%;
     }
 
 }

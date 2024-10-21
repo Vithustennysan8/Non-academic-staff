@@ -30,10 +30,7 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
     const { faculty, department, formType } = data;
 
     try {
-      const response = await Axios.post(`/admin/req/${formType}`, {
-        faculty,
-        department,
-      });
+      const response = await Axios.post(`/admin/req/${formType}`, {faculty,department});
       setForms(response.data);
       setIsAllNotificationsOpen(false);
       setAll(false);
@@ -148,7 +145,7 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="selection-area">
-            {user.job_type === "VC" && (
+            {(user.job_type === "Chief Medical Officer" || user.job_type === "Non Academic Establishment Division" || user.job_type === "Registrar") && (
               <div>
                 <label htmlFor="faculty">Faculty</label>
                 <select
@@ -170,7 +167,7 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
               </div>
             )}
 
-            {user.job_type === "Dean" && (
+            {(user.job_type == "Dean" || user.job_type === "Chief Medical Officer" || user.job_type === "Non Academic Establishment Division" || user.job_type === "Registrar") && (
               <div>
                 <label htmlFor="department">Department</label>
                 <select
@@ -203,15 +200,13 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
                 <option value="">Select a form type</option>
                 <option value="normalLeaveForm">Normal Leave</option>
                 <option value="accidentLeaveForm">Accident Leave</option>
-                <option value="Vacation Leave">Vacation Leave</option>
-                <option value="Overseas Leave">Overseas Leave</option>
-                <option value="Medical Leave">Medical Leave</option>
-                <option value="Special Leave Granted to an Employee">
-                  Special Leave Granted to an Employee
-                </option>
-                <option value="Maternity Leave">Maternity Leave</option>
-                <option value="Sabbatical Leave">Sabbatical Leave</option>
-                <option value="Paternal Leave">Paternal Leave</option>
+                <option value="medicalLeaveForm">Medical Leave</option>
+                <option value="maternityLeaveForm">Maternity Leave</option>
+                <option value="paternalLeaveForm">Paternal Leave</option>
+                {/* <option value="Vacation Leave">Vacation Leave</option> */}
+                {/* <option value="Overseas Leave">Overseas Leave</option> */}
+                {/* <option value="Special Leave Granted to an Employee">Special Leave Granted to an Employee</option> */}
+                {/* <option value="Sabbatical Leave">Sabbatical Leave</option> */}
               </select>
               {errors.formType && (
                 <span className="error">{errors.formType.message}</span>
@@ -226,6 +221,7 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
               value="Get the Filtered Forms"
             />
           </div>
+
           <div className="allLeaveRequest-btn">
             <input
               type="button"
@@ -237,18 +233,20 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
         </form>
 
         {/* Filtered Leave notifications */}
-        {!showForm && !isAllNotificationsOpen && !all && (
+        {!showForm && !isAllNotificationsOpen && !all && (<>
+          <h4 className="filteredFormHeading">{Forms[0]?.formType}</h4>
           <ul>
             {Forms.map((form, index) => (
               <li
-                key={index}
-                style={{ listStyle: "none" }}
-                onClick={() => handleSingleForm(form.id)}
+              key={index}
+              style={{ listStyle: "none" }}
+              onClick={() => handleSingleForm(form.id)}
               >
                 <FormReqTap form={form} />
               </li>
             ))}
           </ul>
+          </>
         )}
         {showForm && !isAllNotificationsOpen && (
           <FormPreview application={Form} approver={user} setForm={setForm} />

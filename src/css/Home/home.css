@@ -83,7 +83,7 @@ body{
     /* border-left: 5px solid #ff0000; */
     /* border-right: 5px solid #ff0000; */
     box-shadow: 4px 4px 8px #c9c9c9;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -211,7 +211,8 @@ body{
     height: 100%;
 }
 .homeQuikLinks{
-    margin-bottom: 60px;
+    margin-bottom: 50px;
+    width: 100%;
 }
 .homeQuikLinks h1{
     border-left: 4px solid rgb(219, 0, 0);
@@ -221,37 +222,45 @@ body{
     margin-bottom: 25px;
 }
 .homeLinks{
-    font-size: 1.2rem;
-    margin: auto;
-    max-width:850px;
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
 }
 .homeLinks a{
     text-decoration: none;
+    width: 18%;
+    min-width: 100px;
+    height: fit-content;
 }
-.homeLinks p{
+.homeLinks a p{
+    font-size: 0.7rem;
+}
+.Link{
+    padding: 10px 8px;
+    height: 100%;
     cursor: pointer;
-    padding: 8px 8px;
     margin-bottom: 16px;
-}
-.leftLink img{
-    width: 25px;
-    float: right;
-}
-.rightLink img{
-    width: 25px;
-    float: left;
-}
-.leftLink{
-    /* background: linear-gradient(90deg, rgb(15, 15, 207),rgb(15, 15, 207),white); */
-    background: linear-gradient(90deg,rgb(71, 71, 71),rgb(104, 104, 104),#f3f3f3);
-    color: white;
     border-radius: 8px;
+    border: 1px solid #eeeeee;
+    text-align: center;
+    color: #525252;
+    font-weight: 600;
+    background-color: white;
+    box-shadow: 4px 4px 8px 1px rgba(0,0,0,0.14),
+    -4px -4px 8px 1px rgba(255,255,255, 1);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out ;
 }
-.rightLink{
-    background: linear-gradient(90deg,#f3f3f3, red, rgb(230, 0, 0));
-    color: white;
-    text-align: right;
-    border-radius: 8px;
+.Link:not(:hover){
+    opacity: 0.85;
+    transform: scale(0.95);
+}
+.Link img{
+    width: 25%;
+    display: block;
+    margin: 10px auto;
 }
 .linkto{
     margin-bottom: 60px;
@@ -261,7 +270,7 @@ body{
     padding-left: 10px;
     text-transform: uppercase;
     margin-bottom: 40px;
-
+    
 }
 .linkto div{
     display: flex;
@@ -310,6 +319,10 @@ body{
     }
     .home-image-slide{
         height: 350px;
+    }
+    .Link{
+        font-size: 0.8rem;
+        min-height: 125px;
     }
 }
 @media only screen and (max-width: 700px) {

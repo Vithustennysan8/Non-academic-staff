@@ -7,39 +7,40 @@ import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
 
 const AccidentLeaveForm = () => {
-  const naviagte = useNavigate();
+  const navigate = useNavigate();
   const {isLogin} = useContext(LoginContext);
   const {user} = useContext(UserContext);
     
   useEffect(()=>{
       if(!isLogin){
         window.scrollTo({top:0, behavior:"smooth"})
-        naviagte("/login");
+        navigate("/login");
       }
-  },[naviagte, isLogin])
-
-  const {register, handleSubmit, formState: {errors} } = useForm(); 
-  
-  const onSubmit = async (data) => {
+    },[navigate, isLogin])
     
-    const formData = new FormData();
-    // if(data.files){
-    //   formData.append('files', data.files[0]);
-    // }
+    const {register, handleSubmit, formState: {errors} } = useForm(); 
     
-    Object.keys(data).forEach((key)=>{
-      // if( key != "files" ){
-        formData.append(key, data[key]);
-      // }
-    })
-    
-    console.log(formData);
-    
-    try {
-      const response = await Axios.post("/auth/accidentLeaveForm/add", data);
-      console.log(response);
-      alert("form submitted successfully");
-      naviagte("/forms");
+    const onSubmit = async (data) => {
+      
+      const formData = new FormData();
+      if(data.files){
+        formData.append('files', data.files[0]);
+      }
+      
+      Object.keys(data).forEach((key)=>{
+        if( key != "files" ){
+          formData.append(key, data[key]);
+        }
+      })
+      
+      console.log(formData);
+      
+      try {
+        const response = await Axios.post("/auth/accidentLeaveForm/add", formData);
+        console.log(response);
+        alert("form submitted successfully");
+        window.scrollTo({top:0, behavior:"smooth"})
+        navigate("/forms");
     } catch (error) {
       console.log(error);
     }

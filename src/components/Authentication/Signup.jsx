@@ -47,7 +47,6 @@ const Signup = () => {
 
     try {
       const response = await Axios.post("/auth/signup", formData);
-
       if (response.data === false) {
         alert("Email is already exists");
         setEmailError({ border: "2px solid red" });
@@ -478,6 +477,9 @@ const Signup = () => {
                 >
                   <option value="">Select job type</option>
                   <option value="Dean">Dean</option>
+                  <option value="Chief Medical Officer">CMO</option>
+                  <option value="Non Academic Establishment Division">NAE</option>
+                  <option value="Registrar">Registrar</option>
                   <option value="Head of the Department">
                     Head of the Department
                   </option>

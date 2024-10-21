@@ -14,7 +14,9 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
     if (filter === "Accepted") {
       return appliedLeaveForms.filter((form) => form.status === "Accepted");
     } else if (filter === "Rejected") {
-      return appliedLeaveForms.filter((form) => form.status === "Rjected");
+      return appliedLeaveForms.filter((form) => form.status === "Rejected");
+    }else if ( filter === "newToOld") {
+      return appliedLeaveForms.sort((a, b) => new Date(a.date) - new Date(b.date));
     }
     return appliedLeaveForms;
   }, [appliedLeaveForms, filter]);
@@ -71,13 +73,12 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
               />
             ) : (
               <ul>
-                {filteredForms.map((form) => (
+                {filteredForms.map((form, id) => (
                   <li
-                    key={form.id}
+                    key={id}
                     style={{ listStyle: "none" }}
-                    onClick={() => handleSingleForm(form.id, form.formType)}
                   >
-                    <FormReqTap form={form} />
+                    <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
                   </li>
                 ))}
               </ul>

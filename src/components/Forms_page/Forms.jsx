@@ -1,6 +1,11 @@
 import { useState } from "react";
 import "../../css/Forms_page/forms.css";
 import FormCard from "./FormCard";
+import img1 from "../../assets/images/normalIMG.jpg"
+import medical from "../../assets/images/medicalIMG.jpg"
+import maternity from "../../assets/images/maternityIMG.jpg"
+import accident from "../../assets/images/accidentIMG.jpg"
+import paternal from "../../assets/images/paternalIMG.jpg"
 import LoadingAnimation from "../Common/LoadingAnimation";
 
 const Forms = () => {
@@ -18,7 +23,7 @@ const Forms = () => {
         <div className="form-attributes">
           <FormCard
             title={"Leave Form"}
-            content={"Open Leave Form"}
+            content={"Apply Leave Form"}
             img={
               "https://cdn.iconscout.com/icon/premium/png-256-thumb/leaving-1649219-1399243.png"
             }
@@ -26,22 +31,37 @@ const Forms = () => {
             />
           <FormCard
             title={"Transfer Form"}
-            content={"Open Transfer Form"}
+            content={"Apply Transfer Form"}
             img={"https://static.thenounproject.com/png/2409660-200.png"}
             url={"/transferForm"}
             />
-          {/* <FormCard
-            title={"Short Leave Form"}
-            content={"Open Short Leave Form"}
-            img={"https://pngimg.com/d/exit_PNG19.png"}
-            url={"/halfLeaveForm"}
-          />
-          <FormCard
-            title={"Substitute Procedure Form"}
-            content={"Open Substitute Procedure Form"}
-            img={"https://static.thenounproject.com/png/2118961-200.png"}
-            url={"/subtitute"}
-            /> */}
+        </div>
+
+        <div className="form-details-container">
+          <h3>Flow of the forms</h3>
+
+          <div className="form-details">
+            <div className="form-detail">
+              <p>Normal Leave Form</p>
+              <img src={img1} alt="normalFormFlowPicture" />
+            </div>
+            <div className="form-detail">
+              {/* <p>Accident Leave Form</p> */}
+              <img src={accident} alt="accidentFormFlowPicture" />
+            </div>
+            <div className="form-detail">
+              {/* <p>Paternal Leave Form</p> */}
+              <img src={paternal} alt="paternalFormFlowPicture" />
+            </div>
+            <div className="form-detail">
+              {/* <p>Medical Leave Form</p> */}
+              <img src={medical} alt="medicalFormFlowPicture" />
+            </div>
+            <div className="form-detail">
+              {/* <p>Maternity Leave Form</p> */}
+              <img src={maternity} alt="maternityFormFlowPicture" />
+            </div>
+          </div>
         </div>
       </div>
     }

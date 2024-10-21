@@ -1,15 +1,41 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import "../../css/Forms/paternalLeaveForm.css"
 import { UserContext } from '../../Contexts/UserContext'
 import { useForm } from 'react-hook-form';
+import { Axios } from '../AxiosReqestBuilder';
+import { useNavigate } from 'react-router-dom';
+import { LoginContext } from '../../Contexts/LoginContext';
 
 const PaternalLeaveForm = () => {
+    const {isLogin} = useContext(LoginContext);
     const {user} = useContext(UserContext);
+    const navigate = useNavigate();
 
+    useEffect(()=>{
+        if(!isLogin){
+          window.scrollTo({top:0, behavior:"smooth"});
+          navigate("/login");
+        }
+    },[navigate, isLogin])
+    
     const {register, handleSubmit, formState : {errors}} = useForm();
-
-    const onSubmit = async () => {
-
+    
+    const onSubmit = async (data) => {
+        const formData = new FormData();
+        formData.append('designation', data.designation);
+        formData.append('childBirthDate', data.childBirthDate);
+        formData.append('requestDate', data.requestDate);
+        formData.append('file', data.birthCertificate[0]);
+        
+        try {
+            const response = await Axios.post("auth/paternalLeaveForm/add", formData);
+            console.log(response.data);
+            alert("Form Submitted successfuly");
+            window.scrollTo({top:0, behavior:"smooth"});
+            navigate("/forms");
+        } catch (error) {
+            console.log(error);
+        }
     }
 
   return (
@@ -59,7 +85,7 @@ const PaternalLeaveForm = () => {
 
                 <div className="input-group">
                     <label htmlFor="birthCertificate">Birth Certificate: </label>
-                    <input type="file" name="birthCertificate" />
+                    <input type="file" name="birthCertificate" {...register("birthCertificate")}/>
                 </div>
 
                 <div className="input-group">

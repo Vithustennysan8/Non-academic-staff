@@ -1,10 +1,27 @@
 import "../../css/Forms/accidentLeaveFormTemplate.css"
+import { Axios } from "../AxiosReqestBuilder";
 
-const AccidentLeaveFormTemplate = ({application}) => {
+const OtherLeaveFormsTemplate = ({application}) => {
     
+    const handleDelete = async (form) => {
+
+        const formtype = form.formType.split(" ").join("").replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => index == 0 ? word.toLowerCase() : word.toUpperCase()).replace(/\s+/g, '');
+
+        try {
+            const response = await Axios.delete(`/auth/${formtype}/delete/${form?.id}`);
+            console.log(response.data);
+            alert("Form Deleted Successfully");
+            window.location.reload();
+        }catch(error){
+            console.error(error);
+        }
+    }
+
   return (
     <>
-    <div className="AccidentLeaveTemplate">
+    <div className="OtherLeaveFormsTemplate">
+            <button className="deleteBtn" onClick={() => handleDelete(application)}><img src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="DeleteIcon" /></button>
+
             <h2>{application.formType}</h2>
 
             {/* Common */}
@@ -17,7 +34,7 @@ const AccidentLeaveFormTemplate = ({application}) => {
                 <div className="review-value">{application.user.emp_id}</div>
             </div>}
             {application.user.department && <div className="review-row">
-                <div className="review-label">Division/Department/Unit/Center: </div>
+                <div className="review-label">Division/Department: </div>
                 <div className="review-value">{application.user.department}</div>
             </div>}
             {application.user.faculty && <div className="review-row">
@@ -84,25 +101,25 @@ const AccidentLeaveFormTemplate = ({application}) => {
             </div>}
             {application.requestPeriodStart && <div className="review-row">
                 <div className="review-label">Request Period Start: </div>
-                <div className="review-value">{application.requestPeriodStart}</div>
+                <div className="review-value">{application.requestPeriodStart?.substring(0,10)}</div>
             </div>}
             {application.requestPeriodEnd && <div className="review-row">
                 <div className="review-label">Request Period End: </div>
-                <div className="review-value">{application.requestPeriodEnd}</div>
+                <div className="review-value">{application.requestPeriodEnd?.substring(0,10)}</div>
             </div>}
 
 
             {/* Maternity */}
             {application.childBirthDate && <div className="review-row">
                 <div className="review-label">Child Birth Date: </div>
-                <div className="review-value">{application.childBirthDate}</div>
+                <div className="review-value">{application.childBirthDate?.substring(0,10)}</div>
             </div>}
 
 
             {/* Paternal */}
             {application.requestDate && <div className="review-row">
                 <div className="review-label">Request Date: </div>
-                <div className="review-value">{application.requestDate}</div>
+                <div className="review-value">{application.requestDate?.substring(0,10)}</div>
             </div>}
             
     </div>
@@ -110,4 +127,4 @@ const AccidentLeaveFormTemplate = ({application}) => {
   )
 }
 
-export default AccidentLeaveFormTemplate
+export default OtherLeaveFormsTemplate

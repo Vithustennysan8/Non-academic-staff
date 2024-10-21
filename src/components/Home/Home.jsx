@@ -219,42 +219,52 @@ const Home = () => {
               <h1>Quick Downloads</h1>
               <div className="homeLinks">
                 <a href={lab8} download="Leave_form" target="_blank">
-                  <p className="leftLink">
+                  <p className="Link">
                     <img
                       src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
                       alt=""
                     />
-                    Application for leaves
+                    Application for NormalLeave
                   </p>
                 </a>
 
                 <a href={lab8} download="Subtitue_form" target="_blank">
-                  <p className="rightLink">
+                  <p className="Link">
                     <img
                       src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
                       alt=""
                     />
-                    Application for subtitute
+                    Application for AccidentLeave
                   </p>
                 </a>
 
                 <a href={lab8} download="Transfer_form" target="_blank">
-                  <p className="leftLink">
+                  <p className="Link">
                     <img
                       src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
                       alt=""
                     />
-                    Application for transfer
+                    Application for MaternityLeave
                   </p>
                 </a>
 
                 <a href={lab8} download="Leave_form" target="_blank">
-                  <p className="rightLink">
+                  <p className="Link">
                     <img
                       src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
                       alt=""
                     />
-                    Application for subtitute
+                    Application for PaternalLeave
+                  </p>
+                </a>
+
+                <a href={lab8} download="Leave_form" target="_blank">
+                  <p className="Link">
+                    <img
+                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                      alt=""
+                    />
+                    Application for MedicalLeave
                   </p>
                 </a>
               </div>
