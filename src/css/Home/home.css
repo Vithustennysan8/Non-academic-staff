@@ -1,5 +1,6 @@
 body{
-    background-color: #f3f3f3;
+    /* background-color: #f3f3f3; */
+    background-color: #f7f7f7;
 
 }
 .home-wrapper{
@@ -226,17 +227,17 @@ body{
     height: fit-content;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-evenly;
     gap: 8px;
 }
 .homeLinks a{
     text-decoration: none;
-    width: 18%;
+    width: 20%;
     min-width: 100px;
     height: fit-content;
 }
 .homeLinks a p{
-    font-size: 0.7rem;
+    font-size: 0.8rem;
 }
 .Link{
     padding: 10px 8px;
@@ -261,6 +262,7 @@ body{
     width: 25%;
     display: block;
     margin: 10px auto;
+    filter: drop-shadow(5px 4px 1px #968989);
 }
 .linkto{
     margin-bottom: 60px;
@@ -270,7 +272,7 @@ body{
     padding-left: 10px;
     text-transform: uppercase;
     margin-bottom: 40px;
-    
+    font-size: 1.6rem;
 }
 .linkto div{
     display: flex;
@@ -281,6 +283,11 @@ body{
 }
 .linkto img{
     width: 90px;
+    filter: drop-shadow(10px 6px 2px #686868);
+    transition: transform 0.3s ease-in-out;
+}
+.linkto img:hover{
+    transform: scale(1.2);
 }
 
 @media only screen and (max-width: 1200px) {

@@ -1,4 +1,5 @@
 .normalLeaveTemplate-container{
+    position: relative;
     overflow: auto;
 }
 .normalLeaveTemplate-container h2 {
@@ -42,4 +43,19 @@
 .radio div{
     width: 100px; 
     display: flex;
+}
+
+.normalLeaveTemplate-container .deleteBtn{
+    position: absolute;
+    right: 0px;
+    top: -10px;
+    width: fit-content;
+    border: none;
+    background-color: inherit;
+}
+.normalLeaveTemplate-container .deleteBtn img{
+    width: 20px;
+}
+.normalLeaveTemplate-container .deleteBtn img:hover{
+    transform: scale(1.2);
 }

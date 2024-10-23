@@ -57,6 +57,10 @@ const Signup = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       Navigate("/login");
     } catch (error) {
+      if(error.response.data.message){
+        alert(error.response.data.message);
+        console.log(error.response.data.message);
+      }
       console.error(error);
     }
   };

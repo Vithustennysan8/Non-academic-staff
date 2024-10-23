@@ -65,7 +65,7 @@ const Forum = () => {
       console.log(response.data);
       setForums([response.data, ...forums]);
     } catch (error) {
-      console.log("useFormError " + error);
+      console.log("useFormError "+ error);
     }
   };
 
@@ -99,7 +99,11 @@ const Forum = () => {
       });
       setForums(response.data);
     } catch (error) {
-      console.log("useFormError " + error);
+      if(error.response.data.message){
+        console.log(error.response.data.message);
+        alert(error.response.data.error);
+      }
+      console.log(error);
     }
   };
 

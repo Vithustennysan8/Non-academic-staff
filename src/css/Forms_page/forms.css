@@ -4,7 +4,7 @@
 }
 
 .form-heading{
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: bold;
     margin-top: 20px;
     border-left: 4px solid rgb(219, 0, 0);
@@ -29,7 +29,7 @@
     padding-bottom: 30px;
 }
 .form-details-container h3{
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     text-align: center;
     margin: 30px 0;
     padding-top: 20px;

@@ -9,11 +9,7 @@ const Login = () => {
   const Navigate = useNavigate();
   const { setIsLogin } = useContext(LoginContext);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const {register, handleSubmit, formState: { errors }} = useForm();
 
   const handleSignup = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -37,8 +33,11 @@ const Login = () => {
         throw new Error("Token not received");
       }
     } catch (error) {
-      console.log(error.message);
-      alert("Invalid Credentials");
+      if(error.response.data.message){
+        console.log(error.response.data.message);
+        alert(error.response.data.message);
+      }
+      console.log(error)
     }
   };
 

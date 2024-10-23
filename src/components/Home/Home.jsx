@@ -224,7 +224,7 @@ const Home = () => {
                       src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
                       alt=""
                     />
-                    Application for NormalLeave
+                    Application for Normal Leave
                   </p>
                 </a>
 
@@ -234,7 +234,7 @@ const Home = () => {
                       src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
                       alt=""
                     />
-                    Application for AccidentLeave
+                    Application for Accident Leave
                   </p>
                 </a>
 
@@ -244,7 +244,7 @@ const Home = () => {
                       src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
                       alt=""
                     />
-                    Application for MaternityLeave
+                    Application for Maternity Leave
                   </p>
                 </a>
 
@@ -254,7 +254,7 @@ const Home = () => {
                       src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
                       alt=""
                     />
-                    Application for PaternalLeave
+                    Application for Paternal Leave
                   </p>
                 </a>
 
@@ -264,7 +264,7 @@ const Home = () => {
                       src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
                       alt=""
                     />
-                    Application for MedicalLeave
+                    Application for Medical Leave
                   </p>
                 </a>
               </div>

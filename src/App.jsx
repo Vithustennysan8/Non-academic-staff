@@ -20,6 +20,8 @@ import { UserContext } from "./Contexts/UserContext";
 import RequestedForms from "./components/notifications/LeaveRequests";
 import LeaveForms from "./components/forms/LeaveForms";
 import Notifications from "./components/forms/Notifications";
+import AdminDashboard from "./components/Profile_page/Dashboard/AdminDashboard";
+import UserDashboard from "./components/Profile_page/Dashboard/UserDashboard";
 
 function App() {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
@@ -91,6 +93,8 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/requestedForms" element={<RequestedForms />} />
               <Route path="/notifications" element={<Notifications />} />
+              <Route path="/adminDashboard" element={<AdminDashboard />} />
+              <Route path="/userDashboard" element={<UserDashboard />} />
             </Routes>
             <Footer />
           </Router>

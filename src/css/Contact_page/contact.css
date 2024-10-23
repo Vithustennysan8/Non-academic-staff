@@ -3,26 +3,36 @@
     margin: auto;
     margin-bottom: 60px;
 }
-.contact_container h2{
+.contact_container h2, .about-container h2{
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     text-transform: uppercase;
-    margin: 30px 0 40px;
+    margin: 30px 0;
     font-weight: 600;
+}
+.about-container{
+    margin-bottom: 40px;
 }
 .contactCard:last-child{
     border-bottom: none;
 }
+
 .contact-info h3{
     margin: 20px 0;
     margin-left: 20px;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 600;
     text-transform: uppercase;
     left: 0;
     border-left: 4px solid rgb(68, 68, 68);
     padding-left: 10px;
+}
+
+.about-content{
+    width: 90%;
+    margin: auto;
+    color: #2d2d2d;
 }
 
 @media (max-width: 430px){

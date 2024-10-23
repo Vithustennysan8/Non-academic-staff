@@ -12,6 +12,7 @@ const Profile = () => {
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
   const [isloading, setIsLoading] = useState(true);
   const [src, setSrc] = useState(
     "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
@@ -25,6 +26,7 @@ const Profile = () => {
   const [image, setImage] = useState("");
   const [editProfile, setEditProfile] = useState(false);
   const [outline, setOutline] = useState("2px solid #ccc");
+  const [dashboard, setDashboard] = useState("")
 
   useEffect(() => {
     setTimeout(() => {
@@ -104,6 +106,7 @@ const Profile = () => {
       // fetchTransferFormsApplied();
 
       getUserDetail();
+      setDashboard(user.role === "USER" ? "/userDashboard" : "/adminDashboard");
     }, 600);
   }, [
     navigate,
@@ -183,7 +186,7 @@ const Profile = () => {
           <div id="profile-container">
             <div className="profile-bar">
               <div className="profile-heading">
-                <h3>Personal</h3>
+                <h3>Dashboard</h3>
               </div>
             </div>
 
@@ -229,12 +232,7 @@ const Profile = () => {
                       alt="icon3"
                     />
                     Notification{" "}
-                    {leave +
-                      register +
-                      transfer +
-                      appliedLeave +
-                      appliedTransfer >
-                      0 && (
+                    {leave + register + transfer + appliedLeave + appliedTransfer >0 && (
                       <span className="notificationCount">
                         {leave +
                           register +
@@ -247,13 +245,13 @@ const Profile = () => {
                 </Link>
               </p>
               <p>
-                <Link to="/dashboard">
+                <Link to={dashboard}>
                   <span>
                     <img
                       src="https://cdn-icons-png.flaticon.com/128/10541/10541390.png"
                       alt="icon3"
                     />
-                    Dashboard
+                    Summary
                   </span>
                 </Link>
               </p>

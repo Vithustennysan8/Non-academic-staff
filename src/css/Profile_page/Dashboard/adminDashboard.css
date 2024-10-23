@@ -1,0 +1,137 @@
+.adminDashboard-container {
+    width: 85%;
+    margin: 0 auto;
+    padding: 40px 0 50px;
+    position: relative;
+}
+.adminDashboard-container h3{
+    font-size: 1.7rem;
+    margin-bottom: 30px;
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    font-weight: 600;
+}
+
+.adminDashboard-table-container {
+    overflow-x: auto;
+    border-radius: 8px;
+    box-shadow: 4px 3px 8px 1px #d8d8d8;
+}
+
+.adminDashboard-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    /* border: 1px solid #ccc; */
+    background-color: rgb(255, 255, 255);
+}
+
+.adminDashboard-table-container th,
+.adminDashboard-table-container td {
+    padding: 8px 5px;
+    text-align: left;
+    /* border-bottom: 1px solid #d1d5db; */
+    font-size: 0.85rem;
+}
+.adminDashboard-table-container thead td{
+    border-bottom: 1px solid #ccc;
+    padding: 10px 3px 10px 0;
+}
+
+.adminDashboard-table-container thead td:hover,
+.adminDashboard-table-container td input:hover,
+.adminDashboard-table-container td select:hover {
+    background-color: #ebebeb;
+}
+
+.adminDashboard-table-container thead th{
+    background-color: #f7f7f7;
+}
+
+.adminDashboard-table-container td input,
+.adminDashboard-table-container td select {
+    width: 100%; 
+    height: 100%;
+    outline: none;
+    /* background-color: #ffeeee; */
+    /* border-radius: 8px; */
+    /* border: 1px solid #d1d5db; */
+    border: none;
+    padding: 8px; 
+    font-size: 0.8rem; 
+    color: #6c6c6c;
+}
+
+.adminDashboard-table-container tbody tr{
+    /* background-color: #f3f3f3a7; */
+    color: #525252;
+    cursor: pointer;
+
+}
+.adminDashboard-table-container tbody tr:hover{
+    background-color: #efefef;
+}
+
+.adminDashboard-table-container th {
+    background-color: #f9fafb; 
+}
+
+.floatWindowForSummary{
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: rgb(248, 248, 248);
+    width: 80%;
+    padding: 20px;
+    border-radius: 12px;
+    z-index: 5;
+}
+
+.darkScreenEffect{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* bottom: 0; */
+    background-color: #52525284;
+}
+
+.darkScreenEffect .cancel{
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    width: 35px;
+    height: 35px;
+    background-color: transparent;
+    border: none;
+}
+
+.darkScreenEffect .cancel img{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .adminDashboard-container {
+        width: 95%;
+    }
+    .adminDashboard-container h2{
+        font-size: 1.4rem;
+    }
+
+    .adminDashboard-table-container th,
+    .adminDashboard-table-container td {
+        font-size: 0.7rem; 
+        padding: 4px 8px; 
+    }
+
+    .adminDashboard-table-container th input,
+    .adminDashboard-table-container th select {
+        font-size: 0.7rem; 
+    }
+}
+

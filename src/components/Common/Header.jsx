@@ -98,7 +98,7 @@ const Header = () => {
           <p><Link to="/forms">Applications</Link></p>
           { isLogin && <p><Link to="/forum">Forum</Link></p> }
           <p><Link to="/contact">Contact</Link></p>
-          <p><Link to="/profile">Profile</Link></p>
+          <p><Link to="/profile">Dashboard</Link></p>
         </div>
 
         {isLogin ? (

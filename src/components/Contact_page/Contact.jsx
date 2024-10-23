@@ -16,6 +16,26 @@ const Contact = () => {
         <LoadingAnimation />
       ) : (
         <div className="contact_container">
+          <div className="about-container">
+            <h2>About us</h2>
+            <div className="about-content">
+            The non-academic staff at the University of Peradeniya play a vital role in ensuring the smooth 
+            functioning of the institution. They manage a wide range of administrative, technical, and 
+            operational tasks that support both academic activities and the overall campus environment. 
+            Administrative staff handle important functions like admissions, student records, and office 
+            management, while technical and support staff assist in laboratories, workshops, and IT services.
+              The maintenance team is responsible for the upkeep of the university's infrastructure, ensuring 
+              that facilities are safe and well-maintained. Library staff provide critical support in managing
+              the university’s academic resources, assisting students and faculty in accessing materials. 
+              Additionally, security personnel ensure safety on campus, while health services staff, including 
+              nurses and administrative personnel, provide healthcare to students and staff. Transport and 
+              logistics staff oversee the university's transportation needs, and those working in student 
+              services assist with counseling, housing, and extracurricular activities. The contribution of 
+              non-academic staff is essential to the university's success, allowing academic staff to focus 
+              on teaching and research in a well-organized and supportive environment.
+            </div>
+          </div>
+          
           <h2>Contact us</h2>
           <div className="contact_title">
             <div className="contact-info">

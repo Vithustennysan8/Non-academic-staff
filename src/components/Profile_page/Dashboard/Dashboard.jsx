@@ -27,7 +27,7 @@ const Dashboard = () => {
         <LoadingAnimation />
       ) : (
         <div className="dashboard-container">
-          <h1>DASHBOARD</h1>
+          <h1>Summary</h1>
           <LeaveDetails />
 
           <LeaveGraph />
