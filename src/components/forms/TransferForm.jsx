@@ -22,32 +22,32 @@ const TransferForm = () => {
     const onSubmit = async (data) => {
         
         const formData = new FormData();
-        if(data.file){
-            formData.append('file', data.file[0]);
-        }
+        if(data.files){
+            formData.append('files', data.files[0]);
+          }
 
-        Object.keys(data).forEach((key) => {
-            if (key === "job_start_date"){
-                formData.append(key, data[key].split('-').reverse().join("-"));
+        // Object.keys(data).forEach((key) => {
+        //     if (key === "currentJobStartDate" || key === "currentJobEndDate" || key === "previousJobStartDate" || key === "previousJobEndDate"){
+        //         formData.append(key, data[key].split('-').reverse().join("-"));
+        //     }
+        //     if( key != "file" || key != "job_start_date"){
+        //         formData.append(key, data[key]);
+        //     }
+        // })
+
+        Object.keys(data).forEach((key)=>{
+            if( key != "files" ){
+              formData.append(key, data[key]);
             }
-            if( key != "file" || key != "job_start_date"){
-                formData.append(key, data[key]);
-            }
-        })
+          })
 
         console.log(formData);
 
         try {
-            const response = await Axios.post("/auth/full_leave_form/send", formData,
-                {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
-                      'Authorization': `Bearer ${localStorage.getItem("token")}`
-                    }
-                  }
-            );
+            const response = await Axios.post("/auth/transferForm/add", formData );
             console.log(response.data);
             alert("form submitted successfully");
+            window.scrollTo({top:0, behavior:"smooth"})
             naviagte("/forms");
         } catch (error) {
             console.log(error);
@@ -59,7 +59,7 @@ const TransferForm = () => {
         <div className="transferform">
             <div className="transfer-container">
                 <h2>Transfer Application Form</h2>
-                <form id="TransferForm" onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+                <form id="TransferForm" onSubmit={handleSubmit(onSubmit)}>
 
                     <div className="form-group">
                         <label htmlFor="name">Name:</label>
@@ -67,13 +67,16 @@ const TransferForm = () => {
                     </div>
 
                     <div className="form-group label-inline">
-                        <label htmlFor="EmpID">EmpID:</label>
+                        <label htmlFor="EmpID">UPF No:</label>
                         <p>{user.emp_id}</p>
                     </div>
 
                     <div className="form-group label-inline">
-                        <label htmlFor="Facul">Faculty:</label>
-                        <p>{user.faculty}</p>
+                        <label htmlFor="designation">Designation: </label>
+                        <input type="text" id='designation' {...register("designation",{required:{
+                            value: true,
+                            message: "Designation is required",
+                        }})}/>
                     </div>
 
                     <div className="form-group label-inline">
@@ -82,95 +85,45 @@ const TransferForm = () => {
                     </div>
 
                     <div className="form-group label-inline">
-                        <label htmlFor="jobStartDate">Job Start Date:</label>
-                        <input type="date" id="jobStartDate" name="job_start_date" {...register("job_start_date", {required: {
+                        <label htmlFor="Facul">Faculty:</label>
+                        <p>{user.faculty}</p>
+                    </div>
+
+                    <div className="form-group label-inline">
+                        <label htmlFor="currentJobStartDate">Current Job Start Date:</label>
+                        <input type="date" id="currentJobStartDate" name="currentJobStartDate" {...register("currentJobStartDate", {required: {
                             value: true,
                             message: "Job Start Date is required"
                         }})} />
-                        {errors.job_start_date && <span className='error'>{errors.job_start_date.message}</span>}
+                        {errors.currentJobStartDate && <span className='error'>{errors.currentJobStartDate.message}</span>}
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="experience">Experience (working duration):</label>
-                        <input type="text" id="experience" name="experience" {...register("experience")} />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="preference1">Preference 1:</label>
-                        <select id="preference1" name="preference1" {...register("preference1", {required: {
+                    <div className="form-group label-inline">
+                        <label htmlFor="currentJobEndDate">Current Job End Date:</label>
+                        <input type="date" id="currentJobEndDate" name="currentJobEndDate" {...register("currentJobEndDate", {required: {
                             value: true,
-                            message: "Preference 1 is required"
-                        }})}>
-                            <option value="">Select one...</option>
-                            <option value="colombo">University of Colombo</option>
-                            <option value="Jayepura">University of Sri Jayewardenepura</option>
-                            <option value="ruhuna">University of Ruhuna</option>
-                            <option value="moratuwa">University of Moratuwa</option>
-                            <option value="kelaniya">University of Kelaniya</option>
-                            <option value="rajarata">Rajarata University</option>
-                            <option value="jaffna">University of Jaffna</option>
-                            <option value="sabaragamuwa">Sabaragamuwa University</option>
-                            <option value="south eastern">South Eastern University</option>
-                        </select>
-                        {errors.preference1 && <span className='error'>{errors.preference1.message}</span>}
+                            message: "Job Start Date is required"
+                        }})} />
+                        {errors.currentJobEndDate && <span className='error'>{errors.currentJobEndDate.message}</span>}
+                    </div>
+
+                    <div className="form-group label-inline">
+                        <label htmlFor="previousJobStartDate">Previous Job Start Date:</label>
+                        <input type="date" id="previousJobStartDate" name="previousJobStartDate" {...register("previousJobStartDate")} />
+                    </div>
+
+                    <div className="form-group label-inline">
+                        <label htmlFor="previousJobEndDate">Previous Job End Date:</label>
+                        <input type="date" id="previousJobEndDate" name="previousJobEndDate" {...register("previousJobEndDate")} />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="preference2">Preference 2:</label>
-                        <select id="preference2" name="preference2" {...register("preference2", {required: {
-                            value: true,
-                            message: "Preference 2 is required"
-                        }})} >
-                            <option value="">Select one...</option>
-                            <option value="colombo">University of Colombo</option>
-                            <option value="Jayepura">University of Sri Jayewardenepura</option>
-                            <option value="ruhuna">University of Ruhuna</option>
-                            <option value="moratuwa">University of Moratuwa</option>
-                            <option value="kelaniya">University of Kelaniya</option>
-                            <option value="rajarata">Rajarata University</option>
-                            <option value="jaffna">University of Jaffna</option>
-                            <option value="sabaragamuwa">Sabaragamuwa University</option>
-                            <option value="south eastern">South Eastern University</option>
-                        </select>
-                        {errors.preference2 && <span className='error'>{errors.preference2.message}</span>}
+                        <label htmlFor="files">Additional Documents:</label>
+                        <input type="file" id="files" name="files" {...register('files')} />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="preference3">Preference 3:</label>
-                        <select id="preference3" name="preference3" {...register("preference3", {required: {
-                            value: true,
-                            message: "Preference 3 is required"
-                        }})} >
-                            <option value="">Select one...</option>
-                            <option value="colombo">University of Colombo</option>
-                            <option value="Jayepura">University of Sri Jayewardenepura</option>
-                            <option value="ruhuna">University of Ruhuna</option>
-                            <option value="moratuwa">University of Moratuwa</option>
-                            <option value="kelaniya">University of Kelaniya</option>
-                            <option value="rajarata">Rajarata University</option>
-                            <option value="jaffna">University of Jaffna</option>
-                            <option value="sabaragamuwa">Sabaragamuwa University</option>
-                            <option value="south eastern">South Eastern University</option>
-                        </select>
-                        {errors.preference3 && <span className='error'>{errors.preference3.message}</span>}
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="reason">Reason:</label>
-                        <textarea id="reason" name="reason" rows="4" {...register("reason", {required: {
-                            value: true,
-                            message: "Reason is required"
-                        }})} ></textarea>
-                        {errors.reason && <span className='error'>{errors.reason.message}</span>}
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="file">Additional Documnets:</label>
-                        <input type="file" id="file" name="file" {...register('file')} />
-                    </div>
-
-                    <div className="deletebtn">
-                        <button type="submit" className='bttn redbtn'>Submit</button>
+                    <div className="btnDiv">
+                        <input type="submit" className='bttn redbtn' value={"Submit"}/>
                     </div>
                 </form>
             </div>

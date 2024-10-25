@@ -99,15 +99,15 @@ const OtherLeaveFormsTemplate = ({application}) => {
                 <div className="review-label">Designation: </div>
                 <div className="review-value">{application.designation}</div>
             </div>}
-            {application.requestPeriodStart && <div className="review-row">
-                <div className="review-label">Request Period Start: </div>
-                <div className="review-value">{application.requestPeriodStart?.substring(0,10)}</div>
-            </div>}
             {application.requestPeriodEnd && <div className="review-row">
                 <div className="review-label">Request Period End: </div>
                 <div className="review-value">{application.requestPeriodEnd?.substring(0,10)}</div>
             </div>}
 
+            {/* {application.requestPeriodStart && <div className="review-row">
+                <div className="review-label">Leave days count: </div>
+                <div className="review-value">{application.leaveDays}</div>
+            </div>} */}
 
             {/* Maternity */}
             {application.childBirthDate && <div className="review-row">
@@ -117,10 +117,36 @@ const OtherLeaveFormsTemplate = ({application}) => {
 
 
             {/* Paternal */}
-            {application.requestDate && <div className="review-row">
+            {application.leaveAt && <div className="review-row">
                 <div className="review-label">Request Date: </div>
-                <div className="review-value">{application.requestDate?.substring(0,10)}</div>
+                <div className="review-value">{application.leaveAt?.substring(0,10)}</div>
             </div>}
+
+            {/* Transfer forms */}
+            {application.currentJobStartDate && 
+                    <div className="review-row">
+                        <div className="review-label">Current Job StartDate: </div> 
+                        <div className="review-value">{application.currentJobStartDate?.substring(0,10)}</div>
+                    </div>
+                }
+                {application.currentJobEndDate && 
+                    <div className="review-row">
+                        <div className="review-label">Current Job EndDate: </div> 
+                        <div className="review-value">{application.currentJobEndDate?.substring(0,10)}</div>
+                    </div>
+                }
+                {application.previousJobStartDate && 
+                    <div className="review-row">
+                        <div className="review-label">Previous Job StartDate: </div> 
+                        <div className="review-value">{application.previousJobStartDate?.substring(0,10)}</div>
+                    </div>
+                }
+                {application.previousJobEndDate && 
+                    <div className="review-row">
+                        <div className="review-label">Previous Job EndDate: </div> 
+                        <div className="review-value">{application.previousJobEndDate?.substring(0,10)}</div>
+                    </div>
+                }
             
     </div>
     </>

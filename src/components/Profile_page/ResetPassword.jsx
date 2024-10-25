@@ -54,27 +54,29 @@ const ResetPassword = () => {
   const handleDelete = async (e) => {
     e.preventDefault();
 
-    if (reset.password_for_delete !== "") {
-      try {
-        const response = await Axios.delete("/auth/user/delete", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          data: reset,
-        });
-        console.log(response.data);
-        alert("Account deleted successfully");
-        localStorage.removeItem("token");
-        sessionStorage.setItem("isLogin", true);
-        setIsLogin(false);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        navigate("/login");
-      } catch (err) {
-        alert("Password not match!");
-        console.log(err);
-      }
-    } else {
+    if (reset.password_for_delete === "") {
       alert("Please enter your password to delete account");
+      return;
+    }
+
+    try {
+      const response = await Axios.delete("/auth/user/delete", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: reset,
+      });
+      console.log(response.data);
+      alert("Account deleted successfully");
+      localStorage.removeItem("token");
+      sessionStorage.setItem("isLogin", true);
+      setIsLogin(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      navigate("/login");
+    }
+    catch (error) {
+      alert("Somthing wrong with Password!!!");
+      console.log(error);
     }
   };
 
@@ -236,11 +238,7 @@ const ResetPassword = () => {
                   src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png"
                   alt=""
                   title="show password"
-                  onClick={() =>
-                    handleVissiblePassword(
-                      "PasswordForDeleteImg",
-                      "PasswordForDelete"
-                    )
+                  onClick={() => handleVissiblePassword("PasswordForDeleteImg","PasswordForDelete")
                   }
                 />
                 <input

@@ -62,26 +62,26 @@ const Profile = () => {
 
       const fetchRegisterRequests = async () => {
         try {
-          const response = await Axios.get("admin/verifyRequests");
+          const response = await Axios.get("admin/verifyRegisterRequests");
           setRegister(response.data.length);
         } catch {
           console.log("Error fetching register requests");
         }
       };
 
-      // const fetchTransferRequests = async () => {
-      //   try{
-      //     const response = await Axios.get("admin/verifyRequests");
-      //     if(response.data.length > 0){
-      //       setTransfer(response.data.length);
-      //     }
-      //   }catch{
-      //     console.log("Error fetching transfer requests");
-      //   }}
+      const fetchTransferRequests = async () => {
+        try{
+          const response = await Axios.get("admin/transferForms/notify");
+          if(response.data.length > 0){
+            setTranfer(response.data.length);
+          }
+        }catch{
+          console.log("Error fetching transfer requests");
+        }}
 
       const fetchTransferFormsApplied = async () => {
         try {
-          const response = await Axios.get("admin/verifyRequests");
+          const response = await Axios.get("auth/user/transferForms");
           setAppliedLeave(response.data.length);
         } catch (error) {
           console.log("Error fetching appliedTransferForms requests", error);
@@ -100,10 +100,10 @@ const Profile = () => {
       if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
         fetchLeaveRequestCount();
         fetchRegisterRequests();
-        // fetchTransferRequests();
+        fetchTransferRequests();
       }
       fetchLeaveFormsApplied();
-      // fetchTransferFormsApplied();
+      fetchTransferFormsApplied();
 
       getUserDetail();
       setDashboard(user.role === "USER" ? "/userDashboard" : "/adminDashboard");

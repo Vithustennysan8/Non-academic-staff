@@ -22,7 +22,11 @@ const FormPreview = ({ application, approver, setForm }) => {
                 setFormStatus(application?.cmoStatus);
                 break;
             case "Registrar":
-                setFormStatus(application?.registrarStatus);
+                if(application.formType === "Transfer Form" && application.naeStatus === "Accepted"){
+                    setFormStatus(application?.registrarApprovalStatus);
+                }else{
+                    setFormStatus(application?.registrarStatus);
+                }
                 break;
             case "Non Academic Establishment Division":
                 setFormStatus(application?.naeStatus);
@@ -57,26 +61,7 @@ const FormPreview = ({ application, approver, setForm }) => {
             console.error("Error generating PDF:", error);
         });
     };
-    
-    // const downloadImage = () => {
-    //     const input = document.getElementById("pdfContent");
-    //     html2canvas(input,{
-    //         scale: 2, // Increase the scale to improve resolution
-    //         useCORS: true, // Use CORS to load images from external sources
-    //         allowTaint: true, // Allow cross-origin images
-    //         logging: true,
-    //     })
-    //     .then((canvas) => {
-    //         const dataURL = canvas.toDataURL("image/png");
-    //         const link = document.createElement("a");
-    //         link.href = dataURL;
-    //         link.download = `${application.name}_Leave_Application.png`;
-    //         link.click();
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error generating image:", error);
-    //         });
-    //     }
+
 
     const handleAccept = async (id) => {
         if(description === ''){
@@ -87,6 +72,7 @@ const FormPreview = ({ application, approver, setForm }) => {
         try{
             const response = await Axios.put(`/admin/accept/${id}`, {user:approver.id,description, formType:application.formType});
             setForm({...response.data});
+            console.log("csdvsfvsfbsf")
         }catch(error){
             console.error("Error accepting application:", error);
             alert("Failed to accept the application. Please try again.");
@@ -120,7 +106,7 @@ const FormPreview = ({ application, approver, setForm }) => {
             {application.formType === "Normal Leave Form" ? 
             <NormalLeaveFormTemplate application={application}/>:
             <OtherLeaveFormsTemplate application={application}/>}
-
+            
 
 
             {application.status && <div className="review-row">
@@ -196,6 +182,19 @@ const FormPreview = ({ application, approver, setForm }) => {
                         <div className="review-row">
                             <div className="review-label">Description: </div> 
                             <div className="review-value">{application.naeDescription}</div>
+                        </div>
+                    }
+
+                    {application.registrarApprovalStatus && 
+                        <div className="review-row">
+                            <div className="review-label">Registrar Approval: </div> 
+                            <div className="review-value">{application.registrarApprovalStatus}</div>
+                        </div>
+                    }
+                    {application.registrarApprovalDescription && 
+                        <div className="review-row">
+                            <div className="review-label">Description: </div> 
+                            <div className="review-value">{application.registrarApprovalDescription}</div>
                         </div>
                     }
                 </div>

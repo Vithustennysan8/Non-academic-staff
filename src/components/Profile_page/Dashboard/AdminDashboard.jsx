@@ -174,10 +174,10 @@ const AdminDashboard = () => {
                             <option value="Rejected">Rejected</option>
                             </select>
                         </td>
-                        <td>
+                        {/* <td>
                             <input type="text" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value.substring(0,10))} placeholder='Select Date'/>
-                        </td>
-                        <td></td> 
+                        </td> */}
+                        
                         </tr>
                         <tr>
                             <th>NAME</th>
@@ -187,20 +187,20 @@ const AdminDashboard = () => {
                             <th>FORM TYPE</th>
                             <th>FORM STATUS</th>
                             <th>REQUEST DATE</th>
-                            <th>DAYS LEAVE</th>
+                            {/* <th>DAYS LEAVE</th> */}
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredForms.map((employee, index) => (
+                    {filteredForms.map((form, index) => (
                     <tr key={index} onClick={()=>handleForm(index)}>
-                        <td>{employee.user.first_name}</td>
-                        <td>{employee.user.emp_id}</td>
-                        <td>{employee.user.faculty}</td>
-                        <td>{employee.user.department}</td>
-                        <td>{employee.formType}</td>
-                        <td>{employee.status}</td>
-                        <td>{employee.createdAt?.substring(0,10)}</td>
-                        <td>{employee.daysLeav}</td>
+                        <td>{form.user.first_name}</td>
+                        <td>{form.user.emp_id}</td>
+                        <td>{form.user.faculty}</td>
+                        <td>{form.user.department}</td>
+                        <td>{form.formType}</td>
+                        <td>{form.status}</td>
+                        <td>{form.leaveAt?.substring(0,10)}</td>
+                        {/* <td>{form.leaveDays}</td> */}
                     </tr>
                     ))}
                 </tbody>

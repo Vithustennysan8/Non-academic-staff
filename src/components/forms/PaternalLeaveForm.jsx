@@ -75,6 +75,15 @@ const PaternalLeaveForm = () => {
                 </div>
 
                 <div className="input-group">
+                    <label htmlFor="leaveDays">Leave days count: </label>
+                    <input type="number" name="leaveDays" id="leaveDays" {...register("leaveDays", {required:{
+                        value: true,
+                        message: "Please enter a number"
+                    }})} />
+                    {errors.leaveDays && <span className="error">{errors.leaveDays.message}</span>}
+                </div>
+
+                <div className="input-group">
                     <label htmlFor="childBirthDate">Child Birth Date: </label>
                     <input type="date" name="childBirthDate" {...register("childBirthDate", {required:{
                         value: true,

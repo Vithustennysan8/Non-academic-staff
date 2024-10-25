@@ -17,6 +17,7 @@ const Home = () => {
   );
   const [role, setRole] = useState("USER");
   const [allLeaveFormRequests, setAllLeaveFormRequests] = useState([]);
+  const [allTransferFormRequests, setAllTransferFormRequests] = useState([]);
 
   useEffect(() => {
     const getUserDetail = async () => {
@@ -40,7 +41,7 @@ const Home = () => {
         }
       };
 
-      const getNotification = async () => {
+      const getLeaveFormsNotification = async () => {
         try {
           const response = await Axios.get("admin/leaveForms/notify");
           setAllLeaveFormRequests(response.data);
@@ -48,8 +49,18 @@ const Home = () => {
           console.log(error);
         }
       };
+
+      const getTransferFromsNotification = async () => {
+        try {
+          const response = await Axios.get("admin/transferForms/notify");
+          setAllTransferFormRequests(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
       
-      getNotification();
+      getLeaveFormsNotification();
+      getTransferFromsNotification();
       getUserDetail();
       setTimeout(() => {
     }, 600);
@@ -117,10 +128,7 @@ const Home = () => {
                     <div className="form-shortcuts">
                       <div className="form-shortcut">
                         <p>
-                          {/* <img
-                        src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
-                        alt=""
-                        /> */}
+                          
                           <Link to="/forms">Apply for Leaves</Link>
                         </p>
                       </div>
@@ -128,10 +136,6 @@ const Home = () => {
                     <div className="form-shortcuts">
                       <div className="form-shortcut">
                         <p>
-                          {/* <img
-                        src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
-                        alt=""
-                        /> */}
                           <Link to="/forms">Apply for Transfer</Link>
                         </p>
                       </div>
@@ -149,23 +153,21 @@ const Home = () => {
                           </div>
                         )}
                         <p>
-                          {/* <img
-                        src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
-                        alt=""
-                        /> */}
+                      
                           <Link to="/notifications">Requests for Leaves</Link>
                         </p>
                       </div>
                     </div>
                     <div className="form-shortcuts">
                       <div className="form-shortcut">
-                        <div className="notifyCounts">3</div>
+                        {allTransferFormRequests.length >0 && 
+                        <div className="notifyCounts">
+                          {allTransferFormRequests.length}
+                          </div>
+                        }
                         <p>
-                          {/* <img
-                        src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/hyperlink-icon.png"
-                        alt=""
-                        /> */}
-                          <Link to="/forms">Requests for Transfers</Link>
+                        
+                          <Link to="/notifications">Requests for Transfers</Link>
                         </p>
                       </div>
                     </div>

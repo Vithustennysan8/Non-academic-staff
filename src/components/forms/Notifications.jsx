@@ -43,24 +43,25 @@ const Notifications = () => {
 
       const fetchRegisterRequests = async () => {
         try {
-          const response = await Axios.get("admin/verifyRequests");
+          const response = await Axios.get("admin/verifyRegisterRequests");
           setRegisterRequests(response.data);
+          console.log(response.data)
         } catch (error) {
           console.log("Error fetching register requests", error);
         }
       };
 
-      // const fetchTransferRequests = async () => {
-      //   try{
-      //     const response = await Axios.get("admin/verifyRequests");
-      //     setTransferRequests(response.data.length);
-      //   }catch(error){
-      //     console.log("Error fetching transfer requests", error);
-      //   }}
+      const fetchTransferRequests = async () => {
+        try{
+          const response = await Axios.get("admin/transferForms/notify");
+          setTransferRequests(response.data);
+        }catch(error){
+          console.log("Error fetching transfer requests", error);
+        }}
 
       const fetchTransferFormsApplied = async () => {
         try {
-          const response = await Axios.get("admin/verifyRequests");
+          const response = await Axios.get("auth/user/transferForms");
           setAppliedTransferForms(response.data);
         } catch (error) {
           console.log("Error fetching appliedTransferForms requests", error);
@@ -79,10 +80,10 @@ const Notifications = () => {
       if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
         fetchLeaveRequests();
         fetchRegisterRequests();
-        // fetchTransferRequests();
+        fetchTransferRequests();
       }
       fetchLeaveFormsApplied();
-      // fetchTransferFormsApplied();
+      fetchTransferFormsApplied();
       setIsLoading(false);
     }, 600);
   }, [navigate, user, isLogin]);
@@ -96,6 +97,7 @@ const Notifications = () => {
           <div className="requestsTap">
             {(user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
               <>
+              { (user.job_type === "Head of the Department" || user.job_type === "Dean") &&
                 <button onClick={() => setRequest("RegisterRequests")}>
                   Register Requests
                   {registerRequests.length > 0 && (
@@ -103,7 +105,7 @@ const Notifications = () => {
                       {registerRequests.length}
                     </span>
                   )}
-                </button>
+                  </button>}
 
                 <button onClick={() => setRequest("LeaveRequests")}>
                   Leave Requests
@@ -157,14 +159,13 @@ const Notifications = () => {
                 setRequests={setRegisterRequests}
               />
             )}
-            {request === "TransferRequests" && <TransferRequests />}
+            {request === "TransferRequests" && <TransferRequests allTransferFormRequests={transferRequests} setAllTransferFormRequests={setTransferRequests}/>}
             {request === "AppliedLeaveForms" && (
               <AppliedLeaveForms
                 appliedLeaveForms={appliedLeaveForms}
-                setAppliedLeaveForms={setAppliedLeaveForms}
               />
             )}
-            {request === "AppliedTransferForms" && <AppliedTransferForms />}
+            {request === "AppliedTransferForms" && <AppliedTransferForms appliedTransferForms={appliedTransferForms}/>}
           </div>
         </div>
       )}

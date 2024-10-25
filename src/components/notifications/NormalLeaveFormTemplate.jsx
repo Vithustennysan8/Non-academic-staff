@@ -91,7 +91,7 @@ const NormalLeaveFormTemplate = ({application}) => {
 
               <tr >
                 <td colSpan={4}>Number of days of Leave applied for</td>
-                <td colSpan={4}><p>{application.noOfLeaveDays}</p></td>
+                <td colSpan={4}><p>{application.leaveDays}</p></td>
                 <td style={application.leaveType === "casual" ? {color:"red"}:{}}>Casual</td>
                 <td style={application.leaveType === "vacation" ? {color:"red"}:{}}>Vacation</td>
                 <td style={application.leaveType === "sick" ? {color:"red"}:{}}>Sick</td>
@@ -100,7 +100,7 @@ const NormalLeaveFormTemplate = ({application}) => {
 
               <tr>
                 <td colSpan={4}>Date of commencement of Leave</td>
-                <td colSpan={8}><p>{application.leaveAppliedDate?.substring(0,10)}</p></td>
+                <td colSpan={8}><p>{application.leaveAt?.substring(0,10)}</p></td>
               </tr>
 
               <tr>

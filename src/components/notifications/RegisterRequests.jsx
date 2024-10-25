@@ -22,6 +22,7 @@ const RegisterRequests = ({requests, setRequests}) => {
     try{
       const response = await Axios.put(`admin/verify/${token}`);
       setRequests(response.data);
+      console.log(response.data);
     }catch(error){
       console.log(error);
     }

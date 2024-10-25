@@ -69,6 +69,24 @@ const AccidentLeaveForm = () => {
         </div>
 
         <div className="input-group">
+          <label htmlFor="leaveAt">Leave StartDate: </label>
+          <input type="date" name="leaveAt" id="leaveAt" {...register("leaveAt", {required:{
+            value: true,
+            message: "Please select a date"
+          }})} />
+          {errors.leaveAt && <span className="error">{errors.leaveAt.message}</span>}
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="leaveDays">Leave days count: </label>
+          <input type="number" name="leaveDays" id="leaveDays" {...register("leaveDays", {required:{
+            value: true,
+            message: "Please enter a number"
+          }})} />
+          {errors.leaveDays && <span className="error">{errors.leaveDays.message}</span>}
+        </div>
+
+        <div className="input-group">
           <label htmlFor="accidentOccurredDuring">The accident occurred during: </label>
           <input type="text" name="accidentOccurredDuring" id="accidentOccurredDuring" {...register("accidentOccurredDuring", {required:{
             value: true,

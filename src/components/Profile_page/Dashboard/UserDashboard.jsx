@@ -155,7 +155,6 @@ const UserDashboard = () => {
       "Paternal Leave Form":0,
       "Maternity Leave Form":0, 
       "No-Pay":0,
-
     }
 
     applications.map((form) => {
@@ -186,11 +185,14 @@ const UserDashboard = () => {
       }
     });
 
-    if(acceptedForms<=2){
-      setFiltered_noPayForms(0);
-    }else{
-      setFiltered_noPayForms(acceptedForms-2);
+    if(selectedMonth !== ""){
+      if(acceptedForms<=2){
+        setFiltered_noPayForms(0);
+      }else{
+        setFiltered_noPayForms(acceptedForms-2);
+      }
     }
+
 
     setFiltered_acceptedForms(acceptedForms);
     setFiltered_rejectedForms(rejectedForms);
@@ -241,7 +243,9 @@ const UserDashboard = () => {
   },[filteredForms])
 
 
-  const getChartData = {
+  const getChartData = () => {
+
+    return{
       labels: [],
       datasets: [
         {
@@ -251,7 +255,7 @@ const UserDashboard = () => {
           borderWidth: 3,
         },
       ],
-    };
+    }};
 
 
   const options = {
@@ -349,7 +353,7 @@ const UserDashboard = () => {
             <h4>Summary in Chart</h4>
             <div className="summaryInfo">
               <div className="chart">
-                <Pie data={getChartData} options={options} />
+                <Pie data={getChartData()} options={options} />
               </div>
               <div className="chartAttributes">
                 <div>

@@ -7,6 +7,7 @@ import maternity from "../../assets/images/maternityIMG.jpg"
 import accident from "../../assets/images/accidentIMG.jpg"
 import paternal from "../../assets/images/paternalIMG.jpg"
 import LoadingAnimation from "../Common/LoadingAnimation";
+import transfer from "../../assets/images/transferIMG.jpg"
 
 const Forms = () => {
   const [isloading, setIsLoading] = useState(true);
@@ -42,7 +43,6 @@ const Forms = () => {
 
           <div className="form-details">
             <div className="form-detail">
-              <p>Normal Leave Form</p>
               <img src={img1} alt="normalFormFlowPicture" />
             </div>
             <div className="form-detail">
@@ -60,6 +60,10 @@ const Forms = () => {
             <div className="form-detail">
               {/* <p>Maternity Leave Form</p> */}
               <img src={maternity} alt="maternityFormFlowPicture" />
+            </div>
+            <div className="form-detail">
+              {/* <p>Maternity Leave Form</p> */}
+              <img src={transfer} alt="transferFormFlowPicture" />
             </div>
           </div>
         </div>

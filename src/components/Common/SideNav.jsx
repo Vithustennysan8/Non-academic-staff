@@ -6,6 +6,7 @@ import { UserContext } from "../../Contexts/UserContext";
 
 
 const SideNav = ({ refFunc, isOpen, toggleNav }) => {
+  const { user } = useContext(UserContext);
   const {isLogin} = useContext(LoginContext);
   
   return (
@@ -13,7 +14,7 @@ const SideNav = ({ refFunc, isOpen, toggleNav }) => {
       <button className="closebtn" onClick={toggleNav}>×</button>
       <Link to="/" onClick={toggleNav}>Home</Link>
       {isLogin && <Link to="/staffs" onClick={toggleNav}>Staffs</Link>}
-      <Link to="/forms" onClick={toggleNav}>Applications</Link>
+      { user?.role !== "ADMIN" && <Link to="/forms" onClick={toggleNav}>Applications</Link>}
       {isLogin && <Link to="/forum" onClick={toggleNav}>Forum</Link>}
       <Link to="/contact" onClick={toggleNav}>Contact</Link>
       <Link to="/profile" onClick={toggleNav}>Dashboard</Link>

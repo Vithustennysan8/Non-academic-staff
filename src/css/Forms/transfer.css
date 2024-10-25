@@ -29,17 +29,17 @@
 
 #TransferForm input,#TransferForm select,#TransferForm textarea, #TransferForm p {
     width: 100%;
-    padding: 8px 10px;
+    padding: 6px 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-sizing: border-box;
 }
 
-#TransferForm .deletebtn button {
+#TransferForm .btnDiv input {
     width: 200px;
 }
-#TransferForm .deletebtn {
+#TransferForm .btnDiv {
     display: flex;
     justify-content: center;    
 }
@@ -49,5 +49,8 @@
     .transfer-container{
         width: 90%;
         margin-bottom: 50px;
+    }
+    .transfer-container form{
+        font-size: 0.9rem;
     }
 }

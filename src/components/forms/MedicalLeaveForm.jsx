@@ -83,6 +83,15 @@ const MedicalLeaveForm = () => {
                 </div>
 
                 <div className="input-group">
+                    <label htmlFor="leaveDays">Leave days count: </label>
+                    <input type="number" name="leaveDays" id="leaveDays" {...register("leaveDays", {required:{
+                        value: true,
+                        message: "Please enter a number"
+                    }})} />
+                    {errors.leaveDays && <span className="error">{errors.leaveDays.message}</span>}
+                    </div>
+
+                <div className="input-group">
                     <label htmlFor="requestPeriodEnd">Request Period End: </label>
                     <input type="date" name="requestPeriodEnd" {...register("requestPeriodEnd", {required:{
                         value: true,
