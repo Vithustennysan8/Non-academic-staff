@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import "../../css/Forms/normalLeaveFormTemplate.css";
 import { Axios } from "../AxiosReqestBuilder";
+import { useContext } from "react";
+import { UserContext } from "../../Contexts/UserContext";
 
 const NormalLeaveFormTemplate = ({application}) => {
-  const navigate = useNavigate();
-    
+  const {user} = useContext(UserContext);
+
   const handleDelete = async (form) => {
 
     const formtype = form.formType.split(" ").join("").replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => index == 0 ? word.toLowerCase() : word.toUpperCase()).replace(/\s+/g, '');
@@ -13,9 +15,11 @@ const NormalLeaveFormTemplate = ({application}) => {
         const response = await Axios.delete(`/auth/${formtype}/delete/${form?.id}`);
         console.log(response.data);
         alert("Form Deleted Successfully");
-        // navigate("/notifications");
         window.location.reload();
     }catch(error){
+        if(error.response.data.message){
+          alert(error.response.data.message);
+        }
         console.error(error);
     }
 }
@@ -25,7 +29,7 @@ const NormalLeaveFormTemplate = ({application}) => {
     <div className="normalLeaveTemplate-container">
 
         <h2>{application.formType}</h2>
-        <button className="deleteBtn" onClick={() => handleDelete(application)}><img src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="DeleteIcon" /></button>
+        {application.headStatus === "pending" && user.role === "USER" && <button className="deleteBtn" onClick={() => handleDelete(application)}><img src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="DeleteIcon" /></button>}
 
           <table border={"1px"}>
 

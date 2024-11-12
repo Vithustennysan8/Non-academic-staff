@@ -7,7 +7,7 @@ import FormReqTap from "./FormReqTap";
 const AppliedTransferForms = ({appliedTransferForms}) => {
   const { user } = useContext(UserContext);
   const [form, setForm] = useState(null);
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("Pending");
 
   // Memoize filtered forms based on the selected filter
   const filteredForms = useMemo(() => {
@@ -15,10 +15,11 @@ const AppliedTransferForms = ({appliedTransferForms}) => {
       return appliedTransferForms.filter((form) => form.status === "Accepted");
     } else if (filter === "Rejected") {
       return appliedTransferForms.filter((form) => form.status === "Rejected");
-    }else if ( filter === "newToOld") {
-      return appliedTransferForms.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } else if (filter === "Pending"){
+      return appliedTransferForms.filter((form) => form.status === "Pending");
+    }else{
+      return appliedTransferForms;
     }
-    return appliedTransferForms;
   }, [appliedTransferForms, filter]);
 
   // Handle form selection for preview
@@ -30,9 +31,9 @@ const AppliedTransferForms = ({appliedTransferForms}) => {
   };
 
   // Handle filter change
-  const handleFilterChange = (newFilter) => {
+  const handleFilterChange = (e) => {
     setForm(null); // Reset the form preview when changing the filter
-    setFilter(newFilter);
+    setFilter(e.target.value);
   };
 
   return (
@@ -43,24 +44,12 @@ const AppliedTransferForms = ({appliedTransferForms}) => {
       ) : (
         <>
           <div className="leaveFilterTaps">
-            <button
-              className="bttn ashbtn"
-              onClick={() => handleFilterChange("All")}
-            >
-              Applied Leave Forms
-            </button>
-            <button
-              className="bttn ashbtn"
-              onClick={() => handleFilterChange("Accepted")}
-            >
-              Accepted Forms
-            </button>
-            <button
-              className="bttn redbtn"
-              onClick={() => handleFilterChange("Rejected")}
-            >
-              Rejected Forms
-            </button>
+          <select onClick={e=> handleFilterChange(e)}>
+              <option value="Pending">Pending</option>
+              <option value="All">All</option>
+              <option value="Accepted">Accepted</option>
+              <option value="Rejected">Rejected</option>
+            </select>
           </div>
 
           <div className="ownLeaveForms">

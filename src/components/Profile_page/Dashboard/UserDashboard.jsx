@@ -5,6 +5,8 @@ import { LoginContext } from "../../../Contexts/LoginContext"
 import { useNavigate } from "react-router-dom"
 import { Pie } from "react-chartjs-2"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { constructNow } from "date-fns"
+import LoadingAnimation from "../../Common/LoadingAnimation"
 
 // Register necessary components from chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -12,6 +14,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const UserDashboard = () => {
   const {isLogin} = useContext(LoginContext);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   const [forms, setForms] = useState([]);
   const [filteredForms, setFilteredForms] = useState([]);
@@ -119,12 +122,14 @@ const UserDashboard = () => {
 
   
   useEffect(() => { 
-    if (isLogin) {
-      const fetchForms = async () => {
-        try {
+    setTimeout(() => {
+      if (isLogin) {
+        const fetchForms = async () => {
+          try {
           const response = await Axios.get("/auth/user/leaveForms");
           setForms(response.data);
           console.log(response.data);
+          setIsLoading(false);
         }catch(error){
           console.log(error);
         }
@@ -135,7 +140,7 @@ const UserDashboard = () => {
       window.scrollTo({top:0, behavior:"smooth"});
       navigate("/login");
     }
-    
+  }, 600);
   },[isLogin, navigate]);
 
   useEffect(()=>{
@@ -219,16 +224,12 @@ const UserDashboard = () => {
     setFiltered_acceptedForms(0);
     setFiltered_rejectedForms(0);
     setFiltered_noPayForms(0);
-    console.log("wvwevae")
     const filteredForms_local = []
     
     forms.map(form => {
-      const date = new Date(form.createdAt);
-      const dateString = date.toISOString()
-      
-      if(dateString.substring(0,4) === selectedYear && monthNames[dateString.substring(5,7)] === selectedMonth){
+      if(form.createdAt.substring(0,4) === selectedYear && monthNames[form.createdAt.substring(5,7)-1] === selectedMonth){
         filteredForms_local.push(form);
-      }else if(dateString.substring(0,4) === selectedYear && selectedMonth === ""){
+      }else if(form.createdAt.substring(0,4) === selectedYear && selectedMonth === ""){
         filteredForms_local.push(form);
       }
     })
@@ -273,6 +274,7 @@ const UserDashboard = () => {
 
   return (
     <>
+    {isLoading? <LoadingAnimation/>:
       <div className="userDashboardContainer">
         <h2>Summary</h2>
         <div className="userDashboardGridBox">
@@ -353,7 +355,10 @@ const UserDashboard = () => {
             <h4>Summary in Chart</h4>
             <div className="summaryInfo">
               <div className="chart">
-                <Pie data={getChartData()} options={options} />
+                { (formTypeAndCount["Accident Leave Form"]+formTypeAndCount["Maternity Leave Form"]+formTypeAndCount["Medical Leave Form"]+formTypeAndCount["No-Pay"]+
+                formTypeAndCount["Normal Leave Form"]+formTypeAndCount["Paternal Leave Form"]) > 0?
+                <Pie data={getChartData()} options={options}/>:
+                <p>No Details!!!</p>}
               </div>
               <div className="chartAttributes">
                 <div>
@@ -380,7 +385,7 @@ const UserDashboard = () => {
 
           <div className="currentMonthStatusDiv">
             <div className="monthAndYear">
-              <p>{monthNames[new Date().getMonth()+1]}</p>
+              <p>{monthNames[new Date().getMonth()]}</p>
               <p>{new Date().getFullYear()}</p>
             </div>
             <div className="currentMonthInfo">
@@ -418,13 +423,14 @@ const UserDashboard = () => {
             </div>
             <div>
               <p>Total applied Leaves</p>
-              <p>{totalAcceptedLeaves+totalRejectedLeaves}</p>
+              <p>{forms.length}</p>
             </div>
           </div>
 
         </div>
 
       </div>
+  }
     </>
   )
 }

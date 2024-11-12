@@ -5,8 +5,11 @@ import { LoginContext } from '../../../Contexts/LoginContext';
 import { useNavigate } from 'react-router-dom';
 import NormalLeaveFormTemplate from '../../notifications/NormalLeaveFormTemplate';
 import OtherLeaveFormsTemplate from '../../notifications/OtherLeaveFormsTemplate';
+import LoadingAnimation from '../../Common/LoadingAnimation';
+import { UserContext } from '../../../Contexts/UserContext';
 
 const AdminDashboard = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const {isLogin} = useContext(LoginContext);
     const navigate = useNavigate();
     const [searchName, setSearchName] = useState('');
@@ -19,6 +22,7 @@ const AdminDashboard = () => {
     const [forms, setForms] = useState([]);
     const [form, setForm] = useState("");
     const [showForm, setShowForm] = useState(false);
+    const {user} = useContext(UserContext);
 
     useEffect(() => {
         if(!isLogin){
@@ -26,19 +30,22 @@ const AdminDashboard = () => {
             navigate("/Login");
         }
     },[navigate, isLogin])
-
-
+    
+    
     useEffect(() => {
-        const fetchFomrs = async () => {
-            try {
-                const response = await Axios.get("/admin/leaveForms/getAllForms");
-                console.log(response.data)
-                setForms(response.data);
-            } catch (error) {
-                console.log(error);
+        setTimeout(() => {
+            const fetchFomrs = async () => {
+                try {
+                    const response = await Axios.get("/admin/leaveForms/getAllForms");
+                    console.log(response.data)
+                    setForms(response.data);
+                    setIsLoading(false);
+                } catch (error) {
+                    console.log(error);
+                }
             }
-        }
-        fetchFomrs();
+            fetchFomrs();
+        }, 600);
     },[])
 
 
@@ -127,6 +134,7 @@ const AdminDashboard = () => {
 
     return (
         <>
+        {isLoading? <LoadingAnimation/>:
         <div className="adminDashboard-container">
         <h3>Summary</h3>
         <div className="adminDashboard-table-container">
@@ -140,21 +148,23 @@ const AdminDashboard = () => {
                         <td>
                             <input type="text" value={searchedEmpId} onChange={(e) => setSearchedEmpId(e.target.value)} placeholder='Search by EmpId'/>
                         </td>
-                        <td>
+                        <td>{user.job_type !== "Head of the Department" &&
                             <select value={selectedFaculty} onChange={(e) => setSelectedFaculty(e.target.value)} >
                                 <option value="">Select Faculty</option>
                                 {faculties.map(faculty => {
                                     return <option key={faculty.faculty} value={faculty.faculty}>{faculty.faculty}</option>
                                 })}
                             </select>
+                            }
                         </td>
-                        <td>
+                        <td>{user.job_type !== "Head of the Department" &&
                             <select value={selectedDept} onChange={(e) => setSelectedDept(e.target.value)}>
                                 <option value="">Select Department</option>
                                 {departments.map(department => {
                                     return <option key={department} value={department}>{department}</option>
                                 })}
                             </select>
+                            }   
                         </td>
                         <td>
                             <select value={selectedFormType} onChange={(e) => setSelectedFormType(e.target.value)}>
@@ -176,7 +186,7 @@ const AdminDashboard = () => {
                         </td>
                         {/* <td>
                             <input type="text" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value.substring(0,10))} placeholder='Select Date'/>
-                        </td> */}
+                            </td> */}
                         
                         </tr>
                         <tr>
@@ -192,7 +202,7 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody>
                     {filteredForms.map((form, index) => (
-                    <tr key={index} onClick={()=>handleForm(index)}>
+                        <tr key={index} onClick={()=>handleForm(index)}>
                         <td>{form.user.first_name}</td>
                         <td>{form.user.emp_id}</td>
                         <td>{form.user.faculty}</td>
@@ -216,6 +226,7 @@ const AdminDashboard = () => {
 
         </div>
         </div>
+    }
     </>
   )
 }

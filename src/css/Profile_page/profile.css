@@ -58,7 +58,7 @@
 .small-navbar span {
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 .small-navbar span span {
   font-size: 0.7rem;

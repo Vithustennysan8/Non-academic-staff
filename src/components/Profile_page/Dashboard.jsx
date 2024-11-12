@@ -5,11 +5,15 @@ import LoadingAnimation from "../Common/LoadingAnimation";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
+import ResetPassword from "./ResetPassword";
+import Notifications from "../forms/Notifications";
+import UserDashboard from "./Dashboard/UserDashboard";
+import AdminDashboard from "./Dashboard/AdminDashboard";
 
-const Profile = () => {
+const Dashboard = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
   const { user, setUser } = useContext(UserContext);
-
+  const [dashboardContent, setDashboardContent] = useState("Profile");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -193,15 +197,17 @@ const Profile = () => {
             <div className="small-navbar">
               <p>
                 <Link
-                  to={""}
                   onClick={() => {
+                    dashboardContent === "Profile" && ( 
                     alert(
                       "you can modify the details by click on details shown!"
-                    );
-                    document.getElementById("update").style.display = "block";
-                    document.getElementById("date_of_birth").type = "date";
-                    setReadOnly(false);
-                    setEditProfile(true);
+                    ));
+                    dashboardContent === "Profile" && (document.getElementById("update").style.display = "block");
+                    dashboardContent === "Profile" && (document.getElementById("date_of_birth").type = "date");
+                    dashboardContent === "Profile" && (setReadOnly(false));
+                    dashboardContent === "Profile" && (setEditProfile(true));
+                    setDashboardContent("Profile");
+
                   }}
                 >
                   <span>
@@ -209,12 +215,12 @@ const Profile = () => {
                       src="https://cdn-icons-png.flaticon.com/128/8188/8188360.png"
                       alt="icon1"
                     />
-                    Edit Profile
+                    {dashboardContent === "Profile" && "Edit"} Profile
                   </span>
                 </Link>
               </p>
               <p>
-                <Link to={"/resetPassword"}>
+                <Link onClick={()=>setDashboardContent("securitySetting")}>
                   <span>
                     <img
                       src="https://cdn-icons-png.flaticon.com/128/25/25215.png"
@@ -225,7 +231,7 @@ const Profile = () => {
                 </Link>
               </p>
               <p>
-                <Link to={"/notifications"}>
+                <Link onClick={()=>setDashboardContent("Notification")}>
                   <span>
                     <img
                       src="https://cdn-icons-png.flaticon.com/128/3602/3602123.png"
@@ -245,7 +251,7 @@ const Profile = () => {
                 </Link>
               </p>
               <p>
-                <Link to={dashboard}>
+                <Link onClick={()=>setDashboardContent("Summary")}>
                   <span>
                     <img
                       src="https://cdn-icons-png.flaticon.com/128/10541/10541390.png"
@@ -257,6 +263,8 @@ const Profile = () => {
               </p>
             </div>
 
+          {dashboardContent === "Profile" && 
+          <>
             <div className="profile-detail-wrapper">
               <div className="profile-img">
                 <img className="profile-pic" src={src} alt="" />
@@ -465,11 +473,16 @@ const Profile = () => {
                 </div>
               </div>
             </div>
+            </>}
           </div>
+
+          {dashboardContent === "securitySetting" && <ResetPassword/>}
+          {dashboardContent === "Notification" && <Notifications/>}
+          {dashboardContent === "Summary" && (user.role === "USER" ? <UserDashboard/> : <AdminDashboard/>)}
         </>
       )}
     </>
   );
 };
 
-export default Profile;
+export default Dashboard;

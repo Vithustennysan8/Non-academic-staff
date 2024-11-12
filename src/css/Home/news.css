@@ -31,6 +31,17 @@
 .ashbtn:active{
     background: linear-gradient(0deg, rgb(0,0,0), rgb(0,0,0));
 }
+.normalBtn{
+    background-color: rgb(139, 139, 139);
+    color: white;
+}
+.normalBtn:hover{
+    background-color: rgb(203, 203, 203);
+    color: black;
+}
+.normalBtn:active{
+    background-color: rgb(177, 177, 177);
+}
 .newsFeed label, .newsFeed input, .newsFeed textarea{
     display: block;
     border-radius: 8px;

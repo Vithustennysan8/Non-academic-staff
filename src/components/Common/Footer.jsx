@@ -11,10 +11,10 @@ const Footer = () => {
             </div>
 
             <div className="socials">
-                <a href="https://twitter.com/uperadeniya?lang=en"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/x-social-media-logo-icon.png" alt="Twitter_link" /></a>
-                <a href="https://github.com/UniversityOfPeradeniya"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-icon.svg" alt="Github_link" /></a>
-                <a href="https://www.facebook.com/UniversityOfPeradeniya/"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/linkedin-square-icon.svg" alt="Linkedin_link" /></a>
-                <a href="https://www.youtube.com/channel/UCxN_hZh8t5uFGW7kwahQwqQ"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/youtube-icon.svg" alt="Youtube_link" /></a>
+                <a href="https://twitter.com/uperadeniya?lang=en" target="_blank"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/x-social-media-logo-icon.png" alt="Twitter_link"/></a>
+                <a href="https://github.com/UniversityOfPeradeniya" target="_blank"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-icon.svg" alt="Github_link" /></a>
+                <a href="https://www.facebook.com/UniversityOfPeradeniya/" target="_blank"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/linkedin-square-icon.svg" alt="Linkedin_link" /></a>
+                <a href="https://www.youtube.com/channel/UCxN_hZh8t5uFGW7kwahQwqQ" target="_blank"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/youtube-icon.svg" alt="Youtube_link" /></a>
             </div>
 
             <div className="contact">

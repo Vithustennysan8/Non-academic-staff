@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import FormPreview from "../forms/FormPreview";
 import { useForm } from "react-hook-form";
 import "../../css/Notifications/requestedForms.css";
@@ -18,6 +18,7 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
   const { user } = useContext(UserContext);
   const [isAllNotificationsOpen, setIsAllNotificationsOpen] = useState(true);
   const [all, setAll] = useState(false);
+  const [filter, setFilter] = useState("Pending");
 
   useEffect(() => {
     if (!isLogin) {
@@ -39,11 +40,31 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
     }
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const filteredForms = useMemo(()=> {
+    if(filter === "Pending" ){
+      return allLeaveFormRequests.filter((form) => form.status === "Pending");
+    }else if (filter === "Accepted"){
+      return allLeaveFormRequests.filter((form) => form.status === "Accepted");
+    }else if(filter === "Rejected"){
+      return allLeaveFormRequests.filter((form) => form.status === "Rejected");
+    }else{
+      return allLeaveFormRequests;
+    }
+  },[allLeaveFormRequests, filter])
+  
+  const typeLeaveFilteredForms = useMemo(()=> {
+    if(filter === "Pending" ){
+      return Forms.filter((form) => form.status === "Pending");
+    }else if (filter === "Accepted"){
+      return Forms.filter((form) => form.status === "Accepted");
+    }else if(filter === "Rejected"){
+      return Forms.filter((form) => form.status === "Rejected");
+    }else{
+      return Forms;
+    }
+  },[Forms, filter])
+
+  const {register, handleSubmit, formState: { errors }} = useForm();
   const [selectedFaculty, setSelectedFaculty] = useState(user.faculty);
 
   const faculties = [
@@ -229,6 +250,12 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
               value="All Leave Requests"
               onClick={handleShowingAllNotifications}
             />
+            <select onClick={e=> setFilter(e.target.value)}>
+              <option value="Pending">Pending</option>
+              <option value="All">All</option>
+              <option value="Accepted">Accepted</option>
+              <option value="Rejected">Rejected</option>
+            </select>
           </div>
         </form>
 
@@ -236,7 +263,7 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
         {!showForm && !isAllNotificationsOpen && !all && (<>
           <h4 className="filteredFormHeading">{Forms[0]?.formType}</h4>
           <ul>
-            {Forms.map((form, index) => (
+            {typeLeaveFilteredForms.map((form, index) => (
               <li
               key={index}
               style={{ listStyle: "none" }}
@@ -255,13 +282,13 @@ const RequestedForms = ({ allLeaveFormRequests, setAllLeaveFormRequests }) => {
         {/* All leave Notifications */}
         {isAllNotificationsOpen && (
           <div className="allNotifications">
-            {allLeaveFormRequests.length > 0 ? (
-              <h2>All Notifications</h2>
+            {filteredForms.length > 0 ? (
+              <h2>{filter} Requests</h2>
             ) : (
               <p>No LeaveForms Found.......</p>
             )}
 
-            {allLeaveFormRequests.map((request, index) => (
+            {filteredForms.map((request, index) => (
               <div
                 key={index}
                 onClick={() =>

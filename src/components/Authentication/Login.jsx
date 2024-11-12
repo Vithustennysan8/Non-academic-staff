@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../css/Authentication/login.css";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
@@ -136,7 +136,7 @@ const Login = () => {
           </div>
 
           <div className="others">
-            <a href="">Forget Password?</a>
+            <Link to="/forgotPassword">Forget Password?</Link>
           </div>
         </form>
       </div>

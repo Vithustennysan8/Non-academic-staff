@@ -2,7 +2,7 @@ import Home from "./components/Home/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Authentication/Login";
 import Signup from "./components/Authentication/Signup";
-import Profile from "./components/Profile_page/Profile";
+import Dashboard from "./components/Profile_page/Dashboard";
 import Forms from "./components/Forms_page/Forms";
 import Staffs from "./components/Staff_page/Staffs";
 import FullLeaveForm from "./components/forms/NormalLeaveForm";
@@ -12,7 +12,6 @@ import Forum from "./components/Forum_page/Forum";
 import Contact from "./components/Contact_page/Contact";
 import { useEffect, useState } from "react";
 import ResetPassword from "./components/Profile_page/ResetPassword";
-import Dashboard from "./components/Profile_page/Dashboard/Dashboard";
 import Footer from "./components/Common/Footer";
 import Header from "./components/Common/Header";
 import { LoginContext } from "./Contexts/LoginContext";
@@ -20,8 +19,7 @@ import { UserContext } from "./Contexts/UserContext";
 import RequestedForms from "./components/notifications/LeaveRequests";
 import LeaveForms from "./components/forms/LeaveForms";
 import Notifications from "./components/forms/Notifications";
-import AdminDashboard from "./components/Profile_page/Dashboard/AdminDashboard";
-import UserDashboard from "./components/Profile_page/Dashboard/UserDashboard";
+import ForgotPassword from "./components/Authentication/ForgotPassword";
 
 function App() {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
@@ -80,7 +78,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/Dashboard" element={<Dashboard />} />
               <Route path="/forms" element={<Forms />} />
               <Route path="/staffs" element={<Staffs />} />
               <Route path="/leaveForms" element={<LeaveForms />} />
@@ -90,11 +88,9 @@ function App() {
               <Route path="/forum" element={<Forum />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/resetPassword" element={<ResetPassword />} />
-              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/requestedForms" element={<RequestedForms />} />
               <Route path="/notifications" element={<Notifications />} />
-              <Route path="/adminDashboard" element={<AdminDashboard />} />
-              <Route path="/userDashboard" element={<UserDashboard />} />
+              <Route path="/forgotPassword" element={<ForgotPassword />} />
             </Routes>
             <Footer />
           </Router>

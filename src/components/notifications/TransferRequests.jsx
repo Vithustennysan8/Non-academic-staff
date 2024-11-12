@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "../../css/Notifications/transferRequests.css"
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { UserContext } from "../../Contexts/UserContext";
 import FormReqTap from "./FormReqTap";
@@ -18,6 +18,7 @@ const TransferRequests = ({allTransferFormRequests, setAllTransferFormRequests})
   const { user } = useContext(UserContext);
   const [isAllNotificationsOpen, setIsAllNotificationsOpen] = useState(true);
   const [all, setAll] = useState(false);
+  const [filter, setFilter] = useState("Pending");
 
   useEffect(() => {
     if (!isLogin) {
@@ -38,6 +39,18 @@ const TransferRequests = ({allTransferFormRequests, setAllTransferFormRequests})
       console.log(">>> " + error);
     }
   };
+
+  const filteredForms = useMemo(()=> {
+    if(filter === "Pending" ){
+      return allTransferFormRequests.filter((form) => form.status === "Pending");
+    }else if (filter === "Accepted"){
+      return allTransferFormRequests.filter((form) => form.status === "Accepted");
+    }else if(filter === "Rejected"){
+      return allTransferFormRequests.filter((form) => form.status === "Rejected");
+    }else{
+      return allTransferFormRequests;
+    }
+  },[allTransferFormRequests, filter])
 
   const {
     register,
@@ -127,16 +140,10 @@ const TransferRequests = ({allTransferFormRequests, setAllTransferFormRequests})
     setIsAllNotificationsOpen(false);
   };
 
-  const handleShowingAllNotifications = async () => {
+  const handleShowingAllNotifications = (e) => {
     setIsAllNotificationsOpen(true);
     setShowForm(false);
-
-    try {
-      const response = await Axios.get("admin/transferForms/notify");
-      setAllTransferFormRequests(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    setFilter(e.target.value);
   };
 
   return (
@@ -200,12 +207,12 @@ const TransferRequests = ({allTransferFormRequests, setAllTransferFormRequests})
 
 
           <div className="allLeaveRequest-btn">
-            <input
-              type="button"
-              className="bttn ashbtn"
-              value="All Leave Requests"
-              onClick={handleShowingAllNotifications}
-            />
+            <select onClick={e=> handleShowingAllNotifications(e)}>
+                <option value="Pending">Pending</option>
+                <option value="All">All</option>
+                <option value="Accepted">Accepted</option>
+                <option value="Rejected">Rejected</option>
+              </select>
           </div>
         </form>
 
@@ -232,13 +239,13 @@ const TransferRequests = ({allTransferFormRequests, setAllTransferFormRequests})
         {/* All leave Notifications */}
         {isAllNotificationsOpen && (
           <div className="allNotifications">
-            {allTransferFormRequests.length > 0 ? (
-              <h2>All Notifications</h2>
+            {filteredForms.length > 0 ? (
+              <h2>{filter} Requests</h2>
             ) : (
               <p>No LeaveForms Found.......</p>
             )}
 
-            {allTransferFormRequests.map((request, index) => (
+            {filteredForms.map((request, index) => (
               <div
                 key={index}
                 onClick={() =>

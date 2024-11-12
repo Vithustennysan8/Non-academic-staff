@@ -17,7 +17,7 @@ const SideNav = ({ refFunc, isOpen, toggleNav }) => {
       { user?.role !== "ADMIN" && <Link to="/forms" onClick={toggleNav}>Applications</Link>}
       {isLogin && <Link to="/forum" onClick={toggleNav}>Forum</Link>}
       <Link to="/contact" onClick={toggleNav}>Contact</Link>
-      <Link to="/profile" onClick={toggleNav}>Dashboard</Link>
+      <Link to="/Dashboard" onClick={toggleNav}>Dashboard</Link>
     </div>
   );
 };

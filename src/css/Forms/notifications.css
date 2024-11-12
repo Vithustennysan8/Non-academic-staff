@@ -1,4 +1,6 @@
 .notifications{
+    width: 85%;
+    margin: auto;
     display: grid;
     grid-template-columns: minmax(8%, 230px) 1fr;
     grid-template-rows: 1fr;
@@ -8,11 +10,9 @@
 }
 .requestsTap{
     grid-area: requestsTap;
-    /* background-color: white; */
     padding: 50px 0;
     width: fit-content;
-    /* border-right: 2px id #9c9c9c; */
-    box-shadow: 2px 0px 12px 1px rgba(0,0,0,0.28);
+    border-right: 2px solid #ccc;
 }
 .requestsTap button{
     position: relative;
@@ -48,6 +48,7 @@
 
 @media (max-width: 768px) {
     .notifications{
+        width: 90%;
         grid-template-columns: 1fr;
         grid-template-rows:  1fr;
         grid-template-areas: 
@@ -59,7 +60,8 @@
     .requestsTap{
         padding: 10px 0;
         gap: 20px;
-        box-shadow: 0px 2px 12px 1px rgba(151, 151, 151, 0.28);
+        border-bottom: 2px solid #ccc;
+        border-right: unset;
         margin: auto;
         width: 100%;
     }

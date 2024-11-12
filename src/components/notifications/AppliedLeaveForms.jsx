@@ -7,7 +7,7 @@ import FormReqTap from "./FormReqTap";
 const AppliedLeaveForms = ({ appliedLeaveForms }) => {
   const { user } = useContext(UserContext);
   const [form, setForm] = useState(null);
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("Pending");
 
   // Memoize filtered forms based on the selected filter
   const filteredForms = useMemo(() => {
@@ -15,10 +15,11 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
       return appliedLeaveForms.filter((form) => form.status === "Accepted");
     } else if (filter === "Rejected") {
       return appliedLeaveForms.filter((form) => form.status === "Rejected");
-    }else if ( filter === "newToOld") {
-      return appliedLeaveForms.sort((a, b) => new Date(a.date) - new Date(b.date));
+    }else if(filter === "Pending"){
+      return appliedLeaveForms.filter((form) => form.status === "Pending");
+    }else{
+      return appliedLeaveForms;
     }
-    return appliedLeaveForms;
   }, [appliedLeaveForms, filter]);
 
   // Handle form selection for preview
@@ -30,9 +31,9 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
   };
 
   // Handle filter change
-  const handleFilterChange = (newFilter) => {
+  const handleFilterChange = (e) => {
     setForm(null); // Reset the form preview when changing the filter
-    setFilter(newFilter);
+    setFilter(e.target.value);
   };
 
   return (
@@ -43,24 +44,12 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
       ) : (
         <>
           <div className="leaveFilterTaps">
-            <button
-              className="bttn ashbtn"
-              onClick={() => handleFilterChange("All")}
-            >
-              Applied Leave Forms
-            </button>
-            <button
-              className="bttn ashbtn"
-              onClick={() => handleFilterChange("Accepted")}
-            >
-              Accepted Forms
-            </button>
-            <button
-              className="bttn redbtn"
-              onClick={() => handleFilterChange("Rejected")}
-            >
-              Rejected Forms
-            </button>
+          <select onClick={e=> handleFilterChange(e)}>
+              <option value="Pending">Pending</option>
+              <option value="All">All</option>
+              <option value="Accepted">Accepted</option>
+              <option value="Rejected">Rejected</option>
+            </select>
           </div>
 
           <div className="ownLeaveForms">
@@ -73,7 +62,7 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
               />
             ) : (
               <ul>
-                {filteredForms.map((form, id) => (
+                {filteredForms?.map((form, id) => (
                   <li
                     key={id}
                     style={{ listStyle: "none" }}

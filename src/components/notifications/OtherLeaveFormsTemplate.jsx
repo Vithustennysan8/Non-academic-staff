@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import "../../css/Forms/accidentLeaveFormTemplate.css"
 import { Axios } from "../AxiosReqestBuilder";
+import { UserContext } from "../../Contexts/UserContext";
 
 const OtherLeaveFormsTemplate = ({application}) => {
+    const {user} = useContext(UserContext);
     
     const handleDelete = async (form) => {
 
@@ -13,6 +16,10 @@ const OtherLeaveFormsTemplate = ({application}) => {
             alert("Form Deleted Successfully");
             window.location.reload();
         }catch(error){
+            if(error.response.data.message){
+                alert(error.response.data.message);
+                console(error.response.data.message);
+            }
             console.error(error);
         }
     }
@@ -20,7 +27,7 @@ const OtherLeaveFormsTemplate = ({application}) => {
   return (
     <>
     <div className="OtherLeaveFormsTemplate">
-            <button className="deleteBtn" onClick={() => handleDelete(application)}><img src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="DeleteIcon" /></button>
+            {application.headStatus === "pending" && user.role === "USER" && <button className="deleteBtn" onClick={() => handleDelete(application)}><img src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="DeleteIcon" /></button>}
 
             <h2>{application.formType}</h2>
 

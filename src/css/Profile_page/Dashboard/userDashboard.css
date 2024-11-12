@@ -287,6 +287,9 @@
             " summaryChartDiv summaryChartDiv"
         ;
     }
+    .summaryChartDiv{
+        height: fit-content;
+    }
     
 }
 

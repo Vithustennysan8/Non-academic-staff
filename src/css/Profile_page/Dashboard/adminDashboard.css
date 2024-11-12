@@ -37,9 +37,9 @@
     padding: 10px 3px 10px 0;
 }
 
-.adminDashboard-table-container thead td:hover,
-.adminDashboard-table-container td input:hover,
-.adminDashboard-table-container td select:hover {
+
+.adminDashboard-table-container tbody td input:hover,
+.adminDashboard-table-container tbody td select:hover {
     background-color: #ebebeb;
 }
 
