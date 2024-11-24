@@ -23,18 +23,11 @@
   margin-bottom: 30px;
 }
 
-#profile-container label {
-  display: flex;
-  /* align-items: center; */
-  text-align: left;
-  
-}
-
 .small-navbar {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-evenly;
   height: 40px;
   border-bottom: 2px solid hsla(0, 7%, 25%, 0.289);
   padding-bottom: 5px;
@@ -43,7 +36,6 @@
 }
 
 .small-navbar p {
-  font-size: 1.2rem;
   font-weight: bold;
   padding-right: 20px;
 }
@@ -58,10 +50,7 @@
 .small-navbar span {
   display: flex;
   align-items: center;
-  font-size: 0.95rem;
-}
-.small-navbar span span {
-  font-size: 0.7rem;
+  font-size: 1rem;
 }
 
 .small-navbar img {
@@ -215,6 +204,7 @@
   justify-content: center;
   align-items: center;
   color: white;
+  font-size: 0.7rem;
   border-radius: 50%;
   position: absolute;
   top: -5px;
@@ -227,12 +217,12 @@
   .small-navbar {
     height: auto;
     align-items: center;
-    padding: 10px;
+    /* padding: 10px; */
   }
 
   .small-navbar p {
     padding-right: 0;
-    margin: 5px 0;
+    /* margin: 5px 0; */
   }
 
   .small-navbar a {
@@ -240,7 +230,7 @@
     display: flex;
     justify-content: center;
     /* padding: 10px; */
-    margin: 5px 0;
+    /* margin: 5px 0; */
   }
 
   .profile-namebox,
@@ -264,7 +254,7 @@
 
 @media (max-width: 768px) {
   #profile-container {
-    width: 90%;
+    width: 95%;
   }
 
   .profile-detail-wrapper {
@@ -282,18 +272,18 @@
   }
 
   .small-navbar {
-    flex-direction: row;
-    flex-wrap: wrap;
+    /* flex-direction: row; */
+    /* flex-wrap: wrap; */
     padding-bottom: 10px;
   }
   
   .small-navbar a {
       width: auto;
-      box-sizing: border-box;
-      margin: 5px;
+      /* box-sizing: border-box; */
+      /* margin: 5px; */
   }
   .small-navbar span{
-      font-size: 0.8rem;
+      /* font-size: 0.8rem; */
   }
 }
 
@@ -304,8 +294,9 @@
     flex-direction: column;
     justify-content: center;
   }
-  .small-navbar{
-    justify-content: center;
+  .small-navbar img {
+    width: 12px;
+    height: 12px;
   }
 }
 
@@ -319,18 +310,18 @@
   .profile-detail-container label{
       font-size: 0.7rem;
   }
-  .small-navbar p {
-    font-size: 1rem;
+  .small-navbar span {
+    font-size: 0.9rem;
   }
 
   .profile-img img {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
   }
 
   .small-navbar {
-    flex-direction: column;
-    flex-wrap: wrap;
+    /* flex-direction: column; */
+    /* flex-wrap: wrap; */
     justify-content: center;
     padding-bottom: 10px;
   }

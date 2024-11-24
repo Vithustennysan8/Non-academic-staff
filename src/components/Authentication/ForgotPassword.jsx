@@ -21,6 +21,9 @@ const EmailDiv = ({setPage, setUserMail}) => {
         setUserMail("");
       }
     } catch (error) {
+      if(error.response.data.message){
+        alert(error.response.data.message);
+      }
       console.log(error);
     }
   }
@@ -55,6 +58,9 @@ const OTPDiv = ({setPage}) => {
       console.log(response.data);
       setPage("newPasswordPage");
     } catch (error) {
+      if(error.response.data.message){
+        alert(error.response.data.message);
+      }
       console.log(error);
     }
   }
@@ -90,6 +96,9 @@ const NewPasswordDiv = ({userMail}) => {
         navigate("/login");
       }
     } catch (error) {
+      if(error.response.data.message){
+        alert(error.response.data.message);
+      }
       console.log(error);
     }
   }

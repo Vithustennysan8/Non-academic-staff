@@ -1,15 +1,11 @@
 body{
-    /* background-color: #f3f3f3; */
     background-color: #f7f7f7;
-
 }
 .home-wrapper{
     width: 80%;
     margin: 0 auto;
-    /* background-color: white; */
 }
 .home-img-slider{
-    /* width: 80%; */
     position: relative;
     margin: 0 auto;
     margin-bottom: 60px;
@@ -96,14 +92,14 @@ body{
 
 .notifyCounts{
     position: absolute;
-    width:25px;
-    height: 25px;
+    width:20px;
+    height: 20px;
     background-color: #d60101;
     border-radius: 50%;
     color: white;
-    top: -15px;
+    top: -12px;
     right: 5px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,8 +107,6 @@ body{
     
 }
 .form-shortcuts:hover{
-    /* border-left: 25px solid #d60101; */
-    /* border-right: 25px solid #d60101; */
     transform: scale(1.05);
 }
 .form-shortcut{
@@ -172,10 +166,6 @@ body{
     margin: 40px 0 30px;
     width: 100%;
     display: flex;
-    /* scale: 0.5; */
-    /* opacity: 0.6; */
-    /* animation: info; */
-    /* animation-timeline: view(); */
 }
 @keyframes info{
     to{
@@ -208,7 +198,7 @@ body{
     height: 100%;
 }
 .homeQuikLinks{
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     width: 100%;
 }
 .homeQuikLinks h1{
@@ -220,26 +210,23 @@ body{
 }
 .homeLinks{
     width: 100%;
-    height: fit-content;
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-evenly;
     gap: 8px;
+    height: fit-content;
 }
 .homeLinks a{
     text-decoration: none;
-    width: 20%;
     min-width: 100px;
-    height: fit-content;
 }
 .homeLinks a p{
     font-size: 0.8rem;
 }
 .Link{
-    padding: 10px 8px;
+    padding: 10px 4px 0;
     height: 100%;
     cursor: pointer;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     border-radius: 8px;
     border: 1px solid #eeeeee;
     text-align: center;
@@ -336,6 +323,21 @@ body{
         font-size: 1.4rem;
         height: 70px;
     }
+    .homeLinks{
+        flex-wrap: wrap;
+
+        a{
+            width: 30px;
+        }
+    }
+    @keyframes zoomInOut{
+        from{
+            font-size: 1.2rem;
+        }to{
+            font-size: 1.5rem;
+        }
+    }
+
 }
 @media only screen and (max-width: 600px) {
     .home-img-slider img{

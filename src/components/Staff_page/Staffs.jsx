@@ -20,11 +20,8 @@ const Staffs = () => {
       const getUsers = async () => {
         if (isLogin) {
           try {
-            const response = await Axios.get("/auth/user/staffs", {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
+            const response = await Axios.get("/auth/user/staffs");
+            console.log(response.data);
             setStaffs(response.data);
             setIsLoading(false);
           } catch (error) {
@@ -85,19 +82,46 @@ const Staffs = () => {
               )}
 
               {/* based on the department staff will display */}
-              {isLogin && (
+              {isLogin && !search &&
+                <>
                 <h3>
                   {staffs[0]?.department + " (" + staffs[0]?.faculty + ")"}
                 </h3>
+                <div className="academicStaff">
+                    {
+                      staffs.filter((staff)=> staff.jobType === "Head of the Department" || staff.jobType === "Management Assistant"
+                      || staff.jobType === "Dean")
+                      .map((staff)=>{
+                        let src = staff.image_data
+                        ? `data:${staff.image_type};base64,${staff.image_data}`
+                        : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
+
+                      return (
+                        <StaffCard
+                          key={staff.id}
+                          photo={src}
+                          title={staff.first_name.concat(" " + staff.last_name)}
+                          body={staff.faculty}
+                          user={staff}
+                          jobType={staff.jobType}
+                          setSelectedUser={setSelectedUser}
+                          selectedUser={selectedUser}
+                        />
+                      );
+                      })
+                    }
+                  </div>
+                  </>
+                  }
+                  
+              {isLogin && (
+                <>
+                <h3>Non-academic staffs</h3>
+                </>
               )}
               <div className="staff-container">
                 {staffs
-                  .filter((item) =>
-                    item.first_name
-                      .concat(" " + item.last_name)
-                      .toLowerCase()
-                      .includes(search)
-                  )
+                  .filter((item) => item.first_name.concat(" " + item.last_name).toLowerCase().includes(search) && item.jobType !== "Head of the Department" && item.jobType !== "Management Assistant" && item.jobType !== "Dean")
                   .map((staff) => {
                     // adding default image to the staff card if there is no profile image is added
                     let src = staff.image_data
@@ -111,6 +135,7 @@ const Staffs = () => {
                         title={staff.first_name.concat(" " + staff.last_name)}
                         body={staff.faculty}
                         user={staff}
+                        jobType={staff.jobType}
                         setSelectedUser={setSelectedUser}
                       />
                     );
@@ -168,7 +193,7 @@ const Staffs = () => {
                           <div className="info-row">
                             <p className="info-label">JobType:</p>
                             <p className="info-value">
-                              {selectedUser.job_type}
+                              {selectedUser.jobType}
                             </p>
                           </div>
                         </div>

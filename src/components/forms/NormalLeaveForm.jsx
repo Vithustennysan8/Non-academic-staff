@@ -92,12 +92,7 @@ const NormalLeaveForm = () => {
                 <td colSpan={6}><p>{user.department}</p>
                 </td>
                 <td colSpan={2}>U.P.F No.</td>
-                <td colSpan={2}><input type="text" name="upfNo" {...register("upfNo", {required:{
-                  value: true,
-                  message: "U.P.F No is required"
-                }})}/>
-                {errors.upfNo && <span className="error">{errors.upfNo.message}</span>}
-                </td>
+                <td colSpan={2}><p>{user.emp_id}</p></td>
               </tr>
 
               <tr>

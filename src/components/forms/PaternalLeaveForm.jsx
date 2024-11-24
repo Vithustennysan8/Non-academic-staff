@@ -24,7 +24,8 @@ const PaternalLeaveForm = () => {
         const formData = new FormData();
         formData.append('designation', data.designation);
         formData.append('childBirthDate', data.childBirthDate);
-        formData.append('requestDate', data.requestDate);
+        formData.append('leaveDays', data.leaveDays);
+        formData.append('requestedDate', data.requestDate);
         formData.append('file', data.birthCertificate[0]);
         
         try {

@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../css/Notifications/appliedTransferForms.css"
 import { UserContext } from "../../Contexts/UserContext";
 import FormPreview from "../forms/FormPreview";
@@ -8,19 +8,16 @@ const AppliedTransferForms = ({appliedTransferForms}) => {
   const { user } = useContext(UserContext);
   const [form, setForm] = useState(null);
   const [filter, setFilter] = useState("Pending");
+  const [filterYear, setFilterYear] = useState('');
+  const [filterMonth, setFilterMonth] = useState();
+  const [filterForms, setFilterForms] = useState([]);
 
-  // Memoize filtered forms based on the selected filter
-  const filteredForms = useMemo(() => {
-    if (filter === "Accepted") {
-      return appliedTransferForms.filter((form) => form.status === "Accepted");
-    } else if (filter === "Rejected") {
-      return appliedTransferForms.filter((form) => form.status === "Rejected");
-    } else if (filter === "Pending"){
-      return appliedTransferForms.filter((form) => form.status === "Pending");
-    }else{
-      return appliedTransferForms;
-    }
-  }, [appliedTransferForms, filter]);
+  useEffect(()=>{
+    const filteredForms = appliedTransferForms.filter((form)=> form.status === "Pending")
+    console.log(filteredForms)
+    setFilterForms(filteredForms);
+  },[appliedTransferForms])
+  
 
   // Handle form selection for preview
   const handleSingleForm = (id, formType) => {
@@ -32,8 +29,28 @@ const AppliedTransferForms = ({appliedTransferForms}) => {
 
   // Handle filter change
   const handleFilterChange = (e) => {
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
     setForm(null); // Reset the form preview when changing the filter
-    setFilter(e.target.value);
+    let filteredForms = appliedTransferForms;
+
+    if(filterYear !== '' && filterYear?.length !== 4){
+      alert("Please select a valid year");
+      return;
+    }
+
+    if(filterYear){
+      filteredForms = filteredForms.filter((form)=> form.createdAt.substring(0,4) === filterYear);
+    }
+    if(filterMonth){
+      filteredForms = filteredForms.filter((form)=> monthNames[form.createdAt.substring(5,7)-1] === filterMonth);
+    }
+    if(filter !== "All"){
+      filteredForms = filteredForms.filter((form)=> form.status === filter);
+    }
+    setFilterForms(filteredForms);
   };
 
   return (
@@ -44,34 +61,49 @@ const AppliedTransferForms = ({appliedTransferForms}) => {
       ) : (
         <>
           <div className="leaveFilterTaps">
-          <select onClick={e=> handleFilterChange(e)}>
-              <option value="Pending">Pending</option>
-              <option value="All">All</option>
-              <option value="Accepted">Accepted</option>
-              <option value="Rejected">Rejected</option>
-            </select>
+            <div className="taps">
+                <select value={filter} onChange={e=>setFilter(e.target.value)}>
+                  <option value="Pending">Pending</option>
+                  <option value="All">All</option>
+                  <option value="Accepted">Accepted</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+
+                <input type="number" value={filterYear} onChange={e=>setFilterYear(e.target.value)} placeholder="Year"/>
+                <select name="month" value={filterMonth} onChange={(e)=>setFilterMonth(e.target.value)}>
+                    <option value="">Month</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                  </select>
+              </div>
+              <button className="bttn ashbtn" onClick={handleFilterChange}>Filter</button>
           </div>
 
           <div className="ownLeaveForms">
             <h3 className="formFilterType">{filter} Forms</h3>
-            {form ? (
-              <FormPreview
-                application={form}
-                approver={user}
-                setForm={setForm}
-              />
-            ) : (
-              <ul>
-                {filteredForms.map((form, id) => (
-                  <li
-                    key={id}
-                    style={{ listStyle: "none" }}
-                  >
-                    <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
-                  </li>
-                ))}
-              </ul>
-            )}
+            {filterForms.length < 1? <p className="empty">No forms match the selected filter!</p> :
+              form ? (
+                <FormPreview application={form} approver={user} setForm={setForm}/>
+              ) : (
+                <ul>
+                {filterForms?.map((form, id) => (
+                    <li key={id} style={{ listStyle: "none" }}>
+                      <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
+                      </li>
+                    ))}
+                    </ul>
+                  )
+              }
           </div>
         </>
       )}

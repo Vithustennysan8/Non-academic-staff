@@ -1,11 +1,11 @@
 .adminDashboard-container {
-    width: 85%;
-    margin: 0 auto;
+    width: 83%;
+    margin: -50px auto 0;
     padding: 40px 0 50px;
     position: relative;
 }
 .adminDashboard-container h3{
-    font-size: 1.7rem;
+    font-size: 1.4rem;
     margin-bottom: 30px;
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
@@ -14,20 +14,21 @@
 
 .adminDashboard-table-container {
     overflow-x: auto;
-    border-radius: 8px;
-    box-shadow: 4px 3px 8px 1px #d8d8d8;
+    border-radius: 6px;
+    box-shadow: 2px 2px 8px 2px #d8d8d8;
+    border: 1px solid #ccc;
 }
 
 .adminDashboard-table-container table {
     width: 100%;
     border-collapse: collapse;
-    /* border: 1px solid #ccc; */
+    border-radius: 8px;
     background-color: rgb(255, 255, 255);
 }
 
 .adminDashboard-table-container th,
 .adminDashboard-table-container td {
-    padding: 8px 5px;
+    padding: 12px 8px;
     text-align: left;
     /* border-bottom: 1px solid #d1d5db; */
     font-size: 0.85rem;
@@ -44,7 +45,8 @@
 }
 
 .adminDashboard-table-container thead th{
-    background-color: #f7f7f7;
+    background-color: #e7e7e7;
+    text-align: center;
 }
 
 .adminDashboard-table-container td input,
@@ -52,20 +54,21 @@
     width: 100%; 
     height: 100%;
     outline: none;
-    /* background-color: #ffeeee; */
-    /* border-radius: 8px; */
-    /* border: 1px solid #d1d5db; */
-    border: none;
-    padding: 8px; 
-    font-size: 0.8rem; 
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    /* border: none; */
+    padding: 8px 5px; 
+    font-size: 0.7rem;
+    text-align: center; 
     color: #6c6c6c;
 }
 
-.adminDashboard-table-container tbody tr{
+.adminDashboard-table-container tbody td{
     /* background-color: #f3f3f3a7; */
     color: #525252;
     cursor: pointer;
-
+    font-size: 0.8rem;
+    text-align: center;
 }
 .adminDashboard-table-container tbody tr:hover{
     background-color: #efefef;
@@ -114,10 +117,27 @@
     height: 100%;
     cursor: pointer;
 }
+.staffsContainer{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+.CSVbtn{
+    display: block;
+    margin-left: auto;
+    background-color: #4CAF50;
+    margin-bottom: 10px;
+}
+.CSVbtn a{
+    text-decoration: none;
+    color: white;
+}
+
 
 @media (max-width: 768px) {
     .adminDashboard-container {
-        width: 95%;
+        width: 90%;
     }
     .adminDashboard-container h2{
         font-size: 1.4rem;

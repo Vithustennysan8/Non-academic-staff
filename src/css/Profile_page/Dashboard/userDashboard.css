@@ -1,6 +1,6 @@
 .userDashboardContainer{
     padding: 30px 0 40px;
-    width: 82%;
+    width: 83%;
     margin: auto;
 }
 .userDashboardContainer h2{
@@ -277,6 +277,9 @@
 }
 
 @media (max-width:800px){
+    .userDashboardContainer{
+        width: 90%;
+    }
     .userDashboardGridBox{
         grid-template-columns: 1fr 1fr ;
         grid-template-rows: 1fr 1fr 2fr;
@@ -294,9 +297,7 @@
 }
 
 @media (max-width:450px){
-    .userDashboardContainer{
-        width: 90%;
-    }
+  
     .userDashboardGridBox{
         grid-template-columns: 1fr;
         grid-template-rows: auto;

@@ -3,13 +3,14 @@ import '../../css/Home/news.css'
 import NewsCards from "./NewsCards";
 import { useForm } from "react-hook-form";
 import { Axios } from ".././AxiosReqestBuilder";
-import { format } from "date-fns";
 import { LoginContext } from "../../Contexts/LoginContext";
 
 const News = ({role}) => {
     const {isLogin} = useContext(LoginContext);
     const [news, setNews] = useState([]);
     const [showForm, setShowForm] = useState(false);
+    const [showUpdateBtn, setShowUpdateBtn] = useState(false);
+    const [updateNews, setUpdateNews] = useState(null);
 
     useEffect(()=>{
         const getNews = async () => {
@@ -23,12 +24,26 @@ const News = ({role}) => {
         getNews();
     },[])
 
-    const {register, handleSubmit, formState: {errors}, reset} = useForm();
+    const {register, handleSubmit, formState: {errors}, reset, setValue} = useForm();
 
     const onSubmit = async (data) =>{
+        let fileData = new FormData();
+        if(data.images[0]){
+            fileData.append('images', data.images[0]);
+        }
+
+        Object.keys(data).forEach( key => {
+            if(key !== 'images'){
+                fileData.append(key, data[key]);
+            }
+        })
+
         try {
-            const response = await Axios.post("/admin/news/add", data);
+            const response = showUpdateBtn ? await Axios.put(`/admin/news/update/${updateNews.id}`, fileData) : 
+            await Axios.post(`/admin/news/add`, fileData);
+            console.log(response.data);
             setNews(response.data);
+            setShowUpdateBtn(false);
             setShowForm(false);
         } catch (error) {
             console.log(error);
@@ -45,11 +60,28 @@ const News = ({role}) => {
         }
     }
     
+    const handleUpdate = (news) =>{
+        setShowUpdateBtn(true);
+        setShowForm(true);
+        setValue("heading", news.heading);
+        setValue("body", news.body);
+        // setValue("images", news.images);
+        setUpdateNews(news);
+    }
+
+    const handleImages = () => {
+
+    }   
+
   return (
 
-    <div className="newsFeed">
+    <div className="newsFeed" id="news">
         <h2>Important Announcements</h2>
-        { role === "ADMIN" && !showForm && <button className="ashbtn bttn newsbtn" onClick={()=>setShowForm(!showForm)}>Add</button>}
+        { role === "ADMIN" && !showForm && <button className="ashbtn bttn newsbtn" 
+        onClick={()=>{
+            setShowForm(!showForm)
+            setShowUpdateBtn(false);
+        }}>Add</button>}
 
         { showForm &&
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,34 +96,36 @@ const News = ({role}) => {
 
             <div className="news-group">
                 <label htmlFor="body">body</label>
-                <textarea name="body" id="body" {...register("body", {required: {
+                <textarea name="body" rows={8} id="body" {...register("body", {required: {
                     value:true,
                     message: "please enter a body"
                 }})}></textarea>
                 {errors.body && <span className="error">{errors.body.message}</span>}
             </div>
+            <div>
+                <label htmlFor="images">Image</label>
+                <input type="file" name="images" multiple {...register("images")}/>
+            </div>
             <div className="addNews">
-                <button type="submit" className="ashbtn bttn newsbtn">Add News</button>
-                <button className="bttn redbtn" onClick={()=>setShowForm(false)}>Cancel</button>
+                {!showUpdateBtn && <button type="submit" className="ashbtn bttn newsbtn">Add News</button>}
+                {showUpdateBtn && <button type="submit" className="ashbtn bttn newsbtn">Update News</button>}
+                <button className="bttn redbtn" onClick={()=>{
+                    setShowForm(false);
+                    reset();
+                }}>Cancel</button>
             </div>
         </form>}
 
         {isLogin ? (
-            news.map(news => {
-                const date = new Date(news.updatedAt);
-                const datePart = format(date, 'MMMM do, yyyy');
-                const timePart = format(date, 'hh:mm a');
-                
+            news.map(news => { 
                 return(
                 <NewsCards 
                 role={role}
                 key={news.id}
                 heading={news.heading}
-                body={news.body}
-                date={datePart}
-                time={timePart}
-                user={news.user}
+                news={news}
                 handleDelete={()=>handleDelete(news.id)}
+                handleUpdate={() => handleUpdate(news)}
                 />)
         })):(
             <div className="card">

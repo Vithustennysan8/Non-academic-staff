@@ -65,7 +65,7 @@ function App() {
         console.log("No token found");
         // window.location.href = "/login";
       }
-    }, 60000);
+    }, 10000);
   }, [isLogin]);
 
   return (

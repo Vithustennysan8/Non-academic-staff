@@ -45,7 +45,6 @@ const Notifications = () => {
         try {
           const response = await Axios.get("admin/verifyRegisterRequests");
           setRegisterRequests(response.data);
-          console.log(response.data)
         } catch (error) {
           console.log("Error fetching register requests", error);
         }
@@ -114,6 +113,7 @@ const Notifications = () => {
                   )}
                 </button>
 
+                  {user.job_type !== "Chief Medical Officer" &&
                 <button onClick={() => setRequest("TransferRequests")}>
                   Transfer Requests
                   {transferRequests.length > 0 && (
@@ -122,6 +122,7 @@ const Notifications = () => {
                     </span>
                   )}
                 </button>
+                }
               </>
             )}
 

@@ -39,7 +39,7 @@ const AccidentLeaveForm = () => {
         const response = await Axios.post("/auth/accidentLeaveForm/add", formData);
         console.log(response);
         alert("form submitted successfully");
-        window.scrollTo({top:0, behavior:"smooth"})
+        window.scrollTo({top:0, behavior:"smooth"});
         navigate("/forms");
     } catch (error) {
       console.log(error);

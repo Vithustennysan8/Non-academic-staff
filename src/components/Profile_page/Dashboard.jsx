@@ -86,16 +86,16 @@ const Dashboard = () => {
       const fetchTransferFormsApplied = async () => {
         try {
           const response = await Axios.get("auth/user/transferForms");
-          setAppliedLeave(response.data.length);
+          setAppliedTransfer(response.data.length);
         } catch (error) {
           console.log("Error fetching appliedTransferForms requests", error);
         }
       };
-
+      
       const fetchLeaveFormsApplied = async () => {
         try {
           const response = await Axios.get("auth/user/leaveForms");
-          setAppliedTransfer(response.data.length);
+          setAppliedLeave(response.data.length);
         } catch (error) {
           console.log("Error fetching appliedLeaveForms requests", error);
         }
@@ -226,7 +226,7 @@ const Dashboard = () => {
                       src="https://cdn-icons-png.flaticon.com/128/25/25215.png"
                       alt="icon2"
                     />
-                    Security Settings
+                    Security
                   </span>
                 </Link>
               </p>
@@ -239,13 +239,13 @@ const Dashboard = () => {
                     />
                     Notification{" "}
                     {leave + register + transfer + appliedLeave + appliedTransfer >0 && (
-                      <span className="notificationCount">
+                      <li className="notificationCount">
                         {leave +
                           register +
                           appliedLeave +
                           appliedTransfer +
                           transfer}
-                      </span>
+                      </li>
                     )}
                   </span>
                 </Link>
@@ -478,7 +478,7 @@ const Dashboard = () => {
 
           {dashboardContent === "securitySetting" && <ResetPassword/>}
           {dashboardContent === "Notification" && <Notifications/>}
-          {dashboardContent === "Summary" && (user.role === "USER" ? <UserDashboard/> : <AdminDashboard/>)}
+          {dashboardContent === "Summary" && (user.role === "USER" ? <UserDashboard id={user.id}/> : <AdminDashboard/>)}
         </>
       )}
     </>

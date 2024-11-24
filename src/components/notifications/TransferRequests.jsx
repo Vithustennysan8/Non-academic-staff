@@ -1,64 +1,34 @@
 import { useNavigate } from "react-router-dom";
 import "../../css/Notifications/transferRequests.css"
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { UserContext } from "../../Contexts/UserContext";
 import FormReqTap from "./FormReqTap";
 import FormPreview from "../forms/FormPreview";
-import { Axios } from "../AxiosReqestBuilder";
-import { useForm } from "react-hook-form";
 
-const TransferRequests = ({allTransferFormRequests, setAllTransferFormRequests}) => {
+const TransferRequests = ({allTransferFormRequests}) => {
   const navigate = useNavigate();
   const { isLogin } = useContext(LoginContext);
-  const [Forms, setForms] = useState([]);
-  const [Form, setForm] = useState({});
+  const [filteredForms, setFilteredForms] = useState([]);
   const [requestForm, setRequestForm] = useState({});
   const [showForm, setShowForm] = useState(false);
   const { user } = useContext(UserContext);
-  const [isAllNotificationsOpen, setIsAllNotificationsOpen] = useState(true);
-  const [all, setAll] = useState(false);
-  const [filter, setFilter] = useState("Pending");
+  const [filters, setFilters] = useState({
+    status: "Pending",
+    year:'',
+    month:'',
+    department:'',
+    faculty:'',
+  });  
 
   useEffect(() => {
     if (!isLogin) {
+      window.scrollTo({top:0, behavior:"smooth"});
       navigate("/login");
     }
-  }, [navigate, isLogin]);
+    setFilteredForms(allTransferFormRequests.filter((form)=> form.status === "Pending"))
+  }, [navigate, isLogin, allTransferFormRequests]);
 
-  const onSubmit = async (data) => {
-    setShowForm(false);
-    const { faculty, department } = data;
-
-    try {
-      const response = await Axios.post(`/admin/req/transferForm`, {faculty,department});
-      setForms(response.data);
-      setIsAllNotificationsOpen(false);
-      setAll(false);
-    } catch (error) {
-      console.log(">>> " + error);
-    }
-  };
-
-  const filteredForms = useMemo(()=> {
-    if(filter === "Pending" ){
-      return allTransferFormRequests.filter((form) => form.status === "Pending");
-    }else if (filter === "Accepted"){
-      return allTransferFormRequests.filter((form) => form.status === "Accepted");
-    }else if(filter === "Rejected"){
-      return allTransferFormRequests.filter((form) => form.status === "Rejected");
-    }else{
-      return allTransferFormRequests;
-    }
-  },[allTransferFormRequests, filter])
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const [selectedFaculty, setSelectedFaculty] = useState(user.faculty);
 
   const faculties = [
     {
@@ -120,30 +90,57 @@ const TransferRequests = ({allTransferFormRequests, setAllTransferFormRequests})
     },
   ];
 
-  const departments =
-    faculties
-      .find((faculty) => faculty.faculty === selectedFaculty)
+  const departments = faculties.find((faculty) => faculty.faculty === filters.faculty)
       ?.department.split(", ") || [];
 
-  const handleSingleForm = (id) => {
-    setForm(Forms.find((form) => form.id === id));
+  const handleSingleForm = (id, formType) => {
+    setRequestForm(allTransferFormRequests.find((form) => 
+      form.id === id && form.formType === formType)
+    );
     setShowForm(true);
   };
 
-  const handleSingleLeaveRequestForm = (id, formType) => {
-    setRequestForm(
-      allTransferFormRequests.find(
-        (form) => form.id === id && form.formType === formType
-      )
-    );
-    setAll(true);
-    setIsAllNotificationsOpen(false);
-  };
 
-  const handleShowingAllNotifications = (e) => {
-    setIsAllNotificationsOpen(true);
-    setShowForm(false);
-    setFilter(e.target.value);
+  const handleForm = (e)=>{
+    e.preventDefault();
+    setFilters({...filters, [e.target.name]: e.target.value });
+  }
+
+  const handleFilterChange = (e) => {
+    e.preventDefault();
+    console.log(filters);
+    
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    setShowForm(null); // Reset the form preview when changing the filter
+    let filterForms = allTransferFormRequests;
+
+     // Apply filters dynamically
+    if (filters.year && filters.year.length === 4) {
+      filterForms = filterForms.filter((form) => form.createdAt.startsWith(filters.year));
+    }
+    
+    if (filters.month) {
+      filterForms = filterForms.filter(
+        (form) => monthNames[parseInt(form.createdAt.substring(5, 7), 10) - 1] === filters.month
+      );
+    }
+
+    if (filters.faculty) {
+      filterForms = filterForms.filter((form) => form.user.faculty === filters.faculty);
+    }
+
+    if (filters.department) {
+      filterForms = filterForms.filter((form) => form.user.department === filters.department);
+    }
+
+    if (filters.status !== "All") {
+      filterForms = filterForms.filter((form) => form.status === filters.status);
+    }
+
+    setFilteredForms(filterForms);
   };
 
   return (
@@ -151,118 +148,80 @@ const TransferRequests = ({allTransferFormRequests, setAllTransferFormRequests})
       <div className="RequestedForms">
         <h1>Requested Transfer Forms</h1>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="selection-area">
-            {(user.job_type === "Chief Medical Officer" || user.job_type === "Non Academic Establishment Division" || user.job_type === "Registrar") && (
-              <div>
-                <label htmlFor="faculty">Faculty</label>
-                <select
-                  name="faculty"
-                  id="faculty"
-                  {...register("faculty")}
-                  onChange={(e) => setSelectedFaculty(e.target.value)}
-                >
-                  <option value="">select one....</option>
-                  {faculties.map((faculty, index) => (
-                    <option key={index} value={faculty.faculty}>
-                      {faculty.faculty}
-                    </option>
-                  ))}
-                </select>
-                {errors.faculty && (
-                  <span className="error">{errors.faculty.message}</span>
-                )}
-              </div>
-            )}
-
-            {(user.job_type !== "Head of the Department") && (
-      
-              <div>
-                <label htmlFor="department">Department</label>
-                <select
-                  id="department"
-                  name="department"
-                  {...register("department")}
-                  >
-                  <option value="">select one....</option>
-                  {departments.map((department, index) => (
-                    <option key={index} value={department}>
-                      {department}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              )}
-              </div>
-
-            {(user.job_type !== "Head of the Department") && (
-            <div className="search-btn">
-              <input
-                type="submit"
-                className="bttn redbtn"
-                value="Get the Filtered Forms"
-              />
-            </div>
-            )}
-
-
+        <form>
           <div className="allLeaveRequest-btn">
-            <select onClick={e=> handleShowingAllNotifications(e)}>
-                <option value="Pending">Pending</option>
-                <option value="All">All</option>
-                <option value="Accepted">Accepted</option>
-                <option value="Rejected">Rejected</option>
-              </select>
+            <div className="selection-area">
+              {(user.job_type !== "Head of the Department") && (
+                <>
+                <div>
+                  <select name="faculty" id="faculty" value={filters.faculty} onChange={e=>handleForm(e)}>
+                    <option value="">Faculty</option>
+                    {faculties.map((faculty, index) => (
+                      <option key={index} value={faculty.faculty}>
+                        {faculty.faculty}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                      
+                <div>
+                  <select id="department" name="department" onChange={e=>handleForm(e)} >
+                    <option value="">Department</option>
+                    {departments.map((department, index) => (
+                      <option key={index} value={department}>
+                        {department}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                </>
+                )}
+            </div>
+
+            <div className="selection-area">
+                <select value={filters.status} name="status" onChange={e=>handleForm(e)}>
+                  <option value="Pending">Pending</option>
+                  <option value="All">All</option>
+                  <option value="Accepted">Accepted</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+
+                <input type="number" name="year" value={filters.year} onChange={e=>handleForm(e)} placeholder="Year"/>
+                <select name="month" value={filters.month} onChange={e=>handleForm(e)}>
+                    <option value="">Month</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                  </select>
+              </div>
+              <button className="bttn ashbtn" onClick={handleFilterChange}>Filter</button>
           </div>
         </form>
 
-        {/* Filtered Leave notifications */}
-        {!showForm && !isAllNotificationsOpen && !all && (<>
-          <h4 className="filteredFormHeading">{Forms[0]?.formType}</h4>
-          <ul>
-            {Forms.map((form, index) => (
-              <li
-              key={index}
-              style={{ listStyle: "none" }}
-              onClick={() => handleSingleForm(form.id)}
-              >
-                <FormReqTap form={form} />
-              </li>
-            ))}
-          </ul>
-          </>
-        )}
-        {showForm && !isAllNotificationsOpen && (
-          <FormPreview application={Form} approver={user} setForm={setForm} />
-        )}
-
         {/* All leave Notifications */}
-        {isAllNotificationsOpen && (
+        {!showForm && (
           <div className="allNotifications">
-            {filteredForms.length > 0 ? (
-              <h2>{filter} Requests</h2>
-            ) : (
-              <p>No LeaveForms Found.......</p>
-            )}
-
-            {filteredForms.map((request, index) => (
-              <div
-                key={index}
-                onClick={() =>
-                  handleSingleLeaveRequestForm(request.id, request.formType)
-                }
-              >
-                <FormReqTap form={request} />
+            <h2>{filters.status} Requests</h2>
+            
+            {filteredForms<1 ? <p className="empty">No forms match the selected filter!</p> :
+            filteredForms.map((form, index) => (
+              <div key={index}>
+              <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
               </div>
             ))}
           </div>
         )}
-        {!isAllNotificationsOpen && all && (
-          <FormPreview
-            application={requestForm}
-            approver={user}
-            setForm={setRequestForm}
-          />
+        {showForm && (
+          <FormPreview application={requestForm} approver={user} setForm={setRequestForm}/>
         )}
       </div>
     </>

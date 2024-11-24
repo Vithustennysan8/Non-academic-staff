@@ -18,6 +18,19 @@
     font-size: 0.8rem;
     color: #747474;
 }
+.formReq-container div{
+    display: flex;
+    justify-content: space-between;
+}
+.formReq-container div div{
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    p{
+        font-size: 0.7rem;
+    }
+}
+
 
 @media (max-width: 768px){
     .formReq-container{

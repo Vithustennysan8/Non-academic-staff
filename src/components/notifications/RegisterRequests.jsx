@@ -5,19 +5,6 @@ import { Axios } from "../AxiosReqestBuilder"
 const RegisterRequests = ({requests, setRequests}) => {
   const [selectedUser, setSelectedUser] = useState(null);
 
-  // useEffect(()=>{
-  //   const fetchRegisterRequests = async () => {
-  //     try {
-  //       const response = await Axios.get("admin/verifyRequests");
-  //       console.log(response.data);
-  //       setRequests(response.data);
-  //     }catch(error){
-  //       console.log(error);
-  //     }
-  //   }
-  //   fetchRegisterRequests();
-  // },[])
-
   const handleVerify = async (token) => {
     try{
       const response = await Axios.put(`admin/verify/${token}`);
@@ -40,7 +27,7 @@ const RegisterRequests = ({requests, setRequests}) => {
   return (
     <div className="registerRequests">
       <h2>Register Requests</h2>
-      { requests.length <= 0 && <p className="empty">Forms not found...</p>}
+      { requests.length <= 0 && <p className="empty">No register requests found...</p>}
 
       { requests.length > 0 &&
       <div className="request"> 

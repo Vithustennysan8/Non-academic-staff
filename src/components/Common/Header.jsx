@@ -106,7 +106,7 @@ const Header = () => {
             <div className="header-profile">
               <p className="username">{user.first_name}</p>
               <div>
-                <Link to="/profile">
+                <Link to="/Dashboard">
                   <img src={src} alt="Profile-image" />
                 </Link>
               </div>

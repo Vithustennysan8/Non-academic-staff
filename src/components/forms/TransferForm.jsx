@@ -26,15 +26,6 @@ const TransferForm = () => {
             formData.append('files', data.files[0]);
           }
 
-        // Object.keys(data).forEach((key) => {
-        //     if (key === "currentJobStartDate" || key === "currentJobEndDate" || key === "previousJobStartDate" || key === "previousJobEndDate"){
-        //         formData.append(key, data[key].split('-').reverse().join("-"));
-        //     }
-        //     if( key != "file" || key != "job_start_date"){
-        //         formData.append(key, data[key]);
-        //     }
-        // })
-
         Object.keys(data).forEach((key)=>{
             if( key != "files" ){
               formData.append(key, data[key]);

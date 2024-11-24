@@ -55,6 +55,11 @@
     color: red;
 }
 
+.academicStaff{
+    display: flex;
+    justify-content: center;
+}
+
 @media only screen and (max-width: 780px) {
     .staffs{
         width: 90%;

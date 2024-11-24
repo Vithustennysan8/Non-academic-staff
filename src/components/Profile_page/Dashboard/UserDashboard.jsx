@@ -5,13 +5,12 @@ import { LoginContext } from "../../../Contexts/LoginContext"
 import { useNavigate } from "react-router-dom"
 import { Pie } from "react-chartjs-2"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { constructNow } from "date-fns"
 import LoadingAnimation from "../../Common/LoadingAnimation"
 
 // Register necessary components from chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const UserDashboard = () => {
+const UserDashboard = ( {id}) => {
   const {isLogin} = useContext(LoginContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
@@ -45,90 +44,15 @@ const UserDashboard = () => {
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
-
-  const handleCurrentStatus = () => {
-    let acceptedForms = 0;
-    let rejectedForms = 0;
-    let currentPendingForms = 0;
-    let currentRejectedForms = 0;
-    let currentAcceptedForms = 0;
-    let FormsTypeAndCount = {
-      "Normal Leave Form":0,
-      "Accident Leave Form":0,
-      "Medical Leave Form":0,
-      "Paternal Leave Form":0,
-      "Maternity Leave Form":0, 
-      "No-Pay":0,
-
-    }
-
-    forms.map((form) => {
-      if(form.status === "Accepted"){
-        acceptedForms++;
-      }else if(form.status === "Rejected"){
-        rejectedForms++;
-      }
-
-      if(form.createdAt){
-        let date = new Date(form.createdAt);
-        let currentDate = new Date();
-        if(date.toISOString().substring(0,7) === currentDate.toISOString().substring(0,7)){
-          if(form.status === "Accepted"){
-            currentAcceptedForms++;
-          }else if(form.status === "Rejected"){
-            currentRejectedForms++;
-          }else{
-            currentPendingForms++;
-          }
-        }
-
-        switch (form.formType) {
-          case "Normal Leave Form":
-            FormsTypeAndCount["Normal Leave Form"] += 1;
-            break;
-          case "Paternal Leave Form":
-            FormsTypeAndCount["Paternal Leave Form"] += 1;
-            break;
-          case "Accident Leave Form":
-            FormsTypeAndCount["Accident Leave Form"] += 1;
-            break;
-          case "Maternity Leave Form":
-            FormsTypeAndCount["Maternity Leave Form"] += 1;
-            break;
-          case "Medical Leave Form":
-            FormsTypeAndCount["Medical Leave Form"] += 1;
-            break;
-          default:
-            break;
-        }
-      }
-    });
-
-    if(acceptedForms <= 2){
-      setCurrent_availableLeaves(2 - acceptedForms);
-    }else{
-      setCurrent_availableLeaves(0);
-      setCurrent_noPay(acceptedForms - 2);
-    }
-
-    setTotalAcceptedLeaves(acceptedForms);
-    setTotalRejectedLeaves(rejectedForms);
-    setCurrent_acceptedLeaves(currentAcceptedForms);
-    setCurrent_rejectedLeaves(currentRejectedForms);
-    setCurrent_pendingLeaves(currentPendingForms);
-    setFormTypeAndCount(FormsTypeAndCount);
-  }
-
-
   
   useEffect(() => { 
     setTimeout(() => {
       if (isLogin) {
         const fetchForms = async () => {
           try {
-          const response = await Axios.get("/auth/user/leaveForms");
+          const response = await Axios.get(`/auth/user/leaveFormsById/${id}`);
           setForms(response.data);
-          console.log(response.data);
+          console.log("sd"+response.data);
           setIsLoading(false);
         }catch(error){
           console.log(error);
@@ -141,13 +65,84 @@ const UserDashboard = () => {
       navigate("/login");
     }
   }, 600);
-  },[isLogin, navigate]);
+  },[isLogin, navigate, id]);
 
   useEffect(()=>{
-    if(forms.length > 0){
-      handleCurrentStatus();
+    const handleCurrentStatus = () => {
+      let acceptedForms = 0;
+      let rejectedForms = 0;
+      let currentPendingForms = 0;
+      let currentRejectedForms = 0;
+      let currentAcceptedForms = 0;
+      let FormsTypeAndCount = {
+        "Normal Leave Form":0,
+        "Accident Leave Form":0,
+        "Medical Leave Form":0,
+        "Paternal Leave Form":0,
+        "Maternity Leave Form":0, 
+        "No-Pay":0,
+  
+      }
+  
+      forms.map((form) => {
+        if(form.status === "Accepted"){
+          acceptedForms++;
+        }else if(form.status === "Rejected"){
+          rejectedForms++;
+        }
+  
+        if(form.createdAt){
+          let date = new Date(form.createdAt);
+          let currentDate = new Date();
+          if(date.toISOString().substring(0,7) === currentDate.toISOString().substring(0,7)){
+            if(form.status === "Accepted"){
+              currentAcceptedForms++;
+            }else if(form.status === "Rejected"){
+              currentRejectedForms++;
+            }else{
+              currentPendingForms++;
+            }
+          }
+  
+          switch (form.formType) {
+            case "Normal Leave Form":
+              FormsTypeAndCount["Normal Leave Form"] += 1;
+              break;
+            case "Paternal Leave Form":
+              FormsTypeAndCount["Paternal Leave Form"] += 1;
+              break;
+            case "Accident Leave Form":
+              FormsTypeAndCount["Accident Leave Form"] += 1;
+              break;
+            case "Maternity Leave Form":
+              FormsTypeAndCount["Maternity Leave Form"] += 1;
+              break;
+            case "Medical Leave Form":
+              FormsTypeAndCount["Medical Leave Form"] += 1;
+              break;
+            default:
+              break;
+          }
+        }
+      });
+  
+      if(currentAcceptedForms <= 2){
+        setCurrent_availableLeaves(2 - currentAcceptedForms);
+      }else{
+        setCurrent_availableLeaves(0);
+        setCurrent_noPay(currentAcceptedForms - 2);
+      }
+  
+      setTotalAcceptedLeaves(acceptedForms);
+      setTotalRejectedLeaves(rejectedForms);
+      setCurrent_acceptedLeaves(currentAcceptedForms);
+      setCurrent_rejectedLeaves(currentRejectedForms);
+      setCurrent_pendingLeaves(currentPendingForms);
+      setFormTypeAndCount(FormsTypeAndCount);
     }
-  },[forms.length])
+
+      handleCurrentStatus();
+  },[forms])
   
 
   const handleFilteredForm = (applications) => {
@@ -435,4 +430,4 @@ const UserDashboard = () => {
   )
 }
 
-export default UserDashboard
+export default UserDashboard;

@@ -128,7 +128,6 @@ const Home = () => {
                     <div className="form-shortcuts">
                       <div className="form-shortcut">
                         <p>
-                          
                           <Link to="/forms">Apply for Leaves</Link>
                         </p>
                       </div>
