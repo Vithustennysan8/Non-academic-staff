@@ -35,29 +35,23 @@ const Dashboard = () => {
   useEffect(() => {
     setTimeout(() => {
       const getUserDetail = async () => {
-        if (isLogin) {
-          try {
-            const response = await Axios.get("/auth/user/info");
-            setUser(response.data);
-            setIsLoading(false);
-            if (user.image_data) {
-              setSrc(`data:${user.image_type};base64,${user.image_data}`);
-            }
-          } catch (error) {
-            localStorage.removeItem("token");
-            sessionStorage.setItem("isLogin", false);
-            setIsLogin(false);
-          }
-        } else {
+        try {
+          const response = await Axios.get("/auth/user/info");
+          setUser(response.data);
           setIsLoading(false);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          navigate("/login");
+          if (user.image_data) {
+            setSrc(`data:${user.image_type};base64,${user.image_data}`);
+          }
+        } catch (error) {
+          localStorage.removeItem("token");
+          sessionStorage.setItem("isLogin", false);
+          setIsLogin(false);
         }
       };
 
       const fetchLeaveRequestCount = async () => {
         try {
-          const response = await Axios.get("admin/leaveForms/notify");
+          const response = await Axios.get("admin/leaveForms/notification");
           setLeave(response.data.length);
         } catch {
           console.log("Error fetching leave requests");
@@ -75,7 +69,7 @@ const Dashboard = () => {
 
       const fetchTransferRequests = async () => {
         try{
-          const response = await Axios.get("admin/transferForms/notify");
+          const response = await Axios.get("admin/transferForms/notification");
           if(response.data.length > 0){
             setTranfer(response.data.length);
           }
@@ -101,6 +95,12 @@ const Dashboard = () => {
         }
       };
 
+      if(!isLogin){
+        setIsLoading(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        navigate("/login");
+        return;
+      }
       if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
         fetchLeaveRequestCount();
         fetchRegisterRequests();
@@ -477,7 +477,7 @@ const Dashboard = () => {
           </div>
 
           {dashboardContent === "securitySetting" && <ResetPassword/>}
-          {dashboardContent === "Notification" && <Notifications/>}
+          {dashboardContent === "Notification" && <Notifications leave={leave} transfer={transfer} register={register} appliedLeave={appliedLeave} appliedTransfer={appliedTransfer}/>}
           {dashboardContent === "Summary" && (user.role === "USER" ? <UserDashboard id={user.id}/> : <AdminDashboard/>)}
         </>
       )}

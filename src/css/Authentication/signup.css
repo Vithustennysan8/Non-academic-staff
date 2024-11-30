@@ -3,9 +3,9 @@
     justify-content: center;
 }
 .signup-container{
-    padding: 20px 40px;
+    padding: 20px;
     margin: 60px 0;
-    width: 60%;
+    width: 50%;
     border: 1px solid #c9c9c9;
     border-radius: 15px;
     background-color: white;
@@ -55,7 +55,7 @@
 }
 .signup-submit-btn{
     margin: 30px auto 0 auto;
-    width: 50%;
+    width: 30%;
 }
 .signup-submit-btn input{
     border-radius: 5px;
@@ -121,11 +121,6 @@
     margin-top: 5px;
 }
 
-@media only screen and (max-width: 1500px) {
-    .signup-container{
-        width: 750px;
-    }
-}
 
 @media only screen and (max-width: 800px) {
     .signup-container{

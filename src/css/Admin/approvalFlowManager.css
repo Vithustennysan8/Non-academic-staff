@@ -1,0 +1,76 @@
+.approval-flow-manager{
+    width: 80%;
+    margin: 40px auto;
+}
+.approval-flow-manager h1{
+    margin: 30px 0px;
+    font-size: 1.6rem;
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.inputDiv{
+    margin: 20px 0;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+.inputDiv input, .inputDiv button{
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+.flowViewer h2{
+    margin: 20px 0;
+    font-size: 1.3rem;
+    border-left: 4px solid rgb(66, 66, 66);
+    padding-left: 10px;
+}
+.flowViewer li{
+    cursor: pointer;
+    list-style: none;
+    margin: 5px 0;
+    background-color: white;
+    padding: 8px 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.flowViewer li:hover{
+    background-color: #e7e7e7;
+}
+
+.selectedFlow{
+    margin: 20px 20px 30px;
+}
+
+.selectedFlow h2{
+    font-size: 1.2rem;
+    color: rgb(0, 0, 208);
+}
+
+.selectedFlow div{
+    color: rgb(41, 41, 41);
+}
+
+.addNewRole{
+    margin: 20px 0 10px;
+    display: flex;
+    gap: 10px;
+}
+.addNewRole input, .addNewRole button{
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.saveDelete{
+    display: flex;
+    gap: 10px;
+}
+
+.saveDelete button{
+    color: white;
+}

@@ -213,7 +213,6 @@ const UserDashboard = ( {id}) => {
     "Paternal Leave Form":0,
     "Maternity Leave Form":0, 
     "No-Pay":0,
-
   });
     setFilteredForms([]);
     setFiltered_acceptedForms(0);

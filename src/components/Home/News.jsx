@@ -4,6 +4,7 @@ import NewsCards from "./NewsCards";
 import { useForm } from "react-hook-form";
 import { Axios } from ".././AxiosReqestBuilder";
 import { LoginContext } from "../../Contexts/LoginContext";
+import { useNavigate } from "react-router-dom";
 
 const News = ({role}) => {
     const {isLogin} = useContext(LoginContext);
@@ -13,15 +14,17 @@ const News = ({role}) => {
     const [updateNews, setUpdateNews] = useState(null);
 
     useEffect(()=>{
-        const getNews = async () => {
-            try {
-              const response = await Axios.get("/auth/news/get");
-              setNews(response.data);
-            }catch(error){
-              console.log("message ", error);
+        if(isLogin){   
+            const getNews = async () => {
+                try {
+                    const response = await Axios.get("/auth/news/get");
+                    setNews(response.data);
+                }catch(error){
+                    console.log("message ", error);
+                }
             }
-          }
-        getNews();
+            getNews();
+        }
     },[])
 
     const {register, handleSubmit, formState: {errors}, reset, setValue} = useForm();

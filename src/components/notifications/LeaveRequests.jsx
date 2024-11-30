@@ -20,14 +20,32 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
     department:'',
     faculty:'',
     formType: '',
-  }); 
+  });
+  const [approver, setApprover] = useState(null);
 
   useEffect(() => {
     if (!isLogin) {
       window.scrollTo({top:0, behavior:"smooth"});
       navigate("/login");
     }
-    setFilteredForms(allLeaveFormRequests.filter((form)=> form.status === "Pending"))
+    switch(user.job_type){
+      case 'Head of the Department':
+        setFilteredForms(allLeaveFormRequests.filter((form)=> form.headStatus === "pending"))
+        break;
+        case 'Dean':  
+        setFilteredForms(allLeaveFormRequests.filter((form)=> form.deanStatus === "pending"))
+        break;
+        case 'Chief Medical Officer':
+        setFilteredForms(allLeaveFormRequests.filter((form)=> form.cmoStatus === "pending"))
+        break;
+        case 'Non Academic Establishment Division':
+        setFilteredForms(allLeaveFormRequests.filter((form)=> form.naeStatus === "pending"))
+        break;
+        case 'Registrar':
+        setFilteredForms(allLeaveFormRequests.filter((form)=> form.registrarStatus === "pending"))
+        break;
+    }
+  
   }, [navigate, isLogin, allLeaveFormRequests]);
 
 
@@ -141,7 +159,23 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
     }
 
     if (filters.status !== "All") {
-      filterForms = filterForms.filter((form) => form.status === filters.status);
+      switch(user.job_type){
+        case 'Head of the Department':
+          filterForms = filterForms.filter((form) => form.headStatus === filters.status);
+          break;
+        case 'Dean':  
+          filterForms = filterForms.filter((form) => form.deanStatus === filters.status);
+          break;
+        case 'Chief Medical Officer':
+          filterForms = filterForms.filter((form) => form.cmoStatus === filters.status);
+          break;
+        case 'Non Academic Establishment Division':
+          filterForms = filterForms.filter((form) => form.naeStatus === filters.status);
+          break;
+        case 'Registrar':
+          filterForms = filterForms.filter((form) => form.registrarStatus === filters.status);
+          break;
+      }
     }
 
     setFilteredForms(filterForms);
@@ -195,7 +229,7 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
 
             <div className="selection-area">
                 <select value={filters.status} name="status" onChange={e=>handleForm(e)}>
-                  <option value="Pending">Pending</option>
+                  <option value="pending">Pending</option>
                   <option value="All">All</option>
                   <option value="Accepted">Accepted</option>
                   <option value="Rejected">Rejected</option>

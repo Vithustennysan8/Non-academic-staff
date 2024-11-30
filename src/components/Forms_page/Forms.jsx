@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "../../css/Forms_page/forms.css";
 import FormCard from "./FormCard";
 import img1 from "../../assets/images/normalIMG.jpg"
@@ -8,12 +8,17 @@ import accident from "../../assets/images/accidentIMG.jpg"
 import paternal from "../../assets/images/paternalIMG.jpg"
 import LoadingAnimation from "../Common/LoadingAnimation";
 import transfer from "../../assets/images/transferIMG.jpg"
+import { Link } from "react-router-dom";
+import { UserContext } from "../../Contexts/UserContext";
+import { LoginContext } from "../../Contexts/LoginContext";
 
 const Forms = () => {
   const [isloading, setIsLoading] = useState(true);
+  const {user} = useContext(UserContext);
+  const {isLogin} = useContext(LoginContext);
 
   setTimeout(() => {
-    setIsLoading(false)
+    setIsLoading(false);
   }, 600);
 
   return (
@@ -21,6 +26,14 @@ const Forms = () => {
     {isloading? <LoadingAnimation/> :
       <div className="form-content">
         <div className="form-heading">Leave or Transfer Request</div>
+
+        {user.role !== "USER" && isLogin &&
+          <div className="EditApprovalFlowContainer">
+            <Link to={"/approvalFlowManager"}>Edit the approval flow for the forms</Link><br />
+            <Link to={"/createForm"}>createForm</Link>
+          </div>
+        }
+
         <div className="form-attributes">
           <FormCard
             title={"Leave Form"}
@@ -37,6 +50,7 @@ const Forms = () => {
             url={"/transferForm"}
             />
         </div>
+
 
         <div className="form-details-container">
           <h3>Flow of the forms</h3>

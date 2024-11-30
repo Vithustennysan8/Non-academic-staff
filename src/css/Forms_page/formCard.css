@@ -1,6 +1,6 @@
 /* Styles for the main container */
 .form-card {
-    width: 450px;
+    width: 45%;
     border-radius: 12px;
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
     border: 1px solid #ccc;
@@ -44,7 +44,7 @@
   /* Styles for the inner content */
   .content-base p {
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: bold;
     color: white;
   }
@@ -53,3 +53,10 @@
     transform: translate(-5px, -5px);
     box-shadow: 0 1px 15px rgba(0, 0, 0, 0.2);
   }
+
+  @media only screen and (max-width: 600px) {
+    .form-card{
+      width: 90%;
+      margin: 20px auto 0;    
+    }
+}

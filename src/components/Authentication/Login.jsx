@@ -69,12 +69,12 @@ const Login = () => {
           <h1>UOP</h1>
 
           <div className="email-box">
-            <label htmlFor="login-email">Email Address</label>
+            {/* <label htmlFor="login-email">Email Address</label> */}
             <input
               type="email"
               name="email"
               id="login-email"
-              placeholder="abc123@gmail.com"
+              placeholder="Enter email-address"
               {...register("email", {
                 required: {
                   value: true,
@@ -92,7 +92,7 @@ const Login = () => {
           </div>
 
           <div className="passwd-box">
-            <label htmlFor="password">Password</label>
+            {/* <label htmlFor="password">Password</label> */}
             <div>
               <img
                 id="loginPasswordimg"

@@ -20,6 +20,8 @@ import RequestedForms from "./components/notifications/LeaveRequests";
 import LeaveForms from "./components/forms/LeaveForms";
 import Notifications from "./components/forms/Notifications";
 import ForgotPassword from "./components/Authentication/ForgotPassword";
+import ApprovalFlowManager from "./components/Admin/ApprovalFlowManager";
+import CreateForm from "./components/Admin/CreateForm";
 
 function App() {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
@@ -91,6 +93,8 @@ function App() {
               <Route path="/requestedForms" element={<RequestedForms />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/forgotPassword" element={<ForgotPassword />} />
+              <Route path="/approvalFlowManager" element={<ApprovalFlowManager/>}/>
+              <Route path="/createForm" element={<CreateForm/>}/>
             </Routes>
             <Footer />
           </Router>

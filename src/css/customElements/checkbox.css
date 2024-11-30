@@ -1,0 +1,21 @@
+.customCheckbox{
+    width: 100%;
+    margin: 10px 0;
+}
+.customCheckbox label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.customCheckbox div{
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+.customCheckbox input{
+    margin:0 8px;
+}
+.customCheckbox div label{
+    color: #0d0d0d;
+    font-size: 0.8rem;
+}

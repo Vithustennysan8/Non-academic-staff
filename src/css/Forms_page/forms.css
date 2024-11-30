@@ -4,7 +4,7 @@
 }
 
 .form-heading{
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: bold;
     margin-top: 20px;
     border-left: 4px solid rgb(219, 0, 0);
@@ -64,15 +64,25 @@
     mix-blend-mode:darken;
 }
 
+.EditApprovalFlowContainer{
+    margin: auto;
+    margin-top: 40px;
+    display: block;
+    text-align: center;
+}
+
 @media only screen and (max-width: 600px) {
     .form-content{
         width: 90%;
     }
     .form-heading{
-        font-size: 1.5rem;
+        font-size: 1.1rem;
     }
     .form-detail{
         width: 100%;
         margin: 0 5px;
+    }
+    .form-attributes{
+        flex-direction: column;
     }
 }

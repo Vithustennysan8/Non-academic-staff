@@ -11,7 +11,7 @@ import AppliedLeaveForms from "../notifications/AppliedLeaveForms";
 import AppliedTransferForms from "../notifications/AppliedTransferForms";
 import LoadingAnimation from "../Common/LoadingAnimation";
 
-const Notifications = () => {
+const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register}) => {
   const { user } = useContext(UserContext);
   const { isLogin } = useContext(LoginContext);
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const Notifications = () => {
 
       const fetchTransferRequests = async () => {
         try{
-          const response = await Axios.get("admin/transferForms/notify");
+          const response = await Axios.get("admin/transferForms/notification");
           setTransferRequests(response.data);
         }catch(error){
           console.log("Error fetching transfer requests", error);
@@ -99,26 +99,26 @@ const Notifications = () => {
               { (user.job_type === "Head of the Department" || user.job_type === "Dean") &&
                 <button onClick={() => setRequest("RegisterRequests")}>
                   Register Requests
-                  {registerRequests.length > 0 && (
+                  {register > 0 && (
                     <span className="requestCount">
-                      {registerRequests.length}
+                      {register}
                     </span>
                   )}
                   </button>}
 
                 <button onClick={() => setRequest("LeaveRequests")}>
                   Leave Requests
-                  {leaveRequests.length > 0 && (
-                    <span className="requestCount">{leaveRequests.length}</span>
+                  {leave > 0 && (
+                    <span className="requestCount">{leave}</span>
                   )}
                 </button>
 
                   {user.job_type !== "Chief Medical Officer" &&
                 <button onClick={() => setRequest("TransferRequests")}>
                   Transfer Requests
-                  {transferRequests.length > 0 && (
+                  {transfer > 0 && (
                     <span className="requestCount">
-                      {transferRequests.length}
+                      {transfer}
                     </span>
                   )}
                 </button>
@@ -130,16 +130,16 @@ const Notifications = () => {
             
               <button onClick={() => setRequest("AppliedLeaveForms")}>
                 Applied Leave Forms
-                {appliedLeaveForms.length > 0 && (
-                  <span className="requestCount">{appliedLeaveForms.length}</span>
+                {appliedLeave > 0 && (
+                  <span className="requestCount">{appliedLeave}</span>
                 )}
               </button>
 
               <button onClick={() => setRequest("AppliedTransferForms")}>
                 Applied Transfer Forms
-                {appliedTransferForms.length > 0 && (
+                {appliedTransfer > 0 && (
                   <span className="requestCount">
-                    {appliedTransferForms.length}
+                    {appliedTransfer}
                   </span>
                 )}
               </button>
@@ -161,11 +161,7 @@ const Notifications = () => {
               />
             )}
             {request === "TransferRequests" && <TransferRequests allTransferFormRequests={transferRequests} setAllTransferFormRequests={setTransferRequests}/>}
-            {request === "AppliedLeaveForms" && (
-              <AppliedLeaveForms
-                appliedLeaveForms={appliedLeaveForms}
-              />
-            )}
+            {request === "AppliedLeaveForms" && (<AppliedLeaveForms appliedLeaveForms={appliedLeaveForms}/>)}
             {request === "AppliedTransferForms" && <AppliedTransferForms appliedTransferForms={appliedTransferForms}/>}
           </div>
         </div>

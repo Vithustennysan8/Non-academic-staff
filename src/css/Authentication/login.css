@@ -19,18 +19,15 @@
 
 .login-container{
     border: none;
-    width: 55%;
-    max-width: 390px;
+    width: 50%;
+    max-width: 350px;
     padding: 15px;
     border-radius: 12px;
-    box-shadow: 1px 1px 8px 1px #ccc;
+    box-shadow: 1px 1px 8px 2px #ccc;
     background-color: transparent;
     background-color: white;
     backdrop-filter: blur(8px);
 }
-/* .login-container:hover{
-    box-shadow: 1px 1px 7px 1px #b1b1b1;
-} */
 .logo{
     width: 100%;
     display: flex;
@@ -41,7 +38,7 @@
 
 .logo img{
     border-radius: 50%;
-    width: 100px;
+    width: 90px;
     filter: drop-shadow(1px 1px 3px #2f2f2f);
 }
 
@@ -49,22 +46,19 @@
     text-align: center;
     margin: 0px 0px 7px;
     font-weight: 600;
-    font-size: 2.2rem;
+    font-size: 2rem;
 }
 
 .login-container input{
     width: 100%;
     padding: 8px 5px;
-    margin: 5px 0;
+    margin: 5px 0 12px;
+    text-align: center;
     border-radius: 7px;
     border: 1px solid #b6b6b6;
     background-color: transparent;
     outline: none;
     /* color: white; */
-}
-
-.login-container input::placeholder{
-    /* color: #b5b5b5; */
 }
 
 #login-email:hover, #login-password:hover{
@@ -104,6 +98,8 @@
 
 .passwd-box div{
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .passwd-box img{

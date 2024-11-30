@@ -1,0 +1,21 @@
+.customRadio{
+    width: 100%;
+    margin: 10px 0;
+}
+.customRadio label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.customRadio div{
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+.customRadio input{
+    margin:0 8px;
+}
+.customRadio div label{
+    color: #0d0d0d;
+    font-size: 0.8rem;
+}

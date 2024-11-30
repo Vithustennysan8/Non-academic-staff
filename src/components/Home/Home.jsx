@@ -5,7 +5,7 @@ import LoadingAnimation from "../Common/LoadingAnimation";
 import { UserContext } from "../../Contexts/UserContext";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import News from "../Home/News";
 
 const Home = () => {
@@ -18,52 +18,52 @@ const Home = () => {
   const [role, setRole] = useState("USER");
   const [allLeaveFormRequests, setAllLeaveFormRequests] = useState([]);
   const [allTransferFormRequests, setAllTransferFormRequests] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUserDetail = async () => {
-      if (isLogin) {
-          setIsLogin(true);
-          try {
-            const response = await Axios.get("/auth/user/info");
-            setUser(response.data);
-            setRole(response.data.role);
-            setIsLoading(false);
-            if (response.data.image_data) {
-              setSrc(
-                `data:${response.data.image_type};base64,${response.data.image_data}`
-              );
-            }
-          } catch (error) {
-            console.log("message ", error);
-          }
-        } else {
-          setIsLoading(false);
+      try {
+        const response = await Axios.get("/auth/user/info");
+        setUser(response.data);
+        setRole(response.data.role);
+        setIsLoading(false);
+        if (response.data.image_data) {
+          setSrc(
+            `data:${response.data.image_type};base64,${response.data.image_data}`
+          );
         }
-      };
+      } catch (error) {
+        console.log("message ", error);
+      }
+    };
 
-      const getLeaveFormsNotification = async () => {
-        try {
-          const response = await Axios.get("admin/leaveForms/notify");
-          setAllLeaveFormRequests(response.data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    const getLeaveFormsNotification = async () => {
+      try {
+        const response = await Axios.get("admin/leaveForms/notification");
+        setAllLeaveFormRequests(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-      const getTransferFromsNotification = async () => {
-        try {
-          const response = await Axios.get("admin/transferForms/notify");
-          setAllTransferFormRequests(response.data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    const getTransferFromsNotification = async () => {
+      try {
+        const response = await Axios.get("admin/transferForms/notification");
+        setAllTransferFormRequests(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
       
-      getLeaveFormsNotification();
-      getTransferFromsNotification();
-      getUserDetail();
+    if(!isLogin){
       setTimeout(() => {
-    }, 600);
+        setIsLoading(false);
+      }, 600);
+      return;
+    }
+    getLeaveFormsNotification();
+    getTransferFromsNotification();
+    getUserDetail();
   }, [setUser, isLogin, setIsLogin, setAllLeaveFormRequests]);
 
   const [currentSlide, setCurrentSlide] = useState(0);

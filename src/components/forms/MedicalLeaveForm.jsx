@@ -23,7 +23,6 @@ const MedicalLeaveForm = () => {
     const onSubmit = async (data) => {
         const formData = new FormData();
         formData.append('designation', data.designation);
-        formData.append('leaveAt', data.leaveAt);
         formData.append('leaveDays', data.leaveDays);
         formData.append('requestPeriodStart', data.requestPeriodStart);
         formData.append('requestPeriodEnd', data.requestPeriodEnd);

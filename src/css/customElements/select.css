@@ -1,0 +1,17 @@
+.customSelect{
+    width: 100%;
+    margin: 10px 0;
+}
+
+.customSelect label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.createForm select{
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px 12px;
+}

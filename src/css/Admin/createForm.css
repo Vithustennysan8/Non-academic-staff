@@ -1,0 +1,180 @@
+.createForm{
+    width:80%;
+    margin: 20px auto 60px;
+}
+.createForm h1{
+    margin: 30px 0px 60px;
+    font-size: 1.6rem;
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.createForm form{
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin: auto;
+    background-color: white;
+    padding: 20px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.customHeading label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.customHeading input{
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px 12px;
+}
+.customStartDate{
+    width: 100%;
+    margin: 10px 0;
+}
+.customStartDate label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.customStartDate input{
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px 12px;
+}
+.customEndDate{
+    width: 100%;
+    margin: 10px 0;
+}
+.customEndDate label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.customEndDate input{
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px 12px;
+}
+.addButton{
+    background-color: #271cf4;
+    padding: 5px 8px;
+    color: white;
+    position: absolute;
+    right: 5px;
+    top: -35px;
+}
+.addButton:hover{
+    background-color: #1208dd;
+}
+.addButton:active{
+    background-color: #271cf4;
+}
+
+.toolbox{
+    background-color: rgba(0, 0, 0, 0.327);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 5;
+    display: grid;
+    place-items: center;
+}
+.toolbox-container{
+    width: 80%;
+    max-width: 350px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px 5px;
+    /* border: 1px solid #9c9c9c; */
+}
+
+.toolbox-container input, .toolbox-container select{
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px 12px;
+    margin-bottom: 10px;
+}
+.toolbox-container button{
+    margin-right: 5px;
+}
+.optionsDiv{
+    display: flex;
+    gap: 5px;
+}
+.optionsDiv button{
+    background-color: #271cf4;
+    border: 1px solid transparent;
+    padding: 4px 9px;
+    color: white;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.optionsDiv button:hover{
+    background-color: white;
+    color: #271cf4;
+    border: 1px solid #271cf4;
+}
+.optionsDiv button:active{
+    background-color: #271cf4;
+    color: white; 
+}
+.toolbox_item div{
+    display: flex;
+}
+.toolbox_item ul{
+    margin: 0px 0 20px 40px;
+}
+.toolbox-container ul li{
+    font-size: 0.75rem;
+    color: #494949;
+}
+.closeFieldDiv{
+    position: relative;
+}
+.closeFieldDiv:hover{
+    background-color: #e066664a;
+}
+
+.closeField{
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    /* background-color: red; */
+    color: red;
+    cursor: pointer;
+    padding: 0px 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.uploadbtn{
+    background-color: #271cf4;
+    color: white;
+    margin: 20px 0 0;
+    position: absolute;
+    bottom: -40px;
+    left: 5px;
+}
+@media (max-width: 768px){
+    .createForm{
+        width: 90%;
+    }
+    .createForm h1{
+        font-size: 1.3rem;
+    }
+}

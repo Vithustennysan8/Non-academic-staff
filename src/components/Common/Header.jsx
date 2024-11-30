@@ -95,7 +95,7 @@ const Header = () => {
         <div className="nav">
           <p><Link to={"/"}>Home</Link></p>
           { isLogin && <p><Link to="/staffs">Staffs</Link></p>}
-          { user.role !=="ADMIN" && <p><Link to="/forms">Applications</Link></p>}
+          <p><Link to="/forms">Applications</Link></p>
           { isLogin && <p><Link to="/forum">Forum</Link></p> }
           <p><Link to="/contact">Contact</Link></p>
           <p><Link to="/Dashboard">Dashboard</Link></p>

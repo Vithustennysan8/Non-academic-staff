@@ -10,6 +10,7 @@ import { UserContext } from '../../../Contexts/UserContext';
 import UserDashboard from "./UserDashboard";
 import StaffCard from '../../Staff_page/StaffCard';
 import { CSVLink } from 'react-csv';
+import DeanCharts from '../DeanCharts';
 
 const AdminDashboard = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -230,165 +231,176 @@ const AdminDashboard = () => {
     return (
         <>
         {isLoading? <LoadingAnimation/>:
+        <>
         <div className="adminDashboard-container">
-        <h3>Report</h3>
-        <button className='CSVbtn bttn ashbtn'>
-            <CSVLink data={filteredData}>Download</CSVLink>
-        </button>
-        <div className="adminDashboard-table-container">
-            {/* <table>
-                <thead>
-                    <tr>
-                        <td>
-                            <input type="text" placeholder="Search by Name..." value={searchName} onChange={(e) => setSearchName(e.target.value)}
-                            />
-                        </td>
-                        <td>
-                            <input type="text" value={searchedEmpId} onChange={(e) => setSearchedEmpId(e.target.value)} placeholder='Search by EmpId'/>
-                        </td>
-                        <td>{user.job_type !== "Head of the Department" &&
-                            <select value={selectedFaculty} onChange={(e) => setSelectedFaculty(e.target.value)} >
-                                <option value="">Select Faculty</option>
-                                {faculties.map(faculty => {
-                                    return <option key={faculty.faculty} value={faculty.faculty}>{faculty.faculty}</option>
-                                })}
-                            </select>
-                            }
-                        </td>
-                        <td>{user.job_type !== "Head of the Department" &&
-                            <select value={selectedDept} onChange={(e) => setSelectedDept(e.target.value)}>
-                                <option value="">Select Department</option>
-                                {departments.map(department => {
-                                    return <option key={department} value={department}>{department}</option>
-                                })}
-                            </select>
-                            }   
-                        </td>
-                        <td>
-                            <select value={selectedFormType} onChange={(e) => setSelectedFormType(e.target.value)}>
-                                <option value="">Select Form Type</option>
-                                <option value="Normal Leave Form">Normal Leave</option>
-                                <option value="Accident Leave Form">Accident Leave</option>
-                                <option value="Medical Leave Form">Medical Leave</option>
-                                <option value="Maternity Leave Form">Maternity Leave</option>
-                                <option value="Paternal Leave Form">Paternal Leave</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select value={selectedFormStatus} onChange={(e) => setSelectedFormStatus(e.target.value)}>
-                            <option value="">Select Form Status</option>
-                            <option value="Pending">Pending</option>
-                            <option value="Accepted">Accepted</option>
-                            <option value="Rejected">Rejected</option>
-                            </select>
-                        </td>
-                        <td></td>
-                        <td></td>
+        {user.job_type === "Head of the Department" &&
+            <>
+            <h3>Report</h3>
+            <button className='CSVbtn bttn ashbtn'>
+                <CSVLink data={filteredData}>Download</CSVLink>
+            </button>
+            <div className="adminDashboard-table-container">
+                {/* <table>
+                    <thead>
+                        <tr>
+                            <td>
+                                <input type="text" placeholder="Search by Name..." value={searchName} onChange={(e) => setSearchName(e.target.value)}
+                                />
+                            </td>
+                            <td>
+                                <input type="text" value={searchedEmpId} onChange={(e) => setSearchedEmpId(e.target.value)} placeholder='Search by EmpId'/>
+                            </td>
+                            <td>{user.job_type !== "Head of the Department" &&
+                                <select value={selectedFaculty} onChange={(e) => setSelectedFaculty(e.target.value)} >
+                                    <option value="">Select Faculty</option>
+                                    {faculties.map(faculty => {
+                                        return <option key={faculty.faculty} value={faculty.faculty}>{faculty.faculty}</option>
+                                    })}
+                                </select>
+                                }
+                            </td>
+                            <td>{user.job_type !== "Head of the Department" &&
+                                <select value={selectedDept} onChange={(e) => setSelectedDept(e.target.value)}>
+                                    <option value="">Select Department</option>
+                                    {departments.map(department => {
+                                        return <option key={department} value={department}>{department}</option>
+                                    })}
+                                </select>
+                                }   
+                            </td>
+                            <td>
+                                <select value={selectedFormType} onChange={(e) => setSelectedFormType(e.target.value)}>
+                                    <option value="">Select Form Type</option>
+                                    <option value="Normal Leave Form">Normal Leave</option>
+                                    <option value="Accident Leave Form">Accident Leave</option>
+                                    <option value="Medical Leave Form">Medical Leave</option>
+                                    <option value="Maternity Leave Form">Maternity Leave</option>
+                                    <option value="Paternal Leave Form">Paternal Leave</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select value={selectedFormStatus} onChange={(e) => setSelectedFormStatus(e.target.value)}>
+                                <option value="">Select Form Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Accepted">Accepted</option>
+                                <option value="Rejected">Rejected</option>
+                                </select>
+                            </td>
+                            <td></td>
+                            <td></td>
 
+                            </tr>
+                            <tr>
+                                <th>NAME</th>
+                                <th>EMP_ID</th>
+                                <th>FACULTY</th>
+                                <th>DEPARTMENT</th>
+                                <th>FORM TYPE</th>
+                                <th>FORM STATUS</th>
+                                <th>REQUEST DATE</th>
+                                <th>DAYS LEAVE</th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        {filteredForms.map((form, index) => (
+                            <tr key={index} onClick={()=>handleForm(index)}>
+                                <td>{form.user.first_name}</td>
+                                <td>{form.user.emp_id}</td>
+                                <td>{form.user.faculty}</td>
+                                <td>{form.user.department}</td>
+                                <td>{form.formType}</td>
+                                <td>{form.status}</td>
+                                <td>{form.leaveAt?.substring(0,10)}</td>
+                                <td>{form.leaveDays}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table> */}
+                <table>
+                    <thead>
                         <tr>
                             <th>NAME</th>
                             <th>EMP_ID</th>
-                            <th>FACULTY</th>
-                            <th>DEPARTMENT</th>
-                            <th>FORM TYPE</th>
-                            <th>FORM STATUS</th>
-                            <th>REQUEST DATE</th>
-                            <th>DAYS LEAVE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredForms.map((form, index) => (
-                        <tr key={index} onClick={()=>handleForm(index)}>
-                            <td>{form.user.first_name}</td>
-                            <td>{form.user.emp_id}</td>
-                            <td>{form.user.faculty}</td>
-                            <td>{form.user.department}</td>
-                            <td>{form.formType}</td>
-                            <td>{form.status}</td>
-                            <td>{form.leaveAt?.substring(0,10)}</td>
-                            <td>{form.leaveDays}</td>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Leave Days</th>
+                            <th>No Pay</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table> */}
-            <table>
-                <thead>
-                    <tr>
-                        <th>NAME</th>
-                        <th>EMP_ID</th>
-                        <th>Year</th>
-                        <th>Month</th>
-                        <th>Leave Days</th>
-                        <th>No Pay</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="text" name='name' value={details.name} onChange={e=>handleForm(e)} placeholder='search by name'/></td>
-                        <td><input type="text" name='employeeId' value={details.employeeId} onChange={e=>handleForm(e)} placeholder='search by upfNo'/></td>
-                        <td><input type="text" name='year' value={details.year} onChange={e=>handleForm(e)} placeholder='search by year'/></td>
-                        <td><input type="text" name='month' value={details.month} onChange={e=>handleForm(e)} placeholder='search by month'/></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {
-                        filteredData.map((data,index)=>{
-                            return(
-                            <tr key={index}>
-                                <td>{data.name}</td>
-                                <td>{data.userId}</td>
-                                <td>{data.year}</td>
-                                <td>{data.month}</td>
-                                <td>{data.leaveDays}</td>
-                                <td>{data.nopay}</td>
-                            </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </table>
-            
-            {showForm && <>
-            <div className='floatWindowForSummary'>{form.formType === "Normal Leave Form" ? <NormalLeaveFormTemplate application={form}/>:
-             <OtherLeaveFormsTemplate application={form}/>}</div>
-            <div className='darkScreenEffect'>
-                <button className='cancel' onClick={() => setShowForm(false)}><img src="https://cdn-icons-png.flaticon.com/128/8367/8367505.png" alt="cancel" /></button>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" name='name' value={details.name} onChange={e=>handleForm(e)} placeholder='search by name'/></td>
+                            <td><input type="text" name='employeeId' value={details.employeeId} onChange={e=>handleForm(e)} placeholder='search by upfNo'/></td>
+                            <td><input type="text" name='year' value={details.year} onChange={e=>handleForm(e)} placeholder='search by year'/></td>
+                            <td><input type="text" name='month' value={details.month} onChange={e=>handleForm(e)} placeholder='search by month'/></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        {
+                            filteredData.map((data,index)=>{
+                                return(
+                                <tr key={index}>
+                                    <td>{data.name}</td>
+                                    <td>{data.userId}</td>
+                                    <td>{data.year}</td>
+                                    <td>{data.month}</td>
+                                    <td>{data.leaveDays}</td>
+                                    <td>{data.nopay}</td>
+                                </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
+                
+                {showForm && <>
+                    <div className='floatWindowForSummary'>{form.formType === "Normal Leave Form" ? <NormalLeaveFormTemplate application={form}/>:
+                    <OtherLeaveFormsTemplate application={form}/>}</div>
+                    <div className='darkScreenEffect'>
+                        <button className='cancel' onClick={() => setShowForm(false)}><img src="https://cdn-icons-png.flaticon.com/128/8367/8367505.png" alt="cancel" /></button>
+                    </div>
+                </> }
+
             </div>
-             </> }
+
+
+        <div className='staffsContainer'>
+            {staffs.filter((staff) => staff.jobType !== "Head of the Department" && staff.jobType !== "Management Assistant" && 
+            staff.jobType !== "Dean")
+            .map((staff)=>{
+                let src = staff.image_data
+                ? `data:${staff.image_type};base64,${staff.image_data}`
+                : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
+                
+                return (
+                    <StaffCard
+                    key={staff.id}
+                    photo={src}
+                    title={staff.first_name.concat(" " + staff.last_name)}
+                    body={staff.faculty}
+                    user={staff}
+                    jobType={staff.job_type}
+                    setSelectedUser={setSelectedStaff}
+                    selectedUser={selectedStaff}
+                    />
+                );
+            })}
+        </div>
+        {selectedStaff && <UserDashboard id={selectedStaff.id}/>}
+        </>
+        }
+
+        {user.job_type === "Dean" && <>
+            <div>
+                <h3>Leave Summary</h3>
+                <DeanCharts allForms={forms}/>
+            </div>
+        </>}
 
         </div>
-
-        </div>
-    }
-
-    {user.job_type === "Head of the Department" &&
-    <>
-    <div className='staffsContainer'>
-        {staffs.filter((staff) => staff.job_type !== "Head of the Department" && staff.job_type !== "Management Assistant")
-        .map((staff)=>{
-            let src = staff.image_data
-            ? `data:${staff.image_type};base64,${staff.image_data}`
-            : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
-            
-            return (
-                <StaffCard
-                key={staff.id}
-                photo={src}
-                title={staff.first_name.concat(" " + staff.last_name)}
-                body={staff.faculty}
-                user={staff}
-                jobType={staff.job_type}
-                setSelectedUser={setSelectedStaff}
-                selectedUser={selectedStaff}
-                />
-            );
-        })}
-    </div>
-    {selectedStaff && <UserDashboard id={selectedStaff.id}/>}
-    </>
-    }
-    </>
+        </>
+        }
+        </>
   )
 }
 

@@ -18,16 +18,16 @@
 }
 .staff-search input{
     width: 100%;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 7px 40px 7px 12px;
-    border: 2px solid rgb(136, 136, 136);
+    border: 2px solid rgb(106, 106, 106);
     outline: none;
     cursor: pointer;
 }
 
 .staffs h2{
     margin: 30px 0px 40px;
-    font-size: 1.9rem;
+    font-size: 1.6rem;
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
     text-transform: uppercase;
@@ -37,7 +37,7 @@
 .staffs h3{
     margin: 20px 0;
     margin-left: 20px;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     left: 0;
     border-left: 4px solid rgb(68, 68, 68);
     padding-left: 10px;

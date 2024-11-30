@@ -1,0 +1,16 @@
+.customInput-text{
+    width: 100%;
+    margin: 10px 0;
+}
+.customInput-text label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.customInput-text input{
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px 12px;
+}
