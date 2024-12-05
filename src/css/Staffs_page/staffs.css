@@ -43,7 +43,7 @@
     padding-left: 10px;
 }
 
-.staff-container {
+.staff-container, .academicStaff {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -64,7 +64,7 @@
     .staffs{
         width: 90%;
     }
-    .staff-container {
+    .staff-container, .academicStaff {
         width: 100%;
     }
 }

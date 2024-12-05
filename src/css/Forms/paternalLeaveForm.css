@@ -1,18 +1,16 @@
 .PaternalLeaveForm{
-    margin: 0 auto 40px;
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin: 40px auto;
     background-color: white;
-    margin-top: 30px;
-    padding: 10px 20px;
-    border-radius: 12px;
-    box-shadow: 2px 2px 12px #ccc;
-    width: 80%;
-    max-width: 700px;
+    padding: 20px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }
 .PaternalLeaveForm > h2{
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.6rem;
+    margin-bottom: 25px;
+    font-size: 1.4rem;
 }
 .PaternalLeaveForm .input-group{
     margin-bottom: 12px;

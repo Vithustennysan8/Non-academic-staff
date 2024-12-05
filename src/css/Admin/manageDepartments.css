@@ -1,0 +1,63 @@
+.manageDepartments{
+    width: 80%;
+    margin: 30px auto 40px;
+}
+.manageDepartments h1{
+    margin: 10px 0px 20px;
+    font-size: 1.5rem;
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.addOrEditDiv{
+    margin: 45px 0 50px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    padding: 12px;
+}
+.addOrEditDiv form div{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+.addOrEditDiv form input{
+    padding: 5px 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+.addOrEditDiv form button{
+    min-width: fit-content;
+}
+
+.manageDepartments table{
+    width: 100%;    
+    border-collapse: collapse;
+}
+.manageDepartments th{
+    background-color: #ccc;
+    padding: 12px 0;
+}
+.manageDepartments tr td{
+    border-bottom: 1px solid #ededed;
+}
+.manageDepartments tr td{
+    padding: 12px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.manageDepartments tr:hover{
+    background-color: #ebebebc4;
+}
+.manageDepartments tr:nth-child(2n){
+    background-color: white;
+    
+}
+.manageDepartments tr:nth-child(2n):hover{
+    background-color: #ebebebc4;
+}
+.manageDepartments table button{
+    padding: 5px 12px;
+}

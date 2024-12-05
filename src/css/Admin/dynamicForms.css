@@ -1,0 +1,33 @@
+.dynamicForm{
+    width: 80%;
+    margin: 30px auto 40px;
+}
+.dynamicForm h1{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 20px 0 40px;
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    text-transform: uppercase;
+}
+.formsContainer{
+    width: 95%;
+    margin: auto;
+}
+.formsContainer h3{
+    margin-bottom: 30px;
+}
+.formList{
+    margin: 20px;
+}
+.formList div{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    color: #3f3f3f;
+}

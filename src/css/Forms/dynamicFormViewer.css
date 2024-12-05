@@ -1,0 +1,123 @@
+.dynamicFormViewer{
+    width: 80%;
+    margin: auto;
+}
+.dynamicFormViewer-container{
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin: 40px auto;
+    background-color: white;
+    padding: 20px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+.dynamicFormViewer .title{
+    margin-bottom: 25px;
+}
+.dynamicFormViewer .title h3{
+    font-size: 1.4rem;
+}
+.dynamicInput-text, .dynamicInput-date, .dynamicSelect, .dynamicInput-file{
+    width: 100%;
+    margin: 10px 0;
+}
+.dynamicInput-text label, .dynamicInput-date label, .dynamicSelect label, .dynamicInput-file label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.dynamicInput-text input, .dynamicInput-date input, .dynamicSelect select, .dynamicInput-file input{
+    width: 100%;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 4px 12px;
+}
+.dynamicRadio{
+    width: 100%;
+    margin: 10px 0;
+}
+.dynamicRadio label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.dynamicRadio div{
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+.dynamicRadio input{
+    margin:0 8px;
+}
+.dynamicRadio div label{
+    color: #0d0d0d;
+    font-size: 0.8rem;
+}
+.dynamicCheckbox{
+    width: 100%;
+    margin: 10px 0;
+}
+.dynamicCheckbox label{
+    width: 100%;
+    font-size: 0.9rem;
+    color: #494949;
+}
+.dynamicCheckbox div{
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+.dynamicCheckbox input{
+    margin:0 8px;
+}
+.dynamicCheckbox div label{
+    color: #0d0d0d;
+    font-size: 0.8rem;
+}
+.dynamicButton{
+    width: 100%;
+    margin: 20px 0 0;
+}
+.dynamicButton button{
+    background-color: #4CAF50;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 6px 36px;
+    color: white;
+}
+.dynamicButton button:hover{
+    background-color: #3a973d;
+    cursor: pointer;
+}
+.dynamicButton button:active{
+    background-color: #4CAF50;
+}
+
+
+.flowSelector-div{
+    margin: auto;
+    max-width: 500px;
+    text-align: center;
+    margin-top: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 0;
+}
+.flowSelector-div .selector{
+    margin-bottom: 5px;
+}
+.flowSelector-div .selector select{
+    padding: 5px 32px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+}
+.flowSelector-div .display span{
+    font-size: 0.85rem;
+    color: rgb(0, 0, 212);
+}

@@ -210,7 +210,7 @@ const TransferRequests = ({allTransferFormRequests}) => {
         {/* All leave Notifications */}
         {!showForm && (
           <div className="allNotifications">
-            <h2>{filters.status} Requests</h2>
+            <h2 className="formFilterType">{filters.status} Requests</h2>
             
             {filteredForms<1 ? <p className="empty">No forms match the selected filter!</p> :
             filteredForms.map((form, index) => (

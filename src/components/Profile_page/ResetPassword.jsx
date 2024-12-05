@@ -224,7 +224,7 @@ const ResetPassword = () => {
             </form>
           </div>
 
-          {/* <div className="deleteAccountContainer">
+          <div className="deleteAccountContainer">
             <hr />
             <form>
               <h2>Delete Account</h2>
@@ -261,7 +261,7 @@ const ResetPassword = () => {
                 Delete Account
               </button>
             </form>
-          </div> */}
+          </div>
         </div>
       )}
     </>

@@ -10,8 +10,10 @@ import { LoginContext } from "../../Contexts/LoginContext";
 import AppliedLeaveForms from "../notifications/AppliedLeaveForms";
 import AppliedTransferForms from "../notifications/AppliedTransferForms";
 import LoadingAnimation from "../Common/LoadingAnimation";
+import AppliedDynamicForms from "../notifications/AppliedDynamicForms";
+import DynamicFormRequests from "../notifications/DynamicFormRequests";
 
-const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register}) => {
+const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register, dynamicsForms, dynamicFormRequests}) => {
   const { user } = useContext(UserContext);
   const { isLogin } = useContext(LoginContext);
   const navigate = useNavigate();
@@ -20,8 +22,11 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [transferRequests, setTransferRequests] = useState([]);
   const [registerRequests, setRegisterRequests] = useState([]);
+  const [dynamicsFormsRequests, setDynamicsFormsRequests] = useState([]);
   const [appliedLeaveForms, setAppliedLeaveForms] = useState([]);
   const [appliedTransferForms, setAppliedTransferForms] = useState([]);
+  const [appliedDynamicsForms, setAppliedDynamicsForms] = useState([]);
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -41,6 +46,26 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
         }
       };
 
+      const fetchDynamicForms = async () => {
+          try {
+              const response = await Axios.get("auth/user/DynamicFormUser/getAll");
+              console.log(response.data);
+              setAppliedDynamicsForms(response.data);
+          } catch (error) {
+              console.log(error);
+          }
+      }
+
+      const fetchDynamicFormsRequests = async () => {
+          try {
+              const response = await Axios.get("admin/DynamicFormUser/getAll");
+              console.log(response.data);
+              setDynamicsFormsRequests(response.data);
+          } catch (error) {
+              console.log(error);
+          }
+      }
+      
       const fetchRegisterRequests = async () => {
         try {
           const response = await Axios.get("admin/verifyRegisterRequests");
@@ -57,11 +82,11 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
         }catch(error){
           console.log("Error fetching transfer requests", error);
         }}
-
-      const fetchTransferFormsApplied = async () => {
-        try {
-          const response = await Axios.get("auth/user/transferForms");
-          setAppliedTransferForms(response.data);
+        
+        const fetchTransferFormsApplied = async () => {
+          try {
+            const response = await Axios.get("auth/user/transferForms");
+            setAppliedTransferForms(response.data);
         } catch (error) {
           console.log("Error fetching appliedTransferForms requests", error);
         }
@@ -75,18 +100,20 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
           console.log("Error fetching appliedLeaveForms requests", error);
         }
       };
-
+      
       if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
         fetchLeaveRequests();
         fetchRegisterRequests();
         fetchTransferRequests();
+        fetchDynamicFormsRequests();
       }
       fetchLeaveFormsApplied();
       fetchTransferFormsApplied();
+      fetchDynamicForms();
       setIsLoading(false);
     }, 600);
   }, [navigate, user, isLogin]);
-
+  
   return (
     <>
       {isLoading ? (
@@ -97,6 +124,7 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
             {(user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
               <>
               { (user.job_type === "Head of the Department" || user.job_type === "Dean") &&
+
                 <button onClick={() => setRequest("RegisterRequests")}>
                   Register Requests
                   {register > 0 && (
@@ -105,6 +133,13 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                     </span>
                   )}
                   </button>}
+
+                <button onClick={() => setRequest("DynamicFormsRequests")}>
+                  Dynmaic Leave Requests
+                  {dynamicFormRequests > 0 && (
+                    <span className="requestCount">{dynamicFormRequests}</span>
+                  )}
+                </button>
 
                 <button onClick={() => setRequest("LeaveRequests")}>
                   Leave Requests
@@ -128,6 +163,13 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
 
             { user.role === "USER" && <>
             
+              <button onClick={() => setRequest("AppliedDynamicsForms")}>
+                Applied Dynamics Forms
+                {dynamicsForms > 0 && (
+                  <span className="requestCount">{dynamicsForms}</span>
+                )}
+              </button>
+
               <button onClick={() => setRequest("AppliedLeaveForms")}>
                 Applied Leave Forms
                 {appliedLeave > 0 && (
@@ -163,6 +205,9 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
             {request === "TransferRequests" && <TransferRequests allTransferFormRequests={transferRequests} setAllTransferFormRequests={setTransferRequests}/>}
             {request === "AppliedLeaveForms" && (<AppliedLeaveForms appliedLeaveForms={appliedLeaveForms}/>)}
             {request === "AppliedTransferForms" && <AppliedTransferForms appliedTransferForms={appliedTransferForms}/>}
+            {request === "AppliedDynamicsForms" && <AppliedDynamicForms dynamicForms={appliedDynamicsForms}/>}
+            {request === "DynamicFormsRequests" && <DynamicFormRequests dynamicFormRequests={dynamicsFormsRequests}/>}
+
           </div>
         </div>
       )}

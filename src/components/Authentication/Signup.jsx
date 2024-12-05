@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../../css/Authentication/signup.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -10,13 +10,45 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState({});
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [img, setImg] = useState(null);
+  const [faculties, setFaculties] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [positions, setPositions] = useState([]); 
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm();
+  useEffect(()=>{
+    const fetchFaculty = async () => {
+      try {
+        const response = await Axios.get("/auth/user/faculty/getAll");
+        setFaculties(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const fetchDepartment = async () => {
+      try {
+        const response = await Axios.get("/auth/user/department/getAll");
+        setDepartments(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const fetchPositions = async () => {
+      try {
+        const response = await Axios.get("/auth/user/jobPosition/get");
+        setPositions(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchFaculty();
+    fetchDepartment();
+    fetchPositions();
+  },[])
+
+
+  const {register, handleSubmit, formState: { errors }, setValue, } = useForm();
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -79,70 +111,6 @@ const Signup = () => {
     }
   };
 
-  const faculties = [
-    {
-      faculty: "Faculty of Engineering",
-      department:
-        "Chemical and Process Engineering, Computer Engineering, Civil Engineering, Electrical and Electronic Engineering, Engineering Mathematics, Manufacturing and Industrial Engineering, Mechanical Engineering, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Science",
-      department:
-        "Botany, Chemistry, Environmental and Industrial Sciences, Geology, Statistics and Computer Science, Mathematics, Molecular Biology and Biotechnology, Physics, Zoology, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Arts",
-      department:
-        "Arabic and Islamic Civilization, Archaeology, Classical Languages, Economics and Statistics, Education, English, English Language Teaching, Fine Arts, Geography, History, Information Technology, Law, Philosophy, Psychology, Political Science, Pali and Buddhist Studies, Sinhala, Sociology, Tamil, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Medicine",
-      department:
-        "Anatomy, Anaesthesiology and Critical Care, Biochemistry, Community Medicine, Family Medicine, Forensic Medicine, Medical Education, Medicine, Microbiology, Obstetrics and Gynaecology, Paediatrics, Parasitology, Pathology, Pharmacology, Physiology, Psychiatry, Radiology, Surgery, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Veterinary Medicine and Animal Science",
-      department:
-        "Basic Veterinary Sciences, Veterinary Clinical Sciences, Farm Animal Production and Health, Veterinary Pathobiology, Veterinary Public Health and Pharmacology, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Agriculture",
-      department:
-        "Agricultural Biology, Agricultural Economics and Business Management, Agricultural Engineering, Agricultural Extension, Animal Science, Crop Science, Food Science and Technology, Soil Science, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Allied Health Sciences",
-      department:
-        "Medical Laboratory Sciences, Nursing, Pharmacy, Physiotherapy, Radiography and Radiotherapy, Basic Sciences, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Dental Sciences",
-      department:
-        "Basic Sciences, Community Dental Health, Comprehensive Oral Health Care, Oral Medicine and Periodontology, Oral Pathology, Prosthetic Dentistry, Restorative Dentistry, Oral and Maxillofacial Surgery, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Management",
-      department:
-        "Business Finance, Human Resource Management, Management Studies, Marketing Management, Operations Management",
-    },
-    { faculty: "Registrar's Office", department: "Administrative Section" },
-    { faculty: "Administration Office", department: "Administrative Section" },
-    { faculty: "IT Services", department: "Technical Section" },
-    { faculty: "Library Services", department: "Library Section" },
-    { faculty: "Facilities Management", department: "Maintenance Section" },
-    { faculty: "Security Services", department: "Security Section" },
-    { faculty: "Finance Department", department: "Finance Section" },
-    { faculty: "Human Resources Department", department: "HR Section" },
-    {
-      faculty: "Student Affairs Office",
-      department: "Student Affairs Section",
-    },
-  ];
-
-  const departments =
-    faculties
-      .find((faculty) => faculty.faculty === selectedFaculty)
-      ?.department.split(", ") || [];
 
   return (
     <>
@@ -243,8 +211,8 @@ const Signup = () => {
                       message: "Email is required",
                     },
                     pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                      message: "Email is not valid",
+                      value:  /^[a-zA-Z0-9._%+-]+@gs\.pdn\.ac\.lk$/,
+                      message: "Invalid email! Please use an email from the gs.pdn.ac.lk domain.",
                     },
                   })}
                 />
@@ -480,7 +448,12 @@ const Signup = () => {
                   })}
                 >
                   <option value="">Select job type</option>
-                  <option value="Dean">Dean</option>
+                  {
+                    positions?.map((position, index) => (
+                      <option key={index} value={position.jobPositionName}>{position.jobPositionName}</option>
+                    ))
+                  }
+                  {/* <option value="Dean">Dean</option>
                   <option value="Chief Medical Officer">CMO</option>
                   <option value="Non Academic Establishment Division">NAE</option>
                   <option value="Registrar">Registrar</option>
@@ -499,7 +472,7 @@ const Signup = () => {
                   <option value="Lab Attendant">Lab Attendant</option>
                   <option value="Labourer">Labourer</option>
                   <option value="Driver">Driver</option>
-                  <option value="Carpenter">Carpenter</option>
+                  <option value="Carpenter">Carpenter</option> */}
                 </select>
                 {errors.job_type && (
                   <span className="error">{errors.job_type.message}</span>
@@ -545,9 +518,9 @@ const Signup = () => {
                   onChange={(e) => setSelectedFaculty(e.target.value)}
                 >
                   <option value="">select one....</option>
-                  {faculties.map((faculty, index) => (
-                    <option key={index} value={faculty.faculty}>
-                      {faculty.faculty}
+                  {faculties?.map((faculty, index) => (
+                    <option key={index} value={faculty.id}>
+                      {faculty.facultyName}
                     </option>
                   ))}
                 </select>
@@ -572,9 +545,9 @@ const Signup = () => {
                 >
                   <option value="">select one....</option>
 
-                  {departments.map((department, index) => (
-                    <option key={index} value={department}>
-                      {department}
+                  {departments.filter((department) => selectedFaculty == department.facultyId).map((department, index) => (
+                    <option key={index} value={department.departmentName}>
+                      {department.departmentName}
                     </option>
                   ))}
                 </select>

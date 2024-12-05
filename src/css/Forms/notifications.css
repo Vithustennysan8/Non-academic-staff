@@ -2,7 +2,7 @@
     width: 85%;
     margin: auto;
     display: grid;
-    grid-template-columns: minmax(4%, 220px) 1fr;
+    grid-template-columns: minmax(4%, 230px) 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: 
     " requestsTap requests"

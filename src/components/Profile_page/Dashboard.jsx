@@ -25,6 +25,8 @@ const Dashboard = () => {
   const [leave, setLeave] = useState(0);
   const [transfer, setTranfer] = useState(0);
   const [register, setRegister] = useState(0);
+  const [appliedDynamics, setAppliedDynamics] = useState(0);
+  const [dynamicsRequests, setDynamicsRequests] = useState(0);
   const [appliedLeave, setAppliedLeave] = useState(0);
   const [appliedTransfer, setAppliedTransfer] = useState(0);
   const [image, setImage] = useState("");
@@ -57,6 +59,26 @@ const Dashboard = () => {
           console.log("Error fetching leave requests");
         }
       };
+
+      const fetchAppliedDynamicForms = async () => {
+        try {
+            const response = await Axios.get("auth/user/DynamicFormUser/getAll");
+            console.log(response.data);
+            setAppliedDynamics(response.data.length);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const fetchDynamicFormsRequests = async () => {
+      try {
+          const response = await Axios.get("admin/DynamicFormUser/getAll");
+          console.log(response.data);
+          setDynamicsRequests(response.data.length);
+      } catch (error) {
+          console.log(error);
+      }
+  }
 
       const fetchRegisterRequests = async () => {
         try {
@@ -105,9 +127,11 @@ const Dashboard = () => {
         fetchLeaveRequestCount();
         fetchRegisterRequests();
         fetchTransferRequests();
+        fetchDynamicFormsRequests();
       }
       fetchLeaveFormsApplied();
       fetchTransferFormsApplied();
+      fetchAppliedDynamicForms();
 
       getUserDetail();
       setDashboard(user.role === "USER" ? "/userDashboard" : "/adminDashboard");
@@ -244,7 +268,9 @@ const Dashboard = () => {
                           register +
                           appliedLeave +
                           appliedTransfer +
-                          transfer}
+                          transfer+
+                          appliedDynamics+
+                          dynamicsRequests}
                       </li>
                     )}
                   </span>
@@ -439,7 +465,8 @@ const Dashboard = () => {
                   </label>
                   <label htmlFor="job_type">
                     Job type
-                    <p>{user.job_type}</p>
+                    <p>{user?.job_type}</p>
+                    <p>{user?.jobType}</p>
                   </label>
                 </div>
 
@@ -451,6 +478,23 @@ const Dashboard = () => {
                   <label htmlFor="department">
                     Department
                     <p>{user.department}</p>
+                  </label>
+                </div>
+
+                <div className="profile-state">
+                  <label htmlFor="faculty">
+                    Normal Mail
+                    <input 
+                    type="mail"
+                    value={user.normalEmail}
+                    placeholder="secondary mail"
+                    name="normalEmail"
+                    onChange={handleChange}
+                    readOnly={readOnly}
+                    style={editProfile ? { outline } : {}}/>
+                  </label>
+                  <label htmlFor="department">
+                    <p></p>
                   </label>
                 </div>
 
@@ -477,7 +521,10 @@ const Dashboard = () => {
           </div>
 
           {dashboardContent === "securitySetting" && <ResetPassword/>}
-          {dashboardContent === "Notification" && <Notifications leave={leave} transfer={transfer} register={register} appliedLeave={appliedLeave} appliedTransfer={appliedTransfer}/>}
+          
+          {dashboardContent === "Notification" && <Notifications leave={leave} transfer={transfer} 
+          register={register} appliedLeave={appliedLeave} appliedTransfer={appliedTransfer} dynamicsForms={appliedDynamics} dynamicFormRequests={dynamicsRequests}/>}
+
           {dashboardContent === "Summary" && (user.role === "USER" ? <UserDashboard id={user.id}/> : <AdminDashboard/>)}
         </>
       )}

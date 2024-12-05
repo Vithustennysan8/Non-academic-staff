@@ -9,7 +9,7 @@ import Button from "../CustomElements/Button";
 import Heading from "../CustomElements/Heading";
 import File from "../CustomElements/File";
 import { LoginContext } from "../../Contexts/LoginContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Axios } from "../AxiosReqestBuilder";
 
 const Toolbox = ({setShowToolbox, handleAddInput}) => {
@@ -31,7 +31,6 @@ const Toolbox = ({setShowToolbox, handleAddInput}) => {
         setFiledAttributes({...filedAttributes, options:[...filedAttributes.options, option]});
         setOption('');
     }
-
 
     return(
         <div className="toolbox">
@@ -88,7 +87,7 @@ const Toolbox = ({setShowToolbox, handleAddInput}) => {
                         <option value="false">no</option>
                     </select>
                 </div>
-                <div>
+                <div className="buttons">
                     <button className="bttn redbtn" onClick={() => handleAddInput(filedAttributes)}>add</button>
                     <button className="bttn ashbtn" onClick={()=>setShowToolbox(false)}>cancel</button>
                 </div>
@@ -149,6 +148,7 @@ const CreateForm = () => {
     }
 
     const handleUpload = async (e) => {
+        const encoded = encodeURIComponent(FormName)
         e.preventDefault();
         if(!FormName){
             alert("Please add a FormName first");
@@ -156,7 +156,7 @@ const CreateForm = () => {
         }
 
         try {
-            const response = await Axios.post(`/admin/formField/create/${FormName}`, jsonvalues)
+            const response = await Axios.post(`/admin/dynamicForm/create/${encoded}`, jsonvalues)
             console.log(response.data);
             alert("form created succesfully");
             console.log(jsonvalues);
@@ -172,6 +172,7 @@ const CreateForm = () => {
         <div className="createForm">
             {showToolbox && <Toolbox setShowToolbox={setShowToolbox} handleAddInput={handleAddInput}/>}
             <h1>Create Form</h1>
+
             <form>
                 <button className="bttn addButton" onClick={(e)=>{
                     e.preventDefault();

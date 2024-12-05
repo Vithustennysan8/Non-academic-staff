@@ -28,16 +28,34 @@ const Forms = () => {
         <div className="form-heading">Leave or Transfer Request</div>
 
         {user.role !== "USER" && isLogin &&
+        <>
           <div className="EditApprovalFlowContainer">
-            <Link to={"/approvalFlowManager"}>Edit the approval flow for the forms</Link><br />
-            <Link to={"/createForm"}>createForm</Link>
+            <div>
+              <i className="fa fa-pen-to-square"></i>
+              <Link to={"/approvalFlowManager"}>Edit the approval flow</Link><br />
+            </div>
+            <div>
+              <i className="fa fa-folder-plus"></i>
+              <Link to={"/createForm"}>Create dynamic form</Link>
+            </div>
           </div>
+          <div className="EditApprovalFlowContainer">
+            <div>
+              <i className="fa fa-align-left"></i>
+              <Link to={"/dynamicForm"}>Dynamic Forms</Link><br />
+            </div>
+            <div>
+              <i className="fa fa-building"></i>
+              <Link to={"/manageDepartment"}>Manage Departments</Link>
+            </div>
+          </div>
+        </>
         }
 
         <div className="form-attributes">
           <FormCard
             title={"Leave Form"}
-            content={"Apply Leave Form"}
+            content={"Apply Leave"}
             img={
               "https://cdn.iconscout.com/icon/premium/png-256-thumb/leaving-1649219-1399243.png"
             }
@@ -45,7 +63,7 @@ const Forms = () => {
             />
           <FormCard
             title={"Transfer Form"}
-            content={"Apply Transfer Form"}
+            content={"Apply Transfer"}
             img={"https://static.thenounproject.com/png/2409660-200.png"}
             url={"/transferForm"}
             />

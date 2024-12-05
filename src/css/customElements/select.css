@@ -8,7 +8,7 @@
     font-size: 0.9rem;
     color: #494949;
 }
-.createForm select{
+.customSelect select{
     width: 100%;
     outline: none;
     border: 1px solid #ccc;

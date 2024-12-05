@@ -2,22 +2,18 @@
     margin: 0 auto 50px;
     width: 80%;
 }
-
 .form-heading{
     font-size: 1.5rem;
     font-weight: bold;
-    margin-top: 20px;
+    margin: 20px 0 40px;
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
     text-transform: uppercase;
 }
-
 .form-attributes{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
-    padding-top: 20px;
-    /* background-color: hsla(127, 56%, 74%, 0.911); */
     border-radius: 18px;
     margin-bottom: 10px;
 }
@@ -48,10 +44,6 @@
     cursor: pointer;
     border-radius: 8px;
 }
- .form-detail:not(:hover){
-    /* background-color: #f0f0f0; */
-    /* transform: skew(3deg) */
-}
 .form-details:hover > .form-detail:not(:hover) {
     background-color: rgba(0, 0, 0, 0.079);
 }
@@ -65,12 +57,48 @@
 }
 
 .EditApprovalFlowContainer{
+    width: 93%;
     margin: auto;
-    margin-top: 40px;
-    display: block;
+    display: flex;
+    gap: 40px;
     text-align: center;
 }
+.EditApprovalFlowContainer div{
+    background-color: white;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    width: 100%;
+    border-radius: 6px;
+    color: blue;
+    font-size: 1.3rem;
+    box-shadow: 3px 2px 5px 1px #ccc;
+}
+.EditApprovalFlowContainer div a{
+    font-weight: 600;
+    text-decoration: none;
+    color: blue;
+    font-size: 1.1rem;
+    margin-left: 10px;
+}
+.EditApprovalFlowContainer div a:hover{
+    color: black;
+}
 
+@media only screen and (max-width: 800px) {
+    .EditApprovalFlowContainer{
+        gap: 15px;
+    }
+    .EditApprovalFlowContainer div{
+        font-size: 1rem;
+    }
+    .EditApprovalFlowContainer div a{
+        font-size: 0.85rem;
+    }
+    .form-attributes{
+        justify-content: space-between;
+    }
+
+}
 @media only screen and (max-width: 600px) {
     .form-content{
         width: 90%;
@@ -85,4 +113,14 @@
     .form-attributes{
         flex-direction: column;
     }
+    .EditApprovalFlowContainer{
+        gap: 10px;
+    }
+    .EditApprovalFlowContainer div{
+        font-size: 1rem;
+    }
+    .EditApprovalFlowContainer div a{
+        font-size: 0.7rem;
+    }
+
 }

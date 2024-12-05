@@ -1,25 +1,23 @@
 .MedicalLeaveForm{
-    margin: 0 auto 40px;
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin: 40px auto;
     background-color: white;
-    margin-top: 30px;
-    padding: 10px 20px;
-    border-radius: 12px;
-    box-shadow: 2px 2px 12px #ccc;
-    width: 80%;
-    max-width: 700px;
+    padding: 20px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }
 .MedicalLeaveForm > h2{
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    margin-bottom: 25px;
 }
 .MedicalLeaveForm .input-group{
     margin-bottom: 12px;
 }
 .MedicalLeaveForm label{
     display: block;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: #4b4b4b;
     margin-bottom: 2px;
 }

@@ -22,6 +22,8 @@ import Notifications from "./components/forms/Notifications";
 import ForgotPassword from "./components/Authentication/ForgotPassword";
 import ApprovalFlowManager from "./components/Admin/ApprovalFlowManager";
 import CreateForm from "./components/Admin/CreateForm";
+import DynamicForms from "./components/Admin/DynamicForms";
+import ManageDepartments from "./components/Admin/ManageDepartments";
 
 function App() {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
@@ -95,6 +97,8 @@ function App() {
               <Route path="/forgotPassword" element={<ForgotPassword />} />
               <Route path="/approvalFlowManager" element={<ApprovalFlowManager/>}/>
               <Route path="/createForm" element={<CreateForm/>}/>
+              <Route path="/dynamicForm" element={<DynamicForms/>} />
+              <Route path="/manageDepartment" element={<ManageDepartments/>}/>
             </Routes>
             <Footer />
           </Router>
