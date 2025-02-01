@@ -5,6 +5,7 @@ import LoadingAnimation from "../Common/LoadingAnimation";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 
 const ResetPassword = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
@@ -100,10 +101,8 @@ const ResetPassword = () => {
   };
 
   return (
-    <>
-      {isloading ? (
-        <LoadingAnimation />
-      ) : (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      {(
         <div className="resetPassword">
           <h1>SECURITY</h1>
           <div className="resetPassword_container">
@@ -264,7 +263,7 @@ const ResetPassword = () => {
           </div>
         </div>
       )}
-    </>
+    </motion.div>
   );
 };
 

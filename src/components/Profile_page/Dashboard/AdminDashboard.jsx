@@ -11,6 +11,7 @@ import UserDashboard from "./UserDashboard";
 import StaffCard from '../../Staff_page/StaffCard';
 import { CSVLink } from 'react-csv';
 import DeanCharts from '../DeanCharts';
+import { motion} from "framer-motion";
 
 const AdminDashboard = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -229,8 +230,8 @@ const AdminDashboard = () => {
 
 
     return (
-        <>
-        {isLoading? <LoadingAnimation/>:
+        <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.5}}>
+        {
         <>
         <div className="adminDashboard-container">
         {user.job_type === "Head of the Department" &&
@@ -400,7 +401,7 @@ const AdminDashboard = () => {
         </div>
         </>
         }
-        </>
+        </motion.div>
   )
 }
 

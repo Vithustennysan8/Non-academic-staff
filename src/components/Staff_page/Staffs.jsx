@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
+import { motion } from "framer-motion";
 
 const Staffs = () => {
   const { isLogin } = useContext(LoginContext);
@@ -36,10 +37,8 @@ const Staffs = () => {
   }, [token, isLogin]);
 
   return (
-    <>
-      {isloading ? (
-        <LoadingAnimation />
-      ) : (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      {(
         <>
           <div className="staffs">
             <h2>Staffs</h2>
@@ -239,7 +238,7 @@ const Staffs = () => {
           </div>
         </>
       )}
-    </>
+    </motion.div>
   );
 };
 export default Staffs;

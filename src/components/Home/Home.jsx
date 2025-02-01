@@ -5,8 +5,9 @@ import LoadingAnimation from "../Common/LoadingAnimation";
 import { UserContext } from "../../Contexts/UserContext";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import News from "../Home/News";
+import { motion } from "framer-motion";
 
 const Home = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
@@ -18,7 +19,6 @@ const Home = () => {
   const [role, setRole] = useState("USER");
   const [allLeaveFormRequests, setAllLeaveFormRequests] = useState([]);
   const [allTransferFormRequests, setAllTransferFormRequests] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getUserDetail = async () => {
@@ -90,7 +90,7 @@ const Home = () => {
   }, [slides.length]);
 
   return (
-    <>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="home">
       {isloading ? (
         <LoadingAnimation />
       ) : (
@@ -325,7 +325,7 @@ const Home = () => {
           </div>
         </>
       )}
-    </>
+    </motion.div>
   );
 };
 

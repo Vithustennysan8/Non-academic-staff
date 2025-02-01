@@ -7,6 +7,7 @@ import LoadingAnimation from "../Common/LoadingAnimation";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { UserContext } from "../../Contexts/UserContext";
+import {motion} from "framer-motion";
 
 const Forum = () => {
   const { isLogin } = useContext(LoginContext);
@@ -127,10 +128,8 @@ const Forum = () => {
   };
 
   return (
-    <>
-      {isloading ? (
-        <LoadingAnimation />
-      ) : (
+    <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.5}}>
+      {(
         <div className="forum-container popupBackground">
           <h2>Non-Academic Forum</h2>
 
@@ -226,7 +225,7 @@ const Forum = () => {
           </div>
         </div>
       )}
-    </>
+    </motion.div>
   );
 };
 

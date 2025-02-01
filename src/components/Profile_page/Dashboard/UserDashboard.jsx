@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { Pie } from "react-chartjs-2"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import LoadingAnimation from "../../Common/LoadingAnimation"
+import {motion} from "framer-motion"
 
 // Register necessary components from chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -267,8 +268,8 @@ const UserDashboard = ( {id}) => {
 
 
   return (
-    <>
-    {isLoading? <LoadingAnimation/>:
+    <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.5}}>
+    {
       <div className="userDashboardContainer">
         <h2>Summary</h2>
         <div className="userDashboardGridBox">
@@ -425,7 +426,7 @@ const UserDashboard = ( {id}) => {
 
       </div>
   }
-    </>
+    </motion.div>
   )
 }
 

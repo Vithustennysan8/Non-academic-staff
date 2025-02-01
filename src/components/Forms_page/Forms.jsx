@@ -11,6 +11,7 @@ import transfer from "../../assets/images/transferIMG.jpg"
 import { Link } from "react-router-dom";
 import { UserContext } from "../../Contexts/UserContext";
 import { LoginContext } from "../../Contexts/LoginContext";
+import {motion} from "framer-motion";
 
 const Forms = () => {
   const [isloading, setIsLoading] = useState(true);
@@ -22,8 +23,8 @@ const Forms = () => {
   }, 600);
 
   return (
-    <>
-    {isloading? <LoadingAnimation/> :
+    <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.5}}>
+    {
       <div className="form-content">
         <div className="form-heading">Leave or Transfer Request</div>
 
@@ -105,7 +106,7 @@ const Forms = () => {
         </div> */}
       </div>
     }
-    </>
+    </motion.div>
   );
 };
 

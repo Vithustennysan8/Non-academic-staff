@@ -9,6 +9,7 @@ import ResetPassword from "./ResetPassword";
 import Notifications from "../forms/Notifications";
 import UserDashboard from "./Dashboard/UserDashboard";
 import AdminDashboard from "./Dashboard/AdminDashboard";
+import { motion } from "framer-motion";
 
 const Dashboard = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
@@ -205,10 +206,8 @@ const Dashboard = () => {
   };
 
   return (
-    <>
-      {isloading ? (
-        <LoadingAnimation />
-      ) : (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      {(
         <>
           <div id="profile-container">
             <div className="profile-bar">
@@ -293,7 +292,7 @@ const Dashboard = () => {
             </div>
 
           {dashboardContent === "Profile" && 
-          <>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
             <div className="profile-detail-wrapper">
               <div className="profile-img">
                 <img className="profile-pic" src={src} alt="" />
@@ -520,7 +519,7 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            </>}
+            </motion.div>}
           </div>
 
           {dashboardContent === "securitySetting" && <ResetPassword/>}
@@ -532,7 +531,7 @@ const Dashboard = () => {
           {dashboardContent === "Summary" && (user.role === "USER" ? <UserDashboard id={user.id}/> : <AdminDashboard/>)}
         </>
       )}
-    </>
+    </motion.div>
   );
 };
 

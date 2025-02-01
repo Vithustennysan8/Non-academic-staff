@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../../css/Contact_page/contact.css"
 import ContactCard from "./ContactCard";
 import LoadingAnimation from "../Common/LoadingAnimation";
+import { motion } from "framer-motion";
 
 const Contact = () => {
   const [isloading, setIsLoading] = useState(true);
@@ -11,10 +12,8 @@ const Contact = () => {
   }, 600);
 
   return (
-    <>
-      {isloading ? (
-        <LoadingAnimation />
-      ) : (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      {(
         <div className="contact_container">
           <div className="about-container">
             <h2>About us</h2>
@@ -76,7 +75,7 @@ const Contact = () => {
           </div>
         </div>
       )}
-    </>
+    </motion.div>
   );
 };
 
