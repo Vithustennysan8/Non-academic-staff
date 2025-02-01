@@ -24,20 +24,42 @@
     margin-bottom: 25px;
     font-weight: 600;
 }
-.singleForm div{
+.singleForm .wrapper{
     margin-bottom: 8px;
     display: flex;
     padding-bottom: 10px;
     border-bottom:1px solid #efefef;
 }
-.singleForm div:last-child{
+.singleForm .wrapper:last-child{
     border: none;
 }
 
-.singleForm div p:nth-child(1){
+.singleForm .wrapper p:nth-child(1){
     font-size: 1rem;
     color: #464646;
     font-weight: 600;
     width: 45%;
     text-align: right;
+}
+.singleForm .wrapper p:nth-child(2){
+    margin-left: 10px;
+}
+
+.singleForm .status-approved {
+    color: green;
+    font-weight: bold;
+}
+
+.singleForm .status-pending {
+    color: orange;
+    font-weight: bold;
+}
+.singleForm .status-rejected {
+    color: red;
+    font-weight: bold;
+}
+
+.singleForm .devider{
+    border-bottom: 2px solid rgb(197, 197, 197);
+    margin-bottom: 20px;
 }

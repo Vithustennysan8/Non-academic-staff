@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react"
-import "../../css/Admin/manageDepartments.css"
+import "../../css/Admin/manageFaculty.css"
 import {LoginContext} from "../../Contexts/LoginContext.jsx"
 import { useNavigate } from "react-router-dom"
 import {Axios} from "../AxiosReqestBuilder.jsx"
 import { useForm } from "react-hook-form"
 
-const ManageDepartments = () => {
-  const [departments, setDepartments] = useState([])
-  const [editDepartment, setEditDepartment] = useState(null);
+const ManageFaculties = () => {
+  const [faculties, setFaculties] = useState([])
+  const [editFaculty, setEditFaculty] = useState(null);
   const {isLogin} = useContext(LoginContext);  
   const navigate = useNavigate();
   const {register, handleSubmit, formState:{errors}, reset, setValue} = useForm();
@@ -18,23 +18,23 @@ const ManageDepartments = () => {
       navigate("/login");
     }
 
-    const fetchDepartment = async () => {
+    const fetchFaculty = async () => {
       try {
-        const response = await Axios.get("/auth/user/department/get");
-        setDepartments(response.data);
+        const response = await Axios.get("/auth/user/faculty/getAll");
+        setFaculties(response.data);
       } catch (error) {
         console.log(error);
       }
     }
-    fetchDepartment();
+    fetchFaculty();
   },[isLogin, navigate])
 
   const onSubmit = async (data) => {
     try {
-      const response = editDepartment ? await Axios.put(`/admin/department/update/${editDepartment.id}`, data) : await Axios.post("/admin/department/add", data);
+      const response = editFaculty ? await Axios.put(`/admin/faculty/update/${editFaculty.id}`, data) : await Axios.post("/admin/faculty/add", data);
       console.log(response.data);
-      setDepartments(response.data);
-      setEditDepartment(null);
+      setFaculties(response.data);
+      setEditFaculty(null);
       reset();
     } catch (error) {
       console.log(error);
@@ -43,18 +43,19 @@ const ManageDepartments = () => {
   }
 
 
-  const handleUpdate = async (department) => {
-    setEditDepartment(department)
-    setValue("faculty", department.facultyId);
-    setValue("name", department.departmentName);
-    setValue("alias", department.alias);
+  const handleUpdate = async (faculty) => {
+    setEditFaculty(faculty)
+    setValue("faculty", faculty.facultyId);
+    setValue("name", faculty.facultyName);
+    setValue("alias", faculty.alias);
   }
 
   const handleDelete = async (id) => {
     confirm("Do yo want to delete");
     try {
-      const response = await Axios.delete(`/admin/department/delete/${id}`);
-      setDepartments(response.data);
+      const response = await Axios.delete(`/admin/faculty/delete/${id}`);
+      setFaculties(response.data);
+      window.scrollTo({top:0, behavior:"smooth"});
       } catch (error) {
         console.log(error);
         alert(error.response.data.message);
@@ -63,8 +64,8 @@ const ManageDepartments = () => {
 
   return (
     <>
-        <div className="manageDepartments">
-          <h1>Manage Departments</h1>
+        <div className="manageFaculties">
+          <h1>Manage faculties</h1>
 
           <div className="addOrEditDiv">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -73,9 +74,9 @@ const ManageDepartments = () => {
                   <input type="text" placeholder="faculty" name="faculty" {...register("faculty")}/>
                 </div> */}
                 <div>
-                  <input type="text" placeholder="department" name="name" {...register("name", {required:{
+                  <input type="text" placeholder="faculty" name="name" {...register("name", {required:{
                     value: true,
-                    message: "Department name is required",
+                    message: "faculty name is required",
                   }})}/>
                   {errors.name && <span className="error">{errors.name.message}</span>}
                 </div>
@@ -86,18 +87,15 @@ const ManageDepartments = () => {
                   }})}/>
                   {errors.alias && <span className="error">{errors.alias.message}</span>}
                 </div>
-                <button className="bttn ashbtn">{ editDepartment? "Update": "Add Department"}</button>
+                <button className="bttn ashbtn">{ editFaculty? "Update": "Add Faculty"}</button>
               </div>
             </form>
           </div>
 
-        <div className="tableCover">
-
         <table >
           <thead>
             <tr >
-              {/* <th>Faculty</th> */}
-              <th>Department</th>
+              <th>Faculty</th>
               <th>Alias</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -105,27 +103,25 @@ const ManageDepartments = () => {
           </thead>
           <tbody>
             {
-              departments.map((department, index) => {
+              faculties.map((faculty, index) => {
                 return (
                   <tr key={index}>
-                    {/* <td>{department.facultyId}</td> */}
-                    <td>{department.departmentName}</td>
-                    <td>{department.alias}</td>
+                    <td>{faculty.facultyName}</td>
+                    <td>{faculty.alias}</td>
                     <td><button className="bttn ashbtn" onClick={() => {
-                      handleUpdate(department);
+                      handleUpdate(faculty);
                       window.scrollTo({top:0, behavior:"smooth"});
-                    }}>edit</button></td>
-                    <td><button className="bttn redbtn" onClick={() => handleDelete(department.id)}>delete</button></td>
+                      }}>edit</button></td>
+                    <td><button className="bttn redbtn" onClick={() => handleDelete(faculty.id)}>delete</button></td>
                   </tr>
                   )
                   })
-                }
+            }
           </tbody>
         </table>
-                </div>
         </div>
     </>
   )
 }
 
-export default ManageDepartments
+export default ManageFaculties

@@ -24,6 +24,8 @@ import ApprovalFlowManager from "./components/Admin/ApprovalFlowManager";
 import CreateForm from "./components/Admin/CreateForm";
 import DynamicForms from "./components/Admin/DynamicForms";
 import ManageDepartments from "./components/Admin/ManageDepartments";
+import ManageFaculties from "./components/Admin/ManageFaculty";
+import ManagePositions from "./components/Admin/ManageJobPosition";
 
 function App() {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
@@ -99,6 +101,8 @@ function App() {
               <Route path="/createForm" element={<CreateForm/>}/>
               <Route path="/dynamicForm" element={<DynamicForms/>} />
               <Route path="/manageDepartment" element={<ManageDepartments/>}/>
+              <Route path="/manageFaculty" element={<ManageFaculties/>}/>
+              <Route path="/managePosition" element={<ManagePositions/>}/>
             </Routes>
             <Footer />
           </Router>

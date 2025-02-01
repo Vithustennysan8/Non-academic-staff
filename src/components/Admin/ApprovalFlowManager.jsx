@@ -261,7 +261,7 @@ const ApprovalFlowManager = () => {
                                 display: "flex",
                                 justifyContent: "space-between",
                               }}
-                            >
+                            > 
                               <span>{role.roleName}</span>
                               <span>{role.sequence}</span>
                             </div>

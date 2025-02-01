@@ -356,14 +356,20 @@ const Signup = () => {
 
             <div className="half">
               <div className="postalcode">
-                <label htmlFor="postalcode">Postal code</label>
+                <label htmlFor="postalcode">Postal code<span className="importantastrick"> *</span></label>
                 <input
                   type="number"
                   id="postalcode"
                   placeholder="postalcode"
                   name="postal_code"
-                  {...register("postal_code")}
+                  {...register("postal_code", {required:{
+                    value: true,
+                    message: "postalcode is required"
+                  }})}
                 />
+                {errors.postal_code && (
+                  <span className="error">{errors.postal_code.message}</span>
+                )}
               </div>
               <div className="phone">
                 <label htmlFor="phone">

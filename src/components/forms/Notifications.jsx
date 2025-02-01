@@ -11,9 +11,9 @@ import AppliedLeaveForms from "../notifications/AppliedLeaveForms";
 import AppliedTransferForms from "../notifications/AppliedTransferForms";
 import LoadingAnimation from "../Common/LoadingAnimation";
 import AppliedDynamicForms from "../notifications/AppliedDynamicForms";
-import DynamicFormRequests from "../notifications/DynamicFormRequests";
+import DynamicFormRequests from "../notifications/DynamicFormRequests.jsx";
 
-const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register, dynamicsForms, dynamicFormRequests}) => {
+const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register, dynamicsForms, dynamicFormRequests, setDynamicsRequests}) => {
   const { user } = useContext(UserContext);
   const { isLogin } = useContext(LoginContext);
   const navigate = useNavigate();
@@ -22,10 +22,10 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [transferRequests, setTransferRequests] = useState([]);
   const [registerRequests, setRegisterRequests] = useState([]);
-  const [dynamicsFormsRequests, setDynamicsFormsRequests] = useState([]);
+  // const [dynamicsFormsRequests, setDynamicsFormsRequests] = useState([]);
   const [appliedLeaveForms, setAppliedLeaveForms] = useState([]);
   const [appliedTransferForms, setAppliedTransferForms] = useState([]);
-  const [appliedDynamicsForms, setAppliedDynamicsForms] = useState([]);
+  // const [appliedDynamicsForms, setAppliedDynamicsForms] = useState([]);
 
 
   useEffect(() => {
@@ -46,25 +46,24 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
         }
       };
 
-      const fetchDynamicForms = async () => {
-          try {
-              const response = await Axios.get("auth/user/DynamicFormUser/getAll");
-              console.log(response.data);
-              setAppliedDynamicsForms(response.data);
-          } catch (error) {
-              console.log(error);
-          }
-      }
+      // const fetchDynamicForms = async () => {
+      //     try {
+      //         const response = await Axios.get("auth/user/DynamicFormUser/getAll");
+      //         setAppliedDynamicsForms(response.data);
+      //     } catch (error) {
+      //         console.log(error);
+      //     }
+      // }
 
-      const fetchDynamicFormsRequests = async () => {
-          try {
-              const response = await Axios.get("admin/DynamicFormUser/getAll");
-              console.log(response.data);
-              setDynamicsFormsRequests(response.data);
-          } catch (error) {
-              console.log(error);
-          }
-      }
+      // const fetchDynamicFormsRequests = async () => {
+      //     try {
+      //         const response = await Axios.get("admin/DynamicFormUser/getAll");
+      //         console.log(response.data);
+      //         setDynamicsFormsRequests(response.data);
+      //     } catch (error) {
+      //         console.log(error);
+      //     }
+      // }
       
       const fetchRegisterRequests = async () => {
         try {
@@ -105,11 +104,11 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
         fetchLeaveRequests();
         fetchRegisterRequests();
         fetchTransferRequests();
-        fetchDynamicFormsRequests();
+        // fetchDynamicFormsRequests();
       }
       fetchLeaveFormsApplied();
       fetchTransferFormsApplied();
-      fetchDynamicForms();
+      // fetchDynamicForms();
       setIsLoading(false);
     }, 600);
   }, [navigate, user, isLogin]);
@@ -123,37 +122,39 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
           <div className="requestsTap">
             {(user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
               <>
-              { (user.job_type === "Head of the Department" || user.job_type === "Dean") &&
+              { (user.job_type === "Head of the Department") &&
 
                 <button onClick={() => setRequest("RegisterRequests")}>
                   Register Requests
-                  {register > 0 && (
+                  {register.length > 0 && (
                     <span className="requestCount">
-                      {register}
+                      {register.length}
                     </span>
                   )}
                   </button>}
 
                 <button onClick={() => setRequest("DynamicFormsRequests")}>
-                  Dynmaic Leave Requests
-                  {dynamicFormRequests > 0 && (
-                    <span className="requestCount">{dynamicFormRequests}</span>
+                  Dynamic Leave Requests
+                  {dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
+                            approver.approver == user.job_type)[0].approverStatus == "Pending").length > 0 && (
+                    <span className="requestCount">{dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
+                      approver.approver == user.job_type)[0].approverStatus == "Pending").length}</span>
                   )}
                 </button>
 
                 <button onClick={() => setRequest("LeaveRequests")}>
                   Leave Requests
-                  {leave > 0 && (
-                    <span className="requestCount">{leave}</span>
+                  {leave.length > 0 && (
+                    <span className="requestCount">{leave.length}</span>
                   )}
                 </button>
 
                   {user.job_type !== "Chief Medical Officer" &&
                 <button onClick={() => setRequest("TransferRequests")}>
                   Transfer Requests
-                  {transfer > 0 && (
+                  {transfer.length > 0 && (
                     <span className="requestCount">
-                      {transfer}
+                      {transfer.length}
                     </span>
                   )}
                 </button>
@@ -165,23 +166,23 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
             
               <button onClick={() => setRequest("AppliedDynamicsForms")}>
                 Applied Dynamics Forms
-                {dynamicsForms > 0 && (
-                  <span className="requestCount">{dynamicsForms}</span>
+                {dynamicsForms.filter(form => form.formStatus == "Pending").length > 0 && (
+                  <span className="requestCount">{dynamicsForms.filter(form => form.formStatus == "Pending").length}</span>
                 )}
               </button>
 
               <button onClick={() => setRequest("AppliedLeaveForms")}>
                 Applied Leave Forms
-                {appliedLeave > 0 && (
-                  <span className="requestCount">{appliedLeave}</span>
+                {appliedLeave.length > 0 && (
+                  <span className="requestCount">{appliedLeave.length}</span>
                 )}
               </button>
 
               <button onClick={() => setRequest("AppliedTransferForms")}>
                 Applied Transfer Forms
-                {appliedTransfer > 0 && (
+                {appliedTransfer.length > 0 && (
                   <span className="requestCount">
-                    {appliedTransfer}
+                    {appliedTransfer.length}
                   </span>
                 )}
               </button>
@@ -205,8 +206,8 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
             {request === "TransferRequests" && <TransferRequests allTransferFormRequests={transferRequests} setAllTransferFormRequests={setTransferRequests}/>}
             {request === "AppliedLeaveForms" && (<AppliedLeaveForms appliedLeaveForms={appliedLeaveForms}/>)}
             {request === "AppliedTransferForms" && <AppliedTransferForms appliedTransferForms={appliedTransferForms}/>}
-            {request === "AppliedDynamicsForms" && <AppliedDynamicForms dynamicForms={appliedDynamicsForms}/>}
-            {request === "DynamicFormsRequests" && <DynamicFormRequests dynamicFormRequests={dynamicsFormsRequests}/>}
+            {request === "AppliedDynamicsForms" && <AppliedDynamicForms dynamicForms={dynamicsForms}/>}
+            {request === "DynamicFormsRequests" && <DynamicFormRequests dynamicFormRequests={dynamicFormRequests} setDynamicFormRequests={setDynamicsRequests}/>}
 
           </div>
         </div>

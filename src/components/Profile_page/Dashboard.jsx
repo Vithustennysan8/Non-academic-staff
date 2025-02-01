@@ -22,13 +22,13 @@ const Dashboard = () => {
     "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
   );
   const [readOnly, setReadOnly] = useState(true);
-  const [leave, setLeave] = useState(0);
-  const [transfer, setTranfer] = useState(0);
-  const [register, setRegister] = useState(0);
-  const [appliedDynamics, setAppliedDynamics] = useState(0);
-  const [dynamicsRequests, setDynamicsRequests] = useState(0);
-  const [appliedLeave, setAppliedLeave] = useState(0);
-  const [appliedTransfer, setAppliedTransfer] = useState(0);
+  const [leave, setLeave] = useState([]);
+  const [transfer, setTranfer] = useState([]);
+  const [register, setRegister] = useState([]);
+  const [appliedDynamics, setAppliedDynamics] = useState([]);
+  const [dynamicsRequests, setDynamicsRequests] = useState([]);
+  const [appliedLeave, setAppliedLeave] = useState([]);
+  const [appliedTransfer, setAppliedTransfer] = useState([]);
   const [image, setImage] = useState("");
   const [editProfile, setEditProfile] = useState(false);
   const [outline, setOutline] = useState("2px solid #ccc");
@@ -54,7 +54,7 @@ const Dashboard = () => {
       const fetchLeaveRequestCount = async () => {
         try {
           const response = await Axios.get("admin/leaveForms/notification");
-          setLeave(response.data.length);
+          setLeave(response.data);
         } catch {
           console.log("Error fetching leave requests");
         }
@@ -63,8 +63,7 @@ const Dashboard = () => {
       const fetchAppliedDynamicForms = async () => {
         try {
             const response = await Axios.get("auth/user/DynamicFormUser/getAll");
-            console.log(response.data);
-            setAppliedDynamics(response.data.length);
+            setAppliedDynamics(response.data);
         } catch (error) {
             console.log(error);
         }
@@ -73,8 +72,7 @@ const Dashboard = () => {
     const fetchDynamicFormsRequests = async () => {
       try {
           const response = await Axios.get("admin/DynamicFormUser/getAll");
-          console.log(response.data);
-          setDynamicsRequests(response.data.length);
+          setDynamicsRequests(response.data);
       } catch (error) {
           console.log(error);
       }
@@ -83,7 +81,7 @@ const Dashboard = () => {
       const fetchRegisterRequests = async () => {
         try {
           const response = await Axios.get("admin/verifyRegisterRequests");
-          setRegister(response.data.length);
+          setRegister(response.data);
         } catch {
           console.log("Error fetching register requests");
         }
@@ -93,7 +91,7 @@ const Dashboard = () => {
         try{
           const response = await Axios.get("admin/transferForms/notification");
           if(response.data.length > 0){
-            setTranfer(response.data.length);
+            setTranfer(response.data);
           }
         }catch{
           console.log("Error fetching transfer requests");
@@ -102,7 +100,7 @@ const Dashboard = () => {
       const fetchTransferFormsApplied = async () => {
         try {
           const response = await Axios.get("auth/user/transferForms");
-          setAppliedTransfer(response.data.length);
+          setAppliedTransfer(response.data);
         } catch (error) {
           console.log("Error fetching appliedTransferForms requests", error);
         }
@@ -111,7 +109,7 @@ const Dashboard = () => {
       const fetchLeaveFormsApplied = async () => {
         try {
           const response = await Axios.get("auth/user/leaveForms");
-          setAppliedLeave(response.data.length);
+          setAppliedLeave(response.data);
         } catch (error) {
           console.log("Error fetching appliedLeaveForms requests", error);
         }
@@ -166,10 +164,9 @@ const Dashboard = () => {
 
   // update the data to the database
   const handleUpdate = async () => {
-    setEditProfile(false);
-
+    
     const formData = new FormData();
-
+    
     if (image) {
       if (image.size > 1 * 1024 * 1024) {
         alert("Image size should be less than 1MB");
@@ -178,7 +175,7 @@ const Dashboard = () => {
       console.log("image upload: " + image);
       formData.append("image", image);
     }
-
+    
     Object.keys(user).forEach((key) => {
       if (key !== "image") {
         formData.append(key, user[key]);
@@ -189,10 +186,11 @@ const Dashboard = () => {
       const response = await Axios.put("/auth/user/update", formData, {
         headers: {
           "Content-type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
         },
       });
       setUser(response.data);
+      setEditProfile(false);
       document.getElementById("update").style.display = "none";
       document.getElementById("date_of_birth").type = "text";
       setReadOnly(true);
@@ -200,8 +198,9 @@ const Dashboard = () => {
         setSrc(`data:${user.image_type};base64,${user.image_data}`);
       }
       alert("update success");
-    } catch {
-      alert("update failed");
+    } catch(error) {
+      alert(error.response.data.message);
+      console.log(error);
     }
   };
 
@@ -262,15 +261,19 @@ const Dashboard = () => {
                       alt="icon3"
                     />
                     Notification{" "}
-                    {leave + register + transfer + appliedLeave + appliedTransfer >0 && (
+                    {leave.length + register.length + transfer.length + appliedLeave.length +
+                     appliedTransfer.length+ dynamicsRequests.filter(request => request.approverDetails.filter(approver =>
+                      approver.approver == user.job_type)[0].approverStatus == "Pending").length +
+                       appliedDynamics.filter(form => form.formStatus == "Pending").length > 0 && (
                       <li className="notificationCount">
-                        {leave +
-                          register +
-                          appliedLeave +
-                          appliedTransfer +
-                          transfer+
-                          appliedDynamics+
-                          dynamicsRequests}
+                        {leave.length +
+                          register.length +
+                          appliedLeave.length +
+                          appliedTransfer.length +
+                          transfer.length+
+                          appliedDynamics.filter(form => form.formStatus == "Pending").length +
+                          dynamicsRequests.filter(request => request.approverDetails.filter(approver =>
+                            approver.approver == user.job_type)[0].approverStatus == "Pending").length}
                       </li>
                     )}
                   </span>
@@ -395,7 +398,7 @@ const Dashboard = () => {
                   <label htmlFor="postal_code">
                     Postal Code
                     <input
-                      type="text"
+                      type="number"
                       name="postal_code"
                       id="postal_code"
                       value={user.postal_code}
@@ -486,7 +489,7 @@ const Dashboard = () => {
                     Normal Mail
                     <input 
                     type="mail"
-                    value={user.normalEmail}
+                    value={user.normalEmail || ''}
                     placeholder="secondary mail"
                     name="normalEmail"
                     onChange={handleChange}
@@ -523,7 +526,8 @@ const Dashboard = () => {
           {dashboardContent === "securitySetting" && <ResetPassword/>}
           
           {dashboardContent === "Notification" && <Notifications leave={leave} transfer={transfer} 
-          register={register} appliedLeave={appliedLeave} appliedTransfer={appliedTransfer} dynamicsForms={appliedDynamics} dynamicFormRequests={dynamicsRequests}/>}
+          register={register} appliedLeave={appliedLeave} appliedTransfer={appliedTransfer} dynamicsForms={appliedDynamics} dynamicFormRequests={dynamicsRequests}
+          setDynamicsRequests={setDynamicsRequests} />}
 
           {dashboardContent === "Summary" && (user.role === "USER" ? <UserDashboard id={user.id}/> : <AdminDashboard/>)}
         </>

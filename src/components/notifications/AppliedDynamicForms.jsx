@@ -90,14 +90,27 @@ const AppliedDynamicForms = ({dynamicForms}) => {
                     selectedForm.formDetails.map((field, index) => {
                         const [key, value] = Object.entries(field)[0];
                         return (
-                            <div key={index}>
-                                <p>{key}</p>
-                                <p>: {value}</p>
+                            <div key={index} className="wrapper">
+                                <p>{key} :</p>
+                                <p>{value}</p>
                             </div>
                         )
                     })
                 }
-                
+                <div className="devider wrapper">
+                  <p>Status :</p>
+                  <p className={`${selectedForm.formStatus === "Rejected" && 'status-rejected'} ${selectedForm.formStatus === "Accepted" && 'status-approved'} ${selectedForm.formStatus === "Pending" && 'status-pending'}`}>{selectedForm.formStatus}</p>
+                </div>
+                {
+                selectedForm.approverDetails.map((approver)=>{
+                  return(
+                    <div key={approver.approverOrder} className="wrapper">
+                      <p>{approver.approver} :</p>
+                      <p>{approver.approverStatus}</p>
+                    </div>
+                  )
+                })
+              }
             </div> :
             <div className="appliedDynamicForms__container">
                 { filterForms.map((form, index) => (

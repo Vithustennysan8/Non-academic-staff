@@ -24,20 +24,59 @@
     margin-bottom: 25px;
     font-weight: 600;
 }
-.dynamicFormRequests .singleForm div{
+.dynamicFormRequests .singleForm .wrapper{
     margin-bottom: 8px;
     display: flex;
     padding-bottom: 10px;
     border-bottom:1px solid #efefef;
 }
-.dynamicFormRequests .singleForm div:last-child{
+.dynamicFormRequests .singleForm .wrapper:last-child{
     border: none;
 }
 
-.dynamicFormRequests .singleForm div p:nth-child(1){
+.dynamicFormRequests .singleForm .wrapper p:nth-child(1){
     font-size: 1rem;
     color: #464646;
     font-weight: 600;
     width: 45%;
     text-align: right;
+}
+.dynamicFormRequests .singleForm .wrapper p:nth-child(2){
+    margin-left: 10px;
+}
+
+.dynamicFormRequests .singleForm .wrapper p:nth-child(2){
+    margin-left: 10px;
+}
+
+.dynamicFormRequests .singleForm .status-approved {
+    color: green;
+    font-weight: bold;
+}
+
+.dynamicFormRequests .singleForm .status-pending {
+    color: orange;
+    font-weight: bold;
+}
+.dynamicFormRequests .singleForm .status-rejected {
+    color: red;
+    font-weight: bold;
+}
+
+.dynamicFormRequests .singleForm .devider{
+    border-bottom: 2px solid rgb(197, 197, 197);
+    margin-bottom: 20px;
+}
+.buttonDiv button{
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.buttonDiv button img{
+    width: 100%;
+}
+.buttonDiv button img:hover{
+    transform: scale(1.2);
 }

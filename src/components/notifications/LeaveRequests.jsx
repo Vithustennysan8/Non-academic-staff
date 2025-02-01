@@ -5,6 +5,7 @@ import FormReqTap from "./FormReqTap";
 import { UserContext } from "../../Contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../Contexts/LoginContext";
+import { Axios } from "../AxiosReqestBuilder";
 
 const RequestedForms = ({ allLeaveFormRequests }) => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
   const [showForm, setShowForm] = useState(false);
   const { user } = useContext(UserContext);
   const [filters, setFilters] = useState({
-    status: "Pending",
+    status: "pending",
     year:'',
     month:'',
     department:'',
@@ -22,6 +23,30 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
     formType: '',
   });
   const [approver, setApprover] = useState(null);
+  const [faculties, setFaculties] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [selectedFaculty, setSelectedFaculty] = useState(null);
+
+  useEffect(()=>{
+    const fetchFaculty = async () => {
+      try {
+        const response = await Axios.get("/auth/user/faculty/getAll");
+        setFaculties(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const fetchDepartment = async () => {
+      try {
+        const response = await Axios.get("/auth/user/department/getAll");
+        setDepartments(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchFaculty();
+    fetchDepartment();
+  },[])
 
   useEffect(() => {
     if (!isLogin) {
@@ -46,71 +71,9 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
         break;
     }
   
-  }, [navigate, isLogin, allLeaveFormRequests]);
+  }, [navigate, isLogin, allLeaveFormRequests, user.job_type]);
 
 
-  const faculties = [
-    {
-      faculty: "Faculty of Engineering",
-      department:
-        "Chemical and Process Engineering, Computer Engineering, Civil Engineering, Electrical and Electronic Engineering, Engineering Mathematics, Manufacturing and Industrial Engineering, Mechanical Engineering, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Science",
-      department:
-        "Botany, Chemistry, Environmental and Industrial Sciences, Geology, Statistics and Computer Science, Mathematics, Molecular Biology and Biotechnology, Physics, Zoology, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Arts",
-      department:
-        "Arabic and Islamic Civilization, Archaeology, Classical Languages, Economics and Statistics, Education, English, English Language Teaching, Fine Arts, Geography, History, Information Technology, Law, Philosophy, Psychology, Political Science, Pali and Buddhist Studies, Sinhala, Sociology, Tamil, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Medicine",
-      department:
-        "Anatomy, Anaesthesiology and Critical Care, Biochemistry, Community Medicine, Family Medicine, Forensic Medicine, Medical Education, Medicine, Microbiology, Obstetrics and Gynaecology, Paediatrics, Parasitology, Pathology, Pharmacology, Physiology, Psychiatry, Radiology, Surgery, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Veterinary Medicine and Animal Science",
-      department:
-        "Basic Veterinary Sciences, Veterinary Clinical Sciences, Farm Animal Production and Health, Veterinary Pathobiology, Veterinary Public Health and Pharmacology, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Agriculture",
-      department:
-        "Agricultural Biology, Agricultural Economics and Business Management, Agricultural Engineering, Agricultural Extension, Animal Science, Crop Science, Food Science and Technology, Soil Science, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Allied Health Sciences",
-      department:
-        "Medical Laboratory Sciences, Nursing, Pharmacy, Physiotherapy, Radiography and Radiotherapy, Basic Sciences, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Dental Sciences",
-      department:
-        "Basic Sciences, Community Dental Health, Comprehensive Oral Health Care, Oral Medicine and Periodontology, Oral Pathology, Prosthetic Dentistry, Restorative Dentistry, Oral and Maxillofacial Surgery, Dean's Office",
-    },
-    {
-      faculty: "Faculty of Management",
-      department:
-        "Business Finance, Human Resource Management, Management Studies, Marketing Management, Operations Management",
-    },
-    { faculty: "Registrar's Office", department: "Administrative Section" },
-    { faculty: "Administration Office", department: "Administrative Section" },
-    { faculty: "IT Services", department: "Technical Section" },
-    { faculty: "Library Services", department: "Library Section" },
-    { faculty: "Facilities Management", department: "Maintenance Section" },
-    { faculty: "Security Services", department: "Security Section" },
-    { faculty: "Finance Department", department: "Finance Section" },
-    { faculty: "Human Resources Department", department: "HR Section" },
-    {
-      faculty: "Student Affairs Office",
-      department: "Student Affairs Section",
-    },
-  ];
-
-  const departments = faculties.find((faculty) => faculty.faculty === filters.faculty)
-      ?.department.split(", ") || [];
 
 
   const handleSingleForm = (id, formType) => {
@@ -122,7 +85,13 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
 
   const handleForm = (e)=>{
     e.preventDefault();
-    setFilters({...filters, [e.target.name]: e.target.value });
+    console.log(e.target.name)
+    if(e.target.name == "faculty"){
+      const faculty = faculties.filter(faculty => faculty.id == e.target.value)[0];
+      setFilters({...filters, [e.target.name]: faculty.facultyName });
+    }else{
+      setFilters({...filters, [e.target.name]: e.target.value });
+    }
   }
 
   const handleFilterChange = (e) => {
@@ -192,11 +161,14 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
               {(user.job_type !== "Head of the Department") && (
                 <>
                 <div>
-                  <select name="faculty" id="faculty" value={filters.faculty} onChange={e=>handleForm(e)}>
+                  <select name="faculty" id="faculty" onChange={e=>{
+                    handleForm(e);
+                    setSelectedFaculty(e.target.value);
+                    }}>
                     <option value="">Faculty</option>
-                    {faculties.map((faculty, index) => (
-                      <option key={index} value={faculty.faculty}>
-                        {faculty.faculty}
+                    {faculties?.map((faculty, index) => (
+                      <option key={index} value={faculty.id}>
+                        {faculty.facultyName}
                       </option>
                     ))}
                   </select>
@@ -205,10 +177,10 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
                 <div>
                   <select id="department" name="department" onChange={e=>handleForm(e)} >
                     <option value="">Department</option>
-                    {departments.map((department, index) => (
-                      <option key={index} value={department}>
-                        {department}
-                      </option>
+                    {departments.filter((department) => selectedFaculty == department.facultyId).map((department, index) => (
+                    <option key={index} value={department.departmentName}>
+                      {department.departmentName}
+                    </option>
                     ))}
                   </select>
                 </div>

@@ -49,6 +49,16 @@ const Forms = () => {
               <Link to={"/manageDepartment"}>Manage Departments</Link>
             </div>
           </div>
+          <div className="EditApprovalFlowContainer">
+            <div>
+              <i className="fa fa-align-left"></i>
+              <Link to={"/manageFaculty"}>Manage Faculty</Link><br />
+            </div>
+            <div>
+              <i className="fa fa-building"></i>
+              <Link to={"/managePosition"}>Manage Positions</Link>
+            </div>
+          </div>
         </>
         }
 
@@ -68,37 +78,31 @@ const Forms = () => {
             url={"/transferForm"}
             />
         </div>
-
+{/* 
 
         <div className="form-details-container">
           <h3>Flow of the forms</h3>
-
           <div className="form-details">
             <div className="form-detail">
               <img src={img1} alt="normalFormFlowPicture" />
             </div>
             <div className="form-detail">
-              {/* <p>Accident Leave Form</p> */}
               <img src={accident} alt="accidentFormFlowPicture" />
             </div>
             <div className="form-detail">
-              {/* <p>Paternal Leave Form</p> */}
               <img src={paternal} alt="paternalFormFlowPicture" />
             </div>
             <div className="form-detail">
-              {/* <p>Medical Leave Form</p> */}
               <img src={medical} alt="medicalFormFlowPicture" />
             </div>
             <div className="form-detail">
-              {/* <p>Maternity Leave Form</p> */}
               <img src={maternity} alt="maternityFormFlowPicture" />
             </div>
             <div className="form-detail">
-              {/* <p>Maternity Leave Form</p> */}
               <img src={transfer} alt="transferFormFlowPicture" />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     }
     </>
