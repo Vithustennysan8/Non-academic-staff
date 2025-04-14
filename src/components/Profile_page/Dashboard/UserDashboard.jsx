@@ -7,17 +7,18 @@ import { Pie } from "react-chartjs-2"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import LoadingAnimation from "../../Common/LoadingAnimation"
 import {motion} from "framer-motion"
+import PropTypes from 'prop-types';
 
 // Register necessary components from chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const UserDashboard = ( {id}) => {
+const UserDashboard = ( {id} ) => {
   const {isLogin} = useContext(LoginContext);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   const [forms, setForms] = useState([]);
-  const [filteredForms, setFilteredForms] = useState([]);
+  const [filteredForms, setFilteredForms] = useState({});
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedMonth, setSelectedMonth] = useState('');
 
@@ -30,61 +31,60 @@ const UserDashboard = ( {id}) => {
   const [current_noPay, setCurrent_noPay] = useState(0);
   const [filtered_acceptedForms, setFiltered_acceptedForms] = useState(0);
   const [filtered_rejectedForms, setFiltered_rejectedForms] = useState(0);
+  const [filtered_pendingForms, setFiltered_pendingForms] = useState(0);
   const [filtered_noPayForms, setFiltered_noPayForms] = useState(0);
 
-  const [formTypeAndCount, setFormTypeAndCount] = useState({
-                                                          "Normal Leave Form":0,
-                                                          "Accident Leave Form":0,
-                                                          "Medical Leave Form":0,
-                                                          "Paternal Leave Form":0,
-                                                          "Maternity Leave Form":0,
-                                                          "No-Pay":0,
-                                                        });
+  const [formTypeAndCount, setFormTypeAndCount] = useState({});
+  const [tempFormTypeAndCount, setTempFormTypeAndCount] = useState({});
+  const [colorArray, setColorArray] = useState([]);
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ];
+
+  const fetchFormTypes = async () => {
+    try {
+      const formTypes = await Axios.get(`/auth/user/dynamicForm/getAllById/${id}`);
+      setFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
+      setTempFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   useEffect(() => { 
     setTimeout(() => {
       if (isLogin) {
         const fetchForms = async () => {
           try {
-          const response = await Axios.get(`/auth/user/leaveFormsById/${id}`);
-          setForms(response.data);
-          console.log("sd"+response.data);
+          const response1 = await Axios.get(`/auth/user/leaveFormsById/${id}`);
+          const response2 = await Axios.get(`/auth/user/DynamicFormUser/getAllById/${id}`);
+          setForms([...response2.data, ...response1.data]);
           setIsLoading(false);
         }catch(error){
           console.log(error);
         }
       }
       fetchForms();
-      
+      fetchFormTypes();
     }else{
       window.scrollTo({top:0, behavior:"smooth"});
       navigate("/login");
     }
-  }, 600);
+  }, 0);
   },[isLogin, navigate, id]);
 
   useEffect(()=>{
+    setColorArray(Object.keys(formTypeAndCount).map(stringToColor));
     const handleCurrentStatus = () => {
       let acceptedForms = 0;
       let rejectedForms = 0;
       let currentPendingForms = 0;
       let currentRejectedForms = 0;
       let currentAcceptedForms = 0;
-      let FormsTypeAndCount = {
-        "Normal Leave Form":0,
-        "Accident Leave Form":0,
-        "Medical Leave Form":0,
-        "Paternal Leave Form":0,
-        "Maternity Leave Form":0, 
-        "No-Pay":0,
   
-      }
-  
+      setFormTypeAndCount(tempFormTypeAndCount);
       forms.map((form) => {
         if(form.status === "Accepted"){
           acceptedForms++;
@@ -104,27 +104,18 @@ const UserDashboard = ( {id}) => {
               currentPendingForms++;
             }
           }
-  
-          switch (form.formType) {
-            case "Normal Leave Form":
-              FormsTypeAndCount["Normal Leave Form"] += 1;
-              break;
-            case "Paternal Leave Form":
-              FormsTypeAndCount["Paternal Leave Form"] += 1;
-              break;
-            case "Accident Leave Form":
-              FormsTypeAndCount["Accident Leave Form"] += 1;
-              break;
-            case "Maternity Leave Form":
-              FormsTypeAndCount["Maternity Leave Form"] += 1;
-              break;
-            case "Medical Leave Form":
-              FormsTypeAndCount["Medical Leave Form"] += 1;
-              break;
-            default:
-              break;
-          }
         }
+      
+        if (form.dynamicForm?.formType){
+          setFormTypeAndCount((prevCount) => ({
+            ...prevCount, [form.dynamicForm.formType]: prevCount[form.dynamicForm.formType] + 1}
+          ))
+        }else{
+          setFormTypeAndCount((prevCount) => ({
+            ...prevCount, [form.formType]: prevCount[form.formType] + 1}
+          ))
+        }
+
       });
   
       if(currentAcceptedForms <= 2){
@@ -139,50 +130,34 @@ const UserDashboard = ( {id}) => {
       setCurrent_acceptedLeaves(currentAcceptedForms);
       setCurrent_rejectedLeaves(currentRejectedForms);
       setCurrent_pendingLeaves(currentPendingForms);
-      setFormTypeAndCount(FormsTypeAndCount);
     }
 
       handleCurrentStatus();
   },[forms])
-  
 
   const handleFilteredForm = (applications) => {
+    setFormTypeAndCount(tempFormTypeAndCount);
     let acceptedForms = 0;
     let rejectedForms = 0;
-    let FormsTypeAndCount = {
-      "Normal Leave Form":0,
-      "Accident Leave Form":0,
-      "Medical Leave Form":0,
-      "Paternal Leave Form":0,
-      "Maternity Leave Form":0, 
-      "No-Pay":0,
-    }
+    let pendingForms = 0;
 
     applications.map((form) => {
       if(form.status === "Accepted"){
         acceptedForms++;
       }else if(form.status === "Rejected"){
         rejectedForms++;
+      }else{
+        pendingForms++;
       }
 
-      switch (form.formType) {
-        case "Normal Leave Form":
-          FormsTypeAndCount["Normal Leave Form"] += 1;
-          break;
-        case "Paternal Leave Form":
-          FormsTypeAndCount["Paternal Leave Form"] += 1;
-          break;
-        case "Accident Leave Form":
-          FormsTypeAndCount["Accident Leave Form"] += 1;
-          break;
-        case "Maternity Leave Form":
-          FormsTypeAndCount["Maternity Leave Form"] += 1;
-          break;
-        case "Medical Leave Form":
-          FormsTypeAndCount["Medical Leave Form"] += 1;
-          break;
-        default:
-          break;
+      if (form.dynamicForm){
+        setFormTypeAndCount((prevCount) => ({
+          ...prevCount, [form.dynamicForm.formType]: prevCount[form.dynamicForm.formType] + 1}
+        ))
+      }else{
+        setFormTypeAndCount((prevCount) => ({
+          ...prevCount, [form.formType]: prevCount[form.formType] + 1}
+        ))
       }
     });
 
@@ -194,27 +169,16 @@ const UserDashboard = ( {id}) => {
       }
     }
 
-
+    setFiltered_pendingForms(pendingForms);
     setFiltered_acceptedForms(acceptedForms);
     setFiltered_rejectedForms(rejectedForms);
-    setFormTypeAndCount(FormsTypeAndCount);
-    console.log(Object.keys(FormsTypeAndCount));
-    console.log(Object.values(FormsTypeAndCount));
   }
-  
+
   const handleSearch = () => {
     if(selectedYear === ""){
       return;
     }
 
-    setFormTypeAndCount({
-    "Normal Leave Form":0,
-    "Accident Leave Form":0,
-    "Medical Leave Form":0,
-    "Paternal Leave Form":0,
-    "Maternity Leave Form":0, 
-    "No-Pay":0,
-  });
     setFilteredForms([]);
     setFiltered_acceptedForms(0);
     setFiltered_rejectedForms(0);
@@ -235,19 +199,32 @@ const UserDashboard = ( {id}) => {
   useEffect(()=>{
     if(filteredForms.length > 0){
       handleFilteredForm(filteredForms);
+    }else{
+      setFormTypeAndCount(tempFormTypeAndCount);
     }
   },[filteredForms])
 
+  // create a color array based on the number of the forms
+  const stringToColor = (str) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = "#";
+    for (let i = 0; i < 3; i++) {
+      color += ("00" + ((hash >> (i * 8)) & 0xff).toString(16)).slice(-2);
+    }
+    return color;
+  };
 
   const getChartData = () => {
-
     return{
       labels: [],
       datasets: [
         {
           data: Object.values(formTypeAndCount),
-          backgroundColor: ['#800080', '#a52a2a', '#ffff00', '#008000', '#0000ff', '#e90000'],
-          borderColor: ['#800080', '#a52a2a', '#ffff00', '#008000', '#0000ff', '#e90000'],
+          backgroundColor: colorArray,
+          borderColor:  colorArray,
           borderWidth: 3,
         },
       ],
@@ -310,12 +287,16 @@ const UserDashboard = ( {id}) => {
                 <p>{filtered_rejectedForms}</p>
               </div>
               <div>
+                <p>Total pending leaves</p>
+                <p>{filtered_pendingForms}</p>
+              </div>
+              <div>
                 <p>Total no-pay leaves</p>
                 <p>{filtered_noPayForms}</p>
               </div>
               <div>
                 <p>Total applied leaves</p>
-                <p>{filtered_acceptedForms}</p>
+                <p>{filtered_acceptedForms + filtered_rejectedForms + filtered_pendingForms}</p>
               </div>
             </div>
           </div>
@@ -350,30 +331,23 @@ const UserDashboard = ( {id}) => {
             <h4>Summary in Chart</h4>
             <div className="summaryInfo">
               <div className="chart">
-                { (formTypeAndCount["Accident Leave Form"]+formTypeAndCount["Maternity Leave Form"]+formTypeAndCount["Medical Leave Form"]+formTypeAndCount["No-Pay"]+
+                { Object.values(formTypeAndCount).reduce((a,b) => a+b, 0) > 0 ? <Pie data={getChartData()} options={options}/> : <p>No Details!!!</p>}
+                {/* { (formTypeAndCount["Accident Leave Form"]+formTypeAndCount["Maternity Leave Form"]+formTypeAndCount["Medical Leave Form"]+formTypeAndCount["No-Pay"]+
                 formTypeAndCount["Normal Leave Form"]+formTypeAndCount["Paternal Leave Form"]) > 0?
                 <Pie data={getChartData()} options={options}/>:
-                <p>No Details!!!</p>}
+                <p>No Details!!!</p>} */}
               </div>
               <div className="chartAttributes">
-                <div>
-                  <p>Normal</p>
-                </div>
-                <div>
-                  <p>Accident</p>
-                </div>
-                <div>
-                  <p>Medical</p>
-                </div>
-                <div>
-                  <p>Paternal</p>
-                </div>
-                <div>
-                  <p>Maternity</p>
-                </div>
-                <div>
-                  <p>No-Pay</p>
-                </div>
+                {
+                  Object.keys(formTypeAndCount).map((formType, index) => (
+                    <div key={index}>
+                      <p style={{
+                        backgroundColor:colorArray[index],
+                        borderRadius: "5px"
+                      }}>{formType} - {formTypeAndCount[formType]}</p>
+                    </div>
+                  ))
+                }
               </div>
             </div>
           </div>
@@ -430,4 +404,7 @@ const UserDashboard = ( {id}) => {
   )
 }
 
+UserDashboard.propTypes = {
+  id: PropTypes.string
+}
 export default UserDashboard;

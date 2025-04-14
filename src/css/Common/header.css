@@ -96,9 +96,10 @@
     height: 30px;
 }
 .header-profile div {
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
     overflow: hidden;
+    position: relative;
 }
 .header-profile img{
     width: 100%;
@@ -112,6 +113,12 @@
 .username{
     color: white;
     font-size: 0.7rem;
+}
+.online{
+    border: 2px solid rgb(0, 255, 0);
+}
+.offline{
+    border: 2px solid red;
 }
 
 

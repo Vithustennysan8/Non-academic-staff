@@ -3,6 +3,8 @@ import "../../css/Authentication/signup.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Axios } from "../AxiosReqestBuilder";
+import Swal from "sweetalert2";
+import image from "../../assets/images/signup/image.png";
 
 const Signup = () => {
   const Navigate = useNavigate();
@@ -55,7 +57,10 @@ const Signup = () => {
     // check the size of the image
     if (data.image) {
       if (data.image > 1 * 1024 * 1024) {
-        alert("Image size should be less than 1MB");
+        Swal.fire({
+          title: "Image size should be less than 1MB",
+          icon: 'error',
+        })
         return;
       }
       formData.append("image", data.image);
@@ -64,7 +69,10 @@ const Signup = () => {
     }
 
     if (data.password !== data.confirmpassword) {
-      alert("Password and Confirm Password does not match");
+      Swal.fire({
+        title: "Password and Confirm Password does not match",
+        icon: 'error',
+      })
       setPasswordError({ border: "2px solid red" });
       return;
     }
@@ -80,19 +88,29 @@ const Signup = () => {
     try {
       const response = await Axios.post("/auth/signup", formData);
       if (response.data === false) {
-        alert("Email is already exists");
+        Swal.fire({
+          title: "Email is already exists",
+          icon: 'error',
+        })
         setEmailError({ border: "2px solid red" });
         return;
       }
-
-      alert("register sucessfully");
+      
+      Swal.fire({
+        title: "Register Successfully",
+        icon: 'success',
+      })
       window.scrollTo({ top: 0, behavior: "smooth" });
       Navigate("/login");
     } catch (error) {
       if(error.response.data.message){
-        alert(error.response.data.message);
+        Swal.fire({
+          title: error.response.data.message,
+          icon: 'error',
+        })
         console.log(error.response.data.message);
       }
+      formData.forEach((val)=>(console.log(val)));
       console.error(error);
     }
   };
@@ -515,7 +533,7 @@ const Signup = () => {
                 <select
                   name="faculty"
                   id="faculty"
-                  {...register("faculty", {
+                  {...register("facultyId", {
                     required: {
                       value: true,
                       message: "Faculty is required",
@@ -568,8 +586,8 @@ const Signup = () => {
                 <label htmlFor="profile_img">
                   Upload profile image
                   <img
-                    src="https://uxwing.com/wp-content/themes/uxwing/download/video-photography-multimedia/image-photography-icon.png"
-                    alt=""
+                    src={image}
+                    alt="add Photo icon"
                   />
                   <input
                     type="file"

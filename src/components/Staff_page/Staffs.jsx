@@ -33,7 +33,7 @@ const Staffs = () => {
         }
       };
       getUsers();
-    }, 600);
+    }, 0);
   }, [token, isLogin]);
 
   return (

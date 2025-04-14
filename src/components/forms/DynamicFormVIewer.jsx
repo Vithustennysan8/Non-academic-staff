@@ -4,29 +4,30 @@ import { Axios } from "../AxiosReqestBuilder";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../Contexts/LoginContext";
+import Swal from "sweetalert2";
 
 const DynamicFormVIewer = ({dynamicFormDetails}) => {
     const {isLogin} = useContext(LoginContext);
     const navigate = useNavigate();
-      const {handleSubmit, register, formState: {errors}} = useForm();
-      const [fileNames, setFileNames] = useState([]);
-      const [approvalFlows, setApprovalFlows] = useState([]);
-      const [selectedFlow, setSelectedFlow] = useState([]);
+    const {handleSubmit, register, formState: {errors}} = useForm();
+    const [fileNames, setFileNames] = useState([]);
+    const [approvalFlows, setApprovalFlows] = useState([]);
+    const [selectedFlow, setSelectedFlow] = useState([]);
 
-      useEffect(()=>{
-        if(!isLogin){
-            window.scrollTo({top:0, behavior:"smooth"})
-            navigate("/login");
-        }
-      },[isLogin, navigate])
-  
-      useEffect(() => {
-        if (dynamicFormDetails.fields) {
-            const files = dynamicFormDetails.fields
-                .filter((field) => field.type === 'file')
-                .map((field) => field.label);
-            setFileNames(files);
-        }
+    useEffect(()=>{
+    if(!isLogin){
+        window.scrollTo({top:0, behavior:"smooth"})
+        navigate("/login");
+    }
+    },[isLogin, navigate])
+
+    useEffect(() => {
+    if (dynamicFormDetails.fields) {
+        const files = dynamicFormDetails.fields
+            .filter((field) => field.type === 'file')
+            .map((field) => field.label);
+        setFileNames(files);
+    }
     }, [dynamicFormDetails]);
 
     useEffect(()=>{
@@ -110,7 +111,7 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
                 case "file":
                     return (
                         <div className="dynamicInput-file">
-                            <label>{field.label}</label>
+                            <label>{field.label} <span style={{color:"red"}}>(PdfOnly)</span></label>
                             <input type="file" name={field.label} {...register(field.label, {required: {
                                 value: field.required,
                                 message: `This ${field.label} is required`
@@ -144,24 +145,34 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
         }
         }
     
-    const   onSubmit = async (data) => {
-            if(selectedFlow == ''){
-                alert("Please select a flow");
+    const onSubmit = async (data) => {
+        if(selectedFlow == ''){
+            Swal.fire({
+                title: "Please select a flow",
+                icon: "warning",
+            })
+            return;
+        }
+
+        const formData = new FormData();
+        Object.keys(data).filter(type => !fileNames.includes(type))
+        .map(file => {
+            formData.append(file, data[file]);
+        })
+
+        for (const fileName of fileNames) {
+            const file = data[fileName];
+    
+            if (file && file[0].type !== "application/pdf") {
+                Swal.fire({
+                    title: "Pdf only",
+                    icon: "error"
+                });
                 return;
             }
-
-            const formData = new FormData();
-            Object.keys(data).filter(type => !fileNames.includes(type))
-            .map(file => {
-                formData.append(file, data[file]);
-            })
-
-            fileNames.forEach((fileName) => {
-                const file = data[fileName];
-                if (file) {
-                    formData.append("file", file[0]);
-                }
-        });
+            
+            formData.append("file", file[0]);
+        }
     
         const encodedFormName = encodeURIComponent(dynamicFormDetails.formType);
         const encodedFlowName = encodeURIComponent(selectedFlow);
@@ -172,11 +183,17 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
                     },
             });
             console.log(response.data);
-            alert("Form submitted successfully");
+            Swal.fire({
+                title: "Form submitted successfully",
+                icon: "success",
+            })
             window.scrollTo({top:0, behavior:"smooth"});
             navigate("/forms");
         } catch (error) {
-            alert(error.response.data.message);
+            Swal.fire({
+                title: error.response.data.message,
+                icon: "error",
+            })
             console.log(error);
         }
     }
@@ -186,14 +203,17 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
         <div className="dynamicFormViewer">
 
             <div className="flowSelector-div">
+                {/* shows the available different form flows */}
                 <div className="selector">
-                    <select onChange={(e)=>setSelectedFlow(e.target.value)}>
+                    <select value={selectedFlow} onChange={(e)=>setSelectedFlow(e.target.value)}>
                         <option value="">select Flow</option>
                         {approvalFlows?.map((approvalFlow, index) => (
                             <option key={index} value={approvalFlow.uniqueName} >{approvalFlow.uniqueName}</option>
                         ))}
                     </select>
                 </div>
+
+                {/* it will display the selected form flow */}
                 <div className="display">
                     {approvalFlows.filter(flow => flow.uniqueName === selectedFlow).map(flows => flows.flow?.map((flow, index) => (
                         <span key={index}>{" -> "+ flow.roleName}</span>
@@ -201,6 +221,7 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
                 </div>
             </div>
 
+            {/* showing the dynamic form as a full form */}
             <div className="dynamicFormViewer-container">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="title">

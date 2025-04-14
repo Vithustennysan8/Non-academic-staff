@@ -1,4 +1,5 @@
 import "../../css/Notifications/formReqTap.css"
+import PropTypes from 'prop-types';
 
 const FormReqTap = ({form, handleSingleForm}) => {
   return (
@@ -8,7 +9,7 @@ const FormReqTap = ({form, handleSingleForm}) => {
             <h3>{form?.form}</h3>
             <div>
               {form?.user?.first_name && <p className="name">{form?.user?.first_name}</p>}
-              {form?.userName && <p className="name">{form?.userName}</p>}
+              {form?.formUser?.first_name && <p className="name">{form?.formUser?.first_name}</p>}
               <div>
                 <p className="status">{form?.status}</p>
                 <p className="status">{form?.formStatus}</p>
@@ -23,5 +24,24 @@ const FormReqTap = ({form, handleSingleForm}) => {
     </>
   )
 }
+
+FormReqTap.propTypes = {
+  form: PropTypes.shape({
+    formType: PropTypes.string,
+    form: PropTypes.string,
+    user: PropTypes.shape({
+      first_name: PropTypes.string,
+    }),
+    formUser: PropTypes.shape({
+      first_name: PropTypes.string,
+    }),
+    status: PropTypes.string,
+    formStatus: PropTypes.string,
+    formCreatedAt: PropTypes.string,
+    createdAt: PropTypes.string,
+    leaveAt: PropTypes.string,
+  }),
+  handleSingleForm: PropTypes.func.isRequired,
+};
 
 export default FormReqTap

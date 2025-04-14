@@ -3,6 +3,7 @@ import "../../css/Forms/normalLeaveFormTemplate.css";
 import { Axios } from "../AxiosReqestBuilder";
 import { useContext } from "react";
 import { UserContext } from "../../Contexts/UserContext";
+import Swal from "sweetalert2";
 
 const NormalLeaveFormTemplate = ({application}) => {
   const {user} = useContext(UserContext);
@@ -14,11 +15,17 @@ const NormalLeaveFormTemplate = ({application}) => {
     try {
         const response = await Axios.delete(`/auth/${formtype}/delete/${form?.id}`);
         console.log(response.data);
-        alert("Form Deleted Successfully");
+        Swal.fire({
+          title: 'Form Deleted Successfully',
+          icon: 'success',
+        })
         window.location.reload();
     }catch(error){
         if(error.response.data.message){
-          alert(error.response.data.message);
+          Swal.fire({
+            title: error.response.data.message,
+            icon: 'error',
+          })
         }
         console.error(error);
     }

@@ -3,6 +3,8 @@ import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { UserContext } from '../../Contexts/UserContext';
 import "../../css/Profile_page/deanCharts.css"
+import PropTypes from 'prop-types';
+import { Axios } from '../AxiosReqestBuilder';
 
 // Register the required chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -11,19 +13,13 @@ const DeanCharts = ({allForms}) => {
     const {user} = useContext(UserContext);
     const [departmentLeaveCount, setDepartmentLeaveCount] = useState([]);
     const [modifiedData, setmodifiedData] = useState({});
+    const [selectedDepartment, setSelectedDepartment] = useState('');
     const [filter, setfilter] = useState({
         department: '',
         year: new Date().getFullYear().toString(),
         month: '',
     })
-    const [formTypeAndCount, setFormTypeAndCount] = useState({
-        "Normal Leave Form":0,
-        "Accident Leave Form":0,
-        "Medical Leave Form":0,
-        "Paternal Leave Form":0,
-        "Maternity Leave Form":0,
-        "No-Pay":0,
-      });
+    const [formTypeAndCount, setFormTypeAndCount] = useState({});
     const monthsName = [
         "January",
         "February",
@@ -39,24 +35,40 @@ const DeanCharts = ({allForms}) => {
         "December"
     ]
 
+    // fetch the form types by departments
+    useEffect(() => {
+      const fetchFormTypes = async () => {
+        try {
+          const formTypes = await Axios.get(`/admin/dynamicForm/getAllByFacultyAndDepartment`, {
+            params:{
+              "faculty": user.faculty,
+               "department": selectedDepartment
+              }
+          });
+          setFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
+          console.log(formTypes.data)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchFormTypes();
+    }, [selectedDepartment, user])
+
+
     const findDepartmentDetails = () => {
         const data = modifiedData.get(filter.department);
-        let forms = {
-            "Normal Leave Form":0,
-            "Accident Leave Form":0,
-            "Medical Leave Form":0,
-            "Paternal Leave Form":0,
-            "Maternity Leave Form":0, 
-            "No-Pay":0,
-          };
         if (data) {
             data.filter(item => {
                 const year = filter.year? item.year === filter.year : true;
                 const month = filter.month? item.month === filter.month : true;
                 return year & month;
-        }).map(item => {forms[item.formType] = item.count;});
+        }).map(item => {
+          setFormTypeAndCount((prev) => ({
+            ...prev, [item.formType]: item.count
+          }))
         }
-        setFormTypeAndCount(forms);
+        );
+        }
     }
 
     const overAlldepartmentDetails = (arrayMap, year, month) => {
@@ -87,10 +99,10 @@ const DeanCharts = ({allForms}) => {
             let formCategories = new Map();
     
             allForms.forEach((form) => {
-                const department = form.user.department;
-                const formType = form.formType;
-                const month = monthsName[form.leaveAt.substring(5, 7)-1];
-                const year = form.leaveAt.substring(0, 4);
+                const department = form.formUser?.department || form.user?.department;
+                const formType = form.form || form.formType;
+                const month = monthsName[form.formCreatedAt?.substring(5, 7)-1 || form.createdAt?.substring(5, 7)-1];
+                const year = form.formCreatedAt?.substring(0, 4) || form.createdAt?.substring(0, 4);
     
                 // Check if the department already exists in the map
                 if (formCategories.has(department)) {
@@ -125,7 +137,7 @@ const DeanCharts = ({allForms}) => {
         const formCategories = fetchFormsByCatogaries();
         setmodifiedData(formCategories);
         overAlldepartmentDetails(formCategories, filter.year, filter.month);
-    }, []);
+    }, [allForms, filter]);
 
 
     
@@ -201,6 +213,7 @@ const DeanCharts = ({allForms}) => {
 
       const handleChange = (e)=>{
         setfilter({...filter, [e.target.name]: e.target.value})
+        setSelectedDepartment(e.target.value);
       }
 
 
@@ -211,6 +224,7 @@ const DeanCharts = ({allForms}) => {
       const colors = useMemo(()=>{
         return departments.map(()=> generateRandomColor())
       },[]); 
+
       // Chart data
       const dataOfDepartment = {
         labels: departments,
@@ -244,15 +258,29 @@ const DeanCharts = ({allForms}) => {
         },
       };
 
+      const stringToColor = (str) => {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        let color = "#";
+        for (let i = 0; i < 3; i++) {
+          color += ("00" + ((hash >> (i * 8)) & 0xff).toString(16)).slice(-2);
+        }
+        return color;
+      };
+
+
     //   everyForm depend on the department
       const getChartData = () => {
+        const colorArray = Object.keys(formTypeAndCount).map(stringToColor);
         return{
           labels: Object.keys(formTypeAndCount),
           datasets: [
             {
             data: Object.values(formTypeAndCount),
-              backgroundColor: ['#800080', '#a52a2a', '#ffff00', '#008000', '#0000ff', '#e90000'],
-              borderColor: ['#800080', '#a52a2a', '#ffff00', '#008000', '#0000ff', '#e90000'],
+              backgroundColor: colorArray,
+              borderColor: colorArray,
               borderWidth: 3,
             },
           ],
@@ -300,7 +328,7 @@ const DeanCharts = ({allForms}) => {
  
 
                 {
-                    Object.values(formTypeAndCount).reduce((s,c)=>s+c) > 0 ?
+                    Object.values(formTypeAndCount)?.reduce((s,c)=>s+c, 0) > 0 ?
                     <>
                     <Pie data={getChartData()} options={option}/>
                     </>:
@@ -311,5 +339,9 @@ const DeanCharts = ({allForms}) => {
         </div>
       </>)
 }
+
+DeanCharts.propTypes = {
+  allForms: PropTypes.array.isRequired,
+};
 
 export default DeanCharts

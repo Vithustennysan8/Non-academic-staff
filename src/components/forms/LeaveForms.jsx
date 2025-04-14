@@ -7,6 +7,7 @@ import MaternityLeaveForm from "./MaternityLeaveForm"
 import MedicalLeaveForm from "./MedicalLeaveForm"
 import { Axios } from "../AxiosReqestBuilder"
 import DynamicFormVIewer from "./DynamicFormVIewer"
+import Swal from "sweetalert2"
 
 const LeaveForms = () => {
     const [dynamicForms, setDynamicForms] = useState([]);
@@ -31,7 +32,10 @@ const LeaveForms = () => {
         console.log(response.data);
         setDynamicFormDetails(response.data);
       } catch (error) {
-        alert(error.response.data.message);
+        Swal.fire({
+          title: "Error accepting application",
+          icon: "error",
+        })
         console.log(error);
       }
     } 
@@ -48,10 +52,10 @@ const LeaveForms = () => {
         <label htmlFor="LeaveType">Select the Leave Type</label>
         <select name="leaveType" id="LeaveType" value={form} onChange={handleChange}>
           <option value="NormalLeave">Normal Leave</option>
-          <option value="AccidentLeave">Accident Leave</option>
+          {/* <option value="AccidentLeave">Accident Leave</option>
           <option value="MedicalLeave">Medical Leave</option>
           <option value="MaternityLeave">Maternity Leave</option>
-          <option value="PaternalLeave">Paternal Leave</option>
+          <option value="PaternalLeave">Paternal Leave</option> */}
           { 
             dynamicForms.map((dynamicForm, index) => (
               <option key={index} value={dynamicForm.formType}>{dynamicForm.formType}</option>

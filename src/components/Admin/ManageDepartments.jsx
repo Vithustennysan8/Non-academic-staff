@@ -1,14 +1,17 @@
 import { useContext, useEffect, useState } from "react"
 import "../../css/Admin/manageDepartments.css"
 import {LoginContext} from "../../Contexts/LoginContext.jsx"
+import { UserContext } from "../../Contexts/UserContext.jsx"
 import { useNavigate } from "react-router-dom"
 import {Axios} from "../AxiosReqestBuilder.jsx"
 import { useForm } from "react-hook-form"
+import Swal from "sweetalert2"
 
 const ManageDepartments = () => {
   const [departments, setDepartments] = useState([])
   const [editDepartment, setEditDepartment] = useState(null);
   const {isLogin} = useContext(LoginContext);  
+  const {user} = useContext(UserContext);
   const navigate = useNavigate();
   const {register, handleSubmit, formState:{errors}, reset, setValue} = useForm();
 
@@ -35,10 +38,17 @@ const ManageDepartments = () => {
       console.log(response.data);
       setDepartments(response.data);
       setEditDepartment(null);
+      Swal.fire({
+              title: editDepartment ? "Successfully updated" : "Successfully added",
+              icon: "success",
+            });
       reset();
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "error",
+      })
     }
   }
 
@@ -51,13 +61,27 @@ const ManageDepartments = () => {
   }
 
   const handleDelete = async (id) => {
-    confirm("Do yo want to delete");
+    Swal.fire({
+          title: "Do yo want to delete",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, Delete!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire("Succcess", "");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        });
     try {
       const response = await Axios.delete(`/admin/department/delete/${id}`);
       setDepartments(response.data);
       } catch (error) {
         console.log(error);
-        alert(error.response.data.message);
+        Swal.fire({
+          title: error.response.data.message,
+          icon: "error",
+        })
     }
   }
 
@@ -69,9 +93,16 @@ const ManageDepartments = () => {
           <div className="addOrEditDiv">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
-                {/* <div>
-                  <input type="text" placeholder="faculty" name="faculty" {...register("faculty")}/>
-                </div> */}
+                { user.role == "SUPER_ADMIN" && 
+                <div>
+                  <input type="text" placeholder="faculty" name="faculty" {...register("faculty", {required:{
+                    value: true,
+                    message: "Faculty is required",
+                  }})}/>
+                  {errors.faculty && <span className="error">{errors.faculty.message}</span>}
+                </div>
+                }
+
                 <div>
                   <input type="text" placeholder="department" name="name" {...register("name", {required:{
                     value: true,
@@ -79,6 +110,7 @@ const ManageDepartments = () => {
                   }})}/>
                   {errors.name && <span className="error">{errors.name.message}</span>}
                 </div>
+
                 <div>
                   <input type="text" placeholder="alias" name="alias" {...register("alias", {required: {
                     value: true,
@@ -96,7 +128,7 @@ const ManageDepartments = () => {
         <table >
           <thead>
             <tr >
-              {/* <th>Faculty</th> */}
+              <th>Faculty</th>
               <th>Department</th>
               <th>Alias</th>
               <th>Edit</th>
@@ -108,7 +140,7 @@ const ManageDepartments = () => {
               departments.map((department, index) => {
                 return (
                   <tr key={index}>
-                    {/* <td>{department.facultyId}</td> */}
+                    <td>{department.facultyId}</td>
                     <td>{department.departmentName}</td>
                     <td>{department.alias}</td>
                     <td><button className="bttn ashbtn" onClick={() => {

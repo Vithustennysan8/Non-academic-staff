@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import "../../css/Notifications/appliedDynamicForms.css"
-import { Axios } from "../AxiosReqestBuilder";
 import FormReqTap from "./FormReqTap.jsx";
+import Swal from "sweetalert2";
+import { Axios } from "../AxiosReqestBuilder.jsx";
 
 const AppliedDynamicForms = ({dynamicForms}) => {
     const [showSingleForm, setShowSingleForm] = useState(false);
@@ -31,7 +32,11 @@ const AppliedDynamicForms = ({dynamicForms}) => {
         let filteredForms = dynamicForms;
     
         if(filterYear !== '' && filterYear?.length !== 4){
-          alert("Please select a valid year");
+          Swal.fire({
+            title: "Please select a valid year",
+            icon: "error",
+            confirmButtonText: "Ok",
+          })
           return;
         }
     
@@ -46,6 +51,22 @@ const AppliedDynamicForms = ({dynamicForms}) => {
         }
         setFilterForms(filteredForms);
       };
+    
+    const handleGetPdf = async (id) => {
+      try {
+        const response = await Axios.get(`/auth/user/DynamicFormUser/getPdf/${id}`, {
+          responseType: "blob", // Important: Treat response as binary
+        });
+    
+        // Create a URL for the blob data
+        const fileURL = window.URL.createObjectURL(response.data);
+        
+        // Open in a new tab
+        window.open(fileURL);
+      } catch (error) {
+        console.error("Error downloading PDF:", error);
+      }
+    };
 
   return (
     <div className="appliedDynamicForms">
@@ -97,6 +118,13 @@ const AppliedDynamicForms = ({dynamicForms}) => {
                         )
                     })
                 }
+
+                {/* display the pdf */}
+                <div className="wrapper">
+                  <p>Document :</p>
+                  <p onClick={() => handleGetPdf(selectedForm.formId)} className="pdf">click here</p>
+                </div>
+
                 <div className="devider wrapper">
                   <p>Status :</p>
                   <p className={`${selectedForm.formStatus === "Rejected" && 'status-rejected'} ${selectedForm.formStatus === "Accepted" && 'status-approved'} ${selectedForm.formStatus === "Pending" && 'status-pending'}`}>{selectedForm.formStatus}</p>

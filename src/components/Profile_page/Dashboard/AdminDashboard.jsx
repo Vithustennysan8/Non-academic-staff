@@ -17,16 +17,9 @@ const AdminDashboard = () => {
     const [isLoading, setIsLoading] = useState(true);
     const {isLogin} = useContext(LoginContext);
     const navigate = useNavigate();
-    const [searchName, setSearchName] = useState('');
-    const [searchedEmpId, setSearchedEmpId] = useState('');
-    const [selectedFaculty, setSelectedFaculty] = useState('');
-    const [selectedDept, setSelectedDept] = useState('');
-    const [selectedFormType, setSelectedFormType] = useState('');
-    const [selectedFormStatus, setSelectedFormStatus] = useState('');
-    const [selectedDate, setSelectedDate] = useState("")
     const [forms, setForms] = useState([]);
     const [form, setForm] = useState("");
-    const [showForm, setShowForm] = useState(false);
+    // const [showForm, setShowForm] = useState(false);
     const {user} = useContext(UserContext);
     const [staffs, setStaffs] = useState([]);
     const [selectedStaff, setSelectedStaff] = useState(null);
@@ -38,22 +31,8 @@ const AdminDashboard = () => {
         month:'',
         leaveDays:''
     })
-    const monthsName = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ]
-
-      useEffect(() => {
+    
+    useEffect(() => {
         if(!isLogin){
             window.scrollTo({top:0, behavior:"smooth"})
             navigate("/Login");
@@ -61,14 +40,29 @@ const AdminDashboard = () => {
     },[navigate, isLogin])
     
     useEffect(()=>{
+        const monthsName = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        ]
+
         const handleFormDetails = () => {
             let arrayMap = new Map();
             forms.map((form)=>{
-                const userId = form.user.id;
-                const name = form.user.first_name;
-                const leaveDays = form.leaveDays;
-                const year = form.leaveAt?.substring(0,4);
-                const month = form.leaveAt?.substring(5,7); 
+                const userId = form?.user?.id || form?.formUser?.id;
+                const name = form?.user?.first_name || form?.formUser?.first_name;
+                // const leaveDays = form.leaveDays || 0;
+                const year = form.leaveAt?.substring(0,4) || form?.formCreatedAt?.substring(0,4);
+                const month = form.leaveAt?.substring(5,7) || form?.formCreatedAt?.substring(5,7); 
     
                 if(arrayMap.has(userId)){
     
@@ -76,17 +70,18 @@ const AdminDashboard = () => {
                     let flag = false;
                     userLeaveData.forEach((item)=>{
                         if(item.year === year && item.month === monthsName[month-1]){
-                            item.leaveDays += leaveDays;
-                            item.nopay = item.leaveDays>2?item.leaveDays-2:0;
+                            // item.leaveDays += leaveDays;
+                            item.leaveCount += 1;
                             flag = true;
                         }
                     })
                     if(!flag){
-                        arrayMap.get(userId).push({userId:userId, name:name, year: year, month: monthsName[month-1], leaveDays: leaveDays, nopay: leaveDays>2?leaveDays-2:0});
+                        arrayMap.get(userId).push({userId:userId, name:name, year: year, month: monthsName[month-1], leaveCount: 1});
                     }
     
                 }else{
-                    arrayMap.set(userId, [{userId:userId, name:name, year: year, month: monthsName[month-1], leaveDays: leaveDays, nopay: leaveDays>2?leaveDays-2:0}]);
+                    // arrayMap.set(userId, [{userId:userId, name:name, year: year, month: monthsName[month-1], leaveDays: leaveDays, nopay: leaveDays>2?leaveDays-2:0}]);
+                    arrayMap.set(userId, [{userId:userId, name:name, year: year, month: monthsName[month-1], leaveCount: 1}]);
                 }
             })
     
@@ -102,7 +97,6 @@ const AdminDashboard = () => {
         }
     },[forms])
 
-
     
     useEffect(() => {
         setTimeout(() => {
@@ -116,8 +110,10 @@ const AdminDashboard = () => {
             }
             const fetchFomrs = async () => {
                 try {
-                    const response = await Axios.get("/admin/leaveForms/getAllForms");
-                    setForms(response.data);
+                    const response1 = await Axios.get("/admin/leaveForms/getAllForms");
+                    const response2 = await Axios.get("admin/DynamicFormUser/getAll");
+                    console.log(response2.data);
+                    setForms([...response2.data, ...response1.data]);
                     setIsLoading(false);
                 } catch (error) {
                     console.log(error);
@@ -125,7 +121,7 @@ const AdminDashboard = () => {
             }
             fetchFomrs();
             fetchStaffs();
-        }, 600);
+        }, 0);
     },[])
 
     const filteredData = dataCollection.filter((data)=>{
@@ -137,97 +133,9 @@ const AdminDashboard = () => {
         return matchedName && matchedEmployeeId && matchedMonth && matchedYear;
     });
 
-    // const filteredForms = forms.filter(form => {
-    //     const matchesSearchName = form.user.first_name.toLowerCase().includes(searchName.toLowerCase());
-    //     const matchesSearchedEmpId = form.user.emp_id.toLowerCase().includes(searchedEmpId.toLowerCase());
-    //     const matchesFaculty = selectedFaculty ? form.user.faculty === selectedFaculty : true;
-    //     const matchesDept = selectedDept ? form.user.department === selectedDept : true;
-    //     const matchesFormType = selectedFormType ? form.formType === selectedFormType : true;
-    //     const matchesFormStatus = selectedFormStatus ? form.status === selectedFormStatus : true;
-    //     const matchesDate = selectedDate ? form.createdAt?.substring(0,10) === selectedDate : true;
-
-    //     return matchesSearchName && matchesSearchedEmpId && matchesFaculty && matchesDept && matchesFormType && matchesFormStatus && matchesDate;
-    // });
-
-
-    const faculties = [
-        {
-          faculty: "Faculty of Engineering",
-          department:
-            "Chemical and Process Engineering, Computer Engineering, Civil Engineering, Electrical and Electronic Engineering, Engineering Mathematics, Manufacturing and Industrial Engineering, Mechanical Engineering, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Science",
-          department:
-            "Botany, Chemistry, Environmental and Industrial Sciences, Geology, Statistics and Computer Science, Mathematics, Molecular Biology and Biotechnology, Physics, Zoology, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Arts",
-          department:
-            "Arabic and Islamic Civilization, Archaeology, Classical Languages, Economics and Statistics, Education, English, English Language Teaching, Fine Arts, Geography, History, Information Technology, Law, Philosophy, Psychology, Political Science, Pali and Buddhist Studies, Sinhala, Sociology, Tamil, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Medicine",
-          department:
-            "Anatomy, Anaesthesiology and Critical Care, Biochemistry, Community Medicine, Family Medicine, Forensic Medicine, Medical Education, Medicine, Microbiology, Obstetrics and Gynaecology, Paediatrics, Parasitology, Pathology, Pharmacology, Physiology, Psychiatry, Radiology, Surgery, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Veterinary Medicine and Animal Science",
-          department:
-            "Basic Veterinary Sciences, Veterinary Clinical Sciences, Farm Animal Production and Health, Veterinary Pathobiology, Veterinary Public Health and Pharmacology, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Agriculture",
-          department:
-            "Agricultural Biology, Agricultural Economics and Business Management, Agricultural Engineering, Agricultural Extension, Animal Science, Crop Science, Food Science and Technology, Soil Science, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Allied Health Sciences",
-          department:
-            "Medical Laboratory Sciences, Nursing, Pharmacy, Physiotherapy, Radiography and Radiotherapy, Basic Sciences, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Dental Sciences",
-          department:
-            "Basic Sciences, Community Dental Health, Comprehensive Oral Health Care, Oral Medicine and Periodontology, Oral Pathology, Prosthetic Dentistry, Restorative Dentistry, Oral and Maxillofacial Surgery, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Management",
-          department:
-            "Business Finance, Human Resource Management, Management Studies, Marketing Management, Operations Management",
-        },
-        { faculty: "Registrar's Office", department: "Administrative Section" },
-        { faculty: "Administration Office", department: "Administrative Section" },
-        { faculty: "IT Services", department: "Technical Section" },
-        { faculty: "Library Services", department: "Library Section" },
-        { faculty: "Facilities Management", department: "Maintenance Section" },
-        { faculty: "Security Services", department: "Security Section" },
-        { faculty: "Finance Department", department: "Finance Section" },
-        { faculty: "Human Resources Department", department: "HR Section" },
-        {
-          faculty: "Student Affairs Office",
-          department: "Student Affairs Section",
-        },
-      ];
-    
-      const departments = faculties.find((faculty) => faculty.faculty === selectedFaculty)?.department.split(", ") || [];
-
-    //   const handleForm = (index) => {
-    //     filteredForms.map((_form, _index) => {
-    //         if (index === _index) {
-    //             setForm(_form);
-    //             setShowForm(true);
-    //     }})
-    //   }
-
-
-
     const handleForm = (e) => {
         setDetails({...details, [e.target.name]:e.target.value});
     };
-
-
-
 
     return (
         <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.5}}>
@@ -241,82 +149,6 @@ const AdminDashboard = () => {
                 <CSVLink data={filteredData}>Download</CSVLink>
             </button>
             <div className="adminDashboard-table-container">
-                {/* <table>
-                    <thead>
-                        <tr>
-                            <td>
-                                <input type="text" placeholder="Search by Name..." value={searchName} onChange={(e) => setSearchName(e.target.value)}
-                                />
-                            </td>
-                            <td>
-                                <input type="text" value={searchedEmpId} onChange={(e) => setSearchedEmpId(e.target.value)} placeholder='Search by EmpId'/>
-                            </td>
-                            <td>{user.job_type !== "Head of the Department" &&
-                                <select value={selectedFaculty} onChange={(e) => setSelectedFaculty(e.target.value)} >
-                                    <option value="">Select Faculty</option>
-                                    {faculties.map(faculty => {
-                                        return <option key={faculty.faculty} value={faculty.faculty}>{faculty.faculty}</option>
-                                    })}
-                                </select>
-                                }
-                            </td>
-                            <td>{user.job_type !== "Head of the Department" &&
-                                <select value={selectedDept} onChange={(e) => setSelectedDept(e.target.value)}>
-                                    <option value="">Select Department</option>
-                                    {departments.map(department => {
-                                        return <option key={department} value={department}>{department}</option>
-                                    })}
-                                </select>
-                                }   
-                            </td>
-                            <td>
-                                <select value={selectedFormType} onChange={(e) => setSelectedFormType(e.target.value)}>
-                                    <option value="">Select Form Type</option>
-                                    <option value="Normal Leave Form">Normal Leave</option>
-                                    <option value="Accident Leave Form">Accident Leave</option>
-                                    <option value="Medical Leave Form">Medical Leave</option>
-                                    <option value="Maternity Leave Form">Maternity Leave</option>
-                                    <option value="Paternal Leave Form">Paternal Leave</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select value={selectedFormStatus} onChange={(e) => setSelectedFormStatus(e.target.value)}>
-                                <option value="">Select Form Status</option>
-                                <option value="Pending">Pending</option>
-                                <option value="Accepted">Accepted</option>
-                                <option value="Rejected">Rejected</option>
-                                </select>
-                            </td>
-                            <td></td>
-                            <td></td>
-
-                            </tr>
-                            <tr>
-                                <th>NAME</th>
-                                <th>EMP_ID</th>
-                                <th>FACULTY</th>
-                                <th>DEPARTMENT</th>
-                                <th>FORM TYPE</th>
-                                <th>FORM STATUS</th>
-                                <th>REQUEST DATE</th>
-                                <th>DAYS LEAVE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredForms.map((form, index) => (
-                            <tr key={index} onClick={()=>handleForm(index)}>
-                                <td>{form.user.first_name}</td>
-                                <td>{form.user.emp_id}</td>
-                                <td>{form.user.faculty}</td>
-                                <td>{form.user.department}</td>
-                                <td>{form.formType}</td>
-                                <td>{form.status}</td>
-                                <td>{form.leaveAt?.substring(0,10)}</td>
-                                <td>{form.leaveDays}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table> */}
                 <table>
                     <thead>
                         <tr>
@@ -324,8 +156,7 @@ const AdminDashboard = () => {
                             <th>EMP_ID</th>
                             <th>Year</th>
                             <th>Month</th>
-                            <th>Leave Days</th>
-                            <th>No Pay</th>
+                            <th>Leave Count</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -334,7 +165,6 @@ const AdminDashboard = () => {
                             <td><input type="text" name='employeeId' value={details.employeeId} onChange={e=>handleForm(e)} placeholder='search by upfNo'/></td>
                             <td><input type="text" name='year' value={details.year} onChange={e=>handleForm(e)} placeholder='search by year'/></td>
                             <td><input type="text" name='month' value={details.month} onChange={e=>handleForm(e)} placeholder='search by month'/></td>
-                            <td></td>
                             <td></td>
                         </tr>
                         {
@@ -345,8 +175,7 @@ const AdminDashboard = () => {
                                     <td>{data.userId}</td>
                                     <td>{data.year}</td>
                                     <td>{data.month}</td>
-                                    <td>{data.leaveDays}</td>
-                                    <td>{data.nopay}</td>
+                                    <td>{data.leaveCount}</td>
                                 </tr>
                                 )
                             })
@@ -354,13 +183,13 @@ const AdminDashboard = () => {
                     </tbody>
                 </table>
                 
-                {showForm && <>
-                    <div className='floatWindowForSummary'>{form.formType === "Normal Leave Form" ? <NormalLeaveFormTemplate application={form}/>:
+                {/* {showForm && <>
+                    <div className='floatWindowForSummary'>{form.DynamicForm.formType === "Normal Leave Form" ? <NormalLeaveFormTemplate application={form}/>:
                     <OtherLeaveFormsTemplate application={form}/>}</div>
                     <div className='darkScreenEffect'>
                         <button className='cancel' onClick={() => setShowForm(false)}><img src="https://cdn-icons-png.flaticon.com/128/8367/8367505.png" alt="cancel" /></button>
                     </div>
-                </> }
+                </> } */}
 
             </div>
 

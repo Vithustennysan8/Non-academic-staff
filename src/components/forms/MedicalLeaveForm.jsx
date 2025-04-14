@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Axios } from "../AxiosReqestBuilder";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../Contexts/LoginContext";
+import Swal from "sweetalert2";
 
 const MedicalLeaveForm = () => {
     const {isLogin} = useContext(LoginContext);
@@ -31,7 +32,10 @@ const MedicalLeaveForm = () => {
         try {
             const response = await Axios.post("auth/medicalLeaveForm/add", formData);
             console.log(response.data);
-            alert("Form Submitted successfuly");
+            Swal.fire({
+                title: 'Form Submitted',
+                icon: 'success',
+            })
             window.scrollTo({top:0, behavior:"smooth" });
             navigate("/forms");
         } catch (error) {

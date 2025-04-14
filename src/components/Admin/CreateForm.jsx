@@ -6,11 +6,12 @@ import InputText from "../CustomElements/InputText";
 import Radio from "../CustomElements/Radio";
 import Select from "../CustomElements/Select";
 import Button from "../CustomElements/Button";
-import Heading from "../CustomElements/Heading";
 import File from "../CustomElements/File";
 import { LoginContext } from "../../Contexts/LoginContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Axios } from "../AxiosReqestBuilder";
+import Swal from "sweetalert2";
+import PropTypes from 'prop-types';
 
 const Toolbox = ({setShowToolbox, handleAddInput}) => {
     const [option, setOption] = useState('');
@@ -96,6 +97,10 @@ const Toolbox = ({setShowToolbox, handleAddInput}) => {
     )
 }
 
+Toolbox.propTypes = {
+    setShowToolbox: PropTypes.func.isRequired,
+    handleAddInput: PropTypes.func.isRequired,
+};
 
 const CreateForm = () => {
     const {isLogin} = useContext(LoginContext);
@@ -151,14 +156,20 @@ const CreateForm = () => {
         const encoded = encodeURIComponent(FormName)
         e.preventDefault();
         if(!FormName){
-            alert("Please add a FormName first");
+            Swal.fire({
+                title: "Please add a FormName first",
+                icon: "error",
+              })
             return;
         }
 
         try {
             const response = await Axios.post(`/admin/dynamicForm/create/${encoded}`, jsonvalues)
             console.log(response.data);
-            alert("form created succesfully");
+            Swal.fire({
+                title: "Form created successfully",
+                icon: 'success',
+              })
             console.log(jsonvalues);
             setJsonValues([]);
             setElements([]);

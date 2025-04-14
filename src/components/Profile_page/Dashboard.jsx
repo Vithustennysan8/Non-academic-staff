@@ -10,6 +10,7 @@ import Notifications from "../forms/Notifications";
 import UserDashboard from "./Dashboard/UserDashboard";
 import AdminDashboard from "./Dashboard/AdminDashboard";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
 
 const Dashboard = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
@@ -74,6 +75,8 @@ const Dashboard = () => {
       try {
           const response = await Axios.get("admin/DynamicFormUser/getAll");
           setDynamicsRequests(response.data);
+          console.log(response.data);
+          
       } catch (error) {
           console.log(error);
       }
@@ -127,14 +130,15 @@ const Dashboard = () => {
         fetchRegisterRequests();
         fetchTransferRequests();
         fetchDynamicFormsRequests();
+      }else{
+        fetchLeaveFormsApplied();
+        fetchTransferFormsApplied();
+        fetchAppliedDynamicForms();
       }
-      fetchLeaveFormsApplied();
-      fetchTransferFormsApplied();
-      fetchAppliedDynamicForms();
 
       getUserDetail();
       setDashboard(user.role === "USER" ? "/userDashboard" : "/adminDashboard");
-    }, 600);
+    }, 0);
   }, [
     navigate,
     token,
@@ -148,13 +152,25 @@ const Dashboard = () => {
 
   // logout implimentation
   const handleLogout = () => {
-    if (confirm("do you want to logout!")) {
-      localStorage.removeItem("token");
-      sessionStorage.setItem("isLogin", false);
-      setIsLogin(false);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      navigate("/login");
-    }
+    const showConfirmDialog = () => {
+      Swal.fire({
+        title: "Are you sure?",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, logout!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire("Succcess", "");
+          localStorage.removeItem("token");
+          sessionStorage.setItem("isLogin", false);
+          setIsLogin(false);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          navigate("/login");
+        }
+      });
+    };
+    showConfirmDialog();
   };
 
   // updating the changes to the details
@@ -170,7 +186,10 @@ const Dashboard = () => {
     
     if (image) {
       if (image.size > 1 * 1024 * 1024) {
-        alert("Image size should be less than 1MB");
+        Swal.fire({
+          title: "Image size should be less than 1MB",
+          icon: "success",
+        })
         return;
       }
       console.log("image upload: " + image);
@@ -198,9 +217,15 @@ const Dashboard = () => {
       if (user.image_data) {
         setSrc(`data:${user.image_type};base64,${user.image_data}`);
       }
-      alert("update success");
+      Swal.fire({
+        title: "Update success",
+        icon: "success",
+      })
     } catch(error) {
-      alert(error.response.data.message);
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "success",
+      })
       console.log(error);
     }
   };
@@ -221,9 +246,10 @@ const Dashboard = () => {
                 <Link
                   onClick={() => {
                     dashboardContent === "Profile" && ( 
-                    alert(
-                      "you can modify the details by click on details shown!"
-                    ));
+                    Swal.fire({
+                      title: "you can modify the details by click on details shown!",
+                      icon: "info"
+                    }));
                     dashboardContent === "Profile" && (document.getElementById("update").style.display = "block");
                     dashboardContent === "Profile" && (document.getElementById("date_of_birth").type = "date");
                     dashboardContent === "Profile" && (setReadOnly(false));
@@ -326,7 +352,7 @@ const Dashboard = () => {
                       type="text"
                       name="first_name"
                       id="firstname"
-                      value={user.first_name}
+                      value={user.first_name || ''}
                       onChange={handleChange}
                       required
                       readOnly={readOnly}
@@ -339,7 +365,7 @@ const Dashboard = () => {
                     <input
                       type="text"
                       name="last_name"
-                      value={user.last_name}
+                      value={user.last_name || ''}
                       onChange={handleChange}
                       id="lastname"
                       required
@@ -370,7 +396,7 @@ const Dashboard = () => {
                       type="number"
                       name="phone_no"
                       id="phone_no"
-                      value={user.phone_no}
+                      value={user.phone_no || 0}
                       onChange={handleChange}
                       required
                       readOnly={readOnly}
@@ -383,7 +409,7 @@ const Dashboard = () => {
                       type="text"
                       name="address"
                       id="address"
-                      value={user.address}
+                      value={user.address || ''}
                       onChange={handleChange}
                       placeholder="streetAddress"
                       readOnly={readOnly}
@@ -400,7 +426,7 @@ const Dashboard = () => {
                       type="number"
                       name="postal_code"
                       id="postal_code"
-                      value={user.postal_code}
+                      value={user.postal_code || 0}
                       onChange={handleChange}
                       placeholder="postal_code"
                       readOnly={readOnly}
@@ -413,7 +439,7 @@ const Dashboard = () => {
                       type="text"
                       name="city"
                       id="city"
-                      value={user.city}
+                      value={user.city || ''}
                       onChange={handleChange}
                       placeholder="city"
                       readOnly={readOnly}
@@ -429,7 +455,7 @@ const Dashboard = () => {
                       type="text"
                       name="ic_no"
                       id="ic_no"
-                      value={user.ic_no}
+                      value={user.ic_no || ''}
                       onChange={handleChange}
                       placeholder="Ic_no"
                       readOnly={readOnly}
@@ -442,7 +468,7 @@ const Dashboard = () => {
                       type="text"
                       name="emp_id"
                       id="emp_id"
-                      value={user.emp_id}
+                      value={user.emp_id || ''}
                       onChange={handleChange}
                       placeholder="city"
                       readOnly={readOnly}

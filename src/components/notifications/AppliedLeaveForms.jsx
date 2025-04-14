@@ -3,6 +3,7 @@ import "../../css/Notifications/appliedLeaveForms.css";
 import FormPreview from "../forms/FormPreview";
 import { UserContext } from "../../Contexts/UserContext";
 import FormReqTap from "./FormReqTap";
+import Swal from "sweetalert2";
 
 const AppliedLeaveForms = ({ appliedLeaveForms }) => {
   const { user } = useContext(UserContext);
@@ -34,7 +35,11 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
     let filteredForms = appliedLeaveForms;
 
     if(filterYear !== '' && filterYear?.length !== 4){
-      alert("Please select a valid year");
+      Swal.fire({
+                  title: "Please select a valid year",
+                  icon: "error",
+                  confirmButtonText: "Ok",
+                })
       return;
     }
 

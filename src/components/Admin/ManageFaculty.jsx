@@ -4,6 +4,7 @@ import {LoginContext} from "../../Contexts/LoginContext.jsx"
 import { useNavigate } from "react-router-dom"
 import {Axios} from "../AxiosReqestBuilder.jsx"
 import { useForm } from "react-hook-form"
+import Swal from "sweetalert2"
 
 const ManageFaculties = () => {
   const [faculties, setFaculties] = useState([])
@@ -35,10 +36,17 @@ const ManageFaculties = () => {
       console.log(response.data);
       setFaculties(response.data);
       setEditFaculty(null);
+      Swal.fire({
+              title: editFaculty ? "Successfully updated" : "Successfully added",
+              icon: "success",
+            });
       reset();
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "error",
+      })
     }
   }
 
@@ -51,14 +59,28 @@ const ManageFaculties = () => {
   }
 
   const handleDelete = async (id) => {
-    confirm("Do yo want to delete");
+    Swal.fire({
+              title: "Do yo want to delete",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, Delete!"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                Swal.fire("Succcess", "");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            });
     try {
       const response = await Axios.delete(`/admin/faculty/delete/${id}`);
       setFaculties(response.data);
       window.scrollTo({top:0, behavior:"smooth"});
       } catch (error) {
         console.log(error);
-        alert(error.response.data.message);
+        Swal.fire({
+          title: error.response.data.message,
+          icon: "error",
+        })
     }
   }
 

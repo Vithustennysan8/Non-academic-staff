@@ -26,16 +26,33 @@ import DynamicForms from "./components/Admin/DynamicForms";
 import ManageDepartments from "./components/Admin/ManageDepartments";
 import ManageFaculties from "./components/Admin/ManageFaculty";
 import ManagePositions from "./components/Admin/ManageJobPosition";
+import { NetworkStatusContext } from "./Contexts/NetworkStatusContext";
+
 
 function App() {
   const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
   const [user, setUser] = useState({});
 
+  // check the network connectivity
+  const [isOnline, setIsOnline] = useState(navigator.onLine);  
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+  
+
   useEffect(() => {
     // document.addEventListener("contextmenu", (event)=>{event.preventDefault()})
 
     setInterval(() => {
-      // console.log("token: "+token);
       if (localStorage.getItem("token")) {
         try {
           if (typeof localStorage.getItem("token") !== "string") {
@@ -60,8 +77,6 @@ function App() {
             localStorage.removeItem("token");
             sessionStorage.setItem("isLogin", false);
             setIsLogin(false);
-          } else {
-            console.log("Token is valid");
           }
         } catch (error) {
           console.error("Failed to decode token:", error);
@@ -69,13 +84,15 @@ function App() {
         }
       } else {
         console.log("No token found");
-        // window.location.href = "/login";
       }
     }, 10000);
+
+    return () => clearInterval();
   }, [isLogin]);
 
   return (
     <>
+      <NetworkStatusContext.Provider value={{isOnline, setIsOnline}}>
       <LoginContext.Provider value={{ isLogin, setIsLogin }}>
         <UserContext.Provider value={{ user, setUser }}>
           <Router>
@@ -108,6 +125,7 @@ function App() {
           </Router>
         </UserContext.Provider>
       </LoginContext.Provider>
+      </NetworkStatusContext.Provider>
     </>
   );
 }

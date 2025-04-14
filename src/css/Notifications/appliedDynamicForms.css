@@ -63,3 +63,7 @@
     border-bottom: 2px solid rgb(197, 197, 197);
     margin-bottom: 20px;
 }
+.pdf{
+    color: rgb(39, 39, 218);
+    cursor: pointer;
+}

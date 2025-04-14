@@ -12,6 +12,8 @@ import AppliedTransferForms from "../notifications/AppliedTransferForms";
 import LoadingAnimation from "../Common/LoadingAnimation";
 import AppliedDynamicForms from "../notifications/AppliedDynamicForms";
 import DynamicFormRequests from "../notifications/DynamicFormRequests.jsx";
+import {motion} from "framer-motion";
+
 
 const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register, dynamicsForms, dynamicFormRequests, setDynamicsRequests}) => {
   const { user } = useContext(UserContext);
@@ -110,14 +112,12 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
       fetchTransferFormsApplied();
       // fetchDynamicForms();
       setIsLoading(false);
-    }, 600);
+    }, 0);
   }, [navigate, user, isLogin]);
   
   return (
-    <>
-      {isLoading ? (
-        <LoadingAnimation />
-      ) : (
+    <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.5}}>
+      {(
         <div className="notifications">
           <div className="requestsTap">
             {(user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
@@ -212,7 +212,7 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
           </div>
         </div>
       )}
-    </>
+    </motion.div>
   );
 };
 

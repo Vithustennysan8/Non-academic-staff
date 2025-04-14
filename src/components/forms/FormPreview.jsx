@@ -5,6 +5,7 @@ import { Axios } from "../AxiosReqestBuilder";
 import { useEffect, useState } from "react";
 import NormalLeaveFormTemplate from "../notifications/NormalLeaveFormTemplate";
 import OtherLeaveFormsTemplate from "../notifications/OtherLeaveFormsTemplate";
+import Swal from "sweetalert2";
 
 const FormPreview = ({ application, approver, setForm }) => {
     const [formStatus, setFormStatus] = useState('');
@@ -65,7 +66,10 @@ const FormPreview = ({ application, approver, setForm }) => {
 
     const handleAccept = async (id) => {
         if(description === ''){
-            alert("Add description");
+            Swal.fire({
+                title: "Add descriptio",
+                icon: "warning",
+            })
             return;
         }
 
@@ -75,13 +79,19 @@ const FormPreview = ({ application, approver, setForm }) => {
             console.log("csdvsfvsfbsf")
         }catch(error){
             console.error("Error accepting application:", error);
-            alert("Failed to accept the application. Please try again.");
+            Swal.fire({
+                title: "Error accepting application",
+                icon: "error",
+            })
         }
     }
 
     const handleReject = async (id) => {
         if(description === ''){
-            alert("Add description");
+            Swal.fire({
+                title: "Add descriptio",
+                icon: "warning",
+            })
             return;
         }
 
@@ -90,7 +100,10 @@ const FormPreview = ({ application, approver, setForm }) => {
             setForm({...response.data});
         }catch(error){
             console.error("Error rejecting application:", error);
-            alert("Failed to reject the application. Please try again.");
+            Swal.fire({
+                title: "Error accepting application",
+                icon: "error",
+            })
         }
     }
 

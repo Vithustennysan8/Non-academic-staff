@@ -3,6 +3,7 @@ import "../../css/Notifications/appliedTransferForms.css"
 import { UserContext } from "../../Contexts/UserContext";
 import FormPreview from "../forms/FormPreview";
 import FormReqTap from "./FormReqTap";
+import Swal from "sweetalert2";
 
 const AppliedTransferForms = ({appliedTransferForms}) => {
   const { user } = useContext(UserContext);
@@ -37,7 +38,11 @@ const AppliedTransferForms = ({appliedTransferForms}) => {
     let filteredForms = appliedTransferForms;
 
     if(filterYear !== '' && filterYear?.length !== 4){
-      alert("Please select a valid year");
+      Swal.fire({
+        title: "Please select a valid year",
+        icon: "error",
+        confirmButtonText: "Ok",
+      })
       return;
     }
 

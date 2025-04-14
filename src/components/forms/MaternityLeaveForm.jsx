@@ -5,6 +5,7 @@ import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../Contexts/LoginContext";
+import Swal from "sweetalert2";
 
 const MaternityLeaveForm = () => {
     const {isLogin} = useContext(LoginContext);
@@ -32,7 +33,10 @@ const MaternityLeaveForm = () => {
         try {
             const response = await Axios.post("auth/maternityLeaveForm/add", formData);
             console.log(response.data);
-            alert("Form Submitted successfuly");
+            Swal.fire({
+                title: 'Form Submitted',
+                icon: 'success',
+            })
             navigate("/forms");
         } catch (error) {
             console.log(error);

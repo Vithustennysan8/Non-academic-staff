@@ -3,6 +3,7 @@ import { Axios } from "../AxiosReqestBuilder";
 import "../../css/Admin/approvalFlowManager.css";
 import Popup from "../Common/Popup";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
+import Swal from "sweetalert2";
 
 const ApprovalFlowManager = () => {
   const [flows, setFlows] = useState([]); // List of all flows
@@ -13,6 +14,8 @@ const ApprovalFlowManager = () => {
   const [faculty, setFaculty] = useState("");
   const [department, setDepartment] = useState("");
   const [update, setUpdate] = useState(true);
+  const [positions, setPositions] = useState([]); 
+  const [dynamicForms, setDynamicForms] = useState([]);
 
   // Fetch approval flows from the backend
   useEffect(() => {
@@ -26,12 +29,57 @@ const ApprovalFlowManager = () => {
             console.log(error);
         }
     }
+    const fetchPositions = async () => {
+      try {
+        const response = await Axios.get("/auth/user/jobPosition/get");
+        setPositions(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const fetchDynamicFormList = async () => {
+      try {
+        const response = await Axios.get("/auth/user/dynamicForm/getAll");
+        setDynamicForms(response.data);
+      } catch (error) {
+        console.log(error);          
+      }
+    }
+    fetchDynamicFormList();
+    fetchPositions();
     fetchFlows();
   }, []);
 
   // Handle adding a new role to the selected flow
   const handleAddRole = () => {
-    if (!newRole) return;
+    // Check if a flow is selected
+    if (!newRole){
+      Swal.fire({
+        title: "Please select a role!",
+        icon: "warning",
+      });
+      return;
+    } 
+    
+    // Check if the role already exists in the flow
+    const roleExists = selectedFlow.flow.some((item) => item.roleName === newRole);
+    if (roleExists) {
+      Swal.fire({
+        title: "Role already exists in the flow!",
+        icon: "warning",
+      });
+      return;
+    }
+    // Check if the newRole is already selected
+    const roleAlreadySelected = selectedFlow.flow.some((item) => item.roleName === newRole);
+    if (roleAlreadySelected) {
+      Swal.fire({
+        title: "Role already selected!",
+        icon: "warning",
+      });
+      return;
+    }
 
     const newSequence = selectedFlow.flow.length + 1;
     const updatedFlow = [
@@ -51,7 +99,10 @@ const ApprovalFlowManager = () => {
         uniqueName,
         approvalStage: selectedFlow.flow,
       })
-        alert("Approval flow saved successfully!");
+        Swal.fire({
+          title: "Approval flow saved successfully!",
+          icon: "success",
+        })
         console.log(response.data);
         setFlows(response.data);
         setUpdate(true);
@@ -60,7 +111,10 @@ const ApprovalFlowManager = () => {
         setDepartment('');
         setFormType('');  
     }catch(error){
-        alert(error.response.data.message);
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "error",
+      })
     }
   };
 
@@ -73,7 +127,10 @@ const ApprovalFlowManager = () => {
              },
         })
         console.log(response.data);
-        alert("Approval flow deleted successfully!");
+        Swal.fire({
+          title: "Approval flow saved successfully!",
+          icon: "success",
+        })
         setFlows((prevFlows) =>
           prevFlows.filter((flow) =>
               flow.formType !== formType ||
@@ -88,7 +145,10 @@ const ApprovalFlowManager = () => {
         setUniqueName('');
         setDepartment('');
     } catch (error) {
-      alert(error.response.data.message);
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "error",
+      })
         console.log(error);
     }
   };
@@ -103,7 +163,10 @@ const ApprovalFlowManager = () => {
         console.log(selectedFlow.flow);
         setFlows(response.data);
         console.log(response.data);
-        alert("Update successfully");
+        Swal.fire({
+          title: "Approval flow updated successfully!",
+          icon: "success",
+        })
     } catch (error) {
         console.log(error);
     }
@@ -146,12 +209,23 @@ const ApprovalFlowManager = () => {
       {/* Form for selecting or creating a flow */}
       <div className="inputDiv">
         <div className="inputs">
-          <input
+          {/* <input
             type="text"
             placeholder="Form Type"
             value={formType}
             onChange={(e) => setFormType(e.target.value)}
-            />
+            /> */}
+          <select
+            value={formType}
+            onChange={(e) => setFormType(e.target.value)}
+            >
+            <option value="">Select Form Type</option>
+            {dynamicForms.map((form, index) => (
+              <option key={index} value={form.formType}>
+                {form.formType}
+              </option>
+            ))}
+          </select>
           <input
             type="text"
             placeholder="uniqueName"
@@ -279,12 +353,23 @@ const ApprovalFlowManager = () => {
 
           {/* Add new role */}
           <div className="addNewRole">
-            <input
+            {/* <input
               type="text"
               placeholder="New Role"
               value={newRole}
               onChange={(e) => setNewRole(e.target.value)}
-              />
+              /> */}
+            <select
+              value={newRole}
+              onChange={(e) => setNewRole(e.target.value)}
+              >
+              <option value="">Select Role</option>
+              {positions.map((position, index) => (
+                <option key={index} value={position.jobPositionName}>
+                  {position.jobPositionName}
+                </option>
+              ))}
+            </select>
             <button onClick={handleAddRole}>Add Role</button>
           </div>
 

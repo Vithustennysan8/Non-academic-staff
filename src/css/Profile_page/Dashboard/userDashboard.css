@@ -1,6 +1,6 @@
 .userDashboardContainer{
-    padding: 30px 0 40px;
-    width: 83%;
+    padding: 0px 0 40px;
+    width: 85%;
     margin: auto;
 }
 .userDashboardContainer h2{
@@ -152,43 +152,10 @@
             margin-bottom: 20px;
             min-width: 49%;
 
-            p::before{
-                content: '';
-                display: inline-block;
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                margin-right: 8px;
-            }
-        }
-        div:nth-child(1){
-            p::before{
-                background-color: #800080;
-            }
-        }
-        div:nth-child(2){
-            p::before{
-                background-color: #a52a2a;
-            }
-        }
-        div:nth-child(3){
-            p::before{
-                background-color: #ffff00;
-            }
-        }
-        div:nth-child(4){
-            p::before{
-                background-color: #008000;
-            }
-        }
-        div:nth-child(5){
-            p::before{
-                background-color: #0000ff;
-            }
-        }
-        div:nth-child(6){
-            p::before{
-                background-color: #e90000;
+            p{
+                padding: 1px 4px;
+                margin: 0 5px;
+                font-size: 0.85rem;
             }
         }
     }

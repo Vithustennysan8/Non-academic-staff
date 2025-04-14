@@ -5,16 +5,35 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
+import { NetworkStatusContext } from "../../Contexts/NetworkStatusContext";
+import Swal from "sweetalert2";
+import userIcon from "../../assets/images/header/default-avatar-profile-icon-social-600nw-1677509740.webp"
+import logo from "../../assets/University_of_Peradeniya_crest-150x150.png"
+import sideNav from "../../assets/images/header/sideNav.png";
 
 const Header = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
-
+  const {isOnline} = useContext(NetworkStatusContext);
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const [src, setSrc] = useState("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg");
+  const [src, setSrc] = useState(userIcon);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const sideNavRef = useRef(null);
   const sideNavImg = useRef(null);
+
+  useEffect(() => {
+    if (isOnline) {
+      Swal.fire({
+        title: "Connected to network",
+        icon: "success",
+      })
+    }else{
+      Swal.fire({
+        title: "Disconnected from network",
+        icon: "error",
+      })
+    }
+  }, [isOnline])
 
   useEffect(() => {
     const handleClick = (event) => {
@@ -52,9 +71,7 @@ const Header = () => {
         if (user.image_data) {
           setSrc(`data:${user.image_type};base64,${user.image_data}`);
         } else {
-          setSrc(
-            "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
-          );
+          setSrc(userIcon);
         }
       } else {
         setUser({});
@@ -80,7 +97,7 @@ const Header = () => {
           <div className="nav-logo">
             <Link to={"/"}>
               <img
-                src="https://w1.pngwing.com/pngs/659/960/png-transparent-gold-badge-university-of-ceylon-university-of-sri-lanka-higher-education-college-faculty-university-of-peradeniya-logo-thumbnail.png"
+                src={logo}
                 alt="Uni-logo"
               />
             </Link>
@@ -107,7 +124,7 @@ const Header = () => {
               <p className="username">{user.first_name}</p>
               <div>
                 <Link to="/Dashboard">
-                  <img src={src} alt="Profile-image" />
+                  <img className={isOnline? "online":"offline"} src={src} alt="Profile-image" />
                 </Link>
               </div>
             </div>
@@ -127,7 +144,7 @@ const Header = () => {
       <button ref={sideNavImg} id="side-nav-btn" onClick={toggleSideNav}>
         <img
           id="side-nav-img"
-          src="https://uxwing.com/wp-content/themes/uxwing/download/arrow-direction/chevron-direction-left-round-outline-icon.png"
+          src={sideNav}
           alt=""
         />
       </button>

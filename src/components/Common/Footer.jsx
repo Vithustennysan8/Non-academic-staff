@@ -1,4 +1,8 @@
 import "../../css/Common/footer.css";
+import twitter from "../../assets/images/home/twitter.png";
+import github from "../../assets/images/footer/github-icon.png";
+import linkedin from "../../assets/images/footer/linkedin-square-icon.svg";
+import youtube from "../../assets/images/footer/youtube-icon.svg";
 
 const Footer = () => {
   return (
@@ -11,10 +15,10 @@ const Footer = () => {
             </div>
 
             <div className="socials">
-                <a href="https://twitter.com/uperadeniya?lang=en" target="_blank"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/x-social-media-logo-icon.png" alt="Twitter_link"/></a>
-                <a href="https://github.com/UniversityOfPeradeniya" target="_blank"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-icon.svg" alt="Github_link" /></a>
-                <a href="https://www.facebook.com/UniversityOfPeradeniya/" target="_blank"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/linkedin-square-icon.svg" alt="Linkedin_link" /></a>
-                <a href="https://www.youtube.com/channel/UCxN_hZh8t5uFGW7kwahQwqQ" target="_blank"><img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/youtube-icon.svg" alt="Youtube_link" /></a>
+                <a href="https://twitter.com/uperadeniya?lang=en" target="_blank"><img src={twitter} alt="Twitter_link"/></a>
+                <a href="https://github.com/UniversityOfPeradeniya" target="_blank"><img src={github} alt="Github_link" /></a>
+                <a href="https://www.facebook.com/UniversityOfPeradeniya/" target="_blank"><img src={linkedin} alt="Linkedin_link" /></a>
+                <a href="https://www.youtube.com/channel/UCxN_hZh8t5uFGW7kwahQwqQ" target="_blank"><img src={youtube} alt="Youtube_link" /></a>
             </div>
 
             <div className="contact">

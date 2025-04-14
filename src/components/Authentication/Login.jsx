@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const Navigate = useNavigate();
@@ -29,13 +30,19 @@ const Login = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
         Navigate("/");
       } else {
-        alert("User not verified :(");
+        Swal.fire({
+          title: "User not verified",
+          icon: "error",
+        })
         throw new Error("Token not received");
       }
     } catch (error) {
       if(error.response.data.message){
         console.log(error.response.data.message);
-        alert(error.response.data.message);
+        Swal.fire({
+          title: error.response.data.message,
+          icon: "error",
+        })
       }
       console.log(error)
     }

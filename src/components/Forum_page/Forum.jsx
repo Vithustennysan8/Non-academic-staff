@@ -8,6 +8,7 @@ import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { UserContext } from "../../Contexts/UserContext";
 import {motion} from "framer-motion";
+import Swal from "sweetalert2";
 
 const Forum = () => {
   const { isLogin } = useContext(LoginContext);
@@ -45,7 +46,7 @@ const Forum = () => {
       } catch (error) {
         console.log("fetchError " + error);
       }
-    }, 600);
+    }, 0);
   }, [naviagte, token, isLogin]);
 
   const handleChange = (e) => {
@@ -102,7 +103,10 @@ const Forum = () => {
     } catch (error) {
       if(error.response.data.message){
         console.log(error.response.data.message);
-        alert(error.response.data.error);
+        Swal.fire({
+          title: error.response.data.error,
+          icon: 'error',
+        })
       }
       console.log(error);
     }

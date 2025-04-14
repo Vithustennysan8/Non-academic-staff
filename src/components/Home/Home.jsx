@@ -8,10 +8,17 @@ import { Axios } from "../AxiosReqestBuilder";
 import { Link } from "react-router-dom";
 import News from "../Home/News";
 import { motion } from "framer-motion";
+import google from "../../assets/images/home/google.png"
+import twitter from "../../assets/images/home/twitter.png"
+import linkedin from "../../assets/images/home/linkedin.png"
+import github from "../../assets/images/home/github-icon.svg"
+import youtube from "../../assets/images/home/youtube.png"
+import pdfDownload from "../../assets/images/home/download-pdf-icon.png";
+
 
 const Home = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
-  const [isloading, setIsLoading] = useState(true);
+  const [isloading, setIsLoading] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const [src, setSrc] = useState(
     "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
@@ -39,8 +46,8 @@ const Home = () => {
 
     const getLeaveFormsNotification = async () => {
       try {
-        const response = await Axios.get("admin/leaveForms/notification");
-        setAllLeaveFormRequests(response.data);
+        // const response = await Axios.get("admin/leaveForms/notification");
+        // setAllLeaveFormRequests(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -48,8 +55,8 @@ const Home = () => {
 
     const getTransferFromsNotification = async () => {
       try {
-        const response = await Axios.get("admin/transferForms/notification");
-        setAllTransferFormRequests(response.data);
+        // const response = await Axios.get("admin/transferForms/notification");
+        // setAllTransferFormRequests(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -58,7 +65,7 @@ const Home = () => {
     if(!isLogin){
       setTimeout(() => {
         setIsLoading(false);
-      }, 600);
+      }, 0);
       return;
     }
     getLeaveFormsNotification();
@@ -222,7 +229,7 @@ const Home = () => {
                 <a href={lab8} download="Leave_form" target="_blank">
                   <p className="Link">
                     <img
-                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                      src={pdfDownload}
                       alt=""
                     />
                     Application for Normal Leave
@@ -232,7 +239,7 @@ const Home = () => {
                 <a href={lab8} download="Subtitue_form" target="_blank">
                   <p className="Link">
                     <img
-                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                      src={pdfDownload}
                       alt=""
                     />
                     Application for Accident Leave
@@ -242,7 +249,7 @@ const Home = () => {
                 <a href={lab8} download="Transfer_form" target="_blank">
                   <p className="Link">
                     <img
-                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                      src={pdfDownload}
                       alt=""
                     />
                     Application for Maternity Leave
@@ -252,7 +259,7 @@ const Home = () => {
                 <a href={lab8} download="Leave_form" target="_blank">
                   <p className="Link">
                     <img
-                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                      src={pdfDownload}
                       alt=""
                     />
                     Application for Paternal Leave
@@ -262,7 +269,7 @@ const Home = () => {
                 <a href={lab8} download="Leave_form" target="_blank">
                   <p className="Link">
                     <img
-                      src="https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/download-pdf-icon.png"
+                      src={pdfDownload}
                       alt=""
                     />
                     Application for Medical Leave
@@ -280,8 +287,8 @@ const Home = () => {
               <div>
                 <a href="https://www.pdn.ac.lk/" target="_blank">
                   <img
-                    src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-color-icon.png"
-                    alt="Twitter_link"
+                    src={google}
+                    alt="Google_link"
                   />
                 </a>
                 <a
@@ -289,7 +296,7 @@ const Home = () => {
                   target="_blank"
                 >
                   <img
-                    src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/x-social-media-black-icon.png"
+                    src={twitter}
                     alt="Twitter_link"
                   />
                 </a>
@@ -298,7 +305,7 @@ const Home = () => {
                   target="_blank"
                 >
                   <img
-                    src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/linkedin-app-icon.png"
+                    src={linkedin}
                     alt="Linkedin_link"
                   />
                 </a>
@@ -307,7 +314,7 @@ const Home = () => {
                   target="_blank"
                 >
                   <img
-                    src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-icon.svg"
+                    src={github}
                     alt="Github_link"
                   />
                 </a>
@@ -316,7 +323,7 @@ const Home = () => {
                   target="_blank"
                 >
                   <img
-                    src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/youtube-color-icon.png"
+                    src={youtube}
                     alt="Youtube_link"
                   />
                 </a>

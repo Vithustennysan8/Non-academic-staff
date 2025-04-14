@@ -3,6 +3,7 @@ import "../../css/Notifications/dynamicFormRequests.css"
 import FormReqTap from "./FormReqTap";
 import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
+import Swal from "sweetalert2";
 
 const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
   const {user} = useContext(UserContext);
@@ -59,18 +60,30 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
 
   const handleFormType = async () => {
     if(filters.faculty == ''){
-      alert("Select the faculty");
+      Swal.fire({
+              title: "Select the faculty",
+              icon: "error",
+              confirmButtonText: "Ok",
+            })
       return;
     }
     if(filters.department == ''){
-      alert("Select the department");
+      Swal.fire({
+              title: "Select the department",
+              icon: "error",
+              confirmButtonText: "Ok",
+            })
       return;
     }
 
     try {
       const response = await Axios.get(`/admin/dynamicForm/getAll/${filters.department}/${filters.faculty}`);
       if(response.data == 0){
-        alert("there is no forms!!!");
+        Swal.fire({
+          title: "There is no forms!!!",
+          icon: "error",
+          confirmButtonText: "Ok",
+        })
       }
       setDynamicForms(response.data);
     } catch (error) {
@@ -97,7 +110,11 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
       let filteredForms = dynamicFormRequests;
   
       if(filterYear !== '' && filterYear?.length !== 4){
-        alert("Please select a valid year");
+        Swal.fire({
+          title: "Please select a valid year",
+          icon: "warning",
+          confirmButtonText: "Ok",
+        })
         return;
       }
 
@@ -128,7 +145,11 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
     const handleAccept = async (formId) => {
       const id = selectedForm.approverDetails.filter((approver) => approver.approver === user.job_type)[0].id;
       if(description==''){
-        alert('Please enter a description for the form.');
+        Swal.fire({
+          title: "Please enter a description for the form",
+          icon: "warning",
+          confirmButtonText: "Ok",
+        })
         return;
       }
 
@@ -137,7 +158,11 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         setSelectedForm(response.data[0]);
         console.log(formId);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
-        alert("accepted");
+        Swal.fire({
+          title: "Accepted",
+          icon: "success",
+          confirmButtonText: "Ok",
+        })
         setDescription('');
       } catch (error) {
         console.log(error);
@@ -147,7 +172,11 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
     const handleReject = async (formId) => {
       const id = selectedForm.approverDetails.filter((approver) => approver.approver === user.job_type)[0].id;
       if(description==''){
-        alert('Please enter a description for the form.');
+        Swal.fire({
+          title: "Please enter a description for the form",
+          icon: "warning",
+          confirmButtonText: "Ok",
+        })
         return;
       }
       
@@ -155,7 +184,11 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         const response = await Axios.post(`admin/formApprover/reject/${id}`, {"formId":formId, "description":description, "userId":user.id});
         setSelectedForm(response.data[0]);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
-        alert("rejected");
+        Swal.fire({
+          title: "Rejected",
+          icon: "error",
+          confirmButtonText: "Ok",
+        })
         setDescription('');
       } catch (error) {
         console.log(error);

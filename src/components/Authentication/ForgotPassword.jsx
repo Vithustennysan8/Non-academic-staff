@@ -3,6 +3,7 @@ import "../../css/Authentication/forgotPassword.css"
 import { useState } from "react";
 import { Axios } from "../AxiosReqestBuilder";
 import {  useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const EmailDiv = ({setPage, setUserMail}) => {
   const {handleSubmit, register, formState: {errors}} = useForm();
@@ -22,7 +23,10 @@ const EmailDiv = ({setPage, setUserMail}) => {
       }
     } catch (error) {
       if(error.response.data.message){
-        alert(error.response.data.message);
+        Swal.fire({
+          title: error.response.data.message,
+          icon: "error",
+        })
       }
       console.log(error);
     }
@@ -59,7 +63,10 @@ const OTPDiv = ({setPage}) => {
       setPage("newPasswordPage");
     } catch (error) {
       if(error.response.data.message){
-        alert(error.response.data.message);
+        Swal.fire({
+          title: error.response.data.message,
+          icon: "error",
+        })
       }
       console.log(error);
     }
@@ -92,7 +99,10 @@ const NewPasswordDiv = ({userMail}) => {
       const response = await Axios.post("auth/user/forgotPassword/reset", {"newPassword":data.newPassword, "email":userMail});
       console.log(response.data);
       if(response.data === "Reset success"){
-        alert("Reset Success");
+        Swal.fire({
+          title: "Reset Success",
+          icon: "success",
+        })
         navigate("/login");
       }
     } catch (error) {

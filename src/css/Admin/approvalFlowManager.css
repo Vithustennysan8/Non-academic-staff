@@ -1,5 +1,5 @@
 .approval-flow-manager{
-    width: 80%;
+    width: 90%;
     margin: 40px auto;
 }
 .approval-flow-manager h1{
@@ -24,7 +24,7 @@
     display: flex;
     gap: 10px;
 }
-.inputDiv .inputs input{   
+.inputDiv .inputs input, .inputDiv .inputs select{   
     width: 100%;
     padding: 6px 12px;
     border: 1px solid #ccc;
@@ -75,7 +75,7 @@
     display: flex;
     gap: 6px;
 }
-.addNewRole input, .addNewRole button{
+.addNewRole input, .addNewRole button, .addNewRole select{
     padding: 6px 8px;
     border: 1px solid #ccc;
     border-radius: 8px;
