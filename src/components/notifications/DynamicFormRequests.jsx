@@ -4,6 +4,7 @@ import FormReqTap from "./FormReqTap";
 import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
 import Swal from "sweetalert2";
+import LoadingAnimation from "../Common/LoadingAnimation";
 
 const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
   const {user} = useContext(UserContext);
@@ -26,6 +27,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
   });
   const [description, setDescription] = useState('');
   const [dynamicForms, setDynamicForms] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(()=>{
     const fetchFaculty = async () => {
@@ -143,6 +145,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
     };
 
     const handleAccept = async (formId) => {
+      setIsLoading(true);
       const id = selectedForm.approverDetails.filter((approver) => approver.approver === user.job_type)[0].id;
       if(description==''){
         Swal.fire({
@@ -158,6 +161,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         setSelectedForm(response.data[0]);
         console.log(formId);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
+        setIsLoading(false);
         Swal.fire({
           title: "Accepted",
           icon: "success",
@@ -166,10 +170,17 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         setDescription('');
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
+        Swal.fire({
+          title: error.response.data.message || "Error occurred",
+          icon: "error",
+          confirmButtonText: "Ok",
+        })
       }
     }
     
     const handleReject = async (formId) => {
+      setIsLoading(true);
       const id = selectedForm.approverDetails.filter((approver) => approver.approver === user.job_type)[0].id;
       if(description==''){
         Swal.fire({
@@ -184,6 +195,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         const response = await Axios.post(`admin/formApprover/reject/${id}`, {"formId":formId, "description":description, "userId":user.id});
         setSelectedForm(response.data[0]);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
+        setIsLoading(false);
         Swal.fire({
           title: "Rejected",
           icon: "error",
@@ -192,11 +204,18 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         setDescription('');
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
+        Swal.fire({
+          title: error.response.data.message || "Error occurred",
+          icon: "error",
+          confirmButtonText: "Ok",
+        })
       }
     }
 
 return (
   <div className="dynamicFormRequests">
+      {isLoading && <LoadingAnimation/>}
       <h2>Requested Dynamic Forms</h2>
 
       <div className="leaveFilterTaps">

@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../css/Authentication/signup.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Axios } from "../AxiosReqestBuilder";
 import Swal from "sweetalert2";
 import image from "../../assets/images/signup/image.png";
+import { LoginContext } from "../../Contexts/LoginContext";
+import closedEye from "../../assets/images/login/closed-eye-icon.png";
+import openEye from "../../assets/images/login/see-icon.png";
 
 const Signup = () => {
   const Navigate = useNavigate();
@@ -15,6 +18,14 @@ const Signup = () => {
   const [faculties, setFaculties] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [positions, setPositions] = useState([]); 
+  const {isLogin, setIsLogin} = useContext(LoginContext);
+
+  useEffect(()=>{
+    if(isLogin){
+      Navigate("/")
+    }
+  }
+  ,[]);
 
   useEffect(()=>{
     const fetchFaculty = async () => {
@@ -120,13 +131,11 @@ const Signup = () => {
     const images = document.getElementById(img);
     if (element.type === "password") {
       element.type = "text";
-      images.src =
-        "https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/see-icon.png";
+      images.src = openEye;
     } else {
       element.type = "password";
-      images.src =
-        "https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png";
-    }
+      images.src = closedEye;
+   }
   };
 
 
@@ -266,7 +275,7 @@ const Signup = () => {
                 <div className="show">
                   <img
                     id="passimg"
-                    src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png"
+                    src= {closedEye}
                     alt=""
                     title="show password"
                     onClick={() =>
@@ -303,7 +312,7 @@ const Signup = () => {
                 <div className="show">
                   <img
                     id="confirmPassImg"
-                    src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png"
+                    src= {closedEye}
                     alt=""
                     title="show password"
                     onClick={() =>
@@ -516,6 +525,7 @@ const Signup = () => {
                 >
                   <option value="">select one....</option>
                   <option value="USER">User</option>
+                  <option value="MANAGER">Manager</option>
                   <option value="ADMIN">Admin</option>
                   <option value="SUPER_ADMIN">super_admin</option>
                 </select>

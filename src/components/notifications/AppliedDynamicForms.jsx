@@ -132,10 +132,18 @@ const AppliedDynamicForms = ({dynamicForms}) => {
                 {
                 selectedForm.approverDetails.map((approver)=>{
                   return(
-                    <div key={approver.approverOrder} className="wrapper">
-                      <p>{approver.approver} :</p>
-                      <p>{approver.approverStatus}</p>
-                    </div>
+                    <>
+                      <div key={approver.approverOrder} className="wrapper">
+                        <p>{approver.approver} :</p>
+                        <p>{approver.approverStatus}</p>
+                      </div>
+                      { approver.approvalDescription &&
+                        <div key={approver.approverOrder} className="wrapper">
+                          <p>description</p>
+                          <p>: {approver.approvalDescription}</p>
+                        </div>
+                      }
+                    </>
                   )
                 })
               }

@@ -1,0 +1,5 @@
+TODO
+    - staff page management to show the users according to the correct tap ✅
+    - register requests handle for instead of local users  ✅
+    - dashboard for cmo, nae,  registrar
+    - profile page update issue, when the update clicked and if it ignored. still the border appears ✅

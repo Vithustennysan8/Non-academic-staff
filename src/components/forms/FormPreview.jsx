@@ -89,7 +89,7 @@ const FormPreview = ({ application, approver, setForm }) => {
     const handleReject = async (id) => {
         if(description === ''){
             Swal.fire({
-                title: "Add descriptio",
+                title: "Add description",
                 icon: "warning",
             })
             return;

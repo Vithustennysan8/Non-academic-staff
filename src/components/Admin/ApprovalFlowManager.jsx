@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Axios } from "../AxiosReqestBuilder";
 import "../../css/Admin/approvalFlowManager.css";
-import Popup from "../Common/Popup";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import Swal from "sweetalert2";
 
@@ -172,15 +171,23 @@ const ApprovalFlowManager = () => {
     }
   };
 
-  const [popup, setPopup] = useState(false);
+
   const handlePopup = () => {
-    if(popup){
-      setPopup(false);
-      document.getElementById("popup-container").style.display = "none";
-    }else{
-      setPopup(true);
-      document.getElementById("popup-container").style.display = "block";
-    }
+    const showConfirmDialog = () => {
+      Swal.fire({
+        title: "Are you sure?",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire("Succcess", "");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      });
+    };
+    showConfirmDialog();
 }
 
 // const handleDragEnd = (result) => {
@@ -205,16 +212,9 @@ const ApprovalFlowManager = () => {
 
     <div className="approval-flow-manager-div">
 
-      <Popup handlePopup={handlePopup} operation={handleDeleteFlow} content={"Do you want to delete???"}/>
       {/* Form for selecting or creating a flow */}
       <div className="inputDiv">
         <div className="inputs">
-          {/* <input
-            type="text"
-            placeholder="Form Type"
-            value={formType}
-            onChange={(e) => setFormType(e.target.value)}
-            /> */}
           <select
             value={formType}
             onChange={(e) => setFormType(e.target.value)}
@@ -232,18 +232,6 @@ const ApprovalFlowManager = () => {
             value={uniqueName}
             onChange={(e) => setUniqueName(e.target.value)}
             />
-          {/* <input
-            type="text"
-            placeholder="Faculty"
-            value={faculty}
-            onChange={(e) => setFaculty(e.target.value)}
-            />
-            <input
-            type="text"
-            placeholder="Department"
-            value={department}
-            onChange={(e) => setDepartment(e.target.value)}
-            /> */}
         </div>
         <button
         className="bttn ashbtn"
@@ -353,12 +341,6 @@ const ApprovalFlowManager = () => {
 
           {/* Add new role */}
           <div className="addNewRole">
-            {/* <input
-              type="text"
-              placeholder="New Role"
-              value={newRole}
-              onChange={(e) => setNewRole(e.target.value)}
-              /> */}
             <select
               value={newRole}
               onChange={(e) => setNewRole(e.target.value)}

@@ -3,14 +3,23 @@ const LoadingAnimation = () => (
       <div className="spinner"></div>
       <style>{`
         .loading-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
           display: flex;
+          z-index: 20;
           justify-content: center;
           align-items: center;
           height: 100vh;
+          width: 100vw;
+          opacity: 0.8;
+          background-color: #000;
         }
         .spinner {
           border: 8px solid #fff;
-          border-top: 8px solid #aaa;
+          border-top: 8px solid rgb(39, 39, 39);
           border-radius: 50%;
           width: 80px;
           height: 80px;

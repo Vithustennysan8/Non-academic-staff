@@ -148,7 +148,7 @@ const Home = () => {
                     </div>
                   </div>
                 )}
-
+{/* 
                 {role === "ADMIN" && (
                   <div className="form-shortcut-container">
                     <div className="form-shortcuts">
@@ -178,7 +178,7 @@ const Home = () => {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
 
                 {/* ----- image slider ---------- */}
                 <div className="home-image-slide">

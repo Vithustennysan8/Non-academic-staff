@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Axios } from "../AxiosReqestBuilder";
 import {  useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import LoadingAnimation from "../Common/LoadingAnimation";
 
 const EmailDiv = ({setPage, setUserMail}) => {
   const {handleSubmit, register, formState: {errors}} = useForm();
@@ -32,12 +33,10 @@ const EmailDiv = ({setPage, setUserMail}) => {
     }
   }
 
-  if(isLoading){
-    return (<p style={{textAlign:"center"}}>Loading..................</p>)
-  }
   return(
     <>
       <div className="content">
+        {isLoading && <LoadingAnimation/>}
         <form onSubmit={handleSubmit(onSubmit)}>
           <p>Forgot your password? Don't worry we are just here to sove your problem! Just enter your e-mail address to proceed.</p>
           <input type="email" name="email" placeholder="Your e-mail address" {...register("email", {required:{
@@ -107,8 +106,15 @@ const NewPasswordDiv = ({userMail}) => {
       }
     } catch (error) {
       if(error.response.data.message){
-        alert(error.response.data.message);
+        Swal.fire({
+          title: error.response.data.message,
+          icon: "error",
+        })
       }
+      Swal.fire({
+        title: error.response.data.message || "Error",
+        icon: "error",
+      })
       console.log(error);
     }
   }

@@ -4,7 +4,6 @@ import NewsCards from "./NewsCards";
 import { useForm } from "react-hook-form";
 import { Axios } from ".././AxiosReqestBuilder";
 import { LoginContext } from "../../Contexts/LoginContext";
-import { useNavigate } from "react-router-dom";
 
 const News = ({role}) => {
     const {isLogin} = useContext(LoginContext);
@@ -72,15 +71,12 @@ const News = ({role}) => {
         setUpdateNews(news);
     }
 
-    const handleImages = () => {
-
-    }   
 
   return (
 
     <div className="newsFeed" id="news">
         <h2>Important Announcements</h2>
-        { role === "ADMIN" && !showForm && <button className="ashbtn bttn newsbtn" 
+        { role !== "USER" && !showForm && <button className="ashbtn bttn newsbtn" 
         onClick={()=>{
             setShowForm(!showForm)
             setShowUpdateBtn(false);

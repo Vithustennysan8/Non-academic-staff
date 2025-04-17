@@ -6,13 +6,15 @@ import { LoginContext } from "../../Contexts/LoginContext";
 import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
+import defaultDp from "../../assets/defaultImage.webp";
+import { Link } from "react-router-dom";
 
 const Staffs = () => {
   const { isLogin } = useContext(LoginContext);
   const { user } = useContext(UserContext);
   const [search, setSearch] = useState("");
   const [staffs, setStaffs] = useState([]);
-  const [isloading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -22,14 +24,13 @@ const Staffs = () => {
         if (isLogin) {
           try {
             const response = await Axios.get("/auth/user/staffs");
-            console.log(response.data);
             setStaffs(response.data);
-            setIsLoading(false);
           } catch (error) {
-            console.log(error);
+            Swal.fire({
+              title: error.response.data.message || "Error!",
+              icon: "error",
+            });            
           }
-        } else {
-          setIsLoading(false);
         }
       };
       getUsers();
@@ -54,6 +55,8 @@ const Staffs = () => {
                 onChange={(e) => setSearch(e.target.value.toLowerCase())}
               />
             </div>
+
+            <Link to={"/subIncharge"}>SubIncharge</Link>
 
             <div className="staffs-detail">
               {/* default head images for the head of every department */}
@@ -88,12 +91,11 @@ const Staffs = () => {
                 </h3>
                 <div className="academicStaff">
                     {
-                      staffs.filter((staff)=> staff.jobType === "Head of the Department" || staff.jobType === "Management Assistant"
-                      || staff.jobType === "Dean")
+                      staffs.filter((staff)=> staff.role !== "USER" )
                       .map((staff)=>{
                         let src = staff.image_data
                         ? `data:${staff.image_type};base64,${staff.image_data}`
-                        : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
+                        : defaultDp;
 
                       return (
                         <StaffCard
@@ -120,12 +122,12 @@ const Staffs = () => {
               )}
               <div className="staff-container">
                 {staffs
-                  .filter((item) => item.first_name.concat(" " + item.last_name).toLowerCase().includes(search) && item.jobType !== "Head of the Department" && item.jobType !== "Management Assistant" && item.jobType !== "Dean")
+                  .filter((item) => item.first_name.concat(" " + item.last_name).toLowerCase().includes(search) && item.role === "USER")
                   .map((staff) => {
                     // adding default image to the staff card if there is no profile image is added
                     let src = staff.image_data
                       ? `data:${staff.image_type};base64,${staff.image_data}`
-                      : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
+                      : defaultDp;
 
                     return (
                       <StaffCard

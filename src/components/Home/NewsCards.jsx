@@ -1,5 +1,7 @@
 import { format } from "date-fns";
 import "../../css/card.css"
+import editIcon from "../../assets/edit.png"
+import deleteIcon from "../../assets/delete.png"
 
 const Card = ({role, news, handleDelete, handleUpdate}) => {
   const date = new Date(news.updatedAt);
@@ -20,8 +22,8 @@ return (
           <div className="newsDetails">
             <p className="card-body">{news.body}</p>
             <div>
-              {role === "ADMIN" && <a href="#news"><img src="https://cdn-icons-png.flaticon.com/128/3124/3124772.png" alt="update-icon" onClick={handleUpdate}/></a>}
-              {role === "ADMIN" && <img src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="delete-icon" onClick={handleDelete}/>}
+              {role === "ADMIN" && <a href="#news"><img src={editIcon} alt="update-icon" onClick={handleUpdate}/></a>}
+              {role === "ADMIN" && <img src={deleteIcon} alt="delete-icon" onClick={handleDelete}/>}
             </div>
           </div>
           <div className="newsPhotos">

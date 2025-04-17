@@ -11,6 +11,7 @@ import UserDashboard from "./Dashboard/UserDashboard";
 import AdminDashboard from "./Dashboard/AdminDashboard";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
+import defaultAvatar from "../../assets/defaultImage.webp";
 
 const Dashboard = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
@@ -20,9 +21,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const [isloading, setIsLoading] = useState(true);
-  const [src, setSrc] = useState(
-    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
-  );
+  const [src, setSrc] = useState(defaultAvatar);
   const [readOnly, setReadOnly] = useState(true);
   const [leave, setLeave] = useState([]);
   const [transfer, setTranfer] = useState([]);
@@ -84,7 +83,8 @@ const Dashboard = () => {
 
       const fetchRegisterRequests = async () => {
         try {
-          const response = await Axios.get("admin/verifyRegisterRequests");
+          const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
+                                      await Axios.get("admin/verifyAdminRegisterRequests");
           setRegister(response.data);
         } catch {
           console.log("Error fetching register requests");
@@ -161,7 +161,6 @@ const Dashboard = () => {
         confirmButtonText: "Yes, logout!"
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire("Succcess", "");
           localStorage.removeItem("token");
           sessionStorage.setItem("isLogin", false);
           setIsLogin(false);
@@ -268,7 +267,10 @@ const Dashboard = () => {
                 </Link>
               </p>
               <p>
-                <Link onClick={()=>setDashboardContent("securitySetting")}>
+                <Link onClick={()=> {
+                  setDashboardContent("securitySetting");
+                  setEditProfile(false);
+                }}>
                   <span>
                     <img
                       src="https://cdn-icons-png.flaticon.com/128/25/25215.png"
@@ -279,7 +281,10 @@ const Dashboard = () => {
                 </Link>
               </p>
               <p>
-                <Link onClick={()=>setDashboardContent("Notification")}>
+                <Link onClick={()=> {
+                  setDashboardContent("Notification");
+                  setEditProfile(false);
+                  }}>
                   <span>
                     <img
                       src="https://cdn-icons-png.flaticon.com/128/3602/3602123.png"
@@ -305,7 +310,10 @@ const Dashboard = () => {
                 </Link>
               </p>
               <p>
-                <Link onClick={()=>setDashboardContent("Summary")}>
+                <Link onClick={()=> {
+                  setDashboardContent("Summary");
+                  setEditProfile(false);
+                }}>
                   <span>
                     <img
                       src="https://cdn-icons-png.flaticon.com/128/10541/10541390.png"
@@ -335,7 +343,7 @@ const Dashboard = () => {
               </div>
 
               <div className="profile-detail-container">
-                {!readOnly && (
+                {!readOnly && editProfile && (
                   <div className="profileImageChange">
                     <label htmlFor="">Change profile Picture</label>
                     <input

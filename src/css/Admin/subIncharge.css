@@ -1,0 +1,85 @@
+/* Header styling */
+.subIncharge_container{
+    width: 90%;
+    margin: 30px auto 40px;
+
+    h1{
+        margin: 10px 0px 20px;
+        font-size: 1.5rem;
+        border-left: 4px solid rgb(219, 0, 0);
+        padding-left: 10px;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+    
+    /* Container for the content */
+    .container {
+    /* max-width: 1200px; */
+    margin: 2rem auto;
+    padding: 1rem;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    }
+
+    /* Table styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 2rem 0;
+    }
+
+    table th, table td {
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #333;
+    }
+
+    table th {
+        background-color: #ccc;
+        font-weight: bold;
+        font-size: 1rem;
+        color: #000;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Buttons styling */
+    button {
+        color: white;
+        border: none;
+        padding: 0.5rem 0.8rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.8rem;
+    }
+
+    .nonIncharge{
+        background-color: #4CAF50; /* Green */
+        border: none;
+    }
+    .nonIncharge:hover {
+        background-color: #3c9140;
+    }
+    .incharge:active {
+        background-color: #3e8e41;
+    }
+    .incharge{
+        background-color: #f44336; /* Red */
+        border: none;
+    }
+    .incharge:hover {
+        background-color: #e53935;
+    }
+    .incharge:active {
+        background-color: #d32f2f;
+    }
+}

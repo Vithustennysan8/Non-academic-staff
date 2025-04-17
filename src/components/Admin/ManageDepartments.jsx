@@ -13,12 +13,23 @@ const ManageDepartments = () => {
   const {isLogin} = useContext(LoginContext);  
   const {user} = useContext(UserContext);
   const navigate = useNavigate();
+  const [faculties, setFaculties] = useState([]);
+
   const {register, handleSubmit, formState:{errors}, reset, setValue} = useForm();
 
   useEffect(() => {
     if(!isLogin){
       window.scrollTo({top:0, behavior:"smooth"});
       navigate("/login");
+    }
+
+    const fetchFaculty = async () => {
+      try {
+        const response = await Axios.get("/auth/user/faculty/getAll");
+        setFaculties(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const fetchDepartment = async () => {
@@ -30,9 +41,12 @@ const ManageDepartments = () => {
       }
     }
     fetchDepartment();
+    fetchFaculty();
   },[isLogin, navigate])
 
   const onSubmit = async (data) => {
+    console.log(data.faculty);
+    console.log(data.name);
     try {
       const response = editDepartment ? await Axios.put(`/admin/department/update/${editDepartment.id}`, data) : await Axios.post("/admin/department/add", data);
       console.log(response.data);
@@ -46,7 +60,8 @@ const ManageDepartments = () => {
     } catch (error) {
       console.log(error);
       Swal.fire({
-        title: error.response.data.message,
+        title: error.response.data.message || "Error",
+        text: "Failed to add department",
         icon: "error",
       })
     }
@@ -95,10 +110,21 @@ const ManageDepartments = () => {
               <div>
                 { user.role == "SUPER_ADMIN" && 
                 <div>
-                  <input type="text" placeholder="faculty" name="faculty" {...register("faculty", {required:{
+                  {/* <input type="text" placeholder="faculty" name="faculty" {...register("faculty", {required:{
                     value: true,
                     message: "Faculty is required",
-                  }})}/>
+                  }})}/> */}
+                  <select name="faculty" {...register("faculty", {required:{
+                    value: true,
+                    message: "Faculty is required",
+                  }})}>
+                    <option value="">Select Faculty</option>
+                    {faculties?.map((faculty, index) => (
+                    <option key={index} value={faculty.facultyName}>
+                      {faculty.facultyName}
+                    </option>
+                  ))}
+                  </select>
                   {errors.faculty && <span className="error">{errors.faculty.message}</span>}
                 </div>
                 }

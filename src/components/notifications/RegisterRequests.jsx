@@ -1,17 +1,34 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "../../css/Notifications/registerRequests.css"
 import { Axios } from "../AxiosReqestBuilder"
+import accept from "../../assets/accept.png"
+import reject from "../../assets/cancel.png"
+import view from "../../assets/search.png"
+import Swal from "sweetalert2"
+import LoadingAnimation from "../Common/LoadingAnimation"
 
 const RegisterRequests = ({requests, setRequests}) => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleVerify = async (token) => {
+    setIsLoading(true);
     try{
       const response = await Axios.put(`admin/verify/${token}`);
       setRequests(response.data);
-      console.log(response.data);
+      setIsLoading(false);
+      Swal.fire({
+        title: "Verified successfully",
+        icon: "success",
+        confirmButtonText: "Ok",
+      })
     }catch(error){
       console.log(error);
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      })
     }
   }
 
@@ -19,13 +36,24 @@ const RegisterRequests = ({requests, setRequests}) => {
     try{
       const response = await Axios.delete(`admin/deleteUser/${id}`);
       setRequests(response.data);
+      Swal.fire({
+        title: "Deleted successfully",
+        icon: "success",
+        confirmButtonText: "Ok",
+      })
     }catch(error){
       console.log(error);
+      Swal.fire({
+        title: error.response.data.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      })
     }
   }
 
   return (
     <div className="registerRequests">
+      {isLoading && <LoadingAnimation/>}
       <h2>Register Requests</h2>
       { requests.length <= 0 && <p className="empty">No register requests found...</p>}
 
@@ -37,12 +65,12 @@ const RegisterRequests = ({requests, setRequests}) => {
               <p><span className="highlight">Name:</span> {request.user.first_name}</p>
               <p><span className="highlight">Email:</span> {request.user.email}</p>
               <p><span className="highlight">Employee No:</span> {request.user.emp_id}</p>
-              <p><span className="highlight">Job Type:</span> {request.user.job_type}</p>
+              <p><span className="highlight">Job Type:</span> {request.user?.jobType || request.user?.job_type}</p>
               <p><span className="highlight">Requested to Register:</span> {request.user.createdAt}</p>
               <div className="buttons">
-                <button className="view-more" onClick={() => setSelectedUser(request)}> <img src="https://cdn-icons-png.flaticon.com/128/7216/7216143.png" alt="" /></button>
-                <button className="verify" onClick={() => handleVerify(request.token)} ><img src="https://cdn-icons-png.flaticon.com/128/5290/5290058.png" alt="" /></button>
-                <button className="reject" onClick={() => handleDelete(request.user.id)} ><img src="https://cdn-icons-png.flaticon.com/128/10621/10621089.png" alt="" /></button>
+                <button className="view-more" onClick={() => setSelectedUser(request)}> <img src={view} alt="view icon" /></button>
+                <button className="verify" onClick={() => handleVerify(request.token)} ><img src={accept} alt="accept icon" /></button>
+                <button className="reject" onClick={() => handleDelete(request.user.id)} ><img src={reject} alt="reject icon" /></button>
               </div>
             </div>
           ))
@@ -86,7 +114,7 @@ const RegisterRequests = ({requests, setRequests}) => {
                 </div>
                 <div className="info-row">
                     <p className="info-label">JobType:</p>
-                    <p className="info-value">{selectedUser.user.job_type}</p>
+                    <p className="info-value">{selectedUser.user?.job_type || request.user?.job_type}</p>
                 </div>
               </div>
 

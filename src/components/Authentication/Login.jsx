@@ -1,14 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../../css/Authentication/login.css";
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
 import Swal from "sweetalert2";
+import closedEye from "../../assets/images/login/closed-eye-icon.png";
+import openEye from "../../assets/images/login/see-icon.png";
+import uopLogo from "../../assets/University_of_Peradeniya_crest-150x150.png"
 
 const Login = () => {
   const Navigate = useNavigate();
-  const { setIsLogin } = useContext(LoginContext);
+  const { isLogin, setIsLogin } = useContext(LoginContext);
 
   const {register, handleSubmit, formState: { errors }} = useForm();
 
@@ -16,6 +19,12 @@ const Login = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     Navigate("/signup");
   };
+
+  useEffect(()=>{
+    if(isLogin){
+      Navigate("/")
+    }
+  },[])
 
   const onSubmit = async (data) => {
     try {
@@ -53,12 +62,10 @@ const Login = () => {
     const images = document.getElementById(img);
     if (element.type === "password") {
       element.type = "text";
-      images.src =
-        "https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/see-icon.png";
+      images.src = openEye;
     } else {
       element.type = "password";
-      images.src =
-        "https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png";
+      images.src = closedEye;
     }
   };
 
@@ -68,7 +75,7 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="logo">
             <img
-              src="https://w1.pngwing.com/pngs/659/960/png-transparent-gold-badge-university-of-ceylon-university-of-sri-lanka-higher-education-college-faculty-university-of-peradeniya-logo-thumbnail.png"
+              src= {uopLogo}
               alt="Uni-logo"
             />
           </div>
@@ -103,7 +110,7 @@ const Login = () => {
             <div>
               <img
                 id="loginPasswordimg"
-                src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png"
+                src= {closedEye}
                 alt=""
                 title="show password"
                 onClick={() =>

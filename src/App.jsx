@@ -27,6 +27,7 @@ import ManageDepartments from "./components/Admin/ManageDepartments";
 import ManageFaculties from "./components/Admin/ManageFaculty";
 import ManagePositions from "./components/Admin/ManageJobPosition";
 import { NetworkStatusContext } from "./Contexts/NetworkStatusContext";
+import SubIncharge from "./components/Admin/SubIncharge";
 
 
 function App() {
@@ -120,6 +121,7 @@ function App() {
               <Route path="/manageDepartment" element={<ManageDepartments/>}/>
               <Route path="/manageFaculty" element={<ManageFaculties/>}/>
               <Route path="/managePosition" element={<ManagePositions/>}/>
+              <Route path="/subIncharge" element={<SubIncharge />} />
             </Routes>
             <Footer />
           </Router>

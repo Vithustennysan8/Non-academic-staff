@@ -3,9 +3,11 @@
     display: flex;
     gap: 20px;
     justify-content: center;
+    flex-wrap: wrap;
     
     .total{
         width: 70%;
+        max-width: 700px;
         background-color: white;
         padding: 10px;
         border-radius: 12px;
@@ -30,6 +32,7 @@
 
 .departmentFormsChart{
     width: 30%;
+    min-width: 300px;
     background-color: white;
     padding: 10px;
         border-radius: 12px;
@@ -54,5 +57,19 @@
     p{
         text-align: center;
         padding-top: 40%;
+    }
+}
+
+@media (max-width: 768px) {
+    .DeanChart-container{
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .departmentFormsChart{
+        width: 100%;
+    }
+    .DeanChart-container .total{
+        width: 100%;
     }
 }
