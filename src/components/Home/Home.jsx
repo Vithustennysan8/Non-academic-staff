@@ -1,7 +1,6 @@
 import "../../css/Home/home.css";
 import lab8 from "../../pdfs/co226_lab8.pdf";
 import { useContext, useEffect, useRef, useState } from "react";
-import LoadingAnimation from "../Common/LoadingAnimation";
 import { UserContext } from "../../Contexts/UserContext";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
@@ -16,9 +15,9 @@ import youtube from "../../assets/images/home/youtube.png"
 import pdfDownload from "../../assets/images/home/download-pdf-icon.png";
 
 
+
 const Home = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
-  const [isloading, setIsLoading] = useState(false);
   const { user, setUser } = useContext(UserContext);
   const [src, setSrc] = useState(
     "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
@@ -33,7 +32,6 @@ const Home = () => {
         const response = await Axios.get("/auth/user/info");
         setUser(response.data);
         setRole(response.data.role);
-        setIsLoading(false);
         if (response.data.image_data) {
           setSrc(
             `data:${response.data.image_type};base64,${response.data.image_data}`
@@ -61,13 +59,8 @@ const Home = () => {
         console.log(error);
       }
     };
-      
-    if(!isLogin){
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 0);
-      return;
-    }
+    
+
     getLeaveFormsNotification();
     getTransferFromsNotification();
     getUserDetail();
@@ -98,10 +91,6 @@ const Home = () => {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="home">
-      {isloading ? (
-        <LoadingAnimation />
-      ) : (
-        <>
           {isLogin ? (
             /* --------- user profile ----------- */
             <div>
@@ -330,8 +319,6 @@ const Home = () => {
               </div>
             </div>
           </div>
-        </>
-      )}
     </motion.div>
   );
 };

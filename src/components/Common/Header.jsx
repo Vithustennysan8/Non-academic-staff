@@ -6,10 +6,10 @@ import { LoginContext } from "../../Contexts/LoginContext";
 import { UserContext } from "../../Contexts/UserContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { NetworkStatusContext } from "../../Contexts/NetworkStatusContext";
-import Swal from "sweetalert2";
 import userIcon from "../../assets/images/header/default-avatar-profile-icon-social-600nw-1677509740.webp"
 import logo from "../../assets/University_of_Peradeniya_crest-150x150.png"
 import sideNav from "../../assets/images/header/sideNav.png";
+import NetworkStatusMonitor from "./NetworkStatusMonitor";
 
 const Header = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
@@ -20,20 +20,6 @@ const Header = () => {
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const sideNavRef = useRef(null);
   const sideNavImg = useRef(null);
-
-  useEffect(() => {
-    if (isOnline) {
-      Swal.fire({
-        title: "Connected to network",
-        icon: "success",
-      })
-    }else{
-      Swal.fire({
-        title: "Disconnected from network",
-        icon: "error",
-      })
-    }
-  }, [isOnline])
 
   useEffect(() => {
     const handleClick = (event) => {
@@ -149,6 +135,7 @@ const Header = () => {
         />
       </button>
       <SideNav refFunc={sideNavRef} isOpen={isSideNavOpen} toggleNav={toggleSideNav} />
+      <NetworkStatusMonitor/>
     </>
   );
 };
