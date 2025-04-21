@@ -161,7 +161,7 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
               </>
             )}
 
-            { user.role === "USER" && <>
+            { (user.role !== "ADMIN" || user.role === "SUPER_ADMIN") && <>
             
               <button onClick={() => setRequest("AppliedDynamicsForms")}>
                 Applied Dynamics Forms

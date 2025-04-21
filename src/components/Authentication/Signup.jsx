@@ -108,7 +108,8 @@ const Signup = () => {
       }
       
       Swal.fire({
-        title: "Register Successfully",
+        title: "Account created successfully",
+        text: "Please wait for the admin approval, you will be notified via email",
         icon: 'success',
       })
       window.scrollTo({ top: 0, behavior: "smooth" });

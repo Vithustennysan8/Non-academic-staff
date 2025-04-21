@@ -562,7 +562,7 @@ const Dashboard = () => {
           register={register} appliedLeave={appliedLeave} appliedTransfer={appliedTransfer} dynamicsForms={appliedDynamics} dynamicFormRequests={dynamicsRequests}
           setDynamicsRequests={setDynamicsRequests} />}
 
-          {dashboardContent === "Summary" && (user.role === "USER" ? <UserDashboard id={user.id}/> : <AdminDashboard/>)}
+          {dashboardContent === "Summary" && ( (user.role === "USER" || user.role === "MANAGER") ? <UserDashboard id={user.id}/> : <AdminDashboard/>)}
         </>
       )}
     </motion.div>

@@ -56,7 +56,13 @@ const Staffs = () => {
               />
             </div>
 
-            <Link to={"/subIncharge"}>SubIncharge</Link>
+            {
+              isLogin && ( user.role === "ADMIN" || user.role === "SUPER_ADMIN" ) && (
+              <div className="incharge">
+                <Link to={"/subIncharge"}>Assign Sub-Incharge</Link>
+              </div>
+            )}
+            
 
             <div className="staffs-detail">
               {/* default head images for the head of every department */}

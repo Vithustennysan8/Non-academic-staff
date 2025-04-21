@@ -3,23 +3,18 @@ import "../../../css/Profile_page/Dashboard/adminDashboard.css"
 import { Axios } from '../../AxiosReqestBuilder';
 import { LoginContext } from '../../../Contexts/LoginContext';
 import { useNavigate } from 'react-router-dom';
-import NormalLeaveFormTemplate from '../../notifications/NormalLeaveFormTemplate';
-import OtherLeaveFormsTemplate from '../../notifications/OtherLeaveFormsTemplate';
-import LoadingAnimation from '../../Common/LoadingAnimation';
 import { UserContext } from '../../../Contexts/UserContext';
 import UserDashboard from "./UserDashboard";
 import StaffCard from '../../Staff_page/StaffCard';
 import { CSVLink } from 'react-csv';
 import DeanCharts from '../DeanCharts';
 import { motion} from "framer-motion";
+import SummaryCharts from "../SummaryCharts"
 
 const AdminDashboard = () => {
-    const [isLoading, setIsLoading] = useState(true);
     const {isLogin} = useContext(LoginContext);
     const navigate = useNavigate();
     const [forms, setForms] = useState([]);
-    const [form, setForm] = useState("");
-    // const [showForm, setShowForm] = useState(false);
     const {user} = useContext(UserContext);
     const [staffs, setStaffs] = useState([]);
     const [selectedStaff, setSelectedStaff] = useState(null);
@@ -114,7 +109,6 @@ const AdminDashboard = () => {
                     const response2 = await Axios.get("admin/DynamicFormUser/getAll");
                     console.log(response2.data);
                     setForms([...response2.data, ...response1.data]);
-                    setIsLoading(false);
                 } catch (error) {
                     console.log(error);
                 }
@@ -224,6 +218,13 @@ const AdminDashboard = () => {
             <div>
                 <h3>Leave Summary</h3>
                 <DeanCharts allForms={forms}/>
+            </div>
+        </>}
+
+        {user.job_type !== "Dean" && user.job_type !== "Head of the Department" && <>
+            <div>
+                <h3>Leave Summary</h3>
+                <SummaryCharts allForms={forms}/>
             </div>
         </>}
 

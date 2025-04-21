@@ -213,6 +213,22 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
       }
     }
 
+    const handleGetPdf = async (id) => {
+      try {
+        const response = await Axios.get(`/auth/user/DynamicFormUser/getPdf/${id}`, {
+          responseType: "blob", // Important: Treat response as binary
+        });
+    
+        // Create a URL for the blob data
+        const fileURL = window.URL.createObjectURL(response.data);
+        
+        // Open in a new tab
+        window.open(fileURL);
+      } catch (error) {
+        console.error("Error downloading PDF:", error);
+      }
+    };
+
 return (
   <div className="dynamicFormRequests">
       {isLoading && <LoadingAnimation/>}
@@ -302,10 +318,16 @@ return (
                   })
               }
 
-                <div className="devider wrapper">
-                  <p>Status :</p>
-                  <p className={`${selectedForm.formStatus === "Rejected" && 'status-rejected'} ${selectedForm.formStatus === "Accepted" && 'status-approved'} ${selectedForm.formStatus === "Pending" && 'status-pending'}`}>{selectedForm.formStatus}</p>
-                </div>
+              {/* display the pdf */}
+              <div className="wrapper">
+                  <p>Document :</p>
+                  <p onClick={() => handleGetPdf(selectedForm.formId)} className="pdf">click here</p>
+              </div>
+
+              <div className="devider wrapper">
+                <p>Status :</p>
+                <p className={`${selectedForm.formStatus === "Rejected" && 'status-rejected'} ${selectedForm.formStatus === "Accepted" && 'status-approved'} ${selectedForm.formStatus === "Pending" && 'status-pending'}`}>{selectedForm.formStatus}</p>
+              </div>
 
               {
                 selectedForm.approverDetails.map((approver)=>{

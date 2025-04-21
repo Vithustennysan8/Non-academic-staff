@@ -102,13 +102,14 @@ const ApprovalFlowManager = () => {
           title: "Approval flow saved successfully!",
           icon: "success",
         })
-        console.log(response.data);
+        console.log(">>" , response.data);
         setFlows(response.data);
         setUpdate(true);
         setFaculty('');
         setUniqueName('');
         setDepartment('');
         setFormType('');  
+        setSelectedFlow(null);
     }catch(error){
       Swal.fire({
         title: error.response.data.message,
@@ -127,7 +128,8 @@ const ApprovalFlowManager = () => {
         })
         console.log(response.data);
         Swal.fire({
-          title: "Approval flow saved successfully!",
+          title: "Success",
+          text: "Flow deleted",
           icon: "success",
         })
         setFlows((prevFlows) =>
@@ -182,6 +184,7 @@ const ApprovalFlowManager = () => {
         confirmButtonText: "Yes, delete!"
       }).then((result) => {
         if (result.isConfirmed) {
+          handleDeleteFlow();
           Swal.fire("Succcess", "");
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
