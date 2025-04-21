@@ -1,4 +1,3 @@
-import LoadingAnimation from "../Common/LoadingAnimation";
 import "../../css/Staffs_page/staffs.css"
 import StaffCard from "./StaffCard";
 import { useContext, useEffect, useState } from "react";
@@ -23,7 +22,7 @@ const Staffs = () => {
       const getUsers = async () => {
         if (isLogin) {
           try {
-            const response = await Axios.get("/auth/user/staffs");
+            const response = await (user.role === "SUPER_ADMIN" ? Axios.get("/super_admin/staffs") : Axios.get("/auth/user/staffs"));
             setStaffs(response.data);
           } catch (error) {
             Swal.fire({
@@ -35,7 +34,7 @@ const Staffs = () => {
       };
       getUsers();
     }, 0);
-  }, [token, isLogin]);
+  }, [token, isLogin, user.role]);
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
@@ -90,7 +89,7 @@ const Staffs = () => {
               )}
 
               {/* based on the department staff will display */}
-              {isLogin && !search &&
+              {isLogin && !search && user.role !== "SUPER_ADMIN" &&
                 <>
                 <h3>
                   {staffs[0]?.department + " (" + staffs[0]?.faculty + ")"}
@@ -123,12 +122,11 @@ const Staffs = () => {
                   
               {isLogin && (
                 <>
-                <h3>Non-academic staffs</h3>
+                <h3>{user.role === "SUPER_ADMIN" ? "All Users" : "Non-academic staffs"}</h3>
                 </>
               )}
               <div className="staff-container">
-                {staffs
-                  .filter((item) => item.first_name.concat(" " + item.last_name).toLowerCase().includes(search) && item.role === "USER")
+                {staffs?.filter((item) => item.first_name.concat(" " + item.last_name).toLowerCase().includes(search) && (user.role !== "SUPER_ADMIN" ? item.role === "USER": true))
                   .map((staff) => {
                     // adding default image to the staff card if there is no profile image is added
                     let src = staff.image_data

@@ -1,17 +1,18 @@
 import "../../css/Profile_page/resetPassword.css";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoadingAnimation from "../Common/LoadingAnimation";
 import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
+import closedEye from "../../assets/images/login/closed-eye-icon.png";
+import openEye from "../../assets/images/login/see-icon.png";
+import Swal from "sweetalert2";
 
 const ResetPassword = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);
 
   const token = localStorage.getItem("token");
-  const [isloading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [reset, setReset] = useState({
     password_for_delete: "",
@@ -29,20 +30,30 @@ const ResetPassword = () => {
       navigate("/login");
     }
     setTimeout(() => {
-      setIsLoading(false);
     }, 600);
   });
 
   const onSubmit = async (data) => {
     if (data.new_password != data.confirm_new_password) {
-      alert("Password does not match");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Password and Confirm Password are not same!",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "OK",
+      });
       return;
     }
 
     try {
       const response = await Axios.put("/auth/user/reset", data);
       console.log(response.data);
-      alert("Password changed successfully");
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Password changed successfully!",
+      });
       if (response.status === 200) {
         window.scrollTo({ top: 0, behavior: "smooth" });
         navigate("/login");
@@ -56,7 +67,14 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (reset.password_for_delete === "") {
-      alert("Please enter your password to delete account");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please enter your password!",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "OK",
+      });
       return;
     }
 
@@ -68,7 +86,6 @@ const ResetPassword = () => {
         data: reset,
       });
       console.log(response.data);
-      alert("Account deleted successfully");
       localStorage.removeItem("token");
       sessionStorage.setItem("isLogin", true);
       setIsLogin(false);
@@ -76,7 +93,14 @@ const ResetPassword = () => {
       navigate("/login");
     }
     catch (error) {
-      alert("Somthing wrong with Password!!!");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "OK",
+      });
       console.log(error);
     }
   };
@@ -86,12 +110,10 @@ const ResetPassword = () => {
     const images = document.getElementById(img);
     if (element.type === "password") {
       element.type = "text";
-      images.src =
-        "https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/see-icon.png";
+      images.src = openEye;
     } else {
       element.type = "password";
-      images.src =
-        "https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png";
+      images.src = closedEye;
     }
   };
 
@@ -115,8 +137,8 @@ const ResetPassword = () => {
               <div>
                 <img
                   id="resetOldPasswordImg"
-                  src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png"
-                  alt=""
+                  src={closedEye}
+                  alt="hiden password icon"
                   title="show password"
                   onClick={() =>
                     handleVissiblePassword(
@@ -149,8 +171,8 @@ const ResetPassword = () => {
               <div>
                 <img
                   id="resetNewPasswordImg"
-                  src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png"
-                  alt=""
+                  src={closedEye}
+                  alt="hiden password icon"
                   title="show password"
                   onClick={() =>
                     handleVissiblePassword(
@@ -182,8 +204,8 @@ const ResetPassword = () => {
               <div>
                 <img
                   id="resetConfirmNewPasswordImg"
-                  src="https://uxwing.com/wp-content/themes/uxwing/download/health-sickness-organs/closed-eye-icon.png"
-                  alt=""
+                  src={closedEye}
+                  alt="Hiden password icon"
                   title="show password"
                   onClick={() =>
                     handleVissiblePassword(
