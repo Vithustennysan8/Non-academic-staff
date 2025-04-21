@@ -12,7 +12,7 @@ import twitter from "../../assets/images/home/twitter.png"
 import linkedin from "../../assets/images/home/linkedin.png"
 import github from "../../assets/images/home/github-icon.svg"
 import youtube from "../../assets/images/home/youtube.png"
-import pdfDownload from "../../assets/images/home/download-pdf-icon.png";
+// import pdfDownload from "../../assets/images/home/download-pdf-icon.png";
 
 
 
@@ -23,8 +23,6 @@ const Home = () => {
     "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
   );
   const [role, setRole] = useState("USER");
-  const [allLeaveFormRequests, setAllLeaveFormRequests] = useState([]);
-  const [allTransferFormRequests, setAllTransferFormRequests] = useState([]);
 
   useEffect(() => {
     const getUserDetail = async () => {
@@ -40,31 +38,10 @@ const Home = () => {
       } catch (error) {
         console.log("message ", error);
       }
-    };
+    };    
 
-    const getLeaveFormsNotification = async () => {
-      try {
-        // const response = await Axios.get("admin/leaveForms/notification");
-        // setAllLeaveFormRequests(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const getTransferFromsNotification = async () => {
-      try {
-        // const response = await Axios.get("admin/transferForms/notification");
-        // setAllTransferFormRequests(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    
-
-    getLeaveFormsNotification();
-    getTransferFromsNotification();
     getUserDetail();
-  }, [setUser, isLogin, setIsLogin, setAllLeaveFormRequests]);
+  }, [setUser, isLogin, setIsLogin]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideInterval = useRef(null);
@@ -137,37 +114,6 @@ const Home = () => {
                     </div>
                   </div>
                 )}
-{/* 
-                {role === "ADMIN" && (
-                  <div className="form-shortcut-container">
-                    <div className="form-shortcuts">
-                      <div className="form-shortcut">
-                        {allLeaveFormRequests.length > 0 && (
-                          <div className="notifyCounts">
-                            {allLeaveFormRequests.length}
-                          </div>
-                        )}
-                        <p>
-                      
-                          <Link to="/notifications">Requests for Leaves</Link>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="form-shortcuts">
-                      <div className="form-shortcut">
-                        {allTransferFormRequests.length >0 && 
-                        <div className="notifyCounts">
-                          {allTransferFormRequests.length}
-                          </div>
-                        }
-                        <p>
-                        
-                          <Link to="/notifications">Requests for Transfers</Link>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )} */}
 
                 {/* ----- image slider ---------- */}
                 <div className="home-image-slide">
@@ -212,7 +158,7 @@ const Home = () => {
             )}
 
             {/* ----------- quick links ----------- */}
-            <div className="homeQuikLinks">
+            {/* <div className="homeQuikLinks">
               <h1>Quick Downloads</h1>
               <div className="homeLinks">
                 <a href={lab8} download="Leave_form" target="_blank">
@@ -265,7 +211,7 @@ const Home = () => {
                   </p>
                 </a>
               </div>
-            </div>
+            </div> */}
 
             {/* ----------- news feed ---------- */}
             <News role={role} />
