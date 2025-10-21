@@ -1,11 +1,12 @@
 .dynamicForm{
     width: 90%;
-    margin: 30px auto 40px;
+    margin: 20px auto 40px;
+    padding-top: 70px;
 }
 .dynamicForm h1{
     font-size: 1.5rem;
     font-weight: bold;
-    margin: 20px 0 40px;
+    margin: 0px 0 40px;
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
     text-transform: uppercase;

@@ -1,5 +1,4 @@
 import "../../css/Home/home.css";
-import lab8 from "../../pdfs/co226_lab8.pdf";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../Contexts/UserContext";
 import { LoginContext } from "../../Contexts/LoginContext";
@@ -12,9 +11,6 @@ import twitter from "../../assets/images/home/twitter.png"
 import linkedin from "../../assets/images/home/linkedin.png"
 import github from "../../assets/images/home/github-icon.svg"
 import youtube from "../../assets/images/home/youtube.png"
-// import pdfDownload from "../../assets/images/home/download-pdf-icon.png";
-
-
 
 const Home = () => {
   const { isLogin, setIsLogin } = useContext(LoginContext);

@@ -10,6 +10,7 @@
     text-transform: uppercase;
     padding-left: 10px;
     margin-bottom: 30px;
+    font-weight: bold;
 }
 .bttn{
     border-radius: 5px;
@@ -71,4 +72,19 @@
 }
 .redbtn:active{
     background: linear-gradient(145deg, rgb(180,0,0),rgb(180, 0, 0));
+}
+.seeMore{
+    float: right;
+    padding-right: 8px;
+    color: #cf000a;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 500px) {
+    .newsFeed h2{
+        font-size: 1.2rem;
+    }
+    .seeMore{
+        font-size: 0.9rem;
+    }
 }

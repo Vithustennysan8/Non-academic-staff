@@ -1,9 +1,10 @@
 .manageFaculties{
     width: 90%;
-    margin: 30px auto 40px;
+    margin: 20px auto 40px;
+    padding-top: 70px;
 }
 .manageFaculties h1{
-    margin: 10px 0px 20px;
+    margin: 0px 0px 20px;
     font-size: 1.5rem;
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;

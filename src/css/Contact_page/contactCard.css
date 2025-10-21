@@ -1,10 +1,11 @@
 .contactCard{
-    padding: 4px 10px 12px;
-    margin: auto;
+    padding: 12px 10px;
+    /* margin: auto; */
     margin-bottom: 20px;
-    width: 85%;
     display: flex;
-    border-bottom: 1px solid #ccc;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 1200px;
 }
 .contact-img{
     width: 20%;

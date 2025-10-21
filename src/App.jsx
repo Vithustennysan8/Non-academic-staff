@@ -28,6 +28,8 @@ import ManageFaculties from "./components/Admin/ManageFaculty";
 import ManagePositions from "./components/Admin/ManageJobPosition";
 import { NetworkStatusContext } from "./Contexts/NetworkStatusContext";
 import SubIncharge from "./components/Admin/SubIncharge";
+import News from "./components/NewsPage/News";
+import NotFound from "./components/Common/NotFound";
 
 
 function App() {
@@ -122,6 +124,8 @@ function App() {
               <Route path="/manageFaculty" element={<ManageFaculties/>}/>
               <Route path="/managePosition" element={<ManagePositions/>}/>
               <Route path="/subIncharge" element={<SubIncharge />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/*" element={<NotFound />} />
             </Routes>
             <Footer />
           </Router>
