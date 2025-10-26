@@ -1,16 +1,16 @@
 import "../../css/Profile_page/resetPassword.css";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import closedEye from "../../assets/images/login/closed-eye-icon.png";
 import openEye from "../../assets/images/login/see-icon.png";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
-  const { isLogin, setIsLogin } = useContext(LoginContext);
+  const { isLogin, logout } = useAuth();
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -35,31 +35,20 @@ const ResetPassword = () => {
 
   const onSubmit = async (data) => {
     if (data.new_password != data.confirm_new_password) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Password and Confirm Password are not same!",
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "OK",
-      });
+      toast.error("Password and Confirm Password are not same!");
       return;
     }
 
     try {
       const response = await Axios.put("/auth/user/reset", data);
       console.log(response.data);
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Password changed successfully!",
-      });
+      toast.success("Password changed successfully!");
       if (response.status === 200) {
         window.scrollTo({ top: 0, behavior: "smooth" });
         navigate("/login");
       }
     } catch (err) {
-      console.log(err);
+      console.log("Error changing password", err.message);
     }
   };
 
@@ -67,14 +56,7 @@ const ResetPassword = () => {
     e.preventDefault();
 
     if (reset.password_for_delete === "") {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Please enter your password!",
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "OK",
-      });
+      toast.error("Please enter your password!");
       return;
     }
 
@@ -88,20 +70,13 @@ const ResetPassword = () => {
       console.log(response.data);
       localStorage.removeItem("token");
       sessionStorage.setItem("isLogin", true);
-      setIsLogin(false);
+      logout();
+      toast.success("Account deleted successfully!");
       window.scrollTo({ top: 0, behavior: "smooth" });
       navigate("/login");
     }
     catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: error.response.data.message,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "OK",
-      });
-      console.log(error);
+      console.log("Error deleting account", error.message);
     }
   };
 

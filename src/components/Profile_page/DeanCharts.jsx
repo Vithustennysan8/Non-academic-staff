@@ -1,16 +1,17 @@
 import { Bar, Pie } from 'react-chartjs-2';
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { UserContext } from '../../Contexts/UserContext';
+import { useEffect, useMemo, useState } from 'react';
+import { useAuth } from '../../Contexts/AuthContext';
 import "../../css/Profile_page/deanCharts.css"
 import PropTypes from 'prop-types';
 import { Axios } from '../AxiosReqestBuilder';
+import { toast } from 'react-toastify';
 
 // Register the required chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const DeanCharts = ({allForms}) => {
-    const {user} = useContext(UserContext);
+    const {user} = useAuth();
     const [departmentLeaveCount, setDepartmentLeaveCount] = useState([]);
     const [modifiedData, setmodifiedData] = useState({});
     const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -205,7 +206,8 @@ const DeanCharts = ({allForms}) => {
 
       const handleFilters = ()=>{
           if(filter.year.length !== 4){
-              alert("Please enter a valid year")
+            toast.warning("Please enter a valid year");
+            return;
           }
         overAlldepartmentDetails(modifiedData, filter.year, filter.month);
         findDepartmentDetails();

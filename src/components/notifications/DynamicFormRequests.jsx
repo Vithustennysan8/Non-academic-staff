@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../css/Notifications/dynamicFormRequests.css"
 import FormReqTap from "./FormReqTap";
-import { UserContext } from "../../Contexts/UserContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 import LoadingAnimation from "../Common/LoadingAnimation";
 
 const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
-  const {user} = useContext(UserContext);
+  const {user} = useAuth();
   const [showSingleForm, setShowSingleForm] = useState(false);
   const [selectedForm, setSelectedForm] = useState([]);
   const [filterMonth, setFilterMonth] = useState();
@@ -62,34 +62,22 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
 
   const handleFormType = async () => {
     if(filters.faculty == ''){
-      Swal.fire({
-              title: "Select the faculty",
-              icon: "error",
-              confirmButtonText: "Ok",
-            })
+      toast.error("Select the faculty");
       return;
     }
     if(filters.department == ''){
-      Swal.fire({
-              title: "Select the department",
-              icon: "error",
-              confirmButtonText: "Ok",
-            })
+      toast.error("Select the department");
       return;
     }
 
     try {
       const response = await Axios.get(`/admin/dynamicForm/getAll/${filters.department}/${filters.faculty}`);
       if(response.data == 0){
-        Swal.fire({
-          title: "There is no forms!!!",
-          icon: "error",
-          confirmButtonText: "Ok",
-        })
+      toast.error("There is no forms!!!");
       }
       setDynamicForms(response.data);
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching dynamic forms", error);
     }
   }
 
@@ -112,11 +100,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
       let filteredForms = dynamicFormRequests;
   
       if(filterYear !== '' && filterYear?.length !== 4){
-        Swal.fire({
-          title: "Please select a valid year",
-          icon: "warning",
-          confirmButtonText: "Ok",
-        })
+          toast.warning("Please select a valid year");
         return;
       }
 
@@ -148,11 +132,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
       setIsLoading(true);
       const id = selectedForm.approverDetails.filter((approver) => approver.approver === user.job_type)[0].id;
       if(description==''){
-        Swal.fire({
-          title: "Please enter a description for the form",
-          icon: "warning",
-          confirmButtonText: "Ok",
-        })
+          toast.warning("Please enter a description for the form");
         return;
       }
 
@@ -162,20 +142,11 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         console.log(formId);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
         setIsLoading(false);
-        Swal.fire({
-          title: "Accepted",
-          icon: "success",
-          confirmButtonText: "Ok",
-        })
+          toast.success("Accepted");
         setDescription('');
       } catch (error) {
-        console.log(error);
+        console.log("Error accepting form", error);
         setIsLoading(false);
-        Swal.fire({
-          title: error.response.data.message || "Error occurred",
-          icon: "error",
-          confirmButtonText: "Ok",
-        })
       }
     }
     
@@ -183,11 +154,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
       setIsLoading(true);
       const id = selectedForm.approverDetails.filter((approver) => approver.approver === user.job_type)[0].id;
       if(description==''){
-        Swal.fire({
-          title: "Please enter a description for the form",
-          icon: "warning",
-          confirmButtonText: "Ok",
-        })
+        toast.warning("Please enter a description for the form");
         return;
       }
       
@@ -196,20 +163,11 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         setSelectedForm(response.data[0]);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
         setIsLoading(false);
-        Swal.fire({
-          title: "Rejected",
-          icon: "error",
-          confirmButtonText: "Ok",
-        })
+        toast.success("Rejected");
         setDescription('');
       } catch (error) {
-        console.log(error);
+        console.log("Error rejecting form", error.message);
         setIsLoading(false);
-        Swal.fire({
-          title: error.response.data.message || "Error occurred",
-          icon: "error",
-          confirmButtonText: "Ok",
-        })
       }
     }
 

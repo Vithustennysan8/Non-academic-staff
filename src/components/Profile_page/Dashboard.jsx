@@ -1,26 +1,22 @@
 import "../../css/Profile_page/profile.css"
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import LoadingAnimation from "../Common/LoadingAnimation";
-import { LoginContext } from "../../Contexts/LoginContext";
-import { UserContext } from "../../Contexts/UserContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
 import ResetPassword from "./ResetPassword";
 import Notifications from "../forms/Notifications";
 import UserDashboard from "./Dashboard/UserDashboard";
 import AdminDashboard from "./Dashboard/AdminDashboard";
 import { motion } from "framer-motion";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 import defaultAvatar from "../../assets/defaultImage.webp";
 
 const Dashboard = () => {
-  const { isLogin, setIsLogin } = useContext(LoginContext);
-  const { user, setUser } = useContext(UserContext);
+  const { isLogin, user, setUser, logout } = useAuth();
   const [dashboardContent, setDashboardContent] = useState("Profile");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  const [isloading, setIsLoading] = useState(true);
   const [src, setSrc] = useState(defaultAvatar);
   const [readOnly, setReadOnly] = useState(true);
   const [leave, setLeave] = useState([]);
@@ -32,23 +28,30 @@ const Dashboard = () => {
   const [appliedTransfer, setAppliedTransfer] = useState([]);
   const [image, setImage] = useState("");
   const [editProfile, setEditProfile] = useState(false);
-  const [outline, setOutline] = useState("2px solid #ccc");
-  const [dashboard, setDashboard] = useState("")
+  const [outline] = useState("2px solid #ccc");
+  const hasFetchedUser = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Initial data fetch - runs only once
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
+    if (hasFetchedUser.current) return;
+    
     setTimeout(() => {
       const getUserDetail = async () => {
         try {
           const response = await Axios.get("/auth/user/info");
-          setUser(response.data);
-          setIsLoading(false);
-          if (user.image_data) {
-            setSrc(`data:${user.image_type};base64,${user.image_data}`);
+          const userData = response.data;
+          setUser(userData);
+          hasFetchedUser.current = true;
+          if (userData.image_data) {
+            setSrc(`data:${userData.image_type};base64,${userData.image_data}`);
           }
+          setTimeout(() => {
+            setIsLoading(false);
+          }, [500])
         } catch (error) {
-          localStorage.removeItem("token");
-          sessionStorage.setItem("isLogin", false);
-          setIsLogin(false);
+          logout();
         }
       };
 
@@ -56,8 +59,8 @@ const Dashboard = () => {
         try {
           const response = await Axios.get("admin/leaveForms/notification");
           setLeave(response.data);
-        } catch {
-          console.log("Error fetching leave requests");
+        } catch (error) {
+          console.log("Error fetching leave requests", error);
         }
       };
 
@@ -66,7 +69,7 @@ const Dashboard = () => {
             const response = await Axios.get("auth/user/DynamicFormUser/getAll");
             setAppliedDynamics(response.data);
         } catch (error) {
-            console.log(error);
+            console.log("Error fetching applied dynamic forms", error);
         }
     }
 
@@ -74,10 +77,10 @@ const Dashboard = () => {
       try {
           const response = await Axios.get("admin/DynamicFormUser/getAll");
           setDynamicsRequests(response.data);
-          console.log(response.data);
+          console.log("cascas", response.data);
           
       } catch (error) {
-          console.log(error);
+          console.log("Error fetching dynamic form requests", error);
       }
   }
 
@@ -86,8 +89,8 @@ const Dashboard = () => {
           const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
                                       await Axios.get("admin/verifyAdminRegisterRequests");
           setRegister(response.data);
-        } catch {
-          console.log("Error fetching register requests");
+        } catch (error) {
+          console.log("Error fetching register requests", error);
         }
       };
 
@@ -97,8 +100,8 @@ const Dashboard = () => {
           if(response.data.length > 0){
             setTranfer(response.data);
           }
-        }catch{
-          console.log("Error fetching transfer requests");
+        } catch (error) {
+          console.log("Error fetching transfer requests", error);
         }}
 
       const fetchTransferFormsApplied = async () => {
@@ -120,7 +123,6 @@ const Dashboard = () => {
       };
 
       if(!isLogin){
-        setIsLoading(false);
         window.scrollTo({ top: 0, behavior: "smooth" });
         navigate("/login");
         return;
@@ -137,39 +139,14 @@ const Dashboard = () => {
       }
 
       getUserDetail();
-      setDashboard(user.role === "USER" ? "/userDashboard" : "/adminDashboard");
     }, 0);
-  }, [
-    navigate,
-    token,
-    user.image_data,
-    user.image_type,
-    user.role,
-    setIsLogin,
-    setUser,
-    isLogin,
-  ]);
+  }, [token, isLogin, user.role, logout, navigate, setUser]);
 
   // logout implimentation
   const handleLogout = () => {
-    const showConfirmDialog = () => {
-      Swal.fire({
-        title: "Are you sure?",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, logout!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          localStorage.removeItem("token");
-          sessionStorage.setItem("isLogin", false);
-          setIsLogin(false);
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          navigate("/login");
-        }
-      });
-    };
-    showConfirmDialog();
+    if (window.confirm("Are you sure you want to logout?")) {
+      logout();
+    }
   };
 
   // updating the changes to the details
@@ -185,13 +162,9 @@ const Dashboard = () => {
     
     if (image) {
       if (image.size > 1 * 1024 * 1024) {
-        Swal.fire({
-          title: "Image size should be less than 1MB",
-          icon: "success",
-        })
+        toast.error("Image size should be less than 1MB");
         return;
       }
-      console.log("image upload: " + image);
       formData.append("image", image);
     }
     
@@ -208,29 +181,38 @@ const Dashboard = () => {
           "Authorization": `Bearer ${token}`,
         },
       });
-      setUser(response.data);
+      const updatedUserData = response.data;
+      setUser(updatedUserData);
       setEditProfile(false);
       document.getElementById("update").style.display = "none";
       document.getElementById("date_of_birth").type = "text";
       setReadOnly(true);
-      if (user.image_data) {
-        setSrc(`data:${user.image_type};base64,${user.image_data}`);
+      if (updatedUserData.image_data) {
+        setSrc(`data:${updatedUserData.image_type};base64,${updatedUserData.image_data}`);
       }
-      Swal.fire({
-        title: "Update success",
-        icon: "success",
-      })
+      toast.success("Profile updated successfully!");
     } catch(error) {
-      Swal.fire({
-        title: error.response.data.message,
-        icon: "success",
-      })
-      console.log(error);
+      console.log("Error updating profile", error);
     }
   };
+  if (isLoading) {
+    return (
+      <div className="staffs">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading staff information...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+       <motion.div 
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      exit={{ opacity: 0, y: -20 }} 
+      transition={{ duration: 0.6 }}
+    >
       {(
         <>
           <div id="profile-container">
@@ -244,17 +226,14 @@ const Dashboard = () => {
               <p>
                 <Link
                   onClick={() => {
-                    dashboardContent === "Profile" && ( 
-                    Swal.fire({
-                      title: "you can modify the details by click on details shown!",
-                      icon: "info"
-                    }));
-                    dashboardContent === "Profile" && (document.getElementById("update").style.display = "block");
-                    dashboardContent === "Profile" && (document.getElementById("date_of_birth").type = "date");
-                    dashboardContent === "Profile" && (setReadOnly(false));
-                    dashboardContent === "Profile" && (setEditProfile(true));
+                    if (dashboardContent === "Profile") {
+                      toast.info("You can modify the details by clicking on the fields shown!");
+                      document.getElementById("update").style.display = "block";
+                      document.getElementById("date_of_birth").type = "date";
+                      setReadOnly(false);
+                      setEditProfile(true);
+                    }
                     setDashboardContent("Profile");
-
                   }}
                 >
                   <span>
@@ -293,7 +272,7 @@ const Dashboard = () => {
                     Notification{" "}
                     {leave.length + register.length + transfer.length + appliedLeave.length +
                      appliedTransfer.length+ dynamicsRequests.filter(request => request.approverDetails.filter(approver =>
-                      approver.approver == user.job_type)[0].approverStatus == "Pending").length +
+                      approver.approver === user.job_type)[0].approverStatus == "Pending").length +
                        appliedDynamics.filter(form => form.formStatus == "Pending").length > 0 && (
                       <li className="notificationCount">
                         {leave.length +
@@ -404,7 +383,7 @@ const Dashboard = () => {
                       type="number"
                       name="phone_no"
                       id="phone_no"
-                      value={user.phone_no || 0}
+                      value={user.phone_no || ''}
                       onChange={handleChange}
                       required
                       readOnly={readOnly}
@@ -434,7 +413,7 @@ const Dashboard = () => {
                       type="number"
                       name="postal_code"
                       id="postal_code"
-                      value={user.postal_code || 0}
+                      value={user.postal_code || ''}
                       onChange={handleChange}
                       placeholder="postal_code"
                       readOnly={readOnly}
@@ -492,7 +471,7 @@ const Dashboard = () => {
                       type="text"
                       name="date_of_birth"
                       id="date_of_birth"
-                      value={user.date_of_birth?.substring(0, 10)}
+                      value={user.date_of_birth?.substring(0, 10) || ''}
                       onChange={handleChange}
                       placeholder="date_of_birth"
                       readOnly={readOnly}

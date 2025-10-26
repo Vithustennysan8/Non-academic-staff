@@ -1,7 +1,6 @@
 import "../../css/Home/home.css";
-import { useContext, useEffect, useRef, useState } from "react";
-import { UserContext } from "../../Contexts/UserContext";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useEffect, useRef, useState } from "react";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { Link } from "react-router-dom";
 import News from "../Home/News";
@@ -13,31 +12,38 @@ import github from "../../assets/images/home/github-icon.svg"
 import youtube from "../../assets/images/home/youtube.png"
 
 const Home = () => {
-  const { isLogin, setIsLogin } = useContext(LoginContext);
-  const { user, setUser } = useContext(UserContext);
+  const { isLogin, user, setUser } = useAuth();
   const [src, setSrc] = useState(
     "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
   );
   const [role, setRole] = useState("USER");
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const getUserDetail = async () => {
-      try {
-        const response = await Axios.get("/auth/user/info");
-        setUser(response.data);
-        setRole(response.data.role);
-        if (response.data.image_data) {
-          setSrc(
-            `data:${response.data.image_type};base64,${response.data.image_data}`
-          );
+      if (isLogin) {
+        try {
+          const response = await Axios.get("/auth/user/info");
+          setUser(response.data);
+          setRole(response.data.role);
+          if (response.data.image_data) {
+            setSrc(
+              `data:${response.data.image_type};base64,${response.data.image_data}`
+            );
+          }
+        } catch (error) {
+          console.log("Error fetching user details", error);
+        } finally {
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 500);
         }
-      } catch (error) {
-        console.log("message ", error);
+      }else{
+        setIsLoading(false);
       }
     };    
 
     getUserDetail();
-  }, [setUser, isLogin, setIsLogin]);
+  }, [isLogin, setUser]);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideInterval = useRef(null);
@@ -62,8 +68,25 @@ const Home = () => {
     return () => clearInterval(slideInterval.current);
   }, [slides.length]);
 
+  if (isLoading) {
+    return (
+      <div className="contact_container">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading home information...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="home">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      exit={{ opacity: 0, y: -20 }} 
+      transition={{ duration: 0.6 }}
+    >
+    <div className="home">
           {isLogin ? (
             /* --------- user profile ----------- */
             <div>
@@ -94,14 +117,13 @@ const Home = () => {
               <>
                 {role === "USER" && (
                   <div className="form-shortcut-container">
+                    <h2 className="quick-links-title">Quick Links</h2>
                     <div className="form-shortcuts">
                       <div className="form-shortcut">
                         <p>
                           <Link to="/forms">Apply for Leaves</Link>
                         </p>
                       </div>
-                    </div>
-                    <div className="form-shortcuts">
                       <div className="form-shortcut">
                         <p>
                           <Link to="/forms">Apply for Transfer</Link>
@@ -153,68 +175,13 @@ const Home = () => {
               </div>
             )}
 
-            {/* ----------- quick links ----------- */}
-            {/* <div className="homeQuikLinks">
-              <h1>Quick Downloads</h1>
-              <div className="homeLinks">
-                <a href={lab8} download="Leave_form" target="_blank">
-                  <p className="Link">
-                    <img
-                      src={pdfDownload}
-                      alt=""
-                    />
-                    Application for Normal Leave
-                  </p>
-                </a>
-
-                <a href={lab8} download="Subtitue_form" target="_blank">
-                  <p className="Link">
-                    <img
-                      src={pdfDownload}
-                      alt=""
-                    />
-                    Application for Accident Leave
-                  </p>
-                </a>
-
-                <a href={lab8} download="Transfer_form" target="_blank">
-                  <p className="Link">
-                    <img
-                      src={pdfDownload}
-                      alt=""
-                    />
-                    Application for Maternity Leave
-                  </p>
-                </a>
-
-                <a href={lab8} download="Leave_form" target="_blank">
-                  <p className="Link">
-                    <img
-                      src={pdfDownload}
-                      alt=""
-                    />
-                    Application for Paternal Leave
-                  </p>
-                </a>
-
-                <a href={lab8} download="Leave_form" target="_blank">
-                  <p className="Link">
-                    <img
-                      src={pdfDownload}
-                      alt=""
-                    />
-                    Application for Medical Leave
-                  </p>
-                </a>
-              </div>
-            </div> */}
-
             {/* ----------- news feed ---------- */}
             <News role={role} />
 
             {/* ----------- social media links -----------*/}
             <div className="linkto">
               <h2>Link to official websites</h2>
+              <p>Connect with us on social media</p>
               <div>
                 <a href="https://www.pdn.ac.lk/" target="_blank">
                   <img
@@ -261,6 +228,7 @@ const Home = () => {
               </div>
             </div>
           </div>
+    </div>
     </motion.div>
   );
 };

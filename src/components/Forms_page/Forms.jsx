@@ -1,35 +1,43 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "../../css/Forms_page/forms.css";
 import FormCard from "./FormCard";
-import img1 from "../../assets/images/normalIMG.jpg"
-import medical from "../../assets/images/medicalIMG.jpg"
-import maternity from "../../assets/images/maternityIMG.jpg"
-import accident from "../../assets/images/accidentIMG.jpg"
-import paternal from "../../assets/images/paternalIMG.jpg"
-import LoadingAnimation from "../Common/LoadingAnimation";
-import transfer from "../../assets/images/transferIMG.jpg"
 import { Link } from "react-router-dom";
-import { UserContext } from "../../Contexts/UserContext";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import {motion} from "framer-motion";
 
 const Forms = () => {
-  const [isloading, setIsLoading] = useState(true);
-  const {user} = useContext(UserContext);
-  const {isLogin} = useContext(LoginContext);
+  const [isLoading, setIsLoading] = useState(true);
+  const {user, isLogin} = useAuth();
 
   setTimeout(() => {
     setIsLoading(false);
-  }, 0);
+  }, 500);
+
+  if (isLoading) {
+    return (
+      <div className="staffs">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading forms information...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} transition={{duration:0.5}}>
+    <motion.div 
+    initial={{ opacity: 0, y: 20 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    exit={{ opacity: 0, y: -20 }} 
+    transition={{ duration: 0.6 }}
+  >
     {
       <div className="form-content">
         <div className="form-heading">Leave or Transfer Request</div>
 
         {user.role !== "USER" && isLogin &&
-        <>
+        <div className="form-approval-flow">
+          <h2>Admin Actions</h2>
           <div className="EditApprovalFlowContainer">
             <div>
               <i className="fa fa-pen-to-square"></i>
@@ -52,15 +60,15 @@ const Forms = () => {
           </div>
           <div className="EditApprovalFlowContainer">
             <div>
-              <i className="fa fa-align-left"></i>
+              <i className="fa fa-house"></i>
               <Link to={"/manageFaculty"}>Manage Faculty</Link><br />
             </div>
             <div>
-              <i className="fa fa-building"></i>
+              <i className="fa fa-person"></i>
               <Link to={"/managePosition"}>Manage Positions</Link>
             </div>
           </div>
-        </>
+        </div>
         }
 
         <div className="form-attributes">
@@ -79,31 +87,7 @@ const Forms = () => {
             url={"/transferForm"}
             />
         </div>
-{/* 
 
-        <div className="form-details-container">
-          <h3>Flow of the forms</h3>
-          <div className="form-details">
-            <div className="form-detail">
-              <img src={img1} alt="normalFormFlowPicture" />
-            </div>
-            <div className="form-detail">
-              <img src={accident} alt="accidentFormFlowPicture" />
-            </div>
-            <div className="form-detail">
-              <img src={paternal} alt="paternalFormFlowPicture" />
-            </div>
-            <div className="form-detail">
-              <img src={medical} alt="medicalFormFlowPicture" />
-            </div>
-            <div className="form-detail">
-              <img src={maternity} alt="maternityFormFlowPicture" />
-            </div>
-            <div className="form-detail">
-              <img src={transfer} alt="transferFormFlowPicture" />
-            </div>
-          </div>
-        </div> */}
       </div>
     }
     </motion.div>

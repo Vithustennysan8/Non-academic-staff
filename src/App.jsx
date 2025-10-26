@@ -14,8 +14,7 @@ import { useEffect, useState } from "react";
 import ResetPassword from "./components/Profile_page/ResetPassword";
 import Footer from "./components/Common/Footer";
 import Header from "./components/Common/Header";
-import { LoginContext } from "./Contexts/LoginContext";
-import { UserContext } from "./Contexts/UserContext";
+import { AuthProvider } from "./Contexts/AuthContext";
 import RequestedForms from "./components/notifications/LeaveRequests";
 import LeaveForms from "./components/forms/LeaveForms";
 import Notifications from "./components/forms/Notifications";
@@ -30,12 +29,11 @@ import { NetworkStatusContext } from "./Contexts/NetworkStatusContext";
 import SubIncharge from "./components/Admin/SubIncharge";
 import News from "./components/NewsPage/News";
 import NotFound from "./components/Common/NotFound";
+import ProtectedRoute from "./components/Common/ProtectedRoute";
+import { ToastContainer } from "react-toastify";
 
 
 function App() {
-  const [isLogin, setIsLogin] = useState(sessionStorage.getItem("isLogin"));
-  const [user, setUser] = useState({});
-
   // check the network connectivity
   const [isOnline, setIsOnline] = useState(navigator.onLine);  
   useEffect(() => {
@@ -50,87 +48,47 @@ function App() {
       window.removeEventListener("offline", handleOffline);
     };
   }, []);
-  
-
-  useEffect(() => {
-    // document.addEventListener("contextmenu", (event)=>{event.preventDefault()})
-
-    setInterval(() => {
-      if (localStorage.getItem("token")) {
-        try {
-          if (typeof localStorage.getItem("token") !== "string") {
-            throw new Error("Token is not a string");
-          }
-
-          let Token = localStorage.getItem("token");
-          const tokenParts = Token.split(".");
-          if (tokenParts.length !== 3) {
-            throw new Error("Invalid token format");
-          }
-
-          const base64Url = tokenParts[1];
-          const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-          const payload = JSON.parse(atob(base64));
-
-          const currentTime = Math.floor(Date.now() / 1000);
-          const expiryTime = payload.exp;
-
-          if (currentTime > expiryTime) {
-            console.log("Token is not valid");
-            localStorage.removeItem("token");
-            sessionStorage.setItem("isLogin", false);
-            setIsLogin(false);
-          }
-        } catch (error) {
-          console.error("Failed to decode token:", error);
-          localStorage.removeItem("token");
-        }
-      } else {
-        console.log("No token found");
-      }
-    }, 10000);
-
-    return () => clearInterval();
-  }, [isLogin]);
 
   return (
     <>
       <NetworkStatusContext.Provider value={{isOnline, setIsOnline}}>
-      <LoginContext.Provider value={{ isLogin, setIsLogin }}>
-        <UserContext.Provider value={{ user, setUser }}>
           <Router>
+        <AuthProvider>
             <Header />
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Home />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/Dashboard" element={<Dashboard />} />
-              <Route path="/forms" element={<Forms />} />
-              <Route path="/staffs" element={<Staffs />} />
-              <Route path="/leaveForms" element={<LeaveForms />} />
-              <Route path="/fullLeaveForm" element={<FullLeaveForm />} />
-              <Route path="/halfLeaveForm" element={<HalfLeaveForm />} />
-              <Route path="/transferForm" element={<TransferForm />} />
-              <Route path="/forum" element={<Forum />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/resetPassword" element={<ResetPassword />} />
-              <Route path="/requestedForms" element={<RequestedForms />} />
-              <Route path="/notifications" element={<Notifications />} />
               <Route path="/forgotPassword" element={<ForgotPassword />} />
-              <Route path="/approvalFlowManager" element={<ApprovalFlowManager/>}/>
-              <Route path="/createForm" element={<CreateForm/>}/>
-              <Route path="/dynamicForm" element={<DynamicForms/>} />
-              <Route path="/manageDepartment" element={<ManageDepartments/>}/>
-              <Route path="/manageFaculty" element={<ManageFaculties/>}/>
-              <Route path="/managePosition" element={<ManagePositions/>}/>
-              <Route path="/subIncharge" element={<SubIncharge />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/news" element={<News />} />
+              
+              {/* Protected Routes */}
+              <Route path="/Dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/forms" element={<ProtectedRoute><Forms /></ProtectedRoute>} />
+              <Route path="/staffs" element={<ProtectedRoute><Staffs /></ProtectedRoute>} />
+              <Route path="/leaveForms" element={<ProtectedRoute><LeaveForms /></ProtectedRoute>} />
+              <Route path="/fullLeaveForm" element={<ProtectedRoute><FullLeaveForm /></ProtectedRoute>} />
+              <Route path="/halfLeaveForm" element={<ProtectedRoute><HalfLeaveForm /></ProtectedRoute>} />
+              <Route path="/transferForm" element={<ProtectedRoute><TransferForm /></ProtectedRoute>} />
+              <Route path="/forum" element={<ProtectedRoute><Forum /></ProtectedRoute>} />
+              <Route path="/resetPassword" element={<ProtectedRoute><ResetPassword /></ProtectedRoute>} />
+              <Route path="/requestedForms" element={<ProtectedRoute><RequestedForms /></ProtectedRoute>} />
+              <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
+              <Route path="/approvalFlowManager" element={<ProtectedRoute><ApprovalFlowManager /></ProtectedRoute>} />
+              <Route path="/createForm" element={<ProtectedRoute><CreateForm /></ProtectedRoute>} />
+              <Route path="/dynamicForm" element={<ProtectedRoute><DynamicForms /></ProtectedRoute>} />
+              <Route path="/manageDepartment" element={<ProtectedRoute><ManageDepartments /></ProtectedRoute>} />
+              <Route path="/manageFaculty" element={<ProtectedRoute><ManageFaculties /></ProtectedRoute>} />
+              <Route path="/managePosition" element={<ProtectedRoute><ManagePositions /></ProtectedRoute>} />
+              <Route path="/subIncharge" element={<ProtectedRoute><SubIncharge /></ProtectedRoute>} />
+              
               <Route path="/*" element={<NotFound />} />
             </Routes>
             <Footer />
+        </AuthProvider>
           </Router>
-        </UserContext.Provider>
-      </LoginContext.Provider>
+          <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
       </NetworkStatusContext.Provider>
     </>
   );

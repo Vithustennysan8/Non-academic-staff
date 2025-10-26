@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import "../../css/Profile_page/deanCharts.css"
 import PropTypes from 'prop-types';
 import { Axios } from '../AxiosReqestBuilder';
+import { toast } from 'react-toastify';
 
 // Register the required chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -114,7 +115,8 @@ const DeanCharts = ({allForms}) => {
 
       const handleFilters = ()=>{
           if(filter.year.length !== 4){
-              alert("Please enter a valid year")
+            toast.warning("Please enter a valid year");
+            return;
           }
         overAlldepartmentDetails(modifiedData, filter.year, filter.month);
       }

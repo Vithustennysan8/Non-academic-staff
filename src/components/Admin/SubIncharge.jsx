@@ -1,32 +1,27 @@
 import { useEffect, useState } from "react";
 import "../../css/Admin/subIncharge.css";
 import { Axios } from "../AxiosReqestBuilder";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const SubIncharge = () => {
     const [staff, setStaff] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchStaff = async () => {
             try {
                 const response = await Axios('admin/managers');
                 if (response.status !== 200) {
-                    Swal.fire({
-                        title: "Error",
-                        text: "Failed to fetch staff data",
-                        icon: "error",
-                        confirmButtonText: "Ok",
-                    });
+                    toast.error("Failed to fetch staff data");
                     return;
                 }
                 setStaff(response.data);
             } catch (error) {
-                Swal.fire({
-                    title: "Network Error",
-                    text: "Failed to fetch staff data",
-                    icon: "error",
-                    confirmButtonText: "Ok",
-                });
+                console.log("Error fetching staff", error);
+            } finally {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 500);
             }
         };
         fetchStaff();
@@ -37,44 +32,36 @@ const SubIncharge = () => {
             try {
                 const response = await Axios.put(`admin/incharge/${id}`);
                 setStaff(response.data);
-                Swal.fire({
-                    title: "Success",
-                    text: "Successfully assigned incharge",
-                    icon: "success",
-                    confirmButtonText: "Ok",
-                });
+                toast.success("Successfully assigned incharge");
             } catch (error) {
-                Swal.fire({
-                    title: error.response.data.message || "Error",
-                    text: "Failed to assign incharge",
-                    icon: "error",
-                    confirmButtonText: "Ok",
-                });
+                console.log("Error assigning incharge", error);
             }
         }else if(choice === "non-incharge"){
             try {
                 const response = await Axios.put(`admin/unIncharge/${id}`);
                 setStaff(response.data);
-                Swal.fire({
-                    title: "Success",
-                    text: "Successfully assigned non-incharge",
-                    icon: "success",
-                    confirmButtonText: "Ok",
-                });
+                toast.success("Successfully assigned non-incharge");
             } catch (error) {
-                Swal.fire({
-                    title: error.response.data.message || "Error",
-                    text: "Failed to assign non-incharge",
-                    icon: "error",
-                    confirmButtonText: "Ok",
-                });
+                console.log("Error assigning non-incharge", error);
             }
         }
     };
 
+    if(isLoading){
+        return (
+            <div className="subIncharge_container">
+                <div className="loading-container">
+                    <div className="loading-spinner"></div>
+                    <p>Loading staff information...</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="subIncharge_container">
             <h1>Assign Temporary Head of Department</h1>
+            <div className="table-container">
             <table border="1" style={{ width: '100%', textAlign: 'left' }}>
                 <thead>
                     <tr>
@@ -110,6 +97,7 @@ const SubIncharge = () => {
                     ))}
                 </tbody>
             </table>
+            </div>
         </div>
     );
 };

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import "../../css/Notifications/appliedDynamicForms.css"
 import FormReqTap from "./FormReqTap.jsx";
-import Swal from "sweetalert2";
 import { Axios } from "../AxiosReqestBuilder.jsx";
+import { toast } from "react-toastify";
 
 const AppliedDynamicForms = ({dynamicForms}) => {
     const [showSingleForm, setShowSingleForm] = useState(false);
@@ -32,11 +32,7 @@ const AppliedDynamicForms = ({dynamicForms}) => {
         let filteredForms = dynamicForms;
     
         if(filterYear !== '' && filterYear?.length !== 4){
-          Swal.fire({
-            title: "Please select a valid year",
-            icon: "error",
-            confirmButtonText: "Ok",
-          })
+          toast.warning("Please select a valid year");
           return;
         }
     

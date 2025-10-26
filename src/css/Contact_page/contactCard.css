@@ -1,88 +1,178 @@
-.contactCard{
-    padding: 12px 10px;
-    /* margin: auto; */
-    margin-bottom: 20px;
+/* Contact Card Container */
+.contactCard {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 25px;
     display: flex;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 1200px;
+    gap: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
 }
-.contact-img{
-    width: 20%;
+
+.contactCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Contact Image */
+.contact-img {
     flex-shrink: 0;
-    width: 130px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #f8f9fa;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-.contact-img img{
+
+.contact-img img {
     width: 100%;
     height: 100%;
-    border-radius: 8px;
     object-fit: cover;
-    border: 1px solid #ccc;
+    transition: transform 0.3s ease;
 }
-.contact-details{
-    padding: 10px 15px;
-}
-.CC-name{
-    font-size: 1.3rem;
-    color: rgb(235, 3, 3);
-    cursor: pointer;
-}
-.CC-position{
-    color: #4d4d4d;
-    font-size: 1rem;
-}
-.CC-phone, .CC-email{
-    font-size: 0.9rem;
-    color: rgba(149, 4, 4, 0.875);
 
-    margin-top: 4px;
+.contact-img:hover img {
+    transform: scale(1.05);
 }
-.CC-email a{
-    text-decoration: none;
-    color: purple;
+
+.contact-img a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Contact Details */
+.contact-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+}
+
+.CC-name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.CC-position {
+    font-size: 1rem;
+    color: #6c757d;
+    margin: 0;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Contact Methods */
+.contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.CC-email, .CC-phone {
     display: flex;
     align-items: center;
-}
-.CC-email img, .CC-phone img{
-    width: 18px;
-    margin-right: 8px;
+    gap: 10px;
+    text-decoration: none;
+    color: #495057;
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
 }
 
-@media (max-width: 768px){
-    .contactCard{
-        width: 100%;
+.CC-email:hover, .CC-phone:hover {
+    background: #e9ecef;
+    color: #2c3e50;
+    transform: translateX(5px);
+}
+
+.CC-email svg, .CC-phone svg {
+    flex-shrink: 0;
+    color: #dc3545;
+}
+
+.CC-email:hover svg, .CC-phone:hover svg {
+    color: #c82333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contactCard {
+        padding: 20px;
+        gap: 15px;
     }
-    .contact-img{
-        width: 130px;
-        height: 150px;
-        flex-shrink: 0;
+    
+    .contact-img {
+        width: 120px;
+        height: 120px;
     }
-    .CC-name{
+    
+    .CC-name {
         font-size: 1.2rem;
     }
-    .CC-email, .CC-phone{
-        font-size: 0.8rem;
+    
+    .CC-position {
+        font-size: 0.9rem;
+    }
+    
+    .CC-email, .CC-phone {
+        font-size: 0.85rem;
+        padding: 6px 10px;
     }
 }
 
-@media (max-width: 450px){
-    .contactCard{
+@media (max-width: 480px) {
+    .contactCard {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        gap: 15px;
+    }
+    
+    .contact-img {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+    }
+    
+    .contact-details {
+        align-items: center;
+    }
+    
+    .CC-name {
+        font-size: 1.1rem;
+    }
+    
+    .CC-position {
+        font-size: 0.85rem;
+    }
+    
+    .contact-methods {
         width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
     }
-    .contact-img{
-        /* width: 20%; */
-        width: 90px;
-        height: 110px;
-        flex-shrink: 0;
-    }
-    .CC-name{
-        font-size: 1.05rem;
-    }
-    .CC-position{
+    
+    .CC-email, .CC-phone {
         font-size: 0.8rem;
+        padding: 8px 12px;
+        justify-content: center;
     }
-    .CC-phone, .CC-email{
-        font-size: 0.7rem;
-    }    
+    
+    .CC-email:hover, .CC-phone:hover {
+        transform: none;
+    }
 }

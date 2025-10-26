@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../css/Admin/createForm.css"
 import CheckBox from "../CustomElements/CheckBox";
 import InputDate from "../CustomElements/InputDate";
@@ -7,11 +7,13 @@ import Radio from "../CustomElements/Radio";
 import Select from "../CustomElements/Select";
 import Button from "../CustomElements/Button";
 import File from "../CustomElements/File";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../AxiosReqestBuilder";
 import Swal from "sweetalert2";
 import PropTypes from 'prop-types';
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 const Toolbox = ({setShowToolbox, handleAddInput}) => {
     const [option, setOption] = useState('');
@@ -103,20 +105,24 @@ Toolbox.propTypes = {
 };
 
 const CreateForm = () => {
-    const {isLogin} = useContext(LoginContext);
+    const {isLogin} = useAuth();
     const navigate = useNavigate();
     const [FormName, setFormName] = useState('');
     const [showToolbox, setShowToolbox] = useState(false);
     const [elements, setElements] = useState([]);
     const [jsonvalues, setJsonValues] = useState([]);
-
+    const [isLoading, setIsLoading] = useState(true);
     useEffect(()=>{
+        setIsLoading(true);
         if(!isLogin){
             window.scrollTo({top:0, behavior:"smooth"});
             navigate('/login');
             return;
         }
-    },[isLogin, navigate]);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500);
+    },[isLogin, navigate])
 
     const findField = (values) => {
         switch (values.type) {
@@ -156,20 +162,14 @@ const CreateForm = () => {
         const encoded = encodeURIComponent(FormName)
         e.preventDefault();
         if(!FormName){
-            Swal.fire({
-                title: "Please add a FormName first",
-                icon: "error",
-              })
+            toast.warning("Please add a FormName first");
             return;
         }
 
         try {
             const response = await Axios.post(`/admin/dynamicForm/create/${encoded}`, jsonvalues)
             console.log(response.data);
-            Swal.fire({
-                title: "Form created successfully",
-                icon: 'success',
-              })
+            toast.success("Form created successfully");
             console.log(jsonvalues);
             setJsonValues([]);
             setElements([]);
@@ -178,8 +178,22 @@ const CreateForm = () => {
         }
     }
 
+    if(isLoading){
+        return (
+            <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p>Loading...</p>
+            </div>
+        )
+    }
+
   return (
-    <>
+    <motion.div 
+    initial={{ opacity: 0, y: 20 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    exit={{ opacity: 0, y: -20 }} 
+    transition={{ duration: 0.6 }}
+  >
         <div className="createForm">
             {showToolbox && <Toolbox setShowToolbox={setShowToolbox} handleAddInput={handleAddInput}/>}
             <h1>Create Form</h1>
@@ -208,7 +222,7 @@ const CreateForm = () => {
                 <button className="bttn uploadbtn" onClick={(e) => handleUpload(e)}>Upload Form</button>
             </form>
         </div>
-    </>
+    </motion.div>
   )
 }
 

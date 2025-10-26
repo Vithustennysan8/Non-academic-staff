@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import "../../../css/Profile_page/Dashboard/adminDashboard.css"
 import { Axios } from '../../AxiosReqestBuilder';
-import { LoginContext } from '../../../Contexts/LoginContext';
+import { useAuth } from '../../../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../../Contexts/UserContext';
 import UserDashboard from "./UserDashboard";
 import StaffCard from '../../Staff_page/StaffCard';
 import { CSVLink } from 'react-csv';
@@ -12,10 +11,9 @@ import { motion} from "framer-motion";
 import SummaryCharts from "../SummaryCharts"
 
 const AdminDashboard = () => {
-    const {isLogin} = useContext(LoginContext);
+    const {isLogin, user} = useAuth();
     const navigate = useNavigate();
     const [forms, setForms] = useState([]);
-    const {user} = useContext(UserContext);
     const [staffs, setStaffs] = useState([]);
     const [selectedStaff, setSelectedStaff] = useState(null);
     const [dataCollection, setDataCollection] = useState([]);
@@ -100,17 +98,16 @@ const AdminDashboard = () => {
                     const response = await Axios.get("/auth/user/staffs");
                     setStaffs(response.data);
                 } catch (error) {
-                    console.log(error)
+                    console.log("Error fetching staffs", error.message);
                 }
             }
             const fetchFomrs = async () => {
                 try {
                     const response1 = await Axios.get("/admin/leaveForms/getAllForms");
                     const response2 = await Axios.get("admin/DynamicFormUser/getAll");
-                    console.log(response2.data);
                     setForms([...response2.data, ...response1.data]);
                 } catch (error) {
-                    console.log(error);
+                    console.log("Error fetching forms", error.message);
                 }
             }
             fetchFomrs();

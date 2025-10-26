@@ -56,72 +56,193 @@
     width: 100%;
     mix-blend-mode:darken;
 }
+.form-approval-flow{
+    width: 95%;
+    margin: 30px auto;
+    background: linear-gradient(135deg, #c8c8c8 0%, #959595 100%);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-approval-flow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    opacity: 0.3;
+}
+
+.form-approval-flow h2{
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 30px 0;
+    text-align: center;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
 
 .EditApprovalFlowContainer{
-    width: 93%;
-    margin: auto;
-    display: flex;
-    gap: 40px;
-    text-align: center;
-}
-.EditApprovalFlowContainer div{
-    background-color: white;
-    margin-bottom: 10px;
-    padding: 8px 0;
     width: 100%;
-    border-radius: 6px;
-    color: blue;
-    font-size: 1.3rem;
-    box-shadow: 3px 2px 5px 1px #ccc;
+    margin: 0 0 20px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    position: relative;
+    z-index: 1;
 }
+
+.EditApprovalFlowContainer:last-child {
+    margin-bottom: 0;
+}
+
+.EditApprovalFlowContainer div{
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.EditApprovalFlowContainer div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+.EditApprovalFlowContainer div:hover::before {
+    left: 100%;
+}
+
+.EditApprovalFlowContainer div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 1);
+}
+
+.EditApprovalFlowContainer div i{
+    font-size: 1.5rem;
+    color: #667eea;
+    transition: all 0.3s ease;
+}
+
+.EditApprovalFlowContainer div:hover i{
+    color: #764ba2;
+    transform: scale(1.1);
+}
+
 .EditApprovalFlowContainer div a{
     font-weight: 600;
     text-decoration: none;
-    color: blue;
-    font-size: 1.1rem;
-    margin-left: 10px;
+    color: #2c3e50;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-align: center;
+    flex: 1;
 }
-.EditApprovalFlowContainer div a:hover{
-    color: black;
+
+.EditApprovalFlowContainer div:hover a{
+    color: #1a252f;
 }
 
 @media only screen and (max-width: 800px) {
-    .EditApprovalFlowContainer{
+    .form-approval-flow {
+        padding: 25px;
+        margin: 20px auto;
+    }
+    
+    .form-approval-flow h2 {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+    }
+    
+    .EditApprovalFlowContainer {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 15px;
     }
-    .EditApprovalFlowContainer div{
-        font-size: 1rem;
+    
+    .EditApprovalFlowContainer div {
+        padding: 20px 16px;
     }
-    .EditApprovalFlowContainer div a{
-        font-size: 0.85rem;
+    
+    .EditApprovalFlowContainer div i {
+        font-size: 1.3rem;
     }
+    
+    .EditApprovalFlowContainer div a {
+        font-size: 0.9rem;
+    }
+    
     .form-attributes{
         justify-content: space-between;
     }
-
 }
+
 @media only screen and (max-width: 600px) {
     .form-content{
         width: 90%;
     }
+    
     .form-heading{
         font-size: 1.2rem;
     }
+    
     .form-detail{
         width: 100%;
         margin: 0 5px;
     }
+    
     .form-attributes{
         flex-direction: column;
     }
-    .EditApprovalFlowContainer{
-        gap: 10px;
+    
+    .form-approval-flow {
+        padding: 20px;
+        margin: 15px auto;
+        border-radius: 16px;
     }
-    .EditApprovalFlowContainer div{
-        font-size: 1rem;
+    
+    .form-approval-flow h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
     }
-    .EditApprovalFlowContainer div a{
-        font-size: 0.7rem;
+    
+    .EditApprovalFlowContainer {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
-
+    
+    .EditApprovalFlowContainer div {
+        padding: 18px 14px;
+        border-radius: 12px;
+    }
+    
+    .EditApprovalFlowContainer div i {
+        font-size: 1.2rem;
+    }
+    
+    .EditApprovalFlowContainer div a {
+        font-size: 0.85rem;
+    }
 }

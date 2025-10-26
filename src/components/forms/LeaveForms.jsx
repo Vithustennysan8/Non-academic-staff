@@ -7,7 +7,6 @@ import MaternityLeaveForm from "./MaternityLeaveForm"
 import MedicalLeaveForm from "./MedicalLeaveForm"
 import { Axios } from "../AxiosReqestBuilder"
 import DynamicFormVIewer from "./DynamicFormVIewer"
-import Swal from "sweetalert2"
 
 const LeaveForms = () => {
     const [dynamicForms, setDynamicForms] = useState([]);
@@ -20,7 +19,7 @@ const LeaveForms = () => {
           const response = await Axios.get("/auth/user/dynamicForm/getAll");
           setDynamicForms(response.data);
         } catch (error) {
-          console.log(error);          
+          console.log("Error fetching dynamic form list",   error);          
         }
       }
       fetchDynamicFormList();
@@ -29,14 +28,9 @@ const LeaveForms = () => {
     const fetchForm = async (dynamicForm) => {
       try {
         const response = await Axios.get(`/auth/user/dynamicForm/get/${dynamicForm}`)
-        console.log(response.data);
         setDynamicFormDetails(response.data);
       } catch (error) {
-        Swal.fire({
-          title: "Error accepting application",
-          icon: "error",
-        })
-        console.log(error);
+        console.log("Error fetching form", error);
       }
     } 
 

@@ -1,15 +1,14 @@
 import { useContext, useEffect } from "react";
 import "../../css/Forms/maternityLeaveForm.css"
 import { useForm } from "react-hook-form";
-import { UserContext } from "../../Contexts/UserContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { useNavigate } from "react-router-dom";
-import { LoginContext } from "../../Contexts/LoginContext";
-import Swal from "sweetalert2";
+import { handleError } from "../../utils/errorHandler";
+import { toast } from "react-toastify";
 
 const MaternityLeaveForm = () => {
-    const {isLogin} = useContext(LoginContext);
-    const {user} = useContext(UserContext);
+    const {isLogin, user} = useAuth();
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -33,13 +32,10 @@ const MaternityLeaveForm = () => {
         try {
             const response = await Axios.post("auth/maternityLeaveForm/add", formData);
             console.log(response.data);
-            Swal.fire({
-                title: 'Form Submitted',
-                icon: 'success',
-            })
+            toast.success('Form submitted successfully!');
             navigate("/forms");
         } catch (error) {
-            console.log(error);
+            handleError({ code: error.code || "UNKNOWN_ERROR", message: error.message || "Failed to submit form" });
         }
     }
 

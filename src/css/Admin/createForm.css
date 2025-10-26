@@ -35,7 +35,7 @@
     padding: 4px 12px;
 }
 .addButton{
-    background-color: #271cf4;
+    background: linear-gradient(to right, #5149f0, #1f13ff);
     padding: 5px 8px;
     color: white;
     position: absolute;
@@ -43,10 +43,10 @@
     top: -40px;
 }
 .addButton:hover{
-    background-color: #1208dd;
+    background: linear-gradient(to right, #1f13ff, #5149f0);
 }
 .addButton:active{
-    background-color: #271cf4;
+    background: linear-gradient(to right, #5149f0, #1f13ff);
 }
 
 .toolbox{
@@ -85,7 +85,7 @@
     gap: 5px;
 }
 .optionsDiv button{
-    background-color: #271cf4;
+    background: linear-gradient(to right, #5149f0, #1f13ff);
     border: 1px solid transparent;
     padding: 4px 9px;
     color: white;
@@ -95,11 +95,11 @@
 }
 .optionsDiv button:hover{
     background-color: white;
-    color: #271cf4;
-    border: 1px solid #271cf4;
+    color: #1f13ff;
+    border: 1px solid #1f13ff;
 }
 .optionsDiv button:active{
-    background-color: #271cf4;
+    background: linear-gradient(to right, #1f13ff, #5149f0);
     color: white; 
 }
 .toolbox_item div{
@@ -134,7 +134,7 @@
 }
 
 .uploadbtn{
-    background-color: #271cf4;
+    background: linear-gradient(to right, #5149f0, #1f13ff);
     color: white;
     margin: 20px 0 0;
     position: absolute;

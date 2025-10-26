@@ -4,10 +4,15 @@ import editIcon from "../../assets/edit.png"
 import deleteIcon from "../../assets/delete.png"
 
 const Card = ({role, news, handleDelete, handleUpdate}) => {
+  // Safety checks to prevent errors
+  if (!news) {
+    return <div className="card">Loading...</div>;
+  }
+
   const date = new Date(news.updatedAt);
   const datePart = format(date, 'MMMM do, yyyy');
   const timePart = format(date, 'hh:mm a');
-  const photo = `data:${news.fileType};base64,${news.fileData}`;
+  const photo = news.fileData ? `data:${news.fileType};base64,${news.fileData}` : null;
 
 return (
     <div className="card" > 
@@ -27,11 +32,11 @@ return (
             </div>
           </div>
           <div className="newsPhotos">
-            {news.fileData != null && <img src={photo} alt="News photos" />}
+            {photo && <img src={photo} alt="News photos" />}
           </div>
         </div>
 
-        <p className="reporter">by - {news.user.first_name}</p>
+        <p className="reporter">by - {news.user?.first_name || 'Unknown'}</p>
     </div>
   )
 }

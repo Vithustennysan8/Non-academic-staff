@@ -1,13 +1,14 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import '../../css/Home/news.css'
 import NewsCards from "./NewsCards";
 import { useForm } from "react-hook-form";
 import { Axios } from ".././AxiosReqestBuilder";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const News = ({role}) => {
-    const {isLogin} = useContext(LoginContext);
+    const {isLogin} = useAuth();
     const [news, setNews] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [showUpdateBtn, setShowUpdateBtn] = useState(false);
@@ -20,7 +21,7 @@ const News = ({role}) => {
                     const response = await Axios.get("/auth/news/get");
                     setNews(response.data);
                 }catch(error){
-                    console.log("message ", error);
+                    console.log("Error fetching news", error);
                 }
             }
             getNews();
@@ -44,12 +45,12 @@ const News = ({role}) => {
         try {
             const response = showUpdateBtn ? await Axios.put(`/admin/news/update/${updateNews.id}`, fileData) : 
             await Axios.post(`/admin/news/add`, fileData);
-            console.log(response.data);
             setNews(response.data);
+            toast.success(showUpdateBtn ? "News updated successfully" : "News added successfully");
             setShowUpdateBtn(false);
             setShowForm(false);
         } catch (error) {
-            console.log(error);
+            console.log(showUpdateBtn ? "Error updating news" : "Error adding news", error.message);
         }
         reset();
     }
@@ -58,8 +59,9 @@ const News = ({role}) => {
         try {
             const response = await Axios.delete(`/admin/news/delete/${id}`);
             setNews(response.data);
+            toast.success("News deleted successfully");
         } catch (error) {
-            console.log(error);
+            console.log("Error deleting news", error.message);
         }
     }
     
@@ -68,7 +70,6 @@ const News = ({role}) => {
         setShowForm(true);
         setValue("heading", news.heading);
         setValue("body", news.body);
-        // setValue("images", news.images);
         setUpdateNews(news);
     }
 
@@ -142,6 +143,7 @@ const News = ({role}) => {
         )}      
 
         <Link to={"/news"} className="seeMore">See more -&gt;</Link>
+        
     </div>
   )
 }

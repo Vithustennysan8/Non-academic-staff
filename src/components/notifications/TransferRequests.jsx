@@ -1,18 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import "../../css/Notifications/transferRequests.css"
-import { useContext, useEffect, useState } from "react";
-import { LoginContext } from "../../Contexts/LoginContext";
-import { UserContext } from "../../Contexts/UserContext";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../Contexts/AuthContext";
 import FormReqTap from "./FormReqTap";
 import FormPreview from "../forms/FormPreview";
 
 const TransferRequests = ({allTransferFormRequests}) => {
   const navigate = useNavigate();
-  const { isLogin } = useContext(LoginContext);
+  const { isLogin, user } = useAuth();
   const [filteredForms, setFilteredForms] = useState([]);
   const [requestForm, setRequestForm] = useState({});
   const [showForm, setShowForm] = useState(false);
-  const { user } = useContext(UserContext);
   const [filters, setFilters] = useState({
     status: "Pending",
     year:'',

@@ -1,21 +1,20 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import "../../../css/Profile_page/Dashboard/userDashboard.css"
 import { Axios } from "../../AxiosReqestBuilder"
-import { LoginContext } from "../../../Contexts/LoginContext"
+import { useAuth } from "../../../Contexts/AuthContext"
 import { useNavigate } from "react-router-dom"
 import { Pie } from "react-chartjs-2"
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import LoadingAnimation from "../../Common/LoadingAnimation"
 import {motion} from "framer-motion"
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 // Register necessary components from chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const UserDashboard = ( {id} ) => {
-  const {isLogin} = useContext(LoginContext);
+  const {isLogin} = useAuth();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
 
   const [forms, setForms] = useState([]);
   const [filteredForms, setFilteredForms] = useState({});
@@ -49,7 +48,7 @@ const UserDashboard = ( {id} ) => {
       setFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
       setTempFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching form types", error.message);
     }
   }
   
@@ -61,9 +60,8 @@ const UserDashboard = ( {id} ) => {
           const response1 = await Axios.get(`/auth/user/leaveFormsById/${id}`);
           const response2 = await Axios.get(`/auth/user/DynamicFormUser/getAllById/${id}`);
           setForms([...response2.data, ...response1.data]);
-          setIsLoading(false);
         }catch(error){
-          console.log(error);
+          console.log("Error fetching forms", error.message);
         }
       }
       fetchForms();
@@ -176,6 +174,7 @@ const UserDashboard = ( {id} ) => {
 
   const handleSearch = () => {
     if(selectedYear === ""){
+      toast.warning("Please enter a valid year");
       return;
     }
 
@@ -301,7 +300,7 @@ const UserDashboard = ( {id} ) => {
             </div>
           </div>
 
-          <div className="salaryDiv">
+          {/* <div className="salaryDiv">
             <h4>SALARY INFO</h4>
             <div className="salaryInfo">
               <div>
@@ -325,7 +324,7 @@ const UserDashboard = ( {id} ) => {
                 <p>{60000 - filtered_noPayForms*2000}/-</p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="summaryChartDiv">
             <h4>Summary in Chart</h4>

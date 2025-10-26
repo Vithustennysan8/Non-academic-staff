@@ -1,16 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../css/Forms/normalLeaveForm.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
-import { UserContext } from "../../Contexts/UserContext";
-import Swal from "sweetalert2";
+import { handleError } from "../../utils/errorHandler";
+import { toast } from "react-toastify";
 
 const NormalLeaveForm = () => {
   const naviagte = useNavigate();
-  const {isLogin} = useContext(LoginContext);
-  const {user} = useContext(UserContext);
+  const {isLogin, user} = useAuth();
   const [lastYearLeaveCount, setLastYearLeaveCount] = useState(0);
   const [thisYearLeaveCount, setThisYearLeaveCount] = useState(0);
     
@@ -46,14 +45,11 @@ const NormalLeaveForm = () => {
     try {
       const response = await Axios.post("auth/normalLeaveForm/add", data);
       console.log(response.data);
-      Swal.fire({
-        title: 'Form Submitted',
-        icon: 'success',
-    })
+      toast.success('Form submitted successfully!');
       window.scrollTo({top:0, behavior:"smooth"});
       naviagte("/forms");
     } catch (error) {
-      console.log(error);
+      handleError({ code: error.code || "UNKNOWN_ERROR", message: error.message || "Failed to submit form" });
     }
   };
 

@@ -39,7 +39,7 @@
 .logo img{
     border-radius: 50%;
     width: 90px;
-    filter: drop-shadow(1px 1px 3px #2f2f2f);
+    filter: drop-shadow(2px 2px 2px #2f2f2f);
 }
 
 .login-container h1{
@@ -51,10 +51,10 @@
 
 .login-container input{
     width: 100%;
-    padding: 8px 5px;
-    margin: 5px 0 12px;
+    padding: 7px 5px;
+    margin: 5px 0 10px;
     text-align: center;
-    border-radius: 7px;
+    border-radius: 8px;
     border: 1px solid #b6b6b6;
     background-color: transparent;
     outline: none;
@@ -72,28 +72,28 @@
 }
 
 .login-container label{
-    margin-bottom: 5px; 
+    margin-bottom: 3px; 
     font-size: 1.1rem;
     /* color: white; */
 }
 
 .login-btn input{
     font-size: 1rem;
-    margin-top: 20px;
+    margin-top: 10px;
     border: none;
 }
 
 .signup-opt{
     text-align: center;
-    margin: 10px 0 0 0;
+    margin: 5px 0 0 0;
 }
 .signup-opt input{
     border: none;
 }
 
 .signup-opt p{
-    color: rgb(204, 20, 20);
-    font-size: 01rem;
+    color: #4d4c4c;
+    font-size: 0.8rem;
 }
 
 .passwd-box div{
@@ -121,6 +121,13 @@
 .others a{
     font-size: 0.8rem;
     color: blue;
+    text-decoration: none;
+    &:hover{
+        color: rgb(0, 0, 139);
+    }
+    &:active{
+        color: rgb(0, 0, 117);
+    }
 }
 
 .others p{

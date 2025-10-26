@@ -2,18 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import FormPreview from "../forms/FormPreview";
 import "../../css/Notifications/requestedForms.css";
 import FormReqTap from "./FormReqTap";
-import { UserContext } from "../../Contexts/UserContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { LoginContext } from "../../Contexts/LoginContext";
 import { Axios } from "../AxiosReqestBuilder";
 
 const RequestedForms = ({ allLeaveFormRequests }) => {
   const navigate = useNavigate();
-  const { isLogin } = useContext(LoginContext);
+  const { isLogin, user } = useAuth();
   const [filteredForms, setFilteredForms] = useState([]);  
   const [requestForm, setRequestForm] = useState({});
   const [showForm, setShowForm] = useState(false);
-  const { user } = useContext(UserContext);
   const [filters, setFilters] = useState({
     status: "pending",
     year:'',

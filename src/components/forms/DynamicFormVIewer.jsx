@@ -1,13 +1,13 @@
 import "../../css/Forms/dynamicFormViewer.css"
 import { useForm } from "react-hook-form";
 import { Axios } from "../AxiosReqestBuilder";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginContext } from "../../Contexts/LoginContext";
-import Swal from "sweetalert2";
+import { useAuth } from "../../Contexts/AuthContext";
+import { toast } from "react-toastify";
 
 const DynamicFormVIewer = ({dynamicFormDetails}) => {
-    const {isLogin} = useContext(LoginContext);
+    const {isLogin} = useAuth();
     const navigate = useNavigate();
     const {handleSubmit, register, formState: {errors}} = useForm();
     const [fileNames, setFileNames] = useState([]);
@@ -147,10 +147,7 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
     
     const onSubmit = async (data) => {
         if(selectedFlow == ''){
-            Swal.fire({
-                title: "Please select a flow",
-                icon: "warning",
-            })
+            toast.warning("Please select a flow");
             return;
         }
 
@@ -164,10 +161,7 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
             const file = data[fileName];
     
             if (file && file[0].type !== "application/pdf") {
-                Swal.fire({
-                    title: "Pdf only",
-                    icon: "error"
-                });
+                toast.error("Pdf only");
                 return;
             }
             
@@ -183,18 +177,11 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
                     },
             });
             console.log(response.data);
-            Swal.fire({
-                title: "Form submitted successfully",
-                icon: "success",
-            })
+            toast.success("Form submitted successfully");
             window.scrollTo({top:0, behavior:"smooth"});
             navigate("/forms");
         } catch (error) {
-            Swal.fire({
-                title: error.response.data.message,
-                icon: "error",
-            })
-            console.log(error);
+            console.log("Error submitting form", error);
         }
     }
 

@@ -3,7 +3,8 @@ import "../../css/Authentication/forgotPassword.css"
 import { useState } from "react";
 import { Axios } from "../AxiosReqestBuilder";
 import {  useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
+import { handleError } from "../../utils/errorHandler";
+import { toast } from "react-toastify";
 import LoadingAnimation from "../Common/LoadingAnimation";
 
 const EmailDiv = ({setPage, setUserMail}) => {
@@ -24,19 +25,24 @@ const EmailDiv = ({setPage, setUserMail}) => {
       }
     } catch (error) {
       if(error.response.data.message){
-        Swal.fire({
-          title: error.response.data.message,
-          icon: "error",
-        })
+        console.log("Error sending OTP", error);
       }
       console.log(error);
     }
   }
 
+  if(isLoading){
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
+
   return(
     <>
       <div className="content">
-        {isLoading && <LoadingAnimation/>}
         <form onSubmit={handleSubmit(onSubmit)}>
           <p>Forgot your password? Don't worry we are just here to sove your problem! Just enter your e-mail address to proceed.</p>
           <input type="email" name="email" placeholder="Your e-mail address" {...register("email", {required:{
@@ -61,12 +67,6 @@ const OTPDiv = ({setPage}) => {
       console.log(response.data);
       setPage("newPasswordPage");
     } catch (error) {
-      if(error.response.data.message){
-        Swal.fire({
-          title: error.response.data.message,
-          icon: "error",
-        })
-      }
       console.log(error);
     }
   }
@@ -98,24 +98,11 @@ const NewPasswordDiv = ({userMail}) => {
       const response = await Axios.post("auth/user/forgotPassword/reset", {"newPassword":data.newPassword, "email":userMail});
       console.log(response.data);
       if(response.data === "Reset success"){
-        Swal.fire({
-          title: "Reset Success",
-          icon: "success",
-        })
+        toast.success("Password reset successfully!");
         navigate("/login");
       }
     } catch (error) {
-      if(error.response.data.message){
-        Swal.fire({
-          title: error.response.data.message,
-          icon: "error",
-        })
-      }
-      Swal.fire({
-        title: error.response.data.message || "Error",
-        icon: "error",
-      })
-      console.log(error);
+      console.log("Error resetting password",   error);
     }
   }
   return(

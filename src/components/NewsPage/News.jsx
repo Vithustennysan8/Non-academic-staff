@@ -1,14 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../css/NewsPage/newspage.css"
 import { Axios } from "../AxiosReqestBuilder";
 import NewsCards from "../Home/NewsCards.jsx";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import { UserContext } from "../../Contexts/UserContext";
+import { toast } from "react-toastify";
 
 const News = () => {
-    const { user } = useContext(UserContext);
-    const {isLogin} = useContext(LoginContext);
+    const { user, isLogin } = useAuth();
     const [news, setNews] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [showUpdateBtn, setShowUpdateBtn] = useState(false);
@@ -26,7 +25,7 @@ const News = () => {
                     setNews(response.data);
                     setCurrentPage(1);
                 }catch(error){
-                    console.log("message ", error);
+                    console.log("Error fetching news", error);
                 }
             }
             getNews();
@@ -50,24 +49,27 @@ const News = () => {
         try {
             const response = showUpdateBtn ? await Axios.put(`/admin/news/update/${updateNews.id}`, fileData) : 
             await Axios.post(`/admin/news/add`, fileData);
-            console.log(response.data);
             setNews(response.data);
             setShowUpdateBtn(false);
             setShowForm(false);
             setCurrentPage(1);
+            toast.success(showUpdateBtn ? "News updated successfully!" : "News added successfully!");
         } catch (error) {
-            console.log(error);
+            console.log(showUpdateBtn ? "Error updating news" : "Error adding news", error);
         }
         reset();
     }
 
-    const handleDelete = async (id) =>{
-        try {
-            const response = await Axios.delete(`/admin/news/delete/${id}`);
-            setNews(response.data);
-            setCurrentPage(1);
-        } catch (error) {
-            console.log(error);
+    const handleDelete = async (id) => {
+        if (window.confirm("Are you sure you want to delete this news?")) {
+            try {
+                const response = await Axios.delete(`/admin/news/delete/${id}`);
+                setNews(response.data);
+                setCurrentPage(1);
+                toast.success("News deleted successfully!");
+            } catch (error) {
+                console.log("Error deleting news", error);
+            }
         }
     }
     
@@ -77,15 +79,15 @@ const News = () => {
         setShowForm(true);
         setValue("heading", news.heading);
         setValue("body", news.body);
-        // setValue("images", news.images);
         setUpdateNews(news);
     }
 
     // derived pagination values
-    const totalPages = pageSize === 0 ? 1 : Math.max(1, Math.ceil(news.length / pageSize));
+    const safeNews = news || [];
+    const totalPages = pageSize === 0 ? 1 : Math.max(1, Math.ceil(safeNews.length / pageSize));
     if (currentPage > totalPages) setCurrentPage(totalPages);
 
-    const displayedNews = pageSize === 0 ? news : news.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+    const displayedNews = pageSize === 0 ? safeNews : safeNews.slice((currentPage - 1) * pageSize, currentPage * pageSize);
   
   return (
     <div className="newsPage">
@@ -131,7 +133,7 @@ const News = () => {
 
         {isLogin ? (
             <>
-            {displayedNews.map(item => { 
+            {displayedNews.length > 0 ? (displayedNews.map(item => { 
                 return(
                 <NewsCards 
                 role={user?.role}
@@ -141,12 +143,18 @@ const News = () => {
                 handleDelete={()=>handleDelete(item.id)}
                 handleUpdate={() => handleUpdate(item)}
                 />)
-            })}
+            })) : (
+                <div className="card">
+                    <div className="noNews">
+                        <p className="card-head">No news found</p>
+                    </div>
+                </div>
+            )}
 
             {/* pagination controls */}
-            <div className="pagination" style={{marginTop: 16, display: 'flex', alignItems: 'center', gap: 8}}>
+            <div className="pagination">
                 <div>
-                    <label>Page size:&nbsp;</label>
+                    <label>Page size:</label>
                     <select value={pageSize} onChange={(e)=>{ setPageSize(Number(e.target.value)); setCurrentPage(1); }}>
                         <option value={5}>5</option>
                         <option value={10}>10</option>
@@ -156,15 +164,15 @@ const News = () => {
                 </div>
 
                 <div>
-                    <button type="button" className="bttn" onClick={()=>setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1}>Prev</button>
+                    <button type="button" onClick={()=>setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1}>Prev</button>
                     {Array.from({length: totalPages}, (_, i) => i + 1).map(p => (
-                        <button key={p} type="button" className={`bttn ${p === currentPage ? 'ashbtn' : ''}`} onClick={()=>setCurrentPage(p)}>{p}</button>
+                        <button key={p} type="button" className={p === currentPage ? 'ashbtn' : ''} onClick={()=>setCurrentPage(p)}>{p}</button>
                     ))}
-                    <button type="button" className="bttn" onClick={()=>setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages}>Next</button>
+                    <button type="button" onClick={()=>setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages}>Next</button>
                 </div>
 
-                <div style={{marginLeft: 'auto'}}>
-                    <small>Showing {news.length === 0 ? 0 : (pageSize === 0 ? 1 : ( (currentPage - 1) * pageSize + 1 ))} - {pageSize === 0 ? news.length : Math.min(news.length, currentPage * pageSize)} of {news.length}</small>
+                <div>
+                    <small>Showing {safeNews.length === 0 ? 0 : (pageSize === 0 ? 1 : ( (currentPage - 1) * pageSize + 1 ))} - {pageSize === 0 ? safeNews.length : Math.min(safeNews.length, currentPage * pageSize)} of {safeNews.length}</small>
                 </div>
             </div>
             </>

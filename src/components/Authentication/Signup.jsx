@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../css/Authentication/signup.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Axios } from "../AxiosReqestBuilder";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 import image from "../../assets/images/signup/image.png";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import closedEye from "../../assets/images/login/closed-eye-icon.png";
 import openEye from "../../assets/images/login/see-icon.png";
 
@@ -18,7 +18,7 @@ const Signup = () => {
   const [faculties, setFaculties] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [positions, setPositions] = useState([]); 
-  const {isLogin, setIsLogin} = useContext(LoginContext);
+  const {isLogin} = useAuth();
 
   useEffect(()=>{
     if(isLogin){
@@ -68,10 +68,7 @@ const Signup = () => {
     // check the size of the image
     if (data.image) {
       if (data.image > 1 * 1024 * 1024) {
-        Swal.fire({
-          title: "Image size should be less than 1MB",
-          icon: 'error',
-        })
+        toast.error("Image size should be less than 1MB");
         return;
       }
       formData.append("image", data.image);
@@ -80,10 +77,7 @@ const Signup = () => {
     }
 
     if (data.password !== data.confirmpassword) {
-      Swal.fire({
-        title: "Password and Confirm Password does not match",
-        icon: 'error',
-      })
+      toast.error("Password and Confirm Password does not match");
       setPasswordError({ border: "2px solid red" });
       return;
     }
@@ -99,31 +93,16 @@ const Signup = () => {
     try {
       const response = await Axios.post("/auth/signup", formData);
       if (response.data === false) {
-        Swal.fire({
-          title: "Email is already exists",
-          icon: 'error',
-        })
+        toast.error("Email is already exists");
         setEmailError({ border: "2px solid red" });
         return;
       }
       
-      Swal.fire({
-        title: "Account created successfully",
-        text: "Please wait for the admin approval, you will be notified via email",
-        icon: 'success',
-      })
+      toast.success("Account created successfully! Please wait for the admin approval, you will be notified via email");
       window.scrollTo({ top: 0, behavior: "smooth" });
       Navigate("/login");
     } catch (error) {
-      if(error.response.data.message){
-        Swal.fire({
-          title: error.response.data.message,
-          icon: 'error',
-        })
-        console.log(error.response.data.message);
-      }
-      formData.forEach((val)=>(console.log(val)));
-      console.error(error);
+      console.log("Error creating account", error);
     }
   };
 

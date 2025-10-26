@@ -1,80 +1,115 @@
-import { useState } from "react";
-import "../../css/Contact_page/contact.css"
+import { useState, useEffect } from "react";
+import "../../css/Contact_page/contact.css";
 import ContactCard from "./ContactCard";
-import LoadingAnimation from "../Common/LoadingAnimation";
 import { motion } from "framer-motion";
 
 const Contact = () => {
-  const [isloading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 0);
+  useEffect(() => {
+    // Simulate loading time for better UX
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Contact data organized in a clean structure
+  const contactData = [
+    {
+      id: 1,
+      link: "https://www.pdn.ac.lk/vice-chancellor/",
+      img: "https://site.pdn.ac.lk/images/About/DeputyViceChancellor.jpg",
+      position: "Vice Chancellor",
+      name: "Prof. Terrance Madhujith",
+      number: "081-2392300",
+      email: "vc@pdn.ac.lk"
+    },
+    {
+      id: 2,
+      link: "https://www.pdn.ac.lk/deputy-vice-chancellor-2/",
+      img: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg",
+      position: "Deputy Vice Chancellor",
+      name: "To be announced",
+      number: "081-2389140 / 081-2392304",
+      email: "dvc@pdn.ac.lk"
+    },
+    {
+      id: 3,
+      link: "https://www.pdn.ac.lk/registrar/",
+      img: "https://inro.pdn.ac.lk/assets/images/bom/Mr.%20EMGMB%20Ekanayake.jpg",
+      position: "Registrar",
+      name: "Mr. EMGMB. Ekanayake",
+      number: "081-2387395 / 081-2392302",
+      email: "registrar@pdn.ac.lk"
+    }
+  ];
+
+  const aboutContent = `Our non-academic staff ensure smooth operations at the University by supporting administration, maintenance, IT, and student services. Their work is vital to our university's success.
+  Their roles encompass a wide range of responsibilities, including admissions, career counseling, health and wellness, financial management, and more.
+  Committed to excellence, our non-academic staff work tirelessly behind the scenes to enhance the educational experience and maintain the high standards of our institution.`;
+
+  if (isLoading) {
+    return (
+      <div className="contact_container">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading contact information...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
-      {(
-        <div className="contact_container">
-          <div className="about-container">
-            <h2>About us</h2>
-            <div className="about-content">
-            The non-academic staff at the University of Peradeniya play a vital role in ensuring the smooth 
-            functioning of the institution. They manage a wide range of administrative, technical, and 
-            operational tasks that support both academic activities and the overall campus environment. 
-            Administrative staff handle important functions like admissions, student records, and office 
-            management, while technical and support staff assist in laboratories, workshops, and IT services.
-              The maintenance team is responsible for the upkeep of the university's infrastructure, ensuring 
-              that facilities are safe and well-maintained. Library staff provide critical support in managing
-              the university’s academic resources, assisting students and faculty in accessing materials. 
-              Additionally, security personnel ensure safety on campus, while health services staff, including 
-              nurses and administrative personnel, provide healthcare to students and staff. Transport and 
-              logistics staff oversee the university's transportation needs, and those working in student 
-              services assist with counseling, housing, and extracurricular activities. The contribution of 
-              non-academic staff is essential to the university's success, allowing academic staff to focus 
-              on teaching and research in a well-organized and supportive environment.
-            </div>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      exit={{ opacity: 0, y: -20 }} 
+      transition={{ duration: 0.6 }}
+    >
+      <div className="contact_container">
+        {/* About Section */}
+        <section className="about-section">
+          <h2>About Us</h2>
+          <div className="about-content">
+            <p>{aboutContent}</p>
           </div>
+        </section>
+        
+        {/* Contact Section */}
+        <section className="contact-section">
+          <p className="contact-intro">
+            Get in touch with our key administrative personnel for assistance and support.
+          </p>
           
-          <h2>Contact us</h2>
-          <div className="contact_title">
-            <div className="contact-info">
+          <div className="contact-grid">
+            {contactData.map((contact) => (
               <ContactCard
-                link={"https://www.pdn.ac.lk/vice-chancellor/"}
-                img={
-                  "https://site.pdn.ac.lk/images/About/DeputyViceChancellor.jpg"
-                }
-                position={"Vice Chancellor"}
-                name={"Prof.Terrance Madhujith"}
-                number={"081-2392300"}
-                email={"vc@pdn.ac.lk"}
+                key={contact.id}
+                link={contact.link}
+                img={contact.img}
+                position={contact.position}
+                name={contact.name}
+                number={contact.number}
+                email={contact.email}
               />
-              <ContactCard
-                link={"https://www.pdn.ac.lk/deputy-vice-chancellor-2/"}
-                img={
-                  "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
-                }
-                position={"Deputy Vice Chancellor"}
-                name={"_"}
-                number={"081-2389140 / 081-2392304"}
-                email={"dvc@pdn.ac.lk"}
-              />
-              <ContactCard
-                link={"https://www.pdn.ac.lk/registrar/"}
-                img={
-                  "https://inro.pdn.ac.lk/assets/images/bom/Mr.%20EMGMB%20Ekanayake.jpg"
-                }
-                position={"Registrar"}
-                name={"Mr. EMGMB. Ekanayake"}
-                number={"081-2387395 / 081-2392302"}
-                email={"registrar@pdn.ac.lk / registrar@gs.pdn.ac.lk"}
-              />
-            </div>
-            {/* <div className="contact-info">
-              <h3>More Staffs......</h3>
-            </div> */}
+            ))}
           </div>
-        </div>
-      )}
+        </section>
+
+        {/* Additional Information */}
+        <section className="additional-info">
+          <div className="info-card">
+            <h3>General Information</h3>
+            <div className="info-content">
+              <p><strong>University Address:</strong> University of Peradeniya, Peradeniya, Sri Lanka</p>
+              <p><strong>Website:</strong> <a href="https://www.pdn.ac.lk" target="_blank" rel="noopener noreferrer">www.pdn.ac.lk</a></p>
+              <p><strong>Office Hours:</strong> Monday - Friday, 8:00 AM - 4:30 PM</p>
+            </div>
+          </div>
+        </section>
+      </div>
     </motion.div>
   );
 };

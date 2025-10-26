@@ -5,7 +5,7 @@ import { Axios } from "../AxiosReqestBuilder";
 import { useEffect, useState } from "react";
 import NormalLeaveFormTemplate from "../notifications/NormalLeaveFormTemplate";
 import OtherLeaveFormsTemplate from "../notifications/OtherLeaveFormsTemplate";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const FormPreview = ({ application, approver, setForm }) => {
     const [formStatus, setFormStatus] = useState('');
@@ -66,44 +66,31 @@ const FormPreview = ({ application, approver, setForm }) => {
 
     const handleAccept = async (id) => {
         if(description === ''){
-            Swal.fire({
-                title: "Add descriptio",
-                icon: "warning",
-            })
+            toast.warning("add description")
             return;
         }
 
         try{
             const response = await Axios.put(`/admin/accept/${id}`, {user:approver.id,description, formType:application.formType});
             setForm({...response.data});
-            console.log("csdvsfvsfbsf")
+            toast.success("Application accepted successfully")
         }catch(error){
             console.error("Error accepting application:", error);
-            Swal.fire({
-                title: "Error accepting application",
-                icon: "error",
-            })
         }
     }
 
     const handleReject = async (id) => {
         if(description === ''){
-            Swal.fire({
-                title: "Add description",
-                icon: "warning",
-            })
+            toast.warning("add description")
             return;
         }
 
         try{
             const response = await Axios.put(`/admin/reject/${id}`, {user:approver.id,description,formType:application.formType});
             setForm({...response.data});
+            toast.success("Application rejected successfully")
         }catch(error){
             console.error("Error rejecting application:", error);
-            Swal.fire({
-                title: "Error accepting application",
-                icon: "error",
-            })
         }
     }
 

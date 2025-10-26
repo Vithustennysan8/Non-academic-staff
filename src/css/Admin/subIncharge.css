@@ -1,18 +1,24 @@
 /* Header styling */
 .subIncharge_container{
-    width: 90%;
-    margin: 30px auto 40px;
+    width: 95%;
+    margin: 20px auto 40px;
     padding-top: 70px;
 
     h1{
-        margin: 10px 0px 20px;
+        margin: 0px 0px 20px;
         font-size: 1.5rem;
         border-left: 4px solid rgb(219, 0, 0);
         padding-left: 10px;
         text-transform: uppercase;
         font-weight: 600;
     }
-    
+    .table-container{
+        overflow-x: auto;
+        border-radius: 8px;
+        box-shadow: 2px 2px 8px 2px #d8d8d8;
+        border: 1px solid #ccc;
+        padding: 0 5px;
+    }
     /* Container for the content */
     .container {
     /* max-width: 1200px; */
@@ -23,11 +29,13 @@
     border-radius: 8px;
     }
 
+
     /* Table styling */
     table {
         width: 100%;
         border-collapse: collapse;
         margin: 2rem 0;
+
     }
 
     table th, table td {
@@ -83,4 +91,13 @@
     .incharge:active {
         background-color: #d32f2f;
     }
+}
+
+@media (max-width: 768px) {
+    .subIncharge_container{
+        h1{
+            font-size: 1.1rem;
+        }
+    }
+
 }

@@ -3,6 +3,8 @@ import { Axios } from "../AxiosReqestBuilder";
 import "../../css/Admin/approvalFlowManager.css";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 const ApprovalFlowManager = () => {
   const [flows, setFlows] = useState([]); // List of all flows
@@ -15,10 +17,10 @@ const ApprovalFlowManager = () => {
   const [update, setUpdate] = useState(true);
   const [positions, setPositions] = useState([]); 
   const [dynamicForms, setDynamicForms] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   // Fetch approval flows from the backend
   useEffect(() => {
-
+    setIsLoading(true);
     const fetchFlows = async () => {
         try {
             const response = await Axios.get("/admin/approvalFlow/getAll");
@@ -26,6 +28,10 @@ const ApprovalFlowManager = () => {
             console.log(response.data);
         } catch (error) {
             console.log(error);
+        } finally {
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 500);
         }
     }
     const fetchPositions = async () => {
@@ -35,6 +41,10 @@ const ApprovalFlowManager = () => {
         console.log(response.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       }
     }
     const fetchDynamicFormList = async () => {
@@ -43,6 +53,10 @@ const ApprovalFlowManager = () => {
         setDynamicForms(response.data);
       } catch (error) {
         console.log(error);          
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       }
     }
     fetchDynamicFormList();
@@ -54,29 +68,20 @@ const ApprovalFlowManager = () => {
   const handleAddRole = () => {
     // Check if a flow is selected
     if (!newRole){
-      Swal.fire({
-        title: "Please select a role!",
-        icon: "warning",
-      });
+      toast.warning("Please select a role!");
       return;
     } 
     
     // Check if the role already exists in the flow
     const roleExists = selectedFlow.flow.some((item) => item.roleName === newRole);
     if (roleExists) {
-      Swal.fire({
-        title: "Role already exists in the flow!",
-        icon: "warning",
-      });
+      toast.warning("Role already exists in the flow!");
       return;
     }
     // Check if the newRole is already selected
     const roleAlreadySelected = selectedFlow.flow.some((item) => item.roleName === newRole);
     if (roleAlreadySelected) {
-      Swal.fire({
-        title: "Role already selected!",
-        icon: "warning",
-      });
+      toast.warning("Role already selected!");
       return;
     }
 
@@ -98,11 +103,7 @@ const ApprovalFlowManager = () => {
         uniqueName,
         approvalStage: selectedFlow.flow,
       })
-        Swal.fire({
-          title: "Approval flow saved successfully!",
-          icon: "success",
-        })
-        console.log(">>" , response.data);
+        toast.success("Approval flow saved successfully!");
         setFlows(response.data);
         setUpdate(true);
         setFaculty('');
@@ -111,10 +112,7 @@ const ApprovalFlowManager = () => {
         setFormType('');  
         setSelectedFlow(null);
     }catch(error){
-      Swal.fire({
-        title: error.response.data.message,
-        icon: "error",
-      })
+      console.log("Error adding new flow", error);
     }
   };
 
@@ -127,11 +125,7 @@ const ApprovalFlowManager = () => {
              },
         })
         console.log(response.data);
-        Swal.fire({
-          title: "Success",
-          text: "Flow deleted",
-          icon: "success",
-        })
+        toast.success("Flow deleted successfully!");
         setFlows((prevFlows) =>
           prevFlows.filter((flow) =>
               flow.formType !== formType ||
@@ -146,10 +140,7 @@ const ApprovalFlowManager = () => {
         setUniqueName('');
         setDepartment('');
     } catch (error) {
-      Swal.fire({
-        title: error.response.data.message,
-        icon: "error",
-      })
+      console.log("Error deleting flow", error);
         console.log(error);
     }
   };
@@ -164,12 +155,9 @@ const ApprovalFlowManager = () => {
         console.log(selectedFlow.flow);
         setFlows(response.data);
         console.log(response.data);
-        Swal.fire({
-          title: "Approval flow updated successfully!",
-          icon: "success",
-        })
+        toast.success("Approval flow updated successfully!");
     } catch (error) {
-        console.log(error);
+        console.log("Error updating flow", error);
     }
   };
 
@@ -185,7 +173,7 @@ const ApprovalFlowManager = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           handleDeleteFlow();
-          Swal.fire("Succcess", "");
+          toast.success("Flow deleted successfully!");
           window.scrollTo({ top: 0, behavior: "smooth" });
         }
       });
@@ -193,23 +181,21 @@ const ApprovalFlowManager = () => {
     showConfirmDialog();
 }
 
-// const handleDragEnd = (result) => {
-//   if (!result.destination) return; // Dropped outside the list
-
-//   const items = Array.from(roles);
-//   const [reorderedItem] = items.splice(result.source.index, 1);
-//   items.splice(result.destination.index, 0, reorderedItem);
-
-//   // Update the sequence based on new order
-//   const updatedRoles = items.map((item, index) => ({
-//     ...item,
-//     sequence: index + 1,
-//   }));
-
-//   setRoles(updatedRoles);
-// };
-
+  if(isLoading){
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
   return (
+    <motion.div 
+    initial={{ opacity: 0, y: 20 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    exit={{ opacity: 0, y: -20 }} 
+    transition={{ duration: 0.6 }}
+  >
     <div className="approval-flow-manager">
       <h1>Approval Flow Manager</h1>
 
@@ -371,6 +357,7 @@ const ApprovalFlowManager = () => {
           </div>
           </div>
         </div>
+        </motion.div>
       )}
 
 export default ApprovalFlowManager;

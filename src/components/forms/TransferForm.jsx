@@ -1,22 +1,23 @@
-import  { useContext, useEffect } from 'react';
+import  { useEffect } from 'react';
 import '../../css/Forms/transfer.css'; 
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { LoginContext } from '../../Contexts/LoginContext';
+import { useAuth } from '../../Contexts/AuthContext';
 import { Axios } from '../AxiosReqestBuilder';
-import { UserContext } from '../../Contexts/UserContext';
-import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
 
 const TransferForm = () => {
-    const naviagte = useNavigate();
-    const {isLogin} = useContext(LoginContext);
-    const {user} = useContext(UserContext);
+    const navigate = useNavigate();
+    const {isLogin, user} = useAuth();
     
     useEffect(()=>{
         if(!isLogin){
-          naviagte("/login");
+          window.scrollTo({top:0, behavior:"smooth"});
+          navigate("/login");
         }
-    },[naviagte, isLogin])
+        toast.error("Transfer form is not available for now");
+        navigate("/forms");
+    },[navigate, isLogin])
 
     const {register, handleSubmit, formState: {errors}} = useForm();
 
@@ -38,14 +39,11 @@ const TransferForm = () => {
         try {
             const response = await Axios.post("/auth/transferForm/add", formData );
             console.log(response.data);
-            Swal.fire({
-                title: 'Form Submitted',
-                icon: 'success',
-            })
+            toast.success('Form submitted successfully!');
             window.scrollTo({top:0, behavior:"smooth"})
-            naviagte("/forms");
+            navigate("/forms");
         } catch (error) {
-            console.log(error);
+            console.log("Error submitting transfer form", error.message);
         }
 
     }

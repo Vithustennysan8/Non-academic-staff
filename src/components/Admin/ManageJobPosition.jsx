@@ -1,16 +1,22 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import "../../css/Admin/manageJobPosition.css"
-import {LoginContext} from "../../Contexts/LoginContext.jsx"
+import { useAuth } from "../../Contexts/AuthContext.jsx"
 import { useNavigate } from "react-router-dom"
 import {Axios} from "../AxiosReqestBuilder.jsx"
 import { useForm } from "react-hook-form"
-import Swal from "sweetalert2"
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 const ManagePositions = () => {
   const [positions, setPositions] = useState([])
   const [editPosition, setEditPosition] = useState(null);
-  const {isLogin} = useContext(LoginContext);  
+  const {isLogin} = useAuth();  
   const navigate = useNavigate();
+
+  // pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5); // 0 = show all
+  const [isLoading, setIsLoading] = useState(true);
   const {register, handleSubmit, formState:{errors}, reset, setValue} = useForm();
 
   useEffect(() => {
@@ -21,10 +27,19 @@ const ManagePositions = () => {
 
     const fetchFaculty = async () => {
       try {
+        setIsLoading(true);
         const response = await Axios.get("/auth/user/jobPosition/get");
-        setPositions(response.data);
+        const positionsData = Array.isArray(response.data) ? response.data : [];
+        setPositions(positionsData);
+        setCurrentPage(1);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching job positions", error);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       }
     }
     fetchFaculty();
@@ -32,21 +47,20 @@ const ManagePositions = () => {
 
   const onSubmit = async (data) => {
     try {
+      setIsLoading(true);
       const response = editPosition ? await Axios.put(`/admin/jobPosition/update/${editPosition.id}`, data) : await Axios.post("/admin/jobPosition/add", data);
-      console.log(response.data);
-      setPositions(response.data);
+      const positionsData = Array.isArray(response.data) ? response.data : [];
+      setPositions(positionsData);
+      setCurrentPage(1);
       setEditPosition(null);
-      Swal.fire({
-        title: editPosition ? "Successfully updated" : "Successfully added",
-        icon: "success",
-      });
+      toast.success(editPosition ? "Successfully updated" : "Successfully added");
       reset();
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        title: error.response.data.message,
-        icon: "error",
-      })
+      console.log("Error adding/updating job position", error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   }
 
@@ -58,33 +72,47 @@ const ManagePositions = () => {
   }
 
   const handleDelete = async (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Delete!"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("Succcess", "");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    });
-    try {
-      const response = await Axios.delete(`/admin/jobPosition/delete/${id}`);
-      setPositions(response.data);
-      window.scrollTo({top:0, behavior:"smooth"});
+    if (window.confirm("Are you sure you want to delete this job position?")) {
+      try {
+        setIsLoading(true);
+        const response = await Axios.delete(`/admin/jobPosition/delete/${id}`);
+        const positionsData = Array.isArray(response.data) ? response.data : [];
+        setPositions(positionsData);
+        setCurrentPage(1);
+        toast.success("Job position deleted successfully!");
+        window.scrollTo({top:0, behavior:"smooth"});
       } catch (error) {
-        console.log(error);
-        Swal.fire({
-          title: error.response.data.message,
-          icon: "error",
-        })
+        console.log("Error deleting job position", error);
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
+      }
     }
   }
 
+  // derived pagination values
+  const safePositions = Array.isArray(positions) ? positions : [];
+  const totalPages = pageSize === 0 ? 1 : Math.max(1, Math.ceil(safePositions.length / pageSize));
+  if (currentPage > totalPages) setCurrentPage(totalPages);
+
+  const displayedPositions = pageSize === 0 ? safePositions : (Array.isArray(safePositions) ? safePositions.slice((currentPage - 1) * pageSize, currentPage * pageSize) : []);
+
+  if(isLoading){
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
   return (
-    <>
+    <motion.div 
+    initial={{ opacity: 0, y: 20 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    exit={{ opacity: 0, y: -20 }} 
+    transition={{ duration: 0.6 }}
+  >
         <div className="managePositions">
           <h1>Manage positions</h1>
 
@@ -123,8 +151,14 @@ const ManagePositions = () => {
             </tr>
           </thead>
           <tbody>
-            {
-              positions.map((position, index) => {
+            {isLoading ? (
+              <tr>
+                <td colSpan="4" style={{textAlign: 'center', padding: '20px'}}>
+                  Loading job positions...
+                </td>
+              </tr>
+            ) : (
+              displayedPositions.length > 0 ? displayedPositions.map((position, index) => {
                 return (
                   <tr key={index}>
                     <td>{position.jobPositionName}</td>
@@ -135,13 +169,46 @@ const ManagePositions = () => {
                       }}>edit</button></td>
                     <td><button className="bttn redbtn" onClick={() => handleDelete(position.id)}>delete</button></td>
                   </tr>
-                  )
-                  })
-            }
+                )
+                }) : (
+                  <tr>
+                    <td colSpan="4" style={{textAlign: 'center', padding: '20px'}}>
+                      No job positions found
+                    </td>
+                  </tr>
+                )
+              )}
           </tbody>
         </table>
+
+        {/* pagination controls */}
+        {!isLoading && (
+          <div className="pagination">
+            <div>
+              <label>Page size:</label>
+              <select value={pageSize} onChange={(e)=>{ setPageSize(Number(e.target.value)); setCurrentPage(1); }}>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={0}>All</option>
+              </select>
+            </div>
+
+            <div>
+              <button type="button" onClick={()=>setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1}>Prev</button>
+              {Array.from({length: totalPages}, (_, i) => i + 1).map(p => (
+                <button key={p} type="button" className={p === currentPage ? 'ashbtn' : ''} onClick={()=>setCurrentPage(p)}>{p}</button>
+              ))}
+              <button type="button" onClick={()=>setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages}>Next</button>
+            </div>
+
+            <div>
+              <small>Showing {safePositions.length === 0 ? 0 : (pageSize === 0 ? 1 : ( (currentPage - 1) * pageSize + 1 ))} - {pageSize === 0 ? safePositions.length : Math.min(safePositions.length, currentPage * pageSize)} of {safePositions.length}</small>
+            </div>
+          </div>
+        )}
         </div>
-    </>
+    </motion.div>
   )
 }
 

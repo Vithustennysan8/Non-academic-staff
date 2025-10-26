@@ -1,12 +1,16 @@
 .notifications{
     width: 85%;
-    margin: auto;
+    margin: 0px auto 30px;
     display: grid;
     grid-template-columns: minmax(4%, 230px) 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: 
     " requestsTap requests"
     ;
+    background-color: white;
+    padding: 10px 20px 20px;
+    border-radius: 12px;
+    box-shadow: 2px 2px 8px #ccc;
 }
 .requestsTap{
     grid-area: requestsTap;

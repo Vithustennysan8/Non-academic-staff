@@ -1,17 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../../css/Authentication/login.css";
 import { useForm } from "react-hook-form";
-import { useContext, useEffect } from "react";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useEffect } from "react";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
-import Swal from "sweetalert2";
 import closedEye from "../../assets/images/login/closed-eye-icon.png";
 import openEye from "../../assets/images/login/see-icon.png";
 import uopLogo from "../../assets/University_of_Peradeniya_crest-150x150.png"
+import { toast } from "react-toastify";
 
 const Login = () => {
   const Navigate = useNavigate();
-  const { isLogin, setIsLogin } = useContext(LoginContext);
+  const { isLogin, login } = useAuth();
 
   const {register, handleSubmit, formState: { errors }} = useForm();
 
@@ -28,32 +28,21 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      localStorage.removeItem("token");
       const response = await Axios.post("/auth/login", data);
       const token = response.data.token;
+      const userData = response.data.user;
       if (token) {
-        localStorage.setItem("token", token);
-        sessionStorage.setItem("isLogin", true);
+        toast.success("Login successful");
+        login(token, userData);
         console.log("Stored token:", token);
-        setIsLogin(true);
         window.scrollTo({ top: 0, behavior: "smooth" });
         Navigate("/");
       } else {
-        Swal.fire({
-          title: "User not verified",
-          icon: "error",
-        })
-        throw new Error("Token not received");
+        toast.error("Token not received");
+        console.log("Token not received");
       }
     } catch (error) {
-      if(error.response.data.message){
-        console.log(error.response.data.message);
-        Swal.fire({
-          title: error.response.data.message,
-          icon: "error",
-        })
-      }
-      console.log(error)
+      console.log("Error logging in", error);
     }
   };
 

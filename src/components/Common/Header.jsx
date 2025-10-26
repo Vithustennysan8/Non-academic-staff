@@ -2,8 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import "../../css/Common/header.css";
 import SideNav from "./SideNav";
 import { Link, useNavigate } from "react-router-dom";
-import { LoginContext } from "../../Contexts/LoginContext";
-import { UserContext } from "../../Contexts/UserContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { NetworkStatusContext } from "../../Contexts/NetworkStatusContext";
 import userIcon from "../../assets/images/header/default-avatar-profile-icon-social-600nw-1677509740.webp"
@@ -12,9 +11,8 @@ import sideNav from "../../assets/images/header/sideNav.png";
 import NetworkStatusMonitor from "./NetworkStatusMonitor";
 
 const Header = () => {
-  const { isLogin, setIsLogin } = useContext(LoginContext);
+  const { isLogin, user, setUser } = useAuth();
   const {isOnline} = useContext(NetworkStatusContext);
-  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [src, setSrc] = useState(userIcon);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
@@ -44,28 +42,26 @@ const Header = () => {
   }, [])
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     const getUserDetail = async () => {
-      if (token) {
+      if (isLogin) {
         try {
           const response = await Axios.get("/auth/user/info");
           setUser(response.data);
         } catch (error) {
-          console.log(error);
+          console.log("Error fetching user details", error);
         }
-
-        if (user.image_data) {
-          setSrc(`data:${user.image_type};base64,${user.image_data}`);
-        } else {
-          setSrc(userIcon);
-        }
-      } else {
-        setUser({});
-        setIsLogin(false);
       }
     };
     getUserDetail();
-  }, [user.image_data, user.image_type, isLogin, setIsLogin, setUser]);
+  }, [isLogin, setUser]);
+
+  useEffect(() => {
+    if (user.image_data) {
+      setSrc(`data:${user.image_type};base64,${user.image_data}`);
+    } else {
+      setSrc(userIcon);
+    }
+  }, [user.image_data, user.image_type]);
 
 
   const toggleSideNav = () => {

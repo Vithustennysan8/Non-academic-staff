@@ -6,7 +6,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 8px 1px #a3a3a3;
+    box-shadow: 0 1px 5px 1px #ccc;
     position: fixed;
     z-index: 10;
     top: 0;

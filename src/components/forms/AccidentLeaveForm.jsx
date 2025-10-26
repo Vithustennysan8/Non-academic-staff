@@ -2,15 +2,14 @@ import { useNavigate } from "react-router-dom";
 import "../../css/Forms/accidentLeaveForm.css"
 import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { LoginContext } from "../../Contexts/LoginContext";
-import { UserContext } from "../../Contexts/UserContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
-import Swal from "sweetalert2";
+import { handleError } from "../../utils/errorHandler";
+import { toast } from "react-toastify";
 
 const AccidentLeaveForm = () => {
   const navigate = useNavigate();
-  const {isLogin} = useContext(LoginContext);
-  const {user} = useContext(UserContext);
+  const {isLogin, user} = useAuth();
     
   useEffect(()=>{
       if(!isLogin){
@@ -39,15 +38,11 @@ const AccidentLeaveForm = () => {
       try {
         const response = await Axios.post("/auth/accidentLeaveForm/add", formData);
         console.log(response);
-        alert("form submitted successfully");
-        Swal.fire({
-          title: "Form submitted successfully",
-          icon: "success",
-        })
+        toast.success("Form submitted successfully!");
         window.scrollTo({top:0, behavior:"smooth"});
         navigate("/forms");
     } catch (error) {
-      console.log(error);
+      handleError({ code: error.code || "UNKNOWN_ERROR", message: error.message || "Failed to submit form" });
     }
     
   };

@@ -1,15 +1,14 @@
 import "../../css/Forms/medicalLeaveForm.css"
 import { useContext, useEffect } from "react";
-import { UserContext } from "../../Contexts/UserContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import { Axios } from "../AxiosReqestBuilder";
 import { useNavigate } from "react-router-dom";
-import { LoginContext } from "../../Contexts/LoginContext";
-import Swal from "sweetalert2";
+import { handleError } from "../../utils/errorHandler";
+import { toast } from "react-toastify";
 
 const MedicalLeaveForm = () => {
-    const {isLogin} = useContext(LoginContext);
-    const {user} = useContext(UserContext);
+    const {isLogin, user} = useAuth();
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -32,14 +31,11 @@ const MedicalLeaveForm = () => {
         try {
             const response = await Axios.post("auth/medicalLeaveForm/add", formData);
             console.log(response.data);
-            Swal.fire({
-                title: 'Form Submitted',
-                icon: 'success',
-            })
+            toast.success('Form submitted successfully!');
             window.scrollTo({top:0, behavior:"smooth" });
             navigate("/forms");
         } catch (error) {
-            console.log(error);
+            handleError({ code: error.code || "UNKNOWN_ERROR", message: error.message || "Failed to submit form" });
         }
     }
 

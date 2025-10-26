@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import "../../css/Notifications/appliedLeaveForms.css";
 import FormPreview from "../forms/FormPreview";
-import { UserContext } from "../../Contexts/UserContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import FormReqTap from "./FormReqTap";
-import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const AppliedLeaveForms = ({ appliedLeaveForms }) => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const [form, setForm] = useState(null);
   const [filter, setFilter] = useState("Pending");
   const [filterYear, setFilterYear] = useState('');
@@ -35,11 +35,7 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
     let filteredForms = appliedLeaveForms;
 
     if(filterYear !== '' && filterYear?.length !== 4){
-      Swal.fire({
-                  title: "Please select a valid year",
-                  icon: "error",
-                  confirmButtonText: "Ok",
-                })
+      toast.warning("Please select a valid year");
       return;
     }
 

@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import "../../css/Forms/accidentLeaveFormTemplate.css"
 import { Axios } from "../AxiosReqestBuilder";
-import { UserContext } from "../../Contexts/UserContext";
-import Swal from "sweetalert2";
+import { useAuth } from "../../Contexts/AuthContext";
+import { toast } from "react-toastify";
 
 const OtherLeaveFormsTemplate = ({application}) => {
-    const {user} = useContext(UserContext);
+    const {user} = useAuth();
     
     const handleDelete = async (form) => {
 
@@ -14,21 +13,10 @@ const OtherLeaveFormsTemplate = ({application}) => {
         try {
             const response = await Axios.delete(`/auth/${formtype}/delete/${form?.id}`);
             console.log(response.data);
-            alert("Form Deleted Successfully");
-            Swal.fire({
-                title: 'Form Deleted Successfully',
-                icon: 'success',
-            })
+            toast.success("Form deleted successfully");
             window.location.reload();
         }catch(error){
-            if(error.response.data.message){
-                Swal.fire({
-                    title: error.response.data.message,
-                    icon: 'error',
-                })
-                console(error.response.data.message);
-            }
-            console.error(error);
+            console.log("Error deleting form", error.message);
         }
     }
 

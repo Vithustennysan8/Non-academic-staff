@@ -10,7 +10,7 @@
     padding-left: 10px;
     font-size: 1.5rem;
     text-transform: uppercase;
-    margin: 20px 0 30px;
+    margin: 20px 0;
     font-weight: 600;
 }
 
@@ -36,4 +36,152 @@
 .newsPage .newsbtn{
     margin-top: 16px;
     margin-right: 10px;
+}
+
+/* Pagination Styles */
+.newsPage .pagination {
+    margin-top: 20px;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px 20px;
+}
+
+.newsPage .pagination > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.newsPage .pagination label {
+    font-weight: 500;
+    color: #333;
+    margin: 0;
+    border: none;
+    padding: 0;
+    display: inline;
+    width: auto;
+}
+
+.newsPage .pagination select {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.newsPage .pagination select:hover {
+    border-color: #999;
+}
+
+.newsPage .pagination select:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
+}
+
+.newsPage .pagination button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: #333;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    min-width: 40px;
+    text-align: center;
+}
+
+.newsPage .pagination button:hover:not(:disabled) {
+    background-color: #f8f9fa;
+    border-color: #999;
+    transform: translateY(-1px);
+}
+
+.newsPage .pagination button:disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+    border-color: #e0e0e0;
+}
+
+.newsPage .pagination button.ashbtn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.newsPage .pagination button.ashbtn:hover {
+    background-color: #c82333;
+}
+
+.newsPage .pagination small {
+    color: #666;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .newsPage .pagination {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    
+    .newsPage .pagination > div {
+        justify-content: center;
+    }
+    
+    .newsPage .pagination > div:last-child {
+        order: -1;
+        margin-bottom: 10px;
+    }
+    
+    .newsPage .pagination button {
+        min-width: 35px;
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    
+    .newsPage .pagination select {
+        padding: 5px 10px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .newsPage .pagination {
+        padding: 10px 15px;
+    }
+    
+    .newsPage .pagination button {
+        min-width: 30px;
+        padding: 5px 8px;
+        font-size: 12px;
+    }
+    
+    .newsPage .pagination select {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+    
+    .newsPage .pagination small {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
 }

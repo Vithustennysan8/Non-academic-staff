@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import "../../css/Notifications/registerRequests.css"
 import { Axios } from "../AxiosReqestBuilder"
 import accept from "../../assets/accept.png"
 import reject from "../../assets/cancel.png"
 import view from "../../assets/search.png"
-import Swal from "sweetalert2"
 import LoadingAnimation from "../Common/LoadingAnimation"
+import { toast } from "react-toastify";
 
 const RegisterRequests = ({requests, setRequests}) => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -17,18 +17,9 @@ const RegisterRequests = ({requests, setRequests}) => {
       const response = await Axios.put(`admin/verify/${token}`);
       setRequests(response.data);
       setIsLoading(false);
-      Swal.fire({
-        title: "Verified successfully",
-        icon: "success",
-        confirmButtonText: "Ok",
-      })
+      toast.success("Verified successfully");
     }catch(error){
-      console.log(error);
-      Swal.fire({
-        title: error.response.data.message,
-        icon: "error",
-        confirmButtonText: "Ok",
-      })
+      console.log("Error verifying user", error.message);
     }
   }
 
@@ -36,18 +27,9 @@ const RegisterRequests = ({requests, setRequests}) => {
     try{
       const response = await Axios.delete(`admin/deleteUser/${id}`);
       setRequests(response.data);
-      Swal.fire({
-        title: "Deleted successfully",
-        icon: "success",
-        confirmButtonText: "Ok",
-      })
+      toast.success("Deleted successfully");
     }catch(error){
-      console.log(error);
-      Swal.fire({
-        title: error.response.data.message,
-        icon: "error",
-        confirmButtonText: "Ok",
-      })
+      console.log("Error deleting user", error.message);
     }
   }
 

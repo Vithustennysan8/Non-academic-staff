@@ -1,16 +1,22 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import "../../css/Admin/manageFaculty.css"
-import {LoginContext} from "../../Contexts/LoginContext.jsx"
+import { useAuth } from "../../Contexts/AuthContext.jsx"
 import { useNavigate } from "react-router-dom"
 import {Axios} from "../AxiosReqestBuilder.jsx"
 import { useForm } from "react-hook-form"
-import Swal from "sweetalert2"
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 const ManageFaculties = () => {
   const [faculties, setFaculties] = useState([])
   const [editFaculty, setEditFaculty] = useState(null);
-  const {isLogin} = useContext(LoginContext);  
+  const {isLogin} = useAuth();  
   const navigate = useNavigate();
+
+  // pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5); // 0 = show all
+  const [isLoading, setIsLoading] = useState(true);
   const {register, handleSubmit, formState:{errors}, reset, setValue} = useForm();
 
   useEffect(() => {
@@ -21,10 +27,19 @@ const ManageFaculties = () => {
 
     const fetchFaculty = async () => {
       try {
+        setIsLoading(true);
         const response = await Axios.get("/auth/user/faculty/getAll");
-        setFaculties(response.data);
+        const facultiesData = Array.isArray(response.data) ? response.data : [];
+        setFaculties(facultiesData);
+        setCurrentPage(1);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       } catch (error) {
-        console.log(error);
+        console.log("Error fetching faculties", error);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
       }
     }
     fetchFaculty();
@@ -32,21 +47,20 @@ const ManageFaculties = () => {
 
   const onSubmit = async (data) => {
     try {
+      setIsLoading(true);
       const response = editFaculty ? await Axios.put(`/admin/faculty/update/${editFaculty.id}`, data) : await Axios.post("/admin/faculty/add", data);
-      console.log(response.data);
-      setFaculties(response.data);
+      const facultiesData = Array.isArray(response.data) ? response.data : [];
+      setFaculties(facultiesData);
+      setCurrentPage(1);
       setEditFaculty(null);
-      Swal.fire({
-              title: editFaculty ? "Successfully updated" : "Successfully added",
-              icon: "success",
-            });
+      toast.success(editFaculty ? "Successfully updated" : "Successfully added");
       reset();
     } catch (error) {
-      console.log(error);
-      Swal.fire({
-        title: error.response.data.message,
-        icon: "error",
-      })
+      console.log("Error adding/updating faculty", error);
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   }
 
@@ -59,33 +73,47 @@ const ManageFaculties = () => {
   }
 
   const handleDelete = async (id) => {
-    Swal.fire({
-              title: "Do yo want to delete",
-              showCancelButton: true,
-              confirmButtonColor: "#3085d6",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "Yes, Delete!"
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire("Succcess", "");
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-            });
-    try {
-      const response = await Axios.delete(`/admin/faculty/delete/${id}`);
-      setFaculties(response.data);
-      window.scrollTo({top:0, behavior:"smooth"});
+    if (window.confirm("Do you want to delete this faculty?")) {
+      try {
+        setIsLoading(true);
+        const response = await Axios.delete(`/admin/faculty/delete/${id}`);
+        const facultiesData = Array.isArray(response.data) ? response.data : [];
+        setFaculties(facultiesData);
+        setCurrentPage(1);
+        toast.success("Faculty deleted successfully!");
+        window.scrollTo({top:0, behavior:"smooth"});
       } catch (error) {
-        console.log(error);
-        Swal.fire({
-          title: error.response.data.message,
-          icon: "error",
-        })
+        console.log("Error deleting faculty", error);
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500);
+      }
     }
   }
 
+  // derived pagination values
+  const safeFaculties = Array.isArray(faculties) ? faculties : [];
+  const totalPages = pageSize === 0 ? 1 : Math.max(1, Math.ceil(safeFaculties.length / pageSize));
+  if (currentPage > totalPages) setCurrentPage(totalPages);
+
+  const displayedFaculties = pageSize === 0 ? safeFaculties : (Array.isArray(safeFaculties) ? safeFaculties.slice((currentPage - 1) * pageSize, currentPage * pageSize) : []);
+
+  if(isLoading){
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
   return (
-    <>
+    <motion.div 
+    initial={{ opacity: 0, y: 20 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    exit={{ opacity: 0, y: -20 }} 
+    transition={{ duration: 0.6 }}
+  >
         <div className="manageFaculties">
           <h1>Manage faculties</h1>
 
@@ -124,9 +152,16 @@ const ManageFaculties = () => {
             </tr>
           </thead>
           <tbody>
-            {
-              faculties.map((faculty, index) => {
-                return (
+            {isLoading ? (
+              <tr>
+                <td colSpan="4" style={{textAlign: 'center', padding: '20px'}}>
+                  Loading faculties...
+                </td>
+              </tr>
+            ) : (
+              displayedFaculties.length > 0 ? displayedFaculties.map((faculty, index) => {
+                  return (
+                 
                   <tr key={index}>
                     <td>{faculty.facultyName}</td>
                     <td>{faculty.alias}</td>
@@ -137,12 +172,45 @@ const ManageFaculties = () => {
                     <td><button className="bttn redbtn" onClick={() => handleDelete(faculty.id)}>delete</button></td>
                   </tr>
                   )
-                  })
-            }
+                  }) : (
+                    <tr>
+                      <td colSpan="4" style={{textAlign: 'center', padding: '20px'}}>
+                        No faculties found
+                      </td>
+                    </tr>
+                  )
+                )}
           </tbody>
         </table>
+
+        {/* pagination controls */}
+        {!isLoading && (
+          <div className="pagination">
+            <div>
+              <label>Page size:</label>
+              <select value={pageSize} onChange={(e)=>{ setPageSize(Number(e.target.value)); setCurrentPage(1); }}>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={0}>All</option>
+              </select>
+            </div>
+
+            <div>
+              <button type="button" onClick={()=>setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1}>Prev</button>
+              {Array.from({length: totalPages}, (_, i) => i + 1).map(p => (
+                <button key={p} type="button" className={p === currentPage ? 'ashbtn' : ''} onClick={()=>setCurrentPage(p)}>{p}</button>
+              ))}
+              <button type="button" onClick={()=>setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages}>Next</button>
+            </div>
+
+            <div>
+              <small>Showing {safeFaculties.length === 0 ? 0 : (pageSize === 0 ? 1 : ( (currentPage - 1) * pageSize + 1 ))} - {pageSize === 0 ? safeFaculties.length : Math.min(safeFaculties.length, currentPage * pageSize)} of {safeFaculties.length}</small>
+            </div>
+          </div>
+        )}
         </div>
-    </>
+    </motion.div>
   )
 }
 

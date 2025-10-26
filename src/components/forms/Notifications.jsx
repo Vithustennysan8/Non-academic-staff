@@ -1,23 +1,20 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../css/Forms/notifications.css";
 import LeaveRequests from "../notifications/LeaveRequests";
 import TransferRequests from "../notifications/TransferRequests";
 import RegisterRequests from "../notifications/RegisterRequests";
 import { Axios } from "../AxiosReqestBuilder";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../Contexts/UserContext";
-import { LoginContext } from "../../Contexts/LoginContext";
+import { useAuth } from "../../Contexts/AuthContext";
 import AppliedLeaveForms from "../notifications/AppliedLeaveForms";
 import AppliedTransferForms from "../notifications/AppliedTransferForms";
-import LoadingAnimation from "../Common/LoadingAnimation";
 import AppliedDynamicForms from "../notifications/AppliedDynamicForms";
 import DynamicFormRequests from "../notifications/DynamicFormRequests.jsx";
 import {motion} from "framer-motion";
 
 
 const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register, dynamicsForms, dynamicFormRequests, setDynamicsRequests}) => {
-  const { user } = useContext(UserContext);
-  const { isLogin } = useContext(LoginContext);
+  const { user, isLogin } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [request, setRequest] = useState("");
