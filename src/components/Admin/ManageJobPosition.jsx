@@ -47,7 +47,6 @@ const ManagePositions = () => {
 
   const onSubmit = async (data) => {
     try {
-      setIsLoading(true);
       const response = editPosition ? await Axios.put(`/admin/jobPosition/update/${editPosition.id}`, data) : await Axios.post("/admin/jobPosition/add", data);
       const positionsData = Array.isArray(response.data) ? response.data : [];
       setPositions(positionsData);
@@ -57,10 +56,6 @@ const ManagePositions = () => {
       reset();
     } catch (error) {
       console.log("Error adding/updating job position", error);
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
     }
   }
 
@@ -74,7 +69,6 @@ const ManagePositions = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this job position?")) {
       try {
-        setIsLoading(true);
         const response = await Axios.delete(`/admin/jobPosition/delete/${id}`);
         const positionsData = Array.isArray(response.data) ? response.data : [];
         setPositions(positionsData);
@@ -83,10 +77,6 @@ const ManagePositions = () => {
         window.scrollTo({top:0, behavior:"smooth"});
       } catch (error) {
         console.log("Error deleting job position", error);
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
       }
     }
   }

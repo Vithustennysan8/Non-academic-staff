@@ -109,12 +109,13 @@
 }
 .profile-detail-wrapper {
   display: flex;
-  margin-top: 20px;
   padding-top: 20px;
   background-color: white;
   border-radius: 15px;
   box-shadow: 1px 1px 7px 1px #ccc;
-  
+  width: 95%;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 
 .profile-detail-container {

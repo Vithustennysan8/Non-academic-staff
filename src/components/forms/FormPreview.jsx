@@ -4,12 +4,13 @@ import html2canvas from "html2canvas";
 import { Axios } from "../AxiosReqestBuilder";
 import { useEffect, useState } from "react";
 import NormalLeaveFormTemplate from "../notifications/NormalLeaveFormTemplate";
-import OtherLeaveFormsTemplate from "../notifications/OtherLeaveFormsTemplate";
 import { toast } from "react-toastify";
+import LoadingAnimation from "../Common/LoadingAnimation";
 
 const FormPreview = ({ application, approver, setForm }) => {
     const [formStatus, setFormStatus] = useState('');
     const [description, setDescription] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(()=>{
         switch (approver.job_type) {
@@ -71,11 +72,14 @@ const FormPreview = ({ application, approver, setForm }) => {
         }
 
         try{
+            setLoading(true);
             const response = await Axios.put(`/admin/accept/${id}`, {user:approver.id,description, formType:application.formType});
             setForm({...response.data});
             toast.success("Application accepted successfully")
         }catch(error){
             console.error("Error accepting application:", error);
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -86,11 +90,14 @@ const FormPreview = ({ application, approver, setForm }) => {
         }
 
         try{
+            setLoading(true);
             const response = await Axios.put(`/admin/reject/${id}`, {user:approver.id,description,formType:application.formType});
             setForm({...response.data});
             toast.success("Application rejected successfully")
         }catch(error){
             console.error("Error rejecting application:", error);
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -103,12 +110,8 @@ const FormPreview = ({ application, approver, setForm }) => {
     <div className="review-container" >
         <div id="pdfContent">
 
-            {application.formType === "Normal Leave Form" ? 
-            <NormalLeaveFormTemplate application={application}/>:
-            <OtherLeaveFormsTemplate application={application}/>}
+            <NormalLeaveFormTemplate application={application}/>
             
-
-
             {application.status && <div className="review-row">
                 <div className="review-label">Status:</div>
                 <div className={`review-value ${application.status === "Rejected" && 'status-rejected'} ${application.status === "Accepted" && 'status-approved'} ${application.status === "Pending" && 'status-pending'}`}>
@@ -213,6 +216,7 @@ const FormPreview = ({ application, approver, setForm }) => {
                 <>
                 <button onClick={() => handleAccept(application.id)} className=""><img src="https://cdn-icons-png.flaticon.com/128/5290/5290058.png" alt="" /></button>
                 <button onClick={() => handleReject(application.id)} className=""><img src="https://cdn-icons-png.flaticon.com/128/10621/10621089.png" alt="" /></button>
+                { loading && <LoadingAnimation /> }
                 </>
             }
             <button onClick={generatePDF} className=""><img src="https://cdn-icons-png.flaticon.com/128/4208/4208397.png" alt="" /></button>

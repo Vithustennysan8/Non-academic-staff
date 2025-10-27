@@ -47,11 +47,13 @@ const Dashboard = () => {
           if (userData.image_data) {
             setSrc(`data:${userData.image_type};base64,${userData.image_data}`);
           }
-          setTimeout(() => {
-            setIsLoading(false);
-          }, [500])
         } catch (error) {
           logout();
+        } finally {
+          setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            setIsLoading(false);
+          }, 500);
         }
       };
 
@@ -265,11 +267,8 @@ const Dashboard = () => {
                   setEditProfile(false);
                   }}>
                   <span>
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/128/3602/3602123.png"
-                      alt="icon3"
-                    />
-                    Notification{" "}
+                    <i className="fas fa-file"></i>
+                    {user.role !== "USER" && "Manage"} Requests
                     {leave.length + register.length + transfer.length + appliedLeave.length +
                      appliedTransfer.length+ dynamicsRequests.filter(request => request.approverDetails.filter(approver =>
                       approver.approver === user.job_type)[0].approverStatus == "Pending").length +

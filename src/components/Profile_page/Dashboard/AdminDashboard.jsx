@@ -185,29 +185,29 @@ const AdminDashboard = () => {
             </div>
 
 
-        <div className='staffsContainer'>
-            {staffs.filter((staff) => staff.jobType !== "Head of the Department" && staff.jobType !== "Management Assistant" && 
-            staff.jobType !== "Dean")
-            .map((staff)=>{
-                let src = staff.image_data
-                ? `data:${staff.image_type};base64,${staff.image_data}`
-                : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
-                
-                return (
-                    <StaffCard
-                    key={staff.id}
-                    photo={src}
-                    title={staff.first_name.concat(" " + staff.last_name)}
-                    body={staff.faculty}
-                    user={staff}
-                    jobType={staff.job_type}
-                    setSelectedUser={setSelectedStaff}
-                    selectedUser={selectedStaff}
-                    />
-                );
-            })}
-        </div>
-        {selectedStaff && <UserDashboard id={selectedStaff.id}/>}
+            <div className='staffsContainer'>
+                {staffs.filter((staff) => staff.jobType !== "Head of the Department" && staff.jobType !== "Management Assistant" && 
+                staff.jobType !== "Dean")
+                .map((staff)=>{
+                    let src = staff.image_data
+                    ? `data:${staff.image_type};base64,${staff.image_data}`
+                    : "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
+                    
+                    return (
+                        <StaffCard
+                        key={staff.id}
+                        photo={src}
+                        title={staff.first_name.concat(" " + staff.last_name)}
+                        body={staff.faculty}
+                        user={staff}
+                        jobType={staff.job_type}
+                        setSelectedUser={setSelectedStaff}
+                        selectedUser={selectedStaff}
+                        />
+                    );
+                })}
+            </div>
+            {selectedStaff && <UserDashboard id={selectedStaff.id}/>}
         </>
         }
 

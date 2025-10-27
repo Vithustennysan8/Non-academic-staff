@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
-import { handleError } from "../../utils/errorHandler";
 import { toast } from "react-toastify";
 
 const NormalLeaveForm = () => {
@@ -41,6 +40,23 @@ const NormalLeaveForm = () => {
     // })
     
     // console.log(formData);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const firstAppointmentDate = new Date(data.firstAppointmentDate);
+    firstAppointmentDate.setHours(0, 0, 0, 0);
+    if(firstAppointmentDate > today){
+      toast.error("First appointment date cannot be in the future");
+      return;
+    }
+
+    const leaveAppliedDate = new Date(data.leaveAppliedDate);
+    leaveAppliedDate.setHours(0, 0, 0, 0);
+    if(leaveAppliedDate < today){
+      toast.error("Leave applied date cannot be in the past");
+      return;
+    }
+
 
     try {
       const response = await Axios.post("auth/normalLeaveForm/add", data);
@@ -49,7 +65,7 @@ const NormalLeaveForm = () => {
       window.scrollTo({top:0, behavior:"smooth"});
       naviagte("/forms");
     } catch (error) {
-      handleError({ code: error.code || "UNKNOWN_ERROR", message: error.message || "Failed to submit form" });
+      console.log("Error submitting normal leave form", error.message);
     }
   };
 

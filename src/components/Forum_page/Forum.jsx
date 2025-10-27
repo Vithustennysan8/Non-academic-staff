@@ -50,6 +50,7 @@ const Forum = () => {
         console.log("Error fetching forums", error);
       } finally {
         setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
           setIsLoading(false);
         }, 500);
       }

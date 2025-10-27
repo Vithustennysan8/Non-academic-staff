@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "../../css/Contact_page/contact.css";
 import ContactCard from "./ContactCard";
 import { motion } from "framer-motion";
+import VC from "../../assets/images/About/ViceChancellor.jpg";
+import DVC from "../../assets/images/About/DeputyViceChancellor.jpg";
 
 const Contact = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,6 +11,7 @@ const Contact = () => {
   useEffect(() => {
     // Simulate loading time for better UX
     const timer = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
       setIsLoading(false);
     }, 500);
 
@@ -20,7 +23,7 @@ const Contact = () => {
     {
       id: 1,
       link: "https://www.pdn.ac.lk/vice-chancellor/",
-      img: "https://site.pdn.ac.lk/images/About/DeputyViceChancellor.jpg",
+      img: VC,
       position: "Vice Chancellor",
       name: "Prof. Terrance Madhujith",
       number: "081-2392300",
@@ -29,9 +32,9 @@ const Contact = () => {
     {
       id: 2,
       link: "https://www.pdn.ac.lk/deputy-vice-chancellor-2/",
-      img: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg",
+      img: DVC,
       position: "Deputy Vice Chancellor",
-      name: "To be announced",
+      name: "Prof. Ranjith Pallegama",
       number: "081-2389140 / 081-2392304",
       email: "dvc@pdn.ac.lk"
     },

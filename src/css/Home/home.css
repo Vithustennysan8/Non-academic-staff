@@ -112,7 +112,7 @@ body{
 .form-shortcut{
     text-align: center;
     border: 2px solid #ccc;
-    border-left: 5px solid #ff5858;
+    border-left: 5px solid #8c8c8c;
     padding: 8px 12px;
     width: 50%;
     border-radius: 8px;
@@ -120,17 +120,20 @@ body{
     transition: transform 0.3s ease-in-out;
 }
 .form-shortcut:hover{
-    transform: translate(-4px, -4px);
+    transform: translate(-3px, -3px);
+    box-shadow: 4px 4px 8px 1px rgba(0,0,0,0.14),
+    -4px -4px 8px 1px rgba(255,255,255, 1);
+    border-left: 5px solid rgb(220, 0, 0);
 }
 
 .form-shortcut a{
     text-decoration: none;
-    color: rgb(220, 0, 0);
+    color: rgb(48, 48, 48);
     font-weight: 600;
     font-size: 1.2rem;
 }
 .form-shortcut a:hover{
-    color: black;
+    color: rgb(220, 0, 0);
 }
 .form-shortcut a:active{
     color: red;

@@ -25,6 +25,7 @@ const Staffs = () => {
             console.log("Error fetching staffs", error.message);
           } finally {
             setTimeout(() => {
+              window.scrollTo({top:0, behavior:"smooth"});
               setIsLoading(false);
             }, 500);
           }

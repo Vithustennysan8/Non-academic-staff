@@ -10,6 +10,7 @@ const Forms = () => {
   const {user, isLogin} = useAuth();
 
   setTimeout(() => {
+    window.scrollTo({top:0, behavior:"smooth"});
     setIsLoading(false);
   }, 500);
 

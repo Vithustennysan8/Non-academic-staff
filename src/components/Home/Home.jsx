@@ -10,12 +10,11 @@ import twitter from "../../assets/images/home/twitter.png"
 import linkedin from "../../assets/images/home/linkedin.png"
 import github from "../../assets/images/home/github-icon.svg"
 import youtube from "../../assets/images/home/youtube.png"
+import DpLogo from "../../assets/defaultImage.webp";
 
 const Home = () => {
   const { isLogin, user, setUser } = useAuth();
-  const [src, setSrc] = useState(
-    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
-  );
+  const [src, setSrc] = useState(DpLogo);
   const [role, setRole] = useState("USER");
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -34,6 +33,7 @@ const Home = () => {
           console.log("Error fetching user details", error);
         } finally {
           setTimeout(() => {
+            window.scrollTo({top:0, behavior:"smooth"});
             setIsLoading(false);
           }, 500);
         }

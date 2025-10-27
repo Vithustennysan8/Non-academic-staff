@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react"
-import "../../css/Forms/leaveForms.css"
-import AccidentLeaveForm from "./AccidentLeaveForm"
-import NormalLeaveForm from "./NormalLeaveForm"
-import PaternalLeaveForm from "./PaternalLeaveForm"
-import MaternityLeaveForm from "./MaternityLeaveForm"
-import MedicalLeaveForm from "./MedicalLeaveForm"
+import "../../css/Forms_page/leaveForms.css"
+import NormalLeaveForm from "../forms/NormalLeaveForm"
 import { Axios } from "../AxiosReqestBuilder"
-import DynamicFormVIewer from "./DynamicFormVIewer"
+import DynamicFormVIewer from "../forms/DynamicFormVIewer"
 
 const LeaveForms = () => {
     const [dynamicForms, setDynamicForms] = useState([]);
@@ -46,24 +42,17 @@ const LeaveForms = () => {
         <label htmlFor="LeaveType">Select the Leave Type</label>
         <select name="leaveType" id="LeaveType" value={form} onChange={handleChange}>
           <option value="NormalLeave">Normal Leave</option>
-          {/* <option value="AccidentLeave">Accident Leave</option>
-          <option value="MedicalLeave">Medical Leave</option>
-          <option value="MaternityLeave">Maternity Leave</option>
-          <option value="PaternalLeave">Paternal Leave</option> */}
           { 
             dynamicForms.map((dynamicForm, index) => (
               <option key={index} value={dynamicForm.formType}>{dynamicForm.formType}</option>
-            ))}
+            ))
+          }
           
         </select>
       </div>
 
       { dynamicFormDetails.formType && <DynamicFormVIewer dynamicFormDetails={dynamicFormDetails}/>}
       {form === "NormalLeave" && <NormalLeaveForm/>}
-      {form === "AccidentLeave" && <AccidentLeaveForm/>}
-      {form === "PaternalLeave" && <PaternalLeaveForm/>}
-      {form === "MaternityLeave" && <MaternityLeaveForm/>}
-      {form === "MedicalLeave" && <MedicalLeaveForm/>}
     </>
   )
 }

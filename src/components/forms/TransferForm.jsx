@@ -15,7 +15,7 @@ const TransferForm = () => {
           window.scrollTo({top:0, behavior:"smooth"});
           navigate("/login");
         }
-        toast.error("Transfer form is not available for now");
+        toast.warning("Transfer form is not available for now");
         navigate("/forms");
     },[navigate, isLogin])
 

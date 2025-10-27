@@ -2,17 +2,25 @@
     width: 70%;
     margin: auto;
     padding: 5px 10px;
-    border: 1px solid #ccc;
-    border-radius:8px ;
-    margin-bottom: 4px;
+    border: 1px solid #ededed;
+    border-left: 4px solid #ccc;
+    border-radius:4px ;
+    margin-bottom: 8px;
     cursor: pointer;
     background-color: white;
+    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+.formReq-container:hover{
+    border-left: 4px solid rgb(0, 115, 255);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 .formReq-container .name{
     font-size: 1rem;
 }
 .formReq-container h3{
     color: rgb(0, 115, 255);
+    font-size: 1.1rem;
+    margin-bottom: 5px;
 }
 .formReq-container p{
     font-size: 0.8rem;

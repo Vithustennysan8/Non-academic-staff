@@ -12,6 +12,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const DeanCharts = ({allForms}) => {
     const {user} = useAuth();
+    // const [departments, setDepartments] = useState([]);
     const [departmentLeaveCount, setDepartmentLeaveCount] = useState([]);
     const [modifiedData, setmodifiedData] = useState({});
     const [selectedDepartment, setSelectedDepartment] = useState('');

@@ -37,9 +37,6 @@ const ManageFaculties = () => {
         }, 500);
       } catch (error) {
         console.log("Error fetching faculties", error);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
       }
     }
     fetchFaculty();
@@ -47,7 +44,6 @@ const ManageFaculties = () => {
 
   const onSubmit = async (data) => {
     try {
-      setIsLoading(true);
       const response = editFaculty ? await Axios.put(`/admin/faculty/update/${editFaculty.id}`, data) : await Axios.post("/admin/faculty/add", data);
       const facultiesData = Array.isArray(response.data) ? response.data : [];
       setFaculties(facultiesData);
@@ -57,10 +53,6 @@ const ManageFaculties = () => {
       reset();
     } catch (error) {
       console.log("Error adding/updating faculty", error);
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 500);
     }
   }
 
@@ -84,10 +76,6 @@ const ManageFaculties = () => {
         window.scrollTo({top:0, behavior:"smooth"});
       } catch (error) {
         console.log("Error deleting faculty", error);
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
       }
     }
   }

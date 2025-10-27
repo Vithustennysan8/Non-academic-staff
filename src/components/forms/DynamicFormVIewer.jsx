@@ -11,6 +11,7 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
     const navigate = useNavigate();
     const {handleSubmit, register, formState: {errors}} = useForm();
     const [fileNames, setFileNames] = useState([]);
+    const [dateInputs, setDateInputs] = useState([]);
     const [approvalFlows, setApprovalFlows] = useState([]);
     const [selectedFlow, setSelectedFlow] = useState([]);
 
@@ -27,6 +28,10 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
             .filter((field) => field.type === 'file')
             .map((field) => field.label);
         setFileNames(files);
+        const dates = dynamicFormDetails.fields
+            .filter((field) => field.type === 'date')
+            .map((field) => field.label);
+        setDateInputs(dates);
     }
     }, [dynamicFormDetails]);
 
@@ -156,6 +161,19 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
         .map(file => {
             formData.append(file, data[file]);
         })
+
+        // validate date inputs
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        for (const dateInput of dateInputs) {
+            const dateValue = new Date(data[dateInput]);
+            dateValue.setHours(0, 0, 0, 0);
+
+            if (dateValue < today) {
+                toast.error(`Please select a valid date for ${dateInput}`);
+                return;
+            }
+        }
 
         for (const fileName of fileNames) {
             const file = data[fileName];

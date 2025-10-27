@@ -122,6 +122,70 @@
     text-align: left;
 }
 
+.registerRequests .info-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+}
+
+
+.registerRequests .info-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    transition: all 0.2s ease;
+}
+
+.registerRequests .info-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: #30537a;
+}
+
+.registerRequests .info-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.registerRequests .card-icon {
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid #e9ecef;
+}
+
+.registerRequests .card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.registerRequests .card-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #323232;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.registerRequests .card-value {
+    font-size: 1rem;
+    color: #323232;
+    font-weight: 500;
+    word-break: break-word;
+    line-height: 1.4;
+}
 @media (max-width : 768px){
     .request{
         margin: 0;

@@ -16,7 +16,6 @@ import {motion} from "framer-motion";
 const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register, dynamicsForms, dynamicFormRequests, setDynamicsRequests}) => {
   const { user, isLogin } = useAuth();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
   const [request, setRequest] = useState("");
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [transferRequests, setTransferRequests] = useState([]);
@@ -109,7 +108,6 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
       fetchLeaveFormsApplied();
       fetchTransferFormsApplied();
       // fetchDynamicForms();
-      setIsLoading(false);
     }, 0);
   }, [navigate, user, isLogin]);
   
@@ -129,19 +127,19 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                   )}
                   </button>
 
+                <button onClick={() => setRequest("LeaveRequests")}>
+                  Normal Leave Requests
+                  {leave.length > 0 && (
+                    <span className="requestCount">{leave.length}</span>
+                  )}
+                </button>
+
                 <button onClick={() => setRequest("DynamicFormsRequests")}>
-                  Dynamic Leave Requests
+                  OtherLeave Requests
                   {dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
                             approver.approver == user.job_type)[0].approverStatus == "Pending").length > 0 && (
                     <span className="requestCount">{dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
                       approver.approver == user.job_type)[0].approverStatus == "Pending").length}</span>
-                  )}
-                </button>
-
-                <button onClick={() => setRequest("LeaveRequests")}>
-                  Leave Requests
-                  {leave.length > 0 && (
-                    <span className="requestCount">{leave.length}</span>
                   )}
                 </button>
 
@@ -158,19 +156,19 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
               </>
             )}
 
-            { (user.role !== "ADMIN" || user.role === "SUPER_ADMIN") && <>
+            { (user.role === "USER") && <>
             
-              <button onClick={() => setRequest("AppliedDynamicsForms")}>
-                Applied Dynamics Forms
-                {dynamicsForms.filter(form => form.formStatus == "Pending").length > 0 && (
-                  <span className="requestCount">{dynamicsForms.filter(form => form.formStatus == "Pending").length}</span>
+              <button onClick={() => setRequest("AppliedLeaveForms")}>
+                Applied Normal Leave Forms
+                {appliedLeave.length > 0 && (
+                  <span className="requestCount">{appliedLeave.length}</span>
                 )}
               </button>
 
-              <button onClick={() => setRequest("AppliedLeaveForms")}>
-                Applied Leave Forms
-                {appliedLeave.length > 0 && (
-                  <span className="requestCount">{appliedLeave.length}</span>
+              <button onClick={() => setRequest("AppliedDynamicsForms")}>
+                Applied OtherLeave Forms
+                {dynamicsForms.filter(form => form.formStatus == "Pending").length > 0 && (
+                  <span className="requestCount">{dynamicsForms.filter(form => form.formStatus == "Pending").length}</span>
                 )}
               </button>
 

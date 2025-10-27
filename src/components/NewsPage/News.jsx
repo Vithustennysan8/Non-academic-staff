@@ -5,6 +5,7 @@ import NewsCards from "../Home/NewsCards.jsx";
 import { useAuth } from "../../Contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 
 const News = () => {
     const { user, isLogin } = useAuth();
@@ -12,6 +13,7 @@ const News = () => {
     const [showForm, setShowForm] = useState(false);
     const [showUpdateBtn, setShowUpdateBtn] = useState(false);
     const [updateNews, setUpdateNews] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     // pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +28,11 @@ const News = () => {
                     setCurrentPage(1);
                 }catch(error){
                     console.log("Error fetching news", error);
+                }finally{
+                    setTimeout(() => {
+                        window.scrollTo({top:0, behavior:"smooth"});
+                        setIsLoading(false);
+                    }, 500);
                 }
             }
             getNews();
@@ -89,10 +96,26 @@ const News = () => {
 
     const displayedNews = pageSize === 0 ? safeNews : safeNews.slice((currentPage - 1) * pageSize, currentPage * pageSize);
   
+    if (isLoading) {
+        return (
+            <div className="contact_container">
+                <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p>Loading home information...</p>
+                </div>
+            </div>
+            );
+        }
   return (
-    <div className="newsPage">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.6 }}
+    >
+      <div className="newsPage">
         <h2>News</h2>
-        { user?.role !== "USER" && !showForm && <button className="ashbtn bttn newsbtn" 
+        { isLogin &&user?.role !== "USER" && !showForm && <button className="ashbtn bttn newsbtn" 
         onClick={()=>{
             setShowForm(!showForm)
             setShowUpdateBtn(false);
@@ -190,6 +213,7 @@ const News = () => {
             </div>
         )}      
     </div>
+    </motion.div>
   )
 }
 
