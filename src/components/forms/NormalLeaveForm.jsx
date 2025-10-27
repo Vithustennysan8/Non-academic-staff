@@ -59,7 +59,7 @@ const NormalLeaveForm = () => {
 
 
     try {
-      const response = await Axios.post("auth/normalLeaveForm/add", data);
+      const response = await Axios.post("user/normalLeaveForm/add", data);
       console.log(response.data);
       toast.success('Form submitted successfully!');
       window.scrollTo({top:0, behavior:"smooth"});

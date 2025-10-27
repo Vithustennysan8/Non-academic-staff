@@ -83,7 +83,7 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
         
         const fetchTransferFormsApplied = async () => {
           try {
-            const response = await Axios.get("auth/user/transferForms");
+            const response = await Axios.get("/user/transferForms");
             setAppliedTransferForms(response.data);
         } catch (error) {
           console.log("Error fetching appliedTransferForms requests", error);
@@ -92,7 +92,7 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
 
       const fetchLeaveFormsApplied = async () => {
         try {
-          const response = await Axios.get("auth/user/leaveForms");
+          const response = await Axios.get("/user/leaveForms");
           setAppliedLeaveForms(response.data);
         } catch (error) {
           console.log("Error fetching appliedLeaveForms requests", error);

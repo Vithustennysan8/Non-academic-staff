@@ -38,7 +38,7 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
     useEffect(()=>{
         const fetchFlows = async () => {
             try {
-                const response = await Axios.get(`/auth/user/approvalFlow/get/${dynamicFormDetails.formType}`);
+                const response = await Axios.get(`/user/approvalFlow/get/${dynamicFormDetails.formType}`);
                 setApprovalFlows(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -189,7 +189,7 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
         const encodedFormName = encodeURIComponent(dynamicFormDetails.formType);
         const encodedFlowName = encodeURIComponent(selectedFlow);
         try {
-            const response = await Axios.post(`auth/user/dynamicFormDetail/add/${encodedFormName}/${encodedFlowName}`, formData, {
+            const response = await Axios.post(`/user/dynamicFormDetail/add/${encodedFormName}/${encodedFlowName}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     },

@@ -28,7 +28,7 @@ const ManageFaculties = () => {
     const fetchFaculty = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("/auth/user/faculty/getAll");
+        const response = await Axios.get("/user/faculty/getAll");
         const facultiesData = Array.isArray(response.data) ? response.data : [];
         setFaculties(facultiesData);
         setCurrentPage(1);

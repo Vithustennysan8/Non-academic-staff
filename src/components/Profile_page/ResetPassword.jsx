@@ -61,7 +61,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await Axios.delete("/auth/user/delete", {
+      const response = await Axios.delete("/user/delete", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

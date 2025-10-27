@@ -6,6 +6,8 @@ import { Axios } from "../AxiosReqestBuilder";
 import { motion } from "framer-motion";
 import defaultDp from "../../assets/defaultImage.webp";
 import { Link } from "react-router-dom";
+import searchIcon from "../../assets/images/staff/search-icon.webp";
+import VC from "../../assets/images/About/ViceChancellor.jpg";
 
 const Staffs = () => {
   const { isLogin, user } = useAuth();
@@ -19,7 +21,7 @@ const Staffs = () => {
       const getUsers = async () => {
         if (isLogin) {
           try {
-            const response = await (user.role === "SUPER_ADMIN" ? Axios.get("/super_admin/staffs") : Axios.get("/auth/user/staffs"));
+            const response = await (user.role === "SUPER_ADMIN" ? Axios.get("/super_admin/staffs") : Axios.get("/user/staffs"));
             setStaffs(response.data);
           } catch (error) {
             console.log("Error fetching staffs", error.message);
@@ -60,7 +62,7 @@ const Staffs = () => {
 
             <div className="staff-search">
               <img
-                src="https://uxwing.com/wp-content/themes/uxwing/download/user-interface/search-icon.png"
+                src={searchIcon}
                 alt=""
               />
               <input
@@ -79,30 +81,6 @@ const Staffs = () => {
             
 
             <div className="staffs-detail">
-              {/* default head images for the head of every department */}
-              {!isLogin && (
-                <>
-                  <h3>Head of the Non-academic staffs</h3>
-                  <div className="staff-container">
-                    <StaffCard
-                      photo={
-                        "https://site.pdn.ac.lk/images/About/DeputyViceChancellor.jpg"
-                      }
-                      title={"Prof.Terrance Madhujith"}
-                      body={"Vice Chancellor"}
-                    />
-                    <StaffCard
-                      photo={
-                        "https://inro.pdn.ac.lk/assets/images/bom/Mr.%20EMGMB%20Ekanayake.jpg"
-                      }
-                      title={"Mr. EMGMB. Ekanayake"}
-                      body={"Registrar"}
-                    />
-                  </div>
-                  <h3>Other Departments .....</h3>
-                </>
-              )}
-
               {/* based on the department staff will display */}
               {isLogin && !search && user.role !== "SUPER_ADMIN" &&
                 <>

@@ -40,7 +40,7 @@ const Forum = () => {
 
       try {
         const fetchForums = async () => {
-          const response = await Axios.get("/auth/forum/get");
+          const response = await Axios.get("/user/forum/get");
           const forumsData = Array.isArray(response.data) ? response.data : [];
           setForums(forumsData);
           setCurrentPage(1);
@@ -71,7 +71,7 @@ const Forum = () => {
     setForum({ subject: "", body: "" });
 
     try {
-      const response = await Axios.post("/auth/forum/add", { subject, body });
+      const response = await Axios.post("/user/forum/add", { subject, body });
       setForums(response.data);
       toast.success("Forum added successfully!");
       setForums([response.data, ...forums]);
@@ -83,7 +83,7 @@ const Forum = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this forum?")) {
       try {
-        const response = await Axios.delete(`/auth/forum/delete/${id}`);
+        const response = await Axios.delete(`/user/forum/delete/${id}`);
         setForums(response.data);
         toast.success("Forum deleted successfully!");
       } catch (error) {
@@ -106,7 +106,7 @@ const Forum = () => {
     setForum({ subject: "", body: "" });
 
     try {
-      const response = await Axios.put(`/auth/forum/update/${id}`, {
+      const response = await Axios.put(`/user/forum/update/${id}`, {
         subject,
         body,
       });

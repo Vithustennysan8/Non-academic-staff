@@ -3,6 +3,7 @@ import "../../css/Forms/normalLeaveFormTemplate.css";
 import { Axios } from "../AxiosReqestBuilder";
 import { useAuth } from "../../Contexts/AuthContext";
 import { toast } from "react-toastify";
+import deleteLogo from "../../assets/delete.png";
 
 const NormalLeaveFormTemplate = ({application}) => {
   const {user} = useAuth();
@@ -12,7 +13,7 @@ const NormalLeaveFormTemplate = ({application}) => {
     const formtype = form.formType.split(" ").join("").replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => index == 0 ? word.toLowerCase() : word.toUpperCase()).replace(/\s+/g, '');
 
     try {
-        const response = await Axios.delete(`/auth/${formtype}/delete/${form?.id}`);
+        const response = await Axios.delete(`/user/${formtype}/delete/${form?.id}`);
         console.log(response.data);
         toast.success("Form deleted successfully");
         window.location.reload();
@@ -26,7 +27,7 @@ const NormalLeaveFormTemplate = ({application}) => {
     <div className="normalLeaveTemplate-container">
 
         <h2>{application.formType}</h2>
-        {application.headStatus === "pending" && user.role === "USER" && <button className="deleteBtn" onClick={() => handleDelete(application)}><img src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="DeleteIcon" /></button>}
+        {application.headStatus === "pending" && user.role === "USER" && <button className="deleteBtn" onClick={() => handleDelete(application)}><img src={deleteLogo} alt="DeleteIcon" /></button>}
 
           <table border={"1px"}>
 

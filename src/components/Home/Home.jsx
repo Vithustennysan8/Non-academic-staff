@@ -11,6 +11,10 @@ import linkedin from "../../assets/images/home/linkedin.png"
 import github from "../../assets/images/home/github-icon.svg"
 import youtube from "../../assets/images/home/youtube.png"
 import DpLogo from "../../assets/defaultImage.webp";
+import slide1 from "../../assets/images/home/slide1.jpg";
+import slide2 from "../../assets/images/home/slide2.jpg";
+import slide3 from "../../assets/images/home/slide3.jpg";
+import slide4 from "../../assets/images/home/slide4.jpg";
 
 const Home = () => {
   const { isLogin, user, setUser } = useAuth();
@@ -21,7 +25,7 @@ const Home = () => {
     const getUserDetail = async () => {
       if (isLogin) {
         try {
-          const response = await Axios.get("/auth/user/info");
+          const response = await Axios.get("/user/info");
           setUser(response.data);
           setRole(response.data.role);
           if (response.data.image_data) {
@@ -49,13 +53,13 @@ const Home = () => {
   const slideInterval = useRef(null);
 
   const slides = [
-    { backgroundImage: "url(https://arts.pdn.ac.lk/images/slider/slide1.jpg)" },
-    { backgroundImage: "url(https://arts.pdn.ac.lk/images/slider/slide2.jpg)" },
+    { backgroundImage: `url(${slide1})` },
+    { backgroundImage: `url(${slide2})` },
     {
       backgroundImage:
-        "url(https://arts.pdn.ac.lk/civco/assets/data1/images/1.jpg)",
+        `url(${slide3})`,
     },
-    { backgroundImage: "url(https://arts.pdn.ac.lk/images/slider/slide3.jpg)" },
+    { backgroundImage: `url(${slide4})` },
   ];
 
   useEffect(() => {
@@ -105,7 +109,7 @@ const Home = () => {
           ) : (
             <div className="home-img-slider">
               <img
-                src="https://arts.pdn.ac.lk/images/slider/slide1.jpg"
+                src={slide1}
                 alt=""
               />
               <h1>University Of Peradeniya</h1>

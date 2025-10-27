@@ -30,7 +30,7 @@ const ManageDepartments = () => {
     const fetchFaculty = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("/auth/user/faculty/getAll");
+        const response = await Axios.get("/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
         console.log(error);
@@ -44,7 +44,7 @@ const ManageDepartments = () => {
     const fetchDepartment = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("/auth/user/department/get");
+        const response = await Axios.get("/user/department/get");
         const departmentsData = Array.isArray(response.data) ? response.data : [];
         setDepartments(departmentsData);
         setCurrentPage(1);

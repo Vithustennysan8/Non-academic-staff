@@ -10,6 +10,10 @@ import AdminDashboard from "./Dashboard/AdminDashboard";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import defaultAvatar from "../../assets/defaultImage.webp";
+import editIcon from "../../assets/images/dashboard/edit.png";
+import passwordIcon from "../../assets/images/dashboard/password.png";
+import documentIcon from "../../assets/images/dashboard/document.png";
+import summaryIcon from "../../assets/images/dashboard/summary.png";
 
 const Dashboard = () => {
   const { isLogin, user, setUser, logout } = useAuth();
@@ -40,7 +44,7 @@ const Dashboard = () => {
     setTimeout(() => {
       const getUserDetail = async () => {
         try {
-          const response = await Axios.get("/auth/user/info");
+          const response = await Axios.get("/user/info");
           const userData = response.data;
           setUser(userData);
           hasFetchedUser.current = true;
@@ -68,7 +72,7 @@ const Dashboard = () => {
 
       const fetchAppliedDynamicForms = async () => {
         try {
-            const response = await Axios.get("auth/user/DynamicFormUser/getAll");
+            const response = await Axios.get("user/DynamicFormUser/getAll");
             setAppliedDynamics(response.data);
         } catch (error) {
             console.log("Error fetching applied dynamic forms", error);
@@ -88,7 +92,7 @@ const Dashboard = () => {
 
       const fetchRegisterRequests = async () => {
         try {
-          const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
+          const response = (user.role === "ADMIN" || user.role === "SUPER_ADMIN") ? await Axios.get("admin/verifyRegisterRequests") : 
                                       await Axios.get("admin/verifyAdminRegisterRequests");
           setRegister(response.data);
         } catch (error) {
@@ -108,7 +112,7 @@ const Dashboard = () => {
 
       const fetchTransferFormsApplied = async () => {
         try {
-          const response = await Axios.get("auth/user/transferForms");
+          const response = await Axios.get("user/transferForms");
           setAppliedTransfer(response.data);
         } catch (error) {
           console.log("Error fetching appliedTransferForms requests", error);
@@ -117,7 +121,7 @@ const Dashboard = () => {
       
       const fetchLeaveFormsApplied = async () => {
         try {
-          const response = await Axios.get("auth/user/leaveForms");
+          const response = await Axios.get("user/leaveForms");
           setAppliedLeave(response.data);
         } catch (error) {
           console.log("Error fetching appliedLeaveForms requests", error);
@@ -177,7 +181,7 @@ const Dashboard = () => {
     });
 
     try {
-      const response = await Axios.put("/auth/user/update", formData, {
+      const response = await Axios.put("/user/update", formData, {
         headers: {
           "Content-type": "multipart/form-data",
           "Authorization": `Bearer ${token}`,
@@ -240,7 +244,7 @@ const Dashboard = () => {
                 >
                   <span>
                     <img
-                      src="https://cdn-icons-png.flaticon.com/128/8188/8188360.png"
+                      src={editIcon}
                       alt="icon1"
                     />
                     {dashboardContent === "Profile" && "Edit"} Profile
@@ -254,7 +258,7 @@ const Dashboard = () => {
                 }}>
                   <span>
                     <img
-                      src="https://cdn-icons-png.flaticon.com/128/25/25215.png"
+                      src={passwordIcon}
                       alt="icon2"
                     />
                     Security
@@ -267,7 +271,10 @@ const Dashboard = () => {
                   setEditProfile(false);
                   }}>
                   <span>
-                    <i className="fas fa-file"></i>
+                    <img
+                      src={documentIcon}
+                      alt="icon2"
+                    />
                     {user.role !== "USER" && "Manage"} Requests
                     {leave.length + register.length + transfer.length + appliedLeave.length +
                      appliedTransfer.length+ dynamicsRequests.filter(request => request.approverDetails.filter(approver =>
@@ -294,7 +301,7 @@ const Dashboard = () => {
                 }}>
                   <span>
                     <img
-                      src="https://cdn-icons-png.flaticon.com/128/10541/10541390.png"
+                      src={summaryIcon}
                       alt="icon3"
                     />
                     Summary

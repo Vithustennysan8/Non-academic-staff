@@ -15,7 +15,7 @@ import Footer from "./components/Common/Footer";
 import Header from "./components/Common/Header";
 import { AuthProvider } from "./Contexts/AuthContext";
 import RequestedForms from "./components/notifications/LeaveRequests";
-import LeaveForms from "./components/Forum_page/LeaveForms";
+import LeaveForms from "./components/Forms_page/LeaveForms";
 import Notifications from "./components/forms/Notifications";
 import ForgotPassword from "./components/Authentication/ForgotPassword";
 import ApprovalFlowManager from "./components/Admin/ApprovalFlowManager";

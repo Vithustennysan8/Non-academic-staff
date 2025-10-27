@@ -12,7 +12,7 @@ const LeaveForms = () => {
     useEffect(() => {
       const fetchDynamicFormList = async () => {
         try {
-          const response = await Axios.get("/auth/user/dynamicForm/getAll");
+          const response = await Axios.get("/user/dynamicForm/getAll");
           setDynamicForms(response.data);
         } catch (error) {
           console.log("Error fetching dynamic form list",   error);          
@@ -23,7 +23,7 @@ const LeaveForms = () => {
 
     const fetchForm = async (dynamicForm) => {
       try {
-        const response = await Axios.get(`/auth/user/dynamicForm/get/${dynamicForm}`)
+        const response = await Axios.get(`/user/dynamicForm/get/${dynamicForm}`)
         setDynamicFormDetails(response.data);
       } catch (error) {
         console.log("Error fetching form", error);

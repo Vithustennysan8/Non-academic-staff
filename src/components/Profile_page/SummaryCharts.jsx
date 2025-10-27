@@ -59,7 +59,7 @@ const DeanCharts = ({allForms}) => {
     useEffect(() => {
         const fetchFaculty = async () => {
             try {
-              const response = await Axios.get("/auth/user/faculty/getAll");
+              const response = await Axios.get("/user/faculty/getAll");
               const facs = [];
               response.data.forEach(fac => facs.push(fac.facultyName)); 
               setFaculties(facs);

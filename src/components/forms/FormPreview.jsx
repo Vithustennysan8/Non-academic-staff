@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import NormalLeaveFormTemplate from "../notifications/NormalLeaveFormTemplate";
 import { toast } from "react-toastify";
 import LoadingAnimation from "../Common/LoadingAnimation";
+import downloadLogo from "../../assets/Download.png"
+import acceptLogo from "../../assets/accept.png"
+import rejectLogo from "../../assets/cancel.png"
 
 const FormPreview = ({ application, approver, setForm }) => {
     const [formStatus, setFormStatus] = useState('');
@@ -214,12 +217,12 @@ const FormPreview = ({ application, approver, setForm }) => {
         <div className="buttonDiv">
             { formStatus === "pending" && approver.role === "ADMIN" &&
                 <>
-                <button onClick={() => handleAccept(application.id)} className=""><img src="https://cdn-icons-png.flaticon.com/128/5290/5290058.png" alt="" /></button>
-                <button onClick={() => handleReject(application.id)} className=""><img src="https://cdn-icons-png.flaticon.com/128/10621/10621089.png" alt="" /></button>
+                <button onClick={() => handleAccept(application.id)} className=""><img src={acceptLogo} alt="" /></button>
+                <button onClick={() => handleReject(application.id)} className=""><img src={rejectLogo} alt="" /></button>
                 { loading && <LoadingAnimation /> }
                 </>
             }
-            <button onClick={generatePDF} className=""><img src="https://cdn-icons-png.flaticon.com/128/4208/4208397.png" alt="" /></button>
+            <button onClick={generatePDF} className=""><img src={downloadLogo} alt="" /></button>
         </div>
     </div>
     </>

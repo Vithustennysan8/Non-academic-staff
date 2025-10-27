@@ -36,7 +36,7 @@ const ApprovalFlowManager = () => {
     }
     const fetchPositions = async () => {
       try {
-        const response = await Axios.get("/auth/user/jobPosition/get");
+        const response = await Axios.get("/user/jobPosition/get");
         setPositions(response.data);
         console.log(response.data);
       } catch (error) {
@@ -49,7 +49,7 @@ const ApprovalFlowManager = () => {
     }
     const fetchDynamicFormList = async () => {
       try {
-        const response = await Axios.get("/auth/user/dynamicForm/getAll");
+        const response = await Axios.get("/user/dynamicForm/getAll");
         setDynamicForms(response.data);
       } catch (error) {
         console.log(error);          

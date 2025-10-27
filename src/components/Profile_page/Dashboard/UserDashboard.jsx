@@ -8,6 +8,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import {motion} from "framer-motion"
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import searchIcon from "../../../assets/search.png";
 
 // Register necessary components from chart.js
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -44,7 +45,7 @@ const UserDashboard = ( {id} ) => {
 
   const fetchFormTypes = async () => {
     try {
-      const formTypes = await Axios.get(`/auth/user/dynamicForm/getAllById/${id}`);
+      const formTypes = await Axios.get(`/user/dynamicForm/getAllById/${id}`);
       setFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
       setTempFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
     } catch (error) {
@@ -57,8 +58,8 @@ const UserDashboard = ( {id} ) => {
       if (isLogin) {
         const fetchForms = async () => {
           try {
-          const response1 = await Axios.get(`/auth/user/leaveFormsById/${id}`);
-          const response2 = await Axios.get(`/auth/user/DynamicFormUser/getAllById/${id}`);
+          const response1 = await Axios.get(`/user/leaveFormsById/${id}`);
+          const response2 = await Axios.get(`/user/DynamicFormUser/getAllById/${id}`);
           setForms([...response2.data, ...response1.data]);
         }catch(error){
           console.log("Error fetching forms", error.message);
@@ -268,7 +269,7 @@ const UserDashboard = ( {id} ) => {
                 <option value="November">November</option>
                 <option value="December">December</option>
               </select>
-              <button onClick={handleSearch}><img src="https://cdn-icons-png.flaticon.com/128/16020/16020060.png" alt="searchIcon" /></button>
+              <button onClick={handleSearch}><img src={searchIcon} alt="searchIcon" /></button>
             </div>
 
             <div className="searchText">

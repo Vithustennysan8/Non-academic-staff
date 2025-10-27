@@ -1,4 +1,6 @@
 import "../../css/Forum_page/forumCard.css"
+import editIcon from "../../assets/edit.png"
+import deleteIcon from "../../assets/delete.png"
 
 
 const ForumCard = ({heading, user, date, time, paragraph, handleDelete, handleEdit, ownerId, currentUserId, role}) => {
@@ -14,8 +16,8 @@ const ForumCard = ({heading, user, date, time, paragraph, handleDelete, handleEd
         <p className="formCardContent">{paragraph}</p>
         
         <div className="deleteForum" >
-          {(ownerId === currentUserId) && <img onClick={handleEdit} src="https://cdn-icons-png.flaticon.com/128/3124/3124772.png" alt="EditIcon" />}
-          {(ownerId === currentUserId || role == "ADMIN" || role == "SUPER_ADMIN") && <img onClick={handleDelete} src="https://cdn-icons-png.flaticon.com/128/8207/8207904.png" alt="deleteIcon" />}
+          {(ownerId === currentUserId) && <img onClick={handleEdit} src={editIcon} alt="EditIcon" />}
+          {(ownerId === currentUserId || role == "ADMIN" || role == "SUPER_ADMIN") && <img onClick={handleDelete} src={deleteIcon} alt="deleteIcon" />}
         </div>
     </div>
     </>

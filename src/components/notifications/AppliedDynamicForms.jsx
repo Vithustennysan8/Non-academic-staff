@@ -50,7 +50,7 @@ const AppliedDynamicForms = ({dynamicForms}) => {
     
     const handleGetPdf = async (id) => {
       try {
-        const response = await Axios.get(`/auth/user/DynamicFormUser/getPdf/${id}`, {
+        const response = await Axios.get(`/user/DynamicFormUser/getPdf/${id}`, {
           responseType: "blob", // Important: Treat response as binary
         });
     

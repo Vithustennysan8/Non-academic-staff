@@ -4,6 +4,8 @@ import FormCard from "./FormCard";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../Contexts/AuthContext";
 import {motion} from "framer-motion";
+import leaveLogo from "../../assets/images/FormPage/leave.png";
+import transferLogo from "../../assets/images/FormPage/transfer.png";
 
 const Forms = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -76,15 +78,13 @@ const Forms = () => {
           <FormCard
             title={"Leave Form"}
             content={"Apply Leave"}
-            img={
-              "https://cdn.iconscout.com/icon/premium/png-256-thumb/leaving-1649219-1399243.png"
-            }
+            img={leaveLogo}
             url={"/LeaveForms"}
             />
           <FormCard
             title={"Transfer Form"}
             content={"Apply Transfer"}
-            img={"https://static.thenounproject.com/png/2409660-200.png"}
+            img={transferLogo}
             url={"/transferForm"}
             />
         </div>

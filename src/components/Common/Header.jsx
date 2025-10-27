@@ -45,7 +45,7 @@ const Header = () => {
     const getUserDetail = async () => {
       if (isLogin) {
         try {
-          const response = await Axios.get("/auth/user/info");
+          const response = await Axios.get("/user/info");
           setUser(response.data);
         } catch (error) {
           console.log("Error fetching user details", error);

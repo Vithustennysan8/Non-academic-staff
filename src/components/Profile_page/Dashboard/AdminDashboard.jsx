@@ -95,7 +95,7 @@ const AdminDashboard = () => {
         setTimeout(() => {
             const fetchStaffs = async ()=>{
                 try {
-                    const response = await Axios.get("/auth/user/staffs");
+                    const response = await Axios.get("/user/staffs");
                     setStaffs(response.data);
                 } catch (error) {
                     console.log("Error fetching staffs", error.message);

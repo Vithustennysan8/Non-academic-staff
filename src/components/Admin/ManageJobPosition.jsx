@@ -28,7 +28,7 @@ const ManagePositions = () => {
     const fetchFaculty = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("/auth/user/jobPosition/get");
+        const response = await Axios.get("/user/jobPosition/get");
         const positionsData = Array.isArray(response.data) ? response.data : [];
         setPositions(positionsData);
         setCurrentPage(1);

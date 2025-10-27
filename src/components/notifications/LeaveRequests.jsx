@@ -28,7 +28,7 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
   useEffect(()=>{
     const fetchFaculty = async () => {
       try {
-        const response = await Axios.get("/auth/user/faculty/getAll");
+        const response = await Axios.get("/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
         console.log(error);
@@ -36,7 +36,7 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
     }
     const fetchDepartment = async () => {
       try {
-        const response = await Axios.get("/auth/user/department/getAll");
+        const response = await Axios.get("/user/department/getAll");
         setDepartments(response.data);
       } catch (error) {
         console.log(error);

@@ -5,6 +5,8 @@ import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
 import { toast } from "react-toastify";
 import LoadingAnimation from "../Common/LoadingAnimation";
+import acceptLogo from "../../assets/accept.png";
+import rejectLogo from "../../assets/cancel.png";
 
 const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
   const {user} = useAuth();
@@ -32,7 +34,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
   useEffect(()=>{
     const fetchFaculty = async () => {
       try {
-        const response = await Axios.get("/auth/user/faculty/getAll");
+        const response = await Axios.get("/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
         console.log(error);
@@ -40,7 +42,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
     }
     const fetchDepartment = async () => {
       try {
-        const response = await Axios.get("/auth/user/department/getAll");
+        const response = await Axios.get("/user/department/getAll");
         setDepartments(response.data);
       } catch (error) {
         console.log(error);
@@ -173,7 +175,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
 
     const handleGetPdf = async (id) => {
       try {
-        const response = await Axios.get(`/auth/user/DynamicFormUser/getPdf/${id}`, {
+        const response = await Axios.get(`/user/DynamicFormUser/getPdf/${id}`, {
           responseType: "blob", // Important: Treat response as binary
         });
     
@@ -322,8 +324,8 @@ return (
               <div className="buttonDiv">
                 {  selectedForm.approverDetails.filter((approver) => approver.approver === user.job_type)[0].approverStatus === "Pending" && user.role === "ADMIN" &&
                     <>
-                    <button onClick={() => handleAccept(selectedForm.formId)} className=""><img src="https://cdn-icons-png.flaticon.com/128/5290/5290058.png" alt="" /></button>
-                    <button onClick={() => handleReject(selectedForm.formId)} className=""><img src="https://cdn-icons-png.flaticon.com/128/10621/10621089.png" alt="" /></button>
+                    <button onClick={() => handleAccept(selectedForm.formId)} className=""><img src={acceptLogo} alt="" /></button>
+                    <button onClick={() => handleReject(selectedForm.formId)} className=""><img src={rejectLogo} alt="" /></button>
                     </>
                 }
                 {/* <button onClick={generatePDF} className=""><img src="https://cdn-icons-png.flaticon.com/128/4208/4208397.png" alt="" /></button> */}

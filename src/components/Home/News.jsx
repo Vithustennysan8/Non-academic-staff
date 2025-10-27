@@ -18,7 +18,7 @@ const News = ({role}) => {
         if(isLogin){   
             const getNews = async () => {
                 try {
-                    const response = await Axios.get("/auth/news/get");
+                    const response = await Axios.get("/user/news/get");
                     setNews(response.data);
                 }catch(error){
                     console.log("Error fetching news", error);

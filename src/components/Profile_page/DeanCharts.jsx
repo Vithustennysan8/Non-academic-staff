@@ -12,7 +12,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const DeanCharts = ({allForms}) => {
     const {user} = useAuth();
-    // const [departments, setDepartments] = useState([]);
+    const [departments, setDepartments] = useState([]);
     const [departmentLeaveCount, setDepartmentLeaveCount] = useState([]);
     const [modifiedData, setmodifiedData] = useState({});
     const [selectedDepartment, setSelectedDepartment] = useState('');
@@ -47,6 +47,8 @@ const DeanCharts = ({allForms}) => {
                "department": selectedDepartment
               }
           });
+          const departments = await Axios.get(`/user/department/get`);
+          setDepartments(departments.data);
           setFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
           console.log(formTypes.data)
         } catch (error) {
@@ -66,7 +68,7 @@ const DeanCharts = ({allForms}) => {
                 return year & month;
         }).map(item => {
           setFormTypeAndCount((prev) => ({
-            ...prev, [item.formType]: item.count
+            ...prev, [item.formType]: (prev[item.formType] || 0) + item.count
           }))
         }
         );
@@ -76,7 +78,7 @@ const DeanCharts = ({allForms}) => {
     const overAlldepartmentDetails = (arrayMap, year, month) => {
         let departmentObject = []
         departments.forEach((department) => {
-            const departmentDetails = arrayMap.get(department);
+            const departmentDetails = arrayMap.get(department.departmentName);
             if (departmentDetails) {
                 let count = 0;
                 departmentDetails.map((acc) => {
@@ -137,73 +139,12 @@ const DeanCharts = ({allForms}) => {
         };
     
         const formCategories = fetchFormsByCatogaries();
+        console.log(formCategories);
+        
         setmodifiedData(formCategories);
         overAlldepartmentDetails(formCategories, filter.year, filter.month);
     }, [allForms, filter]);
 
-
-    
-    const faculties = [
-        {
-          faculty: "Faculty of Engineering",
-          department:
-            "Chemical and Process Engineering, Computer Engineering, Civil Engineering, Electrical and Electronic Engineering, Engineering Mathematics, Manufacturing and Industrial Engineering, Mechanical Engineering, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Science",
-          department:
-            "Botany, Chemistry, Environmental and Industrial Sciences, Geology, Statistics and Computer Science, Mathematics, Molecular Biology and Biotechnology, Physics, Zoology, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Arts",
-          department:
-            "Arabic and Islamic Civilization, Archaeology, Classical Languages, Economics and Statistics, Education, English, English Language Teaching, Fine Arts, Geography, History, Information Technology, Law, Philosophy, Psychology, Political Science, Pali and Buddhist Studies, Sinhala, Sociology, Tamil, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Medicine",
-          department:
-            "Anatomy, Anaesthesiology and Critical Care, Biochemistry, Community Medicine, Family Medicine, Forensic Medicine, Medical Education, Medicine, Microbiology, Obstetrics and Gynaecology, Paediatrics, Parasitology, Pathology, Pharmacology, Physiology, Psychiatry, Radiology, Surgery, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Veterinary Medicine and Animal Science",
-          department:
-            "Basic Veterinary Sciences, Veterinary Clinical Sciences, Farm Animal Production and Health, Veterinary Pathobiology, Veterinary Public Health and Pharmacology, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Agriculture",
-          department:
-            "Agricultural Biology, Agricultural Economics and Business Management, Agricultural Engineering, Agricultural Extension, Animal Science, Crop Science, Food Science and Technology, Soil Science, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Allied Health Sciences",
-          department:
-            "Medical Laboratory Sciences, Nursing, Pharmacy, Physiotherapy, Radiography and Radiotherapy, Basic Sciences, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Dental Sciences",
-          department:
-            "Basic Sciences, Community Dental Health, Comprehensive Oral Health Care, Oral Medicine and Periodontology, Oral Pathology, Prosthetic Dentistry, Restorative Dentistry, Oral and Maxillofacial Surgery, Dean's Office",
-        },
-        {
-          faculty: "Faculty of Management",
-          department:
-            "Business Finance, Human Resource Management, Management Studies, Marketing Management, Operations Management",
-        },
-        { faculty: "Registrar's Office", department: "Administrative Section" },
-        { faculty: "Administration Office", department: "Administrative Section" },
-        { faculty: "IT Services", department: "Technical Section" },
-        { faculty: "Library Services", department: "Library Section" },
-        { faculty: "Facilities Management", department: "Maintenance Section" },
-        { faculty: "Security Services", department: "Security Section" },
-        { faculty: "Finance Department", department: "Finance Section" },
-        { faculty: "Human Resources Department", department: "HR Section" },
-        {
-          faculty: "Student Affairs Office",
-          department: "Student Affairs Section",
-        },
-      ];
-    
-      const departments = faculties.find((faculty) => faculty.faculty === user.faculty)?.department.split(", ") || [];
 
       const handleFilters = ()=>{
           if(filter.year.length !== 4){
@@ -211,6 +152,9 @@ const DeanCharts = ({allForms}) => {
             return;
           }
         overAlldepartmentDetails(modifiedData, filter.year, filter.month);
+      }
+
+      const handleFiltersForDepartment = ()=>{
         findDepartmentDetails();
       }
 
@@ -226,11 +170,11 @@ const DeanCharts = ({allForms}) => {
       
       const colors = useMemo(()=>{
         return departments.map(()=> generateRandomColor())
-      },[]); 
+      },[departments]); 
 
       // Chart data
       const dataOfDepartment = {
-        labels: departments,
+        labels: departments.map(department => department.departmentName),
         datasets: [
           {
             label: "",
@@ -323,11 +267,11 @@ const DeanCharts = ({allForms}) => {
                     handleChange(e)
                     }}>
                     <option value="">select</option>
-                    {departments.map((department, index) => (
-                        <option key={index} value={department}>{department}</option>
+                    {departments.map((department) => (
+                        <option key={department.id} value={department.departmentName}>{department.departmentName}</option>
                         ))}
                 </select>
-                <button className='bttn ashbtn' onClick={handleFilters}>search</button>
+                <button className='bttn ashbtn' onClick={handleFiltersForDepartment}>search</button>
  
 
                 {

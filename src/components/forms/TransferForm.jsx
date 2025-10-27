@@ -37,7 +37,7 @@ const TransferForm = () => {
         console.log(formData);
 
         try {
-            const response = await Axios.post("/auth/transferForm/add", formData );
+            const response = await Axios.post("/user/transferForm/add", formData );
             console.log(response.data);
             toast.success('Form submitted successfully!');
             window.scrollTo({top:0, behavior:"smooth"})

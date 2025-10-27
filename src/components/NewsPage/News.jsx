@@ -23,7 +23,7 @@ const News = () => {
         if(isLogin){   
             const getNews = async () => {
                 try {
-                    const response = await Axios.get("/auth/news/get");
+                    const response = await Axios.get("/user/news/get");
                     setNews(response.data);
                     setCurrentPage(1);
                 }catch(error){
