@@ -32,7 +32,6 @@ const Signup = () => {
       try {
         const response = await Axios.get("/auth/user/faculty/getAll");
         setFaculties(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -41,7 +40,6 @@ const Signup = () => {
       try {
         const response = await Axios.get("/auth/user/department/getAll");
         setDepartments(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -50,7 +48,6 @@ const Signup = () => {
       try {
         const response = await Axios.get("/auth/user/jobPosition/get");
         setPositions(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }

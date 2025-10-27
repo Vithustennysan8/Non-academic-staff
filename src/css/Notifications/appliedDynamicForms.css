@@ -17,6 +17,19 @@
     border: 1px solid #CCC;
     border-radius: 5px;
     padding: 8px 10px;
+    position: relative;
+}
+.singleForm .deleteBtn{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.singleForm .deleteBtn img{
+    width: 20px;
+    height: 20px;
 }
 .singleForm h4{
     font-size: 1.3rem;

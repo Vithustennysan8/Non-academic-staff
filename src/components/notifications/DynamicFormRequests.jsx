@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import LoadingAnimation from "../Common/LoadingAnimation";
 import acceptLogo from "../../assets/accept.png";
 import rejectLogo from "../../assets/cancel.png";
+import deleteLogo from "../../assets/delete.png";
 
 const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
   const {user} = useAuth();
@@ -34,7 +35,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
   useEffect(()=>{
     const fetchFaculty = async () => {
       try {
-        const response = await Axios.get("/user/faculty/getAll");
+        const response = await Axios.get("/auth/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
         console.log(error);
@@ -42,7 +43,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
     }
     const fetchDepartment = async () => {
       try {
-        const response = await Axios.get("/user/department/getAll");
+        const response = await Axios.get("/auth/user/department/getAll");
         setDepartments(response.data);
       } catch (error) {
         console.log(error);
@@ -141,7 +142,6 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
       try {
         const response = await Axios.post(`admin/formApprover/accept/${id}`, {"formId":formId, "description":description, "userId":user.id});
         setSelectedForm(response.data[0]);
-        console.log(formId);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
         setIsLoading(false);
           toast.success("Accepted");
@@ -186,6 +186,17 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         window.open(fileURL);
       } catch (error) {
         console.error("Error downloading PDF:", error);
+      }
+    };
+
+    const handleDelete = async (formId) => {
+      try {
+          const response = await Axios.delete(`/admin/DynamicFormUser/${formId}`);
+          console.log(response.data);
+          toast.success("Form deleted successfully");
+          window.location.reload();
+      }catch(error){
+          console.log("Error deleting form", error.message);
       }
     };
 
@@ -266,6 +277,7 @@ return (
           showSingleForm === true ? 
           <div className="singleForm">
               <h4 className="formHeading">{selectedForm.form}</h4>
+              <button className="deleteBtn" onClick={() => handleDelete(selectedForm.formId)}><img src={deleteLogo} alt="DeleteIcon" /></button>
               {
                   selectedForm.formDetails.map((field, index) => {
                       const [key, value] = Object.entries(field)[0];

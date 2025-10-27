@@ -3,6 +3,8 @@ import "../../css/Notifications/appliedDynamicForms.css"
 import FormReqTap from "./FormReqTap.jsx";
 import { Axios } from "../AxiosReqestBuilder.jsx";
 import { toast } from "react-toastify";
+import { useAuth } from "../../Contexts/AuthContext.jsx";
+import deleteLogo from "../../assets/delete.png";
 
 const AppliedDynamicForms = ({dynamicForms}) => {
     const [showSingleForm, setShowSingleForm] = useState(false);
@@ -11,6 +13,7 @@ const AppliedDynamicForms = ({dynamicForms}) => {
     const [filterYear, setFilterYear] = useState('');
     const [filter, setFilter] = useState("Pending");
     const [filterForms, setFilterForms] = useState([]);
+    const {user} = useAuth();
 
     
     useEffect(()=>{
@@ -19,6 +22,7 @@ const AppliedDynamicForms = ({dynamicForms}) => {
 
 
     const handleSingleForm = (form) => {
+        console.log(form);
         setShowSingleForm(true);
         setSelectedForm(form)
     }
@@ -64,6 +68,17 @@ const AppliedDynamicForms = ({dynamicForms}) => {
       }
     };
 
+    const handleDelete = async (formId) => {
+      try {
+          const response = await Axios.delete(`/user/DynamicFormUser/${formId}`);
+          console.log(response.data);
+          toast.success("Form deleted successfully");
+          window.location.reload();
+      }catch(error){
+          console.log("Error deleting form", error.message);
+      }
+    };
+
   return (
     <div className="appliedDynamicForms">
         <h2>Applied Dynamic Forms</h2>
@@ -103,6 +118,8 @@ const AppliedDynamicForms = ({dynamicForms}) => {
             showSingleForm === true ? 
             <div className="singleForm">
                 <h4 className="formHeading">{selectedForm.form}</h4>
+                <button className="deleteBtn" onClick={() => handleDelete(selectedForm.formId)}><img src={deleteLogo} alt="DeleteIcon" /></button>
+
                 {
                     selectedForm.formDetails.map((field, index) => {
                         const [key, value] = Object.entries(field)[0];

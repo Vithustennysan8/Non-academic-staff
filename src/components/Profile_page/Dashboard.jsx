@@ -92,7 +92,7 @@ const Dashboard = () => {
 
       const fetchRegisterRequests = async () => {
         try {
-          const response = (user.role === "ADMIN" || user.role === "SUPER_ADMIN") ? await Axios.get("admin/verifyRegisterRequests") : 
+          const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
                                       await Axios.get("admin/verifyAdminRegisterRequests");
           setRegister(response.data);
         } catch (error) {
@@ -121,7 +121,7 @@ const Dashboard = () => {
       
       const fetchLeaveFormsApplied = async () => {
         try {
-          const response = await Axios.get("user/leaveForms");
+          const response = await Axios.get("user/normalLeaveForm/getPending");
           setAppliedLeave(response.data);
         } catch (error) {
           console.log("Error fetching appliedLeaveForms requests", error);

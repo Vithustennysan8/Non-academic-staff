@@ -18,6 +18,7 @@ const RegisterRequests = ({requests, setRequests}) => {
       setRequests(response.data);
       setIsLoading(false);
       toast.success("Verified successfully");
+      window.location.reload();
     }catch(error){
       console.log("Error verifying user", error.message);
     }
@@ -28,6 +29,7 @@ const RegisterRequests = ({requests, setRequests}) => {
       const response = await Axios.delete(`admin/deleteUser/${id}`);
       setRequests(response.data);
       toast.success("Deleted successfully");
+      window.location.reload();
     }catch(error){
       console.log("Error deleting user", error.message);
     }

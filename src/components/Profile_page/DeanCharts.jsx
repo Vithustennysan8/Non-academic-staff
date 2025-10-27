@@ -47,7 +47,7 @@ const DeanCharts = ({allForms}) => {
                "department": selectedDepartment
               }
           });
-          const departments = await Axios.get(`/user/department/get`);
+          const departments = await Axios.get(`/auth/user/department/get`);
           setDepartments(departments.data);
           setFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
           console.log(formTypes.data)

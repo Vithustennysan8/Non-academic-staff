@@ -8,7 +8,7 @@
     " requestsTap requests"
     ;
     background-color: white;
-    padding: 10px 20px 20px;
+    padding: 10px 20px 20px 5px;
     border-radius: 12px;
     box-shadow: 2px 2px 8px #ccc;
 }
@@ -21,10 +21,10 @@
 .requestsTap button{
     text-align: left;
     position: relative;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     border: none;
     background-color: transparent;
-    color: rgb(46, 46, 46);
+    color: rgb(0, 92, 230);
     width: 100%;
     margin-bottom: 15px;
     padding: 8px 20px;
@@ -33,7 +33,9 @@
     transition: background-color 0.3s ease;
 }
 .requestsTap button:hover{
-    background-color: rgb(208, 208, 208);
+    /* background-color: rgb(241, 241, 241); */
+    color: rgb(0, 62, 156);
+    border-bottom: 2px solid rgb(0, 62, 156);
 }
 .requests{
     grid-area: requests;
