@@ -36,7 +36,7 @@ const ApprovalFlowManager = () => {
     }
     const fetchPositions = async () => {
       try {
-        const response = await Axios.get("/user/jobPosition/get");
+        const response = await Axios.get("/auth/user/jobPosition/get");
         setPositions(response.data);
         console.log(response.data);
       } catch (error) {

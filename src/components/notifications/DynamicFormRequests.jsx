@@ -190,6 +190,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
     };
 
     const handleDelete = async (formId) => {
+      if(!window.confirm("Do you want to delete this form?")) return;
       try {
           const response = await Axios.delete(`/admin/DynamicFormUser/${formId}`);
           console.log(response.data);

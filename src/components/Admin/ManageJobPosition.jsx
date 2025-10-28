@@ -28,7 +28,7 @@ const ManagePositions = () => {
     const fetchFaculty = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("/user/jobPosition/get");
+        const response = await Axios.get("/auth/user/jobPosition/get");
         const positionsData = Array.isArray(response.data) ? response.data : [];
         setPositions(positionsData);
         setCurrentPage(1);
@@ -75,6 +75,8 @@ const ManagePositions = () => {
         setCurrentPage(1);
         toast.success("Job position deleted successfully!");
         window.scrollTo({top:0, behavior:"smooth"});
+        reset();
+        setEditPosition(null);
       } catch (error) {
         console.log("Error deleting job position", error);
       }

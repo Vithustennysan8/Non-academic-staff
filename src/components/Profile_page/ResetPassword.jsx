@@ -10,7 +10,7 @@ import openEye from "../../assets/images/login/see-icon.png";
 import { toast } from "react-toastify";
 
 const ResetPassword = () => {
-  const { isLogin, logout } = useAuth();
+  const { isLogin, logout, user } = useAuth();
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -220,7 +220,7 @@ const ResetPassword = () => {
             </form>
           </div>
 
-          {/* <div className="deleteAccountContainer">
+          { user.role === "ADMIN" && <div className="deleteAccountContainer">
             <hr />
             <form>
               <h2>Delete Account</h2>
@@ -257,7 +257,8 @@ const ResetPassword = () => {
                 Delete Account
               </button>
             </form>
-          </div> */}
+          </div>
+          }
         </div>
       )}
     </motion.div>

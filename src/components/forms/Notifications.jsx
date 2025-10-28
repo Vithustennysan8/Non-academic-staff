@@ -127,15 +127,17 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                   )}
                   </button>
 
-                <button onClick={() => setRequest("LeaveRequests")}>
+                { user.job_type === "Head of Department" &&
+                  <button onClick={() => setRequest("LeaveRequests")}>
                   Normal Leave Requests
                   {leave.length > 0 && (
                     <span className="requestCount">{leave.length}</span>
                   )}
                 </button>
+                }
 
                 <button onClick={() => setRequest("DynamicFormsRequests")}>
-                  OtherLeave Requests
+                  Dynamic Leave Requests
                   {dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
                             approver.approver == user.job_type)[0].approverStatus == "Pending").length > 0 && (
                     <span className="requestCount">{dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
@@ -166,7 +168,7 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
               </button>
 
               <button onClick={() => setRequest("AppliedDynamicsForms")}>
-                Applied OtherLeave Forms
+                Applied Dynamic Leave Forms
                 {dynamicsForms.filter(form => form.formStatus == "Pending").length > 0 && (
                   <span className="requestCount">{dynamicsForms.filter(form => form.formStatus == "Pending").length}</span>
                 )}

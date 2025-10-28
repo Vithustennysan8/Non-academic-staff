@@ -13,7 +13,7 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
     const [fileNames, setFileNames] = useState([]);
     const [dateInputs, setDateInputs] = useState([]);
     const [approvalFlows, setApprovalFlows] = useState([]);
-    const [selectedFlow, setSelectedFlow] = useState([]);
+    const [selectedFlow, setSelectedFlow] = useState("");
 
     useEffect(()=>{
     if(!isLogin){
@@ -40,7 +40,6 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
             try {
                 const response = await Axios.get(`/user/approvalFlow/get/${dynamicFormDetails.formType}`);
                 setApprovalFlows(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -185,16 +184,18 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
             
             formData.append("file", file[0]);
         }
+
+        console.log(data);
+        
     
         const encodedFormName = encodeURIComponent(dynamicFormDetails.formType);
         const encodedFlowName = encodeURIComponent(selectedFlow);
         try {
-            const response = await Axios.post(`/user/dynamicFormDetail/add/${encodedFormName}/${encodedFlowName}`, formData, {
+            await Axios.post(`/user/dynamicFormDetail/add/${encodedFormName}/${encodedFlowName}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     },
             });
-            console.log(response.data);
             toast.success("Form submitted successfully");
             window.scrollTo({top:0, behavior:"smooth"});
             navigate("/forms");

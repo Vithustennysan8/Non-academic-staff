@@ -3,7 +3,7 @@ import "../../css/Admin/manageDepartments.css"
 import { useAuth } from "../../Contexts/AuthContext.jsx"
 import { useNavigate } from "react-router-dom"
 import {Axios} from "../AxiosReqestBuilder.jsx"
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
@@ -30,7 +30,7 @@ const ManageDepartments = () => {
     const fetchFaculty = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("/user/faculty/getAll");
+        const response = await Axios.get("/auth/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
         console.log(error);
@@ -44,7 +44,7 @@ const ManageDepartments = () => {
     const fetchDepartment = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("/user/department/get");
+        const response = await Axios.get("/auth/user/department/get");
         const departmentsData = Array.isArray(response.data) ? response.data : [];
         setDepartments(departmentsData);
         setCurrentPage(1);
@@ -79,7 +79,7 @@ const ManageDepartments = () => {
 
   const handleUpdate = async (department) => {
     setEditDepartment(department)
-    setValue("faculty", department.facultyId);
+    setValue("faculty", faculties.filter(faculty => faculty.id === department.facultyId)[0].facultyName);
     setValue("name", department.departmentName);
     setValue("alias", department.alias);
   }
@@ -93,6 +93,8 @@ const ManageDepartments = () => {
         setCurrentPage(1);
         toast.success("Department deleted successfully!");
         window.scrollTo({ top: 0, behavior: "smooth" });
+        reset();
+        setEditDepartment(null);
       } catch (error) {
         console.log("Error deleting department", error);
       }

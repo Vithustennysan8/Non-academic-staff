@@ -22,7 +22,6 @@ const AppliedDynamicForms = ({dynamicForms}) => {
 
 
     const handleSingleForm = (form) => {
-        console.log(form);
         setShowSingleForm(true);
         setSelectedForm(form)
     }
@@ -69,6 +68,7 @@ const AppliedDynamicForms = ({dynamicForms}) => {
     };
 
     const handleDelete = async (formId) => {
+      if(!window.confirm("Do you want to delete this form?")) return;
       try {
           const response = await Axios.delete(`/user/DynamicFormUser/${formId}`);
           console.log(response.data);
@@ -120,6 +120,7 @@ const AppliedDynamicForms = ({dynamicForms}) => {
                 <h4 className="formHeading">{selectedForm.form}</h4>
                 <button className="deleteBtn" onClick={() => handleDelete(selectedForm.formId)}><img src={deleteLogo} alt="DeleteIcon" /></button>
 
+                <div className="formDetails">
                 {
                     selectedForm.formDetails.map((field, index) => {
                         const [key, value] = Object.entries(field)[0];
@@ -131,7 +132,7 @@ const AppliedDynamicForms = ({dynamicForms}) => {
                         )
                     })
                 }
-
+                </div>
                 {/* display the pdf */}
                 <div className="wrapper">
                   <p>Document :</p>
@@ -145,8 +146,8 @@ const AppliedDynamicForms = ({dynamicForms}) => {
                 {
                 selectedForm.approverDetails.map((approver)=>{
                   return(
-                    <>
-                      <div key={approver.approverOrder} className="wrapper">
+                    <div key={approver.approverOrder} >
+                      <div className="wrapper">
                         <p>{approver.approver} :</p>
                         <p>{approver.approverStatus}</p>
                       </div>
@@ -156,7 +157,7 @@ const AppliedDynamicForms = ({dynamicForms}) => {
                           <p>: {approver.approvalDescription}</p>
                         </div>
                       }
-                    </>
+                    </div>
                   )
                 })
               }

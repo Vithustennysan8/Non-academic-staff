@@ -88,7 +88,7 @@ const Dashboard = () => {
       } catch (error) {
           console.log("Error fetching dynamic form requests", error);
       }
-  }
+    }
 
       const fetchRegisterRequests = async () => {
         try {
@@ -146,7 +146,7 @@ const Dashboard = () => {
 
       getUserDetail();
     }, 0);
-  }, [token, isLogin, user.role, logout, navigate, setUser]);
+  }, [token, isLogin, logout, navigate, setUser, user]);
 
   // logout implimentation
   const handleLogout = () => {
@@ -188,7 +188,9 @@ const Dashboard = () => {
         },
       });
       const updatedUserData = response.data;
+      console.log("User updated successfully:", updatedUserData);
       setUser(updatedUserData);
+      hasFetchedUser.current = false;
       setEditProfile(false);
       document.getElementById("update").style.display = "none";
       document.getElementById("date_of_birth").type = "text";
@@ -201,6 +203,7 @@ const Dashboard = () => {
       console.log("Error updating profile", error);
     }
   };
+
   if (isLoading) {
     return (
       <div className="staffs">
@@ -278,7 +281,7 @@ const Dashboard = () => {
                     {user.role !== "USER" && "Manage"} Requests
                     {leave.length + register.length + transfer.length + appliedLeave.length +
                      appliedTransfer.length+ dynamicsRequests.filter(request => request.approverDetails.filter(approver =>
-                      approver.approver === user.job_type)[0].approverStatus == "Pending").length +
+                      approver.approver === user.job_type)[0]?.approverStatus == "Pending").length +
                        appliedDynamics.filter(form => form.formStatus == "Pending").length > 0 && (
                       <li className="notificationCount">
                         {leave.length +

@@ -96,7 +96,7 @@ const App  =() =>  {
           <LayoutWrapper />
         </AuthProvider>
       </Router>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={2000} theme="light" closeOnClick/>
     </NetworkStatusContext.Provider>
   );
 }

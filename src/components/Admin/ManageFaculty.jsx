@@ -28,7 +28,7 @@ const ManageFaculties = () => {
     const fetchFaculty = async () => {
       try {
         setIsLoading(true);
-        const response = await Axios.get("/user/faculty/getAll");
+        const response = await Axios.get("/auth/user/faculty/getAll");
         const facultiesData = Array.isArray(response.data) ? response.data : [];
         setFaculties(facultiesData);
         setCurrentPage(1);
@@ -67,7 +67,6 @@ const ManageFaculties = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Do you want to delete this faculty?")) {
       try {
-        setIsLoading(true);
         const response = await Axios.delete(`/admin/faculty/delete/${id}`);
         const facultiesData = Array.isArray(response.data) ? response.data : [];
         setFaculties(facultiesData);
