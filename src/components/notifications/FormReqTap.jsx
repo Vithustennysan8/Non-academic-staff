@@ -14,10 +14,7 @@ const FormReqTap = ({form, handleSingleForm}) => {
                 <p className="status">{form?.status}</p>
                 <p className="status">{form?.formStatus}</p>
                 <p className="status">{form?.formCreatedAt?.substring(0,10)}</p>
-                {form.formType === "Transfer Form"?
-                  <p className="date">{form?.createdAt?.substring(0,10)}</p>:
-                  <p className="date">{form?.leaveAt?.substring(0,10)}</p>
-                }
+                <p className="date">{form?.createdAt?.substring(0,10)}</p>
               </div>
             </div>
         </div>

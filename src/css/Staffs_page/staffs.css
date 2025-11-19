@@ -209,7 +209,7 @@
     font-weight: 400;
 }
 
-.modern-close-btn {
+.modern-close-btn, .modern-delete-btn {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -225,6 +225,16 @@
     color: white;
     transition: all 0.2s ease;
     z-index: 2;
+}
+.modern-delete-btn{
+    right: 70px;
+    background: rgba(255, 0, 0, 0.7);
+}
+.modern-delete-btn:hover{
+    background: rgba(255, 0, 0, 0.9);
+}
+.modern-delete-btn:active{
+    transform: scale(0.95);
 }
 
 .modern-close-btn:hover {
@@ -386,7 +396,12 @@
         width: 32px;
         height: 32px;
     }
-    
+    .modern-delete-btn{
+        right: 60px;
+        top: 16px;
+        width: 32px;
+        height: 32px;
+    }
     .modern-info-content {
         padding: 20px;
     }
@@ -431,7 +446,13 @@
         width: 28px;
         height: 28px;
     }
-    
+    .modern-close-btn {
+        top: 12px;
+        right: 50px;
+        width: 28px;
+        height: 28px;
+    }
+
     .modern-info-content {
         padding: 16px;
     }
@@ -468,5 +489,11 @@
     }
     .staffs h3{
         font-size: 0.9rem;
+    }
+    .modern-close-btn {
+        top: 12px;
+        right: 150px;
+        width: 28px;
+        height: 28px;
     }
 }

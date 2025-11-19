@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../../css/Authentication/login.css";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
 import closedEye from "../../assets/images/login/closed-eye-icon.png";
@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 const Login = () => {
   const Navigate = useNavigate();
   const { isLogin, login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {register, handleSubmit, formState: { errors }} = useForm();
 
@@ -27,6 +28,7 @@ const Login = () => {
   },[])
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
     try {
       const response = await Axios.post("/auth/login", data);
       const token = response.data.token;
@@ -34,15 +36,15 @@ const Login = () => {
       if (token) {
         toast.success("Login successful");
         login(token, userData);
-        console.log("Stored token:", token);
         window.scrollTo({ top: 0, behavior: "smooth" });
         Navigate("/");
       } else {
         toast.error("Token not received");
-        console.log("Token not received");
       }
     } catch (error) {
       console.log("Error logging in", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -57,6 +59,15 @@ const Login = () => {
       images.src = closedEye;
     }
   };
+
+  if(isLoading){
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
 
   return (
     <div className="login-main">

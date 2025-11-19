@@ -3,8 +3,8 @@ import { handleError } from "../utils/errorHandler";
 import { isTokenExpired, clearAuthData } from "../utils/tokenUtils";
 
 export const Axios = axios.create({
-    baseURL: "http://192.168.181.83:8080/api/v1",
-    // baseURL: "http://localhost:8080/api/v1",
+    // baseURL: "http://192.168.181.83:8080/api/v1",
+    baseURL: "http://localhost:8080/api/v1",
 })
 
 Axios.interceptors.request.use(config => {

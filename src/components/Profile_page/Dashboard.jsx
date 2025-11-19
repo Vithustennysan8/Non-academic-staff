@@ -93,7 +93,7 @@ const Dashboard = () => {
       const fetchRegisterRequests = async () => {
         try {
           const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
-                                      await Axios.get("admin/verifyAdminRegisterRequests");
+                                      await Axios.get("superadmin/verifyAdminRegisterRequests");
           setRegister(response.data);
         } catch (error) {
           console.log("Error fetching register requests", error);
@@ -506,7 +506,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="profile-state">
-                  <label htmlFor="faculty">
+                  <label htmlFor="secondaryMail">
                     Normal Mail
                     <input 
                     type="mail"
@@ -517,8 +517,9 @@ const Dashboard = () => {
                     readOnly={readOnly}
                     style={editProfile ? { outline } : {}}/>
                   </label>
-                  <label htmlFor="department">
-                    <p></p>
+                  <label htmlFor="jobScope">
+                    Job Scope
+                    <p>{user.jobScope}</p>
                   </label>
                 </div>
 

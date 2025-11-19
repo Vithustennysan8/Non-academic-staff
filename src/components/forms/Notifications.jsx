@@ -66,7 +66,7 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
       const fetchRegisterRequests = async () => {
         try {
           const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
-                                      await Axios.get("admin/verifyAdminRegisterRequests");
+                                      await Axios.get("superadmin/verifyAdminRegisterRequests");
           setRegisterRequests(response.data);
         } catch (error) {
           console.log("Error fetching register requests", error);
@@ -127,14 +127,12 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                   )}
                   </button>
 
-                { user.job_type === "Head of Department" &&
                   <button onClick={() => setRequest("LeaveRequests")}>
                   Normal Leave Requests
                   {leave.length > 0 && (
                     <span className="requestCount">{leave.length}</span>
                   )}
                 </button>
-                }
 
                 <button onClick={() => setRequest("DynamicFormsRequests")}>
                   Dynamic Leave Requests
@@ -145,7 +143,6 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                   )}
                 </button>
 
-                  {user.job_type !== "Chief Medical Officer" &&
                 <button onClick={() => setRequest("TransferRequests")}>
                   Transfer Requests
                   {transfer.length > 0 && (
@@ -154,7 +151,6 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                     </span>
                   )}
                 </button>
-                }
               </>
             )}
 

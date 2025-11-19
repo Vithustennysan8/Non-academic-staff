@@ -48,13 +48,14 @@
 }
 
 .singleForm .wrapper p:nth-child(1){
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #464646;
     font-weight: 600;
-    width: 45%;
+    width: 50%;
     text-align: right;
 }
 .singleForm .wrapper p:nth-child(2){
+    font-size: 0.9rem;
     margin-left: 10px;
 }
 

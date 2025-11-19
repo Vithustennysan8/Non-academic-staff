@@ -56,12 +56,16 @@ const Forms = () => {
               <i className="fa fa-align-left"></i>
               <Link to={"/dynamicForm"}>Dynamic Forms</Link><br />
             </div>
+
+            {user.role === "SUPER_ADMIN" &&
             <div>
               <i className="fa fa-building"></i>
               <Link to={"/manageDepartment"}>Manage Departments</Link>
             </div>
+            }
           </div>
           <div className="EditApprovalFlowContainer">
+            {user.role === "SUPER_ADMIN" && <>
             <div>
               <i className="fa fa-house"></i>
               <Link to={"/manageFaculty"}>Manage Faculty</Link><br />
@@ -70,6 +74,7 @@ const Forms = () => {
               <i className="fa fa-person"></i>
               <Link to={"/managePosition"}>Manage Positions</Link>
             </div>
+            </>}
           </div>
         </div>
         }

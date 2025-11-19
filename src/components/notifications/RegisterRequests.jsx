@@ -26,7 +26,7 @@ const RegisterRequests = ({requests, setRequests}) => {
 
   const handleDelete = async (id) => {
     try{
-      const response = await Axios.delete(`admin/deleteUser/${id}`);
+      const response = (user.role === "SUPER_ADMIN") ? await Axios.delete(`superadmin/delete/${id}`) : await Axios.delete(`admin/deleteUser/${id}`);
       setRequests(response.data);
       toast.success("Deleted successfully");
       window.location.reload();
@@ -39,6 +39,18 @@ const RegisterRequests = ({requests, setRequests}) => {
     <div className="registerRequests">
       {isLoading && <LoadingAnimation/>}
       <h2>Register Requests</h2>
+
+      <div className="formCount">
+            <span className="file-icon" title="Forms">
+              <svg width="18" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#0051ddff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M14 2v6h6" stroke="#005effff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M8 13h8M8 17h8" stroke="#0052e1ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+            {requests.length}
+      </div>
+
       { requests.length <= 0 && <p className="empty">No register requests found...</p>}
 
       { requests.length > 0 &&

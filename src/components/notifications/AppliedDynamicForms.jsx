@@ -13,8 +13,6 @@ const AppliedDynamicForms = ({dynamicForms}) => {
     const [filterYear, setFilterYear] = useState('');
     const [filter, setFilter] = useState("Pending");
     const [filterForms, setFilterForms] = useState([]);
-    const {user} = useAuth();
-
     
     useEffect(()=>{
         setFilterForms(dynamicForms.filter((form)=> form.formStatus === "Pending"));
@@ -113,6 +111,18 @@ const AppliedDynamicForms = ({dynamicForms}) => {
           </div>
 
           <h3 className="formFilterType">{filter} Forms</h3>
+
+          <div className="formCount">
+            <span className="file-icon" title="Forms">
+              <svg width="18" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#0051ddff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M14 2v6h6" stroke="#005effff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M8 13h8M8 17h8" stroke="#0052e1ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+            {filterForms.length}
+          </div>
+
           {filterForms.length < 1 ? <p className="empty">No forms match the selected filter!</p> :
             (
             showSingleForm === true ? 

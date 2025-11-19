@@ -57,6 +57,7 @@ const AppliedTransferForms = ({appliedTransferForms}) => {
   return (
     <div className="appliedTransferForms">
       <h1>Applied Transfer Forms</h1>
+
       {appliedTransferForms.length === 0 ? (
         <p className="empty">Forms not found...</p>
       ) : (
@@ -92,6 +93,18 @@ const AppliedTransferForms = ({appliedTransferForms}) => {
 
           <div className="ownLeaveForms">
             <h3 className="formFilterType">{filter} Forms</h3>
+
+            <div className="formCount">
+            <span className="file-icon" title="Forms">
+              <svg width="18" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#0051ddff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M14 2v6h6" stroke="#005effff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M8 13h8M8 17h8" stroke="#0052e1ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </span>
+            {filterForms.length}
+          </div>
+          
             {filterForms.length < 1? <p className="empty">No forms match the selected filter!</p> :
               form ? (
                 <FormPreview application={form} approver={user} setForm={setForm}/>

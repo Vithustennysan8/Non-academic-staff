@@ -8,6 +8,7 @@ import defaultDp from "../../assets/defaultImage.webp";
 import { Link } from "react-router-dom";
 import searchIcon from "../../assets/images/staff/search-icon.webp";
 import VC from "../../assets/images/About/ViceChancellor.jpg";
+import { toast } from "react-toastify";
 
 const Staffs = () => {
   const { isLogin, user } = useAuth();
@@ -36,6 +37,18 @@ const Staffs = () => {
       getUsers();  
     }, 0);
   }, [token, isLogin, user.role]);
+
+  const handleDelete = () => {
+    if (!window.confirm('Are you sure you want to delete this staff member?')) {return;}
+    try {
+      Axios.delete(`/superadmin/deleteUser/${selectedUser.id}`)
+      setStaffs(staffs.filter(staff => staff.id !== selectedUser.id));
+      setSelectedUser(null);
+      toast.success("Staff member deleted successfully");
+    } catch (error) {
+      console.error('Error confirming staff deletion:', error);
+    }
+  }
 
   if (isLoading) {
     return (
@@ -119,7 +132,13 @@ const Staffs = () => {
                 </>
               )}
               <div className="staff-container">
-                {staffs?.filter((item) => item.first_name.concat(" " + item.last_name).toLowerCase().includes(search) && (user.role !== "SUPER_ADMIN" ? item.role === "USER": true))
+                {((staffs || []).filter((item) => {
+                  const fullName = ((item?.first_name || "") + " " + (item?.last_name || "")).toLowerCase();
+                  const faculty = (item?.faculty || "").toLowerCase();
+                  const matchesSearch = (search === "" || search == null) ? true : (fullName.includes(search) || faculty.includes(search));
+                  const roleOk = (user?.role !== "SUPER_ADMIN") ? (item?.role === "USER") : true;
+                  return matchesSearch && roleOk;
+                }))
                   .map((staff) => {
                     // adding default image to the staff card if there is no profile image is added
                     let src = staff.image_data
@@ -157,6 +176,17 @@ const Staffs = () => {
                             <p className="employee-id">ID: {selectedUser.emp_id}</p>
                           </div>
                         </div>
+                        {user.role === "SUPER_ADMIN" && (
+                          <button
+                            className="modern-delete-btn"
+                            onClick={handleDelete}
+                            aria-label="Delete staff"
+                          >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round">
+                              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          </button>
+                        )}
                         <button
                           className="modern-close-btn"
                           onClick={() => setSelectedUser(null)}

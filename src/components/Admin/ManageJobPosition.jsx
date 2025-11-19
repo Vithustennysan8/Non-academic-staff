@@ -64,6 +64,7 @@ const ManagePositions = () => {
     setEditPosition(faculty)
     setValue("name", faculty.jobPositionName);
     setValue("alias", faculty.alias);
+    setValue("scope", faculty.jobScope);
   }
 
   const handleDelete = async (id) => {
@@ -128,6 +129,18 @@ const ManagePositions = () => {
                   }})}/>
                   {errors.alias && <span className="error">{errors.alias.message}</span>}
                 </div>
+                <div>
+                  <select {...register("scope", {required: {
+                    value: true,
+                    message: "Scope is required",
+                  }})}>
+                    <option value="">Select Scope</option>
+                    <option value="DEPARTMENT_SCOPE">DEPARTMENT_SCOPE</option>
+                    <option value="FACULTY_SCOPE">FACULTY_SCOPE</option>
+                    <option value="GLOBAL_SCOPE">GLOBAL_SCOPE</option>
+                  </select> 
+                  {errors.scope && <span className="error">{errors.scope.message}</span>}
+                </div>
                 <button className="bttn ashbtn">{ editPosition? "Update": "Add Position"}</button>
               </div>
             </form>
@@ -138,6 +151,7 @@ const ManagePositions = () => {
             <tr >
               <th>Position</th>
               <th>Alias</th>
+              <th>JobScope</th>
               <th>Edit</th>
               <th>Delete</th>
             </tr>
@@ -155,6 +169,7 @@ const ManagePositions = () => {
                   <tr key={index}>
                     <td>{position.jobPositionName}</td>
                     <td>{position.alias}</td>
+                    <td>{position.jobScope}</td>
                     <td><button className="bttn ashbtn" onClick={() => {
                       handleUpdate(position);
                       window.scrollTo({top:0, behavior:"smooth"});

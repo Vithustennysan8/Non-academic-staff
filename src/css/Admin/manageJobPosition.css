@@ -108,6 +108,9 @@
     background-color: white;
     font-size: 0.9rem;
 }
+.managePositions .addOrEditDiv select{
+    color: #6b6b6b;
+}
 
 .managePositions .pagination button {
     padding: 6px 12px;

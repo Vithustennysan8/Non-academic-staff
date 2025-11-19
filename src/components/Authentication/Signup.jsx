@@ -19,6 +19,7 @@ const Signup = () => {
   const [departments, setDepartments] = useState([]);
   const [positions, setPositions] = useState([]); 
   const {isLogin} = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(()=>{
     if(isLogin){
@@ -29,27 +30,36 @@ const Signup = () => {
 
   useEffect(()=>{
     const fetchFaculty = async () => {
+      setIsLoading(true);
       try {
         const response = await Axios.get("/auth/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
     const fetchDepartment = async () => {
+      setIsLoading(true);
       try {
         const response = await Axios.get("/auth/user/department/getAll");
         setDepartments(response.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
     const fetchPositions = async () => {
+      setIsLoading(true);
       try {
         const response = await Axios.get("/auth/user/jobPosition/get");
         setPositions(response.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchFaculty();
@@ -88,6 +98,7 @@ const Signup = () => {
     });
 
     try {
+      setIsLoading(true);
       const response = await Axios.post("/auth/signup", formData);
       if (response.data === false) {
         toast.error("Email is already exists");
@@ -100,6 +111,8 @@ const Signup = () => {
       Navigate("/login");
     } catch (error) {
       console.log("Error creating account", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -115,6 +128,14 @@ const Signup = () => {
    }
   };
 
+  if(isLoading){
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -502,9 +523,9 @@ const Signup = () => {
                 >
                   <option value="">select one....</option>
                   <option value="USER">User</option>
-                  <option value="MANAGER">Manager</option>
+                  {/* <option value="MANAGER">Manager</option> */}
                   <option value="ADMIN">Admin</option>
-                  <option value="SUPER_ADMIN">super_admin</option>
+                  {/* <option value="SUPER_ADMIN">super_admin</option> */}
                 </select>
                 {errors.role && (
                   <span className="error">{errors.role.message}</span>

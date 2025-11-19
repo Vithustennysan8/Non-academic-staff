@@ -133,7 +133,7 @@ const AdminDashboard = () => {
         {
         <>
         <div className="adminDashboard-container">
-        {user.job_type === "Head of the Department" &&
+        {(user.jobScope === "DEPARTMENT_SCOPE") &&
             <>
             <h3>Report</h3>
             <button className='CSVbtn bttn ashbtn'>
@@ -207,18 +207,19 @@ const AdminDashboard = () => {
                     );
                 })}
             </div>
+
             {selectedStaff && <UserDashboard id={selectedStaff.id}/>}
         </>
         }
 
-        {user.job_type === "Dean" && <>
+        {user.jobScope === "FACULTY_SCOPE" && <>
             <div>
                 <h3>Leave Summary</h3>
                 <DeanCharts allForms={forms}/>
             </div>
         </>}
 
-        {user.job_type !== "Dean" && user.job_type !== "Head of the Department" && <>
+        {user.jobScope === "GLOBAL_SCOPE" && <>
             <div>
                 <h3>Leave Summary</h3>
                 <SummaryCharts allForms={forms}/>
