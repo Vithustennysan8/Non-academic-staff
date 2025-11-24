@@ -53,6 +53,20 @@
     border: none;
     background-color: inherit;
 }
+.normalLeaveTemplate-container .deleteBtn:hover{
+    transform: scale(1.2);
+}
+.normalLeaveTemplate-container .close-btn{
+    position: absolute;
+    left: 0px;
+    top: -10px;
+    width: fit-content;
+    border: none;
+    background-color: inherit;
+}
+.normalLeaveTemplate-container .close-btn:hover{
+    transform: scale(1.2);
+}
 .normalLeaveTemplate-container .deleteBtn img{
     width: 20px;
 }

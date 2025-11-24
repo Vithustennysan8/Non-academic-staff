@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../../css/Notifications/dynamicFormRequests.css"
+import "../../css/Notifications/notifications-content.css"
 import FormReqTap from "./FormReqTap";
 import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
@@ -7,7 +8,8 @@ import { toast } from "react-toastify";
 import LoadingAnimation from "../Common/LoadingAnimation";
 import acceptLogo from "../../assets/accept.png";
 import rejectLogo from "../../assets/cancel.png";
-import deleteLogo from "../../assets/delete.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileAlt, faFilter, faChevronLeft, faChevronRight, faTimes, faTrash, faBackspace } from "@fortawesome/free-solid-svg-icons";
 
 const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
   const {user} = useAuth();
@@ -31,6 +33,8 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
   const [description, setDescription] = useState('');
   const [dynamicForms, setDynamicForms] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   useEffect(()=>{
     const fetchFaculty = async () => {
@@ -53,14 +57,21 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
     fetchDepartment();
   },[])
   
+  // Initial load - show only Pending forms
   useEffect(()=>{
-      setFilterForms(dynamicFormRequests.filter((form)=> form.approverDetails.filter(approver => approver.approver == user.job_type)[0].approverStatus === filter));
-  },[dynamicFormRequests, user.job_type, filter])
+      setFilterForms(dynamicFormRequests.filter((form)=> form.approverDetails.filter(approver => approver.approver == user.job_type)[0].approverStatus === "Pending"));
+      setCurrentPage(1); // Reset to first page when data changes
+  },[dynamicFormRequests, user.job_type])
 
 
   const handleSingleForm = (form) => {
       setShowSingleForm(true);
       setSelectedForm(form)
+  }
+
+  const handleItemsPerPageChange = (newItemsPerPage) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page when changing items per page
   }
 
   const handleFormType = async () => {
@@ -94,7 +105,9 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
     }
   }
 
-  const handleFilterChange = () => {
+  const handleFilterChange = (e) => {
+      e.preventDefault();
+      setCurrentPage(1); // Reset to first page after filtering
       const monthNames = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -103,7 +116,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
       let filteredForms = dynamicFormRequests;
   
       if(filterYear !== '' && filterYear?.length !== 4){
-          toast.warning("Please select a valid year");
+        toast.warning("Please select a valid year");
         return;
       }
 
@@ -144,7 +157,7 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
         setSelectedForm(response.data[0]);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
         setIsLoading(false);
-          toast.success("Accepted");
+        toast.success("Accepted");
         setDescription('');
       } catch (error) {
         console.log("Error accepting form", error);
@@ -201,18 +214,30 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
       }
     };
 
+  // Pagination calculation
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filterForms.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filterForms.length / itemsPerPage);
+
 return (
   <div className="dynamicFormRequests">
       {isLoading && <LoadingAnimation/>}
-      <h2>Requested Dynamic Forms</h2>
+      <div className="content-header">
+        <h2>Requested Dynamic Forms</h2>
+        <div className="count-badge">
+          <FontAwesomeIcon icon={faFileAlt} />
+          {filterForms.length} Forms
+        </div>
+      </div>
 
 
-      <div className="leaveFilterTaps">
+      <form className="filter-container">
 
-        <div className="taps">
+        <div className="filter-group">
           {(user.job_type !== "Head of the Department") && (
               <>
-                <select name="faculty" id="faculty" onChange={e=>{
+                <select className="modern-select" name="faculty" id="faculty" onChange={e=>{
                   handleForm(e);
                   setSelectedFaculty(e.target.value);
                   }}>
@@ -224,7 +249,7 @@ return (
                   ))}
                 </select>
                     
-                <select id="department" name="department" onChange={e=>handleForm(e)} >
+                <select className="modern-select" id="department" name="department" onChange={e=>handleForm(e)} >
                   <option value="">Department</option>
                   {departments.filter((department) => selectedFaculty == department.facultyId).map((department, index) => (
                   <option key={index} value={department.departmentName}>
@@ -233,7 +258,7 @@ return (
                   ))}
                 </select>
 
-                <select name="formType" value={filters.formType} onClick={handleFormType} onChange={e=>handleForm(e)}>
+                <select className="modern-select" name="formType" value={filters.formType} onClick={handleFormType} onChange={e=>handleForm(e)}>
                   <option value="">Form type</option>
                   {
                     dynamicForms.map((form, index) => (
@@ -243,18 +268,16 @@ return (
                 </select>
               </>
               )}
-            </div>
-
-          <div className="taps">
-            <select value={filter} onChange={e=>setFilter(e.target.value)}>
+            
+            <select className="modern-select" value={filter} onChange={e=>setFilter(e.target.value)}>
               <option value="Pending">Pending</option>
               <option value="All">All</option>
               <option value="Accepted">Accepted</option>
               <option value="Rejected">Rejected</option>
             </select>
 
-            <input type="number" value={filterYear} onChange={e=>setFilterYear(e.target.value)} placeholder="Year"/>
-            <select name="month" value={filterMonth} onChange={(e)=>setFilterMonth(e.target.value)}>
+            <input className="modern-input" type="number" value={filterYear} onChange={e=>setFilterYear(e.target.value)} placeholder="Year"/>
+            <select className="modern-select" name="month" value={filterMonth} onChange={(e)=>setFilterMonth(e.target.value)}>
                 <option value="">Month</option>
                 <option value="January">January</option>
                 <option value="February">February</option>
@@ -270,28 +293,24 @@ return (
                 <option value="December">December</option>
               </select>
           </div>
-          <button className="bttn ashbtn" onClick={handleFilterChange}>Filter</button>
-        </div>
+          <button className="filter-btn" onClick={(e) => handleFilterChange(e)}>
+            <FontAwesomeIcon icon={faFilter} style={{marginRight: '8px'}}/>
+            Filter
+          </button>
+        </form>
 
-        <h3 className="formFilterType">{filter} Forms</h3>
-
-        <div className="formCount">
-              <span className="file-icon" title="Forms">
-                <svg width="18" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#0051ddff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M14 2v6h6" stroke="#005effff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M8 13h8M8 17h8" stroke="#0052e1ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </span>
-              {filterForms.length}
-        </div>
-
-        {filterForms.length < 1 ? <p className="empty">No forms match the selected filter!</p> :
+        {filterForms.length < 1 ? 
+          <div className="empty-state">
+            <FontAwesomeIcon icon={faFileAlt} size="3x" style={{marginBottom: '20px', opacity: 0.5}}/>
+            <p>No forms match the selected filter!</p>
+          </div>
+         :
           (
           showSingleForm === true ? 
           <div className="singleForm">
+              <button className="closeBtn" onClick={() => setShowSingleForm(false)}><FontAwesomeIcon icon={faBackspace} style={{padding: '4px 8px', color: 'blue', backgroundColor: 'white', cursor: 'pointer'}} size="lg" /></button>
               <h4 className="formHeading">{selectedForm.form}</h4>
-              <button className="deleteBtn" onClick={() => handleDelete(selectedForm.formId)}><img src={deleteLogo} alt="DeleteIcon" /></button>
+              <button className="deleteBtn" onClick={() => handleDelete(selectedForm.formId)}><FontAwesomeIcon icon={faTrash} style={{color: 'red', cursor: 'pointer', padding: '4px 8px'}} size="lg" /></button>
               {
                   selectedForm.formDetails.map((field, index) => {
                       const [key, value] = Object.entries(field)[0];
@@ -358,11 +377,57 @@ return (
               </div>
           </div> :
 
-          <div className="">
-              { filterForms.map((form, index) => (
-                  <FormReqTap key={index} form={form} handleSingleForm={() => handleSingleForm(form) }/>
-              ))}
-          </div>
+          <>
+            <div className="cards-grid">
+                { currentItems.map((form, index) => (
+                    <div key={index}>
+                      <FormReqTap form={form} handleSingleForm={() => handleSingleForm(form) }/>
+                    </div>
+                ))}
+            </div>
+
+            {/* Pagination Controls */}
+            {(
+              <div className="pagination-container">
+                <button
+                  className="pagination-btn"
+                  onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                  Previous
+                </button>
+
+                <div className="pagination-info">
+                  Page {currentPage} of {totalPages}
+                </div>
+
+                <button
+                  className="pagination-btn"
+                  onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </button>
+
+                <div className="items-per-page">
+                  <label htmlFor="itemsPerPage" className="itemsPerPage">Items per page:</label>
+                  <select 
+                    id="itemsPerPage"
+                    value={itemsPerPage} 
+                    onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+                    className="items-per-page-select"
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                  </select>
+                </div>
+              </div>
+            )}
+          </>
       )}
   </div>
 )

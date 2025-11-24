@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import "../../css/Notifications/transferRequests.css"
+import "../../css/Notifications/notifications-content.css"
 import { useEffect, useState } from "react";
 import { useAuth } from "../../Contexts/AuthContext";
 import FormReqTap from "./FormReqTap";
 import FormPreview from "../forms/FormPreview";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExchangeAlt, faFilter } from "@fortawesome/free-solid-svg-icons";
 
 const TransferRequests = ({allTransferFormRequests}) => {
   const navigate = useNavigate();
@@ -144,15 +146,19 @@ const TransferRequests = ({allTransferFormRequests}) => {
   return (
     <>
       <div className="RequestedForms">
-        <h1>Requested Transfer Forms</h1>
+        <div className="content-header">
+          <h2>Requested Transfer Forms</h2>
+          <div className="count-badge">
+            <FontAwesomeIcon icon={faExchangeAlt} />
+            {filteredForms.length} Forms
+          </div>
+        </div>
 
-        <form>
-          <div className="allLeaveRequest-btn">
-            <div className="selection-area">
+        <form className="filter-container">
+          <div className="filter-group">
               {(user.job_type !== "Head of the Department") && (
                 <>
-                <div>
-                  <select name="faculty" id="faculty" value={filters.faculty} onChange={e=>handleForm(e)}>
+                  <select className="modern-select" name="faculty" id="faculty" value={filters.faculty} onChange={e=>handleForm(e)}>
                     <option value="">Faculty</option>
                     {faculties.map((faculty, index) => (
                       <option key={index} value={faculty.faculty}>
@@ -160,10 +166,8 @@ const TransferRequests = ({allTransferFormRequests}) => {
                       </option>
                     ))}
                   </select>
-                </div>
                       
-                <div>
-                  <select id="department" name="department" onChange={e=>handleForm(e)} >
+                  <select className="modern-select" id="department" name="department" onChange={e=>handleForm(e)} >
                     <option value="">Department</option>
                     {departments.map((department, index) => (
                       <option key={index} value={department}>
@@ -171,21 +175,18 @@ const TransferRequests = ({allTransferFormRequests}) => {
                       </option>
                     ))}
                   </select>
-                </div>
                 </>
                 )}
-            </div>
-
-            <div className="selection-area">
-                <select value={filters.status} name="status" onChange={e=>handleForm(e)}>
+            
+                <select className="modern-select" value={filters.status} name="status" onChange={e=>handleForm(e)}>
                   <option value="Pending">Pending</option>
                   <option value="All">All</option>
                   <option value="Accepted">Accepted</option>
                   <option value="Rejected">Rejected</option>
                 </select>
 
-                <input type="number" name="year" value={filters.year} onChange={e=>handleForm(e)} placeholder="Year"/>
-                <select name="month" value={filters.month} onChange={e=>handleForm(e)}>
+                <input className="modern-input" type="number" name="year" value={filters.year} onChange={e=>handleForm(e)} placeholder="Year"/>
+                <select className="modern-select" name="month" value={filters.month} onChange={e=>handleForm(e)}>
                     <option value="">Month</option>
                     <option value="January">January</option>
                     <option value="February">February</option>
@@ -201,32 +202,30 @@ const TransferRequests = ({allTransferFormRequests}) => {
                     <option value="December">December</option>
                   </select>
               </div>
-              <button className="bttn ashbtn" onClick={handleFilterChange}>Filter</button>
-          </div>
+              <button className="filter-btn" onClick={handleFilterChange}>
+                <FontAwesomeIcon icon={faFilter} style={{marginRight: '8px'}}/>
+                Filter
+              </button>
         </form>
 
         {/* All leave Notifications */}
         {!showForm && (
           <div className="allNotifications">
-            <h2 className="formFilterType">{filters.status} Requests</h2>
-
-            <div className="formCount">
-            <span className="file-icon" title="Forms">
-              <svg width="18" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#0051ddff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M14 2v6h6" stroke="#005effff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M8 13h8M8 17h8" stroke="#0052e1ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-            {filteredForms.length}
-          </div>
             
-            {filteredForms<1 ? <p className="empty">No forms match the selected filter!</p> :
-            filteredForms.map((form, index) => (
-              <div key={index}>
-              <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
+            {filteredForms.length < 1 ? 
+              <div className="empty-state">
+                <FontAwesomeIcon icon={faExchangeAlt} size="3x" style={{marginBottom: '20px', opacity: 0.5}}/>
+                <p>No forms match the selected filter!</p>
               </div>
-            ))}
+             :
+             <div className="cards-grid">
+              {filteredForms.map((form, index) => (
+                <div key={index}>
+                <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
+                </div>
+              ))}
+             </div>
+            }
           </div>
         )}
         {showForm && (

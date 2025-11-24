@@ -1,15 +1,22 @@
 import { useState } from "react"
 import "../../css/Notifications/registerRequests.css"
+import "../../css/Notifications/notifications-content.css"
 import { Axios } from "../AxiosReqestBuilder"
+import { useAuth } from "../../Contexts/AuthContext"
 import accept from "../../assets/accept.png"
 import reject from "../../assets/cancel.png"
 import view from "../../assets/search.png"
 import LoadingAnimation from "../Common/LoadingAnimation"
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserPlus, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const RegisterRequests = ({requests, setRequests}) => {
+  const {user} = useAuth();
   const [selectedUser, setSelectedUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   const handleVerify = async (token) => {
     setIsLoading(true);
@@ -35,44 +42,100 @@ const RegisterRequests = ({requests, setRequests}) => {
     }
   }
 
+  const handleItemsPerPageChange = (newItemsPerPage) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page when changing items per page
+  }
+
+  // Pagination calculation
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = requests.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(requests.length / itemsPerPage);
+
   return (
     <div className="registerRequests">
       {isLoading && <LoadingAnimation/>}
-      <h2>Register Requests</h2>
-
-      <div className="formCount">
-            <span className="file-icon" title="Forms">
-              <svg width="18" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#0051ddff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M14 2v6h6" stroke="#005effff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M8 13h8M8 17h8" stroke="#0052e1ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-            {requests.length}
+      
+      <div className="content-header">
+        <h2>Register Requests</h2>
+        <div className="count-badge">
+          <FontAwesomeIcon icon={faUserPlus} />
+          {requests.length} Forms
+        </div>
       </div>
 
-      { requests.length <= 0 && <p className="empty">No register requests found...</p>}
-
-      { requests.length > 0 &&
-      <div className="request"> 
-        {
-          requests.map((request)=>(
-            <div key={request.id} className="singleRequestTap">
-              <p><span className="highlight">Name:</span> {request.user.first_name}</p>
-              <p><span className="highlight">Email:</span> {request.user.email}</p>
-              <p><span className="highlight">Employee No:</span> {request.user.emp_id}</p>
-              <p><span className="highlight">Job Type:</span> {request.user?.jobType || request.user?.job_type}</p>
-              <p><span className="highlight">Requested to Register:</span> {request.user.createdAt}</p>
-              <div className="buttons">
-                <button className="view-more" onClick={() => setSelectedUser(request)}> <img src={view} alt="view icon" /></button>
-                <button className="verify" onClick={() => handleVerify(request.token)} ><img src={accept} alt="accept icon" /></button>
-                <button className="reject" onClick={() => handleDelete(request.user.id)} ><img src={reject} alt="reject icon" /></button>
+      { requests.length <= 0 ? 
+        <div className="empty-state">
+          <FontAwesomeIcon icon={faUserPlus} size="3x" style={{marginBottom: '20px', opacity: 0.5}}/>
+          <p>No register requests found...</p>
+        </div>
+       :
+      <>
+        <div className="request"> 
+          {
+            currentItems.map((request)=>(
+              <div key={request.id} className="singleRequestTap">
+                <p><span className="highlight">Name:</span> {request.user.first_name}</p>
+                <p><span className="highlight">Email:</span> {request.user.email}</p>
+                <p><span className="highlight">Employee No:</span> {request.user.emp_id}</p>
+                <p><span className="highlight">Job Type:</span> {request.user?.jobType || request.user?.job_type}</p>
+                <p><span className="highlight">Requested to Register:</span> {request.user.createdAt}</p>
+                <div className="buttons">
+                  <button className="view-more" onClick={() => setSelectedUser(request)}> <img src={view} alt="view icon" /></button>
+                  <button className="verify" onClick={() => handleVerify(request.token)} ><img src={accept} alt="accept icon" /></button>
+                  <button className="reject" onClick={() => handleDelete(request.user.id)} ><img src={reject} alt="reject icon" /></button>
+                </div>
               </div>
-            </div>
-          ))
-        }
+            ))
+          }
+        </div>
 
-{selectedUser && 
+        {/* Pagination Controls */}
+        {(
+          <div className="pagination-container">
+            <button
+              className="pagination-btn"
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+              Previous
+            </button>
+
+            <div className="pagination-info">
+              Page {currentPage} of {totalPages}
+            </div>
+
+            <button
+              className="pagination-btn"
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              Next
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+
+            <div className="items-per-page">
+              <label htmlFor="itemsPerPage" className="itemsPerPage">Items per page:</label>
+              <select 
+                id="itemsPerPage"
+                value={itemsPerPage} 
+                onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+                className="items-per-page-select"
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+              </select>
+            </div>
+          </div>
+        )}
+      </>
+      }
+
+    {selectedUser && 
 
                   <div className="modern-popup-overlay">
                     <div className="modern-popup-container">
@@ -87,7 +150,7 @@ const RegisterRequests = ({requests, setRequests}) => {
                             <h2 className="employee-name">
                               {selectedUser.user.first_name} {selectedUser.user.last_name}
                             </h2>
-                            <p className="employee-role">{selectedUser.user.jobType} v jv</p>
+                            <p className="employee-role">{selectedUser.user.jobType}</p>
                             <p className="employee-id">ID: {selectedUser.user.emp_id}</p>
                           </div>
                         </div>
@@ -212,9 +275,8 @@ const RegisterRequests = ({requests, setRequests}) => {
         }
 
       </div>
-      }
-    </div>
-  )
+    )
+    
 }
 
 export default RegisterRequests

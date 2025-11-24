@@ -1,11 +1,11 @@
-.newsPage{
+.newsPage {
     width: 90%;
     margin: auto;
     margin-bottom: 60px;
     padding-top: 70px;
 }
 
-.newsPage h2{
+.newsPage h2 {
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
     font-size: 1.5rem;
@@ -14,26 +14,31 @@
     font-weight: 600;
 }
 
-.newsPage label, .newsPage input, .newsPage textarea{
+.newsPage label,
+.newsPage input,
+.newsPage textarea {
     display: block;
     border-radius: 8px;
     width: 100%;
-    padding:4px 8px;
+    padding: 4px 8px;
     outline: none;
     border: 1px solid #ccc;
 }
-.newsPage form{
+
+.newsPage form {
     background-color: white;
     border-radius: 12px;
     padding: 12px;
     box-shadow: 2px 2px 8px #ccc;
 }
-.newsPage label{
+
+.newsPage label {
     border: unset;
     margin: unset;
     margin-left: -5px;
 }
-.newsPage .newsbtn{
+
+.newsPage .newsbtn {
     margin-top: 16px;
     margin-right: 10px;
 }
@@ -53,7 +58,7 @@
     padding: 15px 20px;
 }
 
-.newsPage .pagination > div {
+.newsPage .pagination>div {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -142,22 +147,22 @@
         align-items: stretch;
         gap: 15px;
     }
-    
-    .newsPage .pagination > div {
+
+    .newsPage .pagination>div {
         justify-content: center;
     }
-    
-    .newsPage .pagination > div:last-child {
+
+    .newsPage .pagination>div:last-child {
         order: -1;
         margin-bottom: 10px;
     }
-    
+
     .newsPage .pagination button {
         min-width: 35px;
         padding: 6px 10px;
         font-size: 13px;
     }
-    
+
     .newsPage .pagination select {
         padding: 5px 10px;
         font-size: 13px;
@@ -168,18 +173,18 @@
     .newsPage .pagination {
         padding: 10px 15px;
     }
-    
+
     .newsPage .pagination button {
         min-width: 30px;
         padding: 5px 8px;
         font-size: 12px;
     }
-    
+
     .newsPage .pagination select {
         padding: 4px 8px;
         font-size: 12px;
     }
-    
+
     .newsPage .pagination small {
         font-size: 12px;
         padding: 4px 8px;

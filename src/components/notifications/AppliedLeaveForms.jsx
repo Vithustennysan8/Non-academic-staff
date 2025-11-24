@@ -1,9 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import "../../css/Notifications/appliedLeaveForms.css";
+import { useEffect, useState } from "react";
+import "../../css/Notifications/notifications-content.css";
 import FormPreview from "../forms/FormPreview";
 import { useAuth } from "../../Contexts/AuthContext";
 import FormReqTap from "./FormReqTap";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileSignature, faFilter, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const AppliedLeaveForms = ({ appliedLeaveForms }) => {
   const { user } = useAuth();
@@ -12,9 +14,13 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
   const [filterYear, setFilterYear] = useState('');
   const [filterMonth, setFilterMonth] = useState();
   const [filterForms, setFilterForms] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(()=>{
     setFilterForms(appliedLeaveForms.filter((form)=> form.status === "Pending"));
+    setCurrentPage(1); // Reset to first page when data changes
   },[appliedLeaveForms])
 
   // Handle form selection for preview
@@ -23,7 +29,13 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
       (form) => form.id === id && form.formType === formType
     );
     setForm(selectedForm);
+    setShowForm(true);
   };
+
+  const handleItemsPerPageChange = (newItemsPerPage) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1); // Reset to first page when changing items per page
+  }
 
   // Handle filter change
   const handleFilterChange = () => {
@@ -49,26 +61,43 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
       filteredForms = filteredForms.filter((form)=> form.status === filter);
     }
     setFilterForms(filteredForms);
+    setCurrentPage(1); // Reset to first page after filtering
   };
+
+  // Pagination calculation
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filterForms.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filterForms.length / itemsPerPage);
 
   return (
     <div className="appliedLeaveForms">
-      <h1>Applied Leave Forms</h1>
+      <div className="content-header">
+        <h2>Applied Leave Forms</h2>
+        <div className="count-badge">
+          <FontAwesomeIcon icon={faFileSignature} />
+          {filterForms.length} Forms
+        </div>
+      </div>
+
       {appliedLeaveForms.length === 0 ? (
-        <p className="empty">Forms not found...</p>
+        <div className="empty-state">
+          <FontAwesomeIcon icon={faFileSignature} size="3x" style={{marginBottom: '20px', opacity: 0.5}}/>
+          <p>Forms not found...</p>
+        </div>
       ) : (
         <>
-          <div className="leaveFilterTaps">
-            <div className="taps">
-              <select value={filter} onChange={e=>setFilter(e.target.value)}>
+          <div className="filter-container">
+            <div className="filter-group">
+              <select className="modern-select" value={filter} onChange={e=>setFilter(e.target.value)}>
                 <option value="Pending">Pending</option>
                 <option value="All">All</option>
                 <option value="Accepted">Accepted</option>
                 <option value="Rejected">Rejected</option>
               </select>
 
-              <input type="number" value={filterYear} onChange={e=>setFilterYear(e.target.value)} placeholder="Year"/>
-              <select name="month" value={filterMonth} onChange={(e)=>setFilterMonth(e.target.value)}>
+              <input className="modern-input" type="number" value={filterYear} onChange={e=>setFilterYear(e.target.value)} placeholder="Year"/>
+              <select className="modern-select" name="month" value={filterMonth} onChange={(e)=>setFilterMonth(e.target.value)}>
                   <option value="">Month</option>
                   <option value="January">January</option>
                   <option value="February">February</option>
@@ -84,36 +113,75 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
                   <option value="December">December</option>
                 </select>
             </div>
-            <button className="bttn ashbtn" onClick={handleFilterChange}>Filter</button>
+            <button className="filter-btn" onClick={handleFilterChange}>
+              <FontAwesomeIcon icon={faFilter} style={{marginRight: '8px'}}/>
+              Filter
+            </button>
           </div>
 
           <div className="ownLeaveForms">
-            <h3 className="formFilterType">{filter} Forms</h3>
-
-            <div className="formCount">
-            <span className="file-icon" title="Forms">
-              <svg width="18" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#0051ddff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M14 2v6h6" stroke="#005effff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M8 13h8M8 17h8" stroke="#0052e1ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-            {filterForms.length}
-          </div>
-
-            {filterForms.length < 1? <p className="empty">No forms match the selected filter!</p> :
-              form ? (
-                <FormPreview application={form} approver={user} setForm={setForm}/>
+            {filterForms.length < 1 ? 
+              <div className="empty-state">
+                <FontAwesomeIcon icon={faFileSignature} size="3x" style={{marginBottom: '20px', opacity: 0.5}}/>
+                <p>No forms match the selected filter!</p>
+              </div>
+             :
+              showForm ? (
+                <FormPreview application={form} approver={user} setShowForm={setShowForm}/>
               ) : (
-                <ul>
-                {filterForms?.map((form, id) => (
-                    <li key={id} style={{ listStyle: "none" }}>
-                      <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
-                      </li>
+                <>
+                  <div className="cards-grid">
+                    {currentItems?.map((form, id) => (
+                      <div key={id}>
+                        <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
+                      </div>
                     ))}
-                    </ul>
-                  )
-              }
+                  </div>
+
+                  {/* Pagination Controls */}
+                  {(
+                    <div className="pagination-container">
+                      <button
+                        className="pagination-btn"
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                      >
+                        <FontAwesomeIcon icon={faChevronLeft} />
+                        Previous
+                      </button>
+
+                      <div className="pagination-info">
+                        Page {currentPage} of {totalPages}
+                      </div>
+
+                      <button
+                        className="pagination-btn"
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                      >
+                        Next
+                        <FontAwesomeIcon icon={faChevronRight} />
+                      </button>
+
+                      <div className="items-per-page">
+                        <label htmlFor="itemsPerPage" className="itemsPerPage">Items per page:</label>
+                        <select 
+                          id="itemsPerPage"
+                          value={itemsPerPage} 
+                          onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+                          className="items-per-page-select"
+                        >
+                          <option value={5}>5</option>
+                          <option value={10}>10</option>
+                          <option value={20}>20</option>
+                          <option value={50}>50</option>
+                        </select>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )
+            }
           </div>
         </>
       )}

@@ -10,7 +10,15 @@ import AppliedLeaveForms from "../notifications/AppliedLeaveForms";
 import AppliedTransferForms from "../notifications/AppliedTransferForms";
 import AppliedDynamicForms from "../notifications/AppliedDynamicForms";
 import DynamicFormRequests from "../notifications/DynamicFormRequests.jsx";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { 
+  faClipboardList, 
+  faUserPlus, 
+  faExchangeAlt, 
+  faFileAlt, 
+  faFileSignature 
+} from "@fortawesome/free-solid-svg-icons";
 
 
 const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register, dynamicsForms, dynamicFormRequests, setDynamicsRequests}) => {
@@ -85,10 +93,10 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
           try {
             const response = await Axios.get("/user/transferForms");
             setAppliedTransferForms(response.data);
-        } catch (error) {
-          console.log("Error fetching appliedTransferForms requests", error);
-        }
-      };
+          } catch (error) {
+            console.log("Error fetching appliedTransferForms requests", error);
+          }
+        };
 
       const fetchLeaveFormsApplied = async () => {
         try {
@@ -118,7 +126,11 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
           <div className="requestsTap">
             {(user.role === "ADMIN" || user.role === "SUPER_ADMIN") && (
               <>
-                <button onClick={() => setRequest("RegisterRequests")}>
+                <button 
+                  className={request === "RegisterRequests" ? "active" : ""}
+                  onClick={() => setRequest("RegisterRequests")}
+                >
+                  <FontAwesomeIcon icon={faUserPlus} className="tab-icon" />
                   Register Requests
                   {register.length > 0 && (
                     <span className="requestCount">
@@ -127,14 +139,22 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                   )}
                   </button>
 
-                  <button onClick={() => setRequest("LeaveRequests")}>
+                  <button 
+                    className={request === "LeaveRequests" || request === "" ? "active" : ""}
+                    onClick={() => setRequest("LeaveRequests")}
+                  >
+                  <FontAwesomeIcon icon={faClipboardList} className="tab-icon" />
                   Normal Leave Requests
                   {leave.length > 0 && (
                     <span className="requestCount">{leave.length}</span>
                   )}
                 </button>
 
-                <button onClick={() => setRequest("DynamicFormsRequests")}>
+                <button 
+                  className={request === "DynamicFormsRequests" ? "active" : ""}
+                  onClick={() => setRequest("DynamicFormsRequests")}
+                >
+                  <FontAwesomeIcon icon={faFileAlt} className="tab-icon" />
                   Dynamic Leave Requests
                   {dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
                             approver.approver == user.job_type)[0].approverStatus == "Pending").length > 0 && (
@@ -143,7 +163,11 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                   )}
                 </button>
 
-                <button onClick={() => setRequest("TransferRequests")}>
+                <button 
+                  className={request === "TransferRequests" ? "active" : ""}
+                  onClick={() => setRequest("TransferRequests")}
+                >
+                  <FontAwesomeIcon icon={faExchangeAlt} className="tab-icon" />
                   Transfer Requests
                   {transfer.length > 0 && (
                     <span className="requestCount">
@@ -156,21 +180,33 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
 
             { (user.role === "USER") && <>
             
-              <button onClick={() => setRequest("AppliedLeaveForms")}>
+              <button 
+                className={request === "AppliedLeaveForms" ? "active" : ""}
+                onClick={() => setRequest("AppliedLeaveForms")}
+              >
+                <FontAwesomeIcon icon={faFileSignature} className="tab-icon" />
                 Applied Normal Leave Forms
                 {appliedLeave.length > 0 && (
                   <span className="requestCount">{appliedLeave.length}</span>
                 )}
               </button>
 
-              <button onClick={() => setRequest("AppliedDynamicsForms")}>
+              <button 
+                className={request === "AppliedDynamicsForms" ? "active" : ""}
+                onClick={() => setRequest("AppliedDynamicsForms")}
+              >
+                <FontAwesomeIcon icon={faFileAlt} className="tab-icon" />
                 Applied Dynamic Leave Forms
                 {dynamicsForms.filter(form => form.formStatus == "Pending").length > 0 && (
                   <span className="requestCount">{dynamicsForms.filter(form => form.formStatus == "Pending").length}</span>
                 )}
               </button>
 
-              <button onClick={() => setRequest("AppliedTransferForms")}>
+              <button 
+                className={request === "AppliedTransferForms" ? "active" : ""}
+                onClick={() => setRequest("AppliedTransferForms")}
+              >
+                <FontAwesomeIcon icon={faExchangeAlt} className="tab-icon" />
                 Applied Transfer Forms
                 {appliedTransfer.length > 0 && (
                   <span className="requestCount">

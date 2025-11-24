@@ -4,8 +4,10 @@ import { Axios } from "../AxiosReqestBuilder";
 import { useAuth } from "../../Contexts/AuthContext";
 import { toast } from "react-toastify";
 import deleteLogo from "../../assets/delete.png";
+import { faBackspace, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const NormalLeaveFormTemplate = ({application}) => {
+const NormalLeaveFormTemplate = ({application, setShowForm, setForm}) => {
   const {user} = useAuth();
 
   const handleDelete = async (form) => {
@@ -26,7 +28,10 @@ const NormalLeaveFormTemplate = ({application}) => {
 
     <div className="normalLeaveTemplate-container">
 
+        <button className="close-btn" onClick={() => {setShowForm(false); setForm(null);}}><FontAwesomeIcon icon={faBackspace} style={{padding: '4px 8px', color: 'blue', cursor: 'pointer'}} size="lg" /></button>
+        <button className="deleteBtn" onClick={() => handleDelete(application)}><FontAwesomeIcon icon={faTrash} style={{padding: '4px 8px', color: 'red', cursor: 'pointer'}} size="lg" /></button>
         <h2>{application.formType}</h2>
+        
         {application.headStatus === "pending" && user.role === "USER" && <button className="deleteBtn" onClick={() => handleDelete(application)}><img src={deleteLogo} alt="DeleteIcon" /></button>}
 
           <table border={"1px"}>

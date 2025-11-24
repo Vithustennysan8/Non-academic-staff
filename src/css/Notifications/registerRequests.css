@@ -1,14 +1,12 @@
 .registerRequests{
-    width: 95%;
+    width: 100%;
     margin: 0px auto 40px;    
 }
 .registerRequests h2{
-    margin: 10px 0px 20px;
-    font-size: 1.4rem;
-    border-left: 4px solid rgb(219, 0, 0);
-    padding-left: 10px;
-    text-transform: uppercase;
-    font-weight: 600;
+    font-size: 1.5rem;
+    color: #1e293b;
+    font-weight: 700;
+    margin: 0;
 }
 .request{
     margin: 30px 40px;

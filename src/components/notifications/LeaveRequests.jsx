@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import FormPreview from "../forms/FormPreview";
-import "../../css/Notifications/requestedForms.css";
+import "../../css/Notifications/notifications-content.css";
 import FormReqTap from "./FormReqTap";
 import { useAuth } from "../../Contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../AxiosReqestBuilder";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileAlt, faFilter, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 const RequestedForms = ({ allLeaveFormRequests }) => {
   const navigate = useNavigate();
@@ -24,6 +26,8 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
   const [faculties, setFaculties] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   useEffect(()=>{
     const fetchFaculty = async () => {
@@ -68,7 +72,7 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
         setFilteredForms(allLeaveFormRequests.filter((form)=> form.registrarStatus === "pending"))
         break;
     }
-  
+    setCurrentPage(1); // Reset to first page when data changes
   }, [navigate, isLogin, allLeaveFormRequests, user.job_type]);
 
 
@@ -95,6 +99,7 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
   const handleFilterChange = (e) => {
     e.preventDefault();
     console.log(filters);
+    setCurrentPage(1); // Reset to first page after filtering
     
     const monthNames = [
       "January", "February", "March", "April", "May", "June",
@@ -148,18 +153,33 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
     setFilteredForms(filterForms);
   };
 
+    // Pagination calculation
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredForms.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredForms.length / itemsPerPage);
+
+  const handleItemsPerPageChange = (newItemsPerPage) => {
+    setItemsPerPage(newItemsPerPage);
+    setCurrentPage(1);
+  };  
+
   return (
     <>
       <div className="RequestedForms">
-        <h1>Requested Leave Forms</h1>
+        <div className="content-header">
+          <h2>Requested Leave Forms</h2>
+          <div className="count-badge">
+            <FontAwesomeIcon icon={faFileAlt} />
+            {filteredForms.length} Forms
+          </div>
+        </div>
 
-        <form>
-        <div className="allLeaveRequest-btn">
-            <div className="selection-area">
+        <form className="filter-container">
+          <div className="filter-group">
               {(user.job_type !== "Head of the Department") && (
                 <>
-                <div>
-                  <select name="faculty" id="faculty" onChange={e=>{
+                  <select className="modern-select" name="faculty" id="faculty" onChange={e=>{
                     handleForm(e);
                     setSelectedFaculty(e.target.value);
                     }}>
@@ -170,10 +190,8 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
                       </option>
                     ))}
                   </select>
-                </div>
                       
-                <div>
-                  <select id="department" name="department" onChange={e=>handleForm(e)} >
+                  <select className="modern-select" id="department" name="department" onChange={e=>handleForm(e)} >
                     <option value="">Department</option>
                     {departments.filter((department) => selectedFaculty == department.facultyId).map((department, index) => (
                     <option key={index} value={department.departmentName}>
@@ -181,32 +199,18 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
                     </option>
                     ))}
                   </select>
-                </div>
-
-                {/* <div>
-                  <select name="formType" value={filters.formType} onChange={e=>handleForm(e)}>
-                    <option value="">Form type</option>
-                    <option value="Normal Leave Form">Normal Leave</option>
-                    <option value="Accident Leave Form">Accident Leave</option>
-                    <option value="Medical Leave Form">Medical Leave</option>
-                    <option value="Maternity Leave Form">Maternity Leave</option>
-                    <option value="Paternal Leave Form">Paternal Leave</option>
-                  </select>
-                </div> */}
                 </>
                 )}
-            </div>
-
-            <div className="selection-area">
-                <select value={filters.status} name="status" onChange={e=>handleForm(e)}>
+            
+                <select className="modern-select" value={filters.status} name="status" onChange={e=>handleForm(e)}>
                   <option value="pending">Pending</option>
                   <option value="All">All</option>
                   <option value="Accepted">Accepted</option>
                   <option value="Rejected">Rejected</option>
                 </select>
 
-                <input type="number" name="year" value={filters.year} onChange={e=>handleForm(e)} placeholder="Year"/>
-                <select name="month" value={filters.month} onChange={e=>handleForm(e)}>
+                <input className="modern-input" type="number" name="year" value={filters.year} onChange={e=>handleForm(e)} placeholder="Year"/>
+                <select className="modern-select" name="month" value={filters.month} onChange={e=>handleForm(e)}>
                     <option value="">Month</option>
                     <option value="January">January</option>
                     <option value="February">February</option>
@@ -222,36 +226,78 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
                     <option value="December">December</option>
                   </select>
               </div>
-              <button className="bttn ashbtn" onClick={handleFilterChange}>Filter</button>
-          </div>
+              <button className="filter-btn" onClick={handleFilterChange}>
+                <FontAwesomeIcon icon={faFilter} style={{marginRight: '8px'}}/>
+                Filter
+              </button>
         </form>
 
         {/* All leave Notifications */}
         {!showForm && (
           <div className="allNotifications">
-            <h2 className="formFilterType">{filters.status} Requests</h2>
-
-            <div className="formCount">
-            <span className="file-icon" title="Forms">
-              <svg width="18" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#0051ddff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M14 2v6h6" stroke="#005effff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M8 13h8M8 17h8" stroke="#0052e1ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </span>
-            {filteredForms.length}
-          </div>
             
-            {filteredForms<1 ? <p className="empty">No forms match the selected filter!</p> :
-            filteredForms.map((form, index) => (
-              <div key={index}>
-              <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
+            {filteredForms.length < 1 ? 
+              <div className="empty-state">
+                <FontAwesomeIcon icon={faFileAlt} size="3x" style={{marginBottom: '20px', opacity: 0.5}}/>
+                <p>No forms match the selected filter!</p>
               </div>
-            ))}
+             :
+             <>
+               <div className="cards-grid">
+                 {currentItems.map((form, index) => (
+                   <div key={index}>
+                     <FormReqTap form={form} handleSingleForm={()=>handleSingleForm(form.id, form.formType)}/>
+                   </div>
+                 ))}
+               </div>
+
+               {/* Pagination Controls */}
+               {(
+                 <div className="pagination-container">
+                   <button
+                     className="pagination-btn"
+                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                     disabled={currentPage === 1}
+                   >
+                     <FontAwesomeIcon icon={faChevronLeft} />
+                     Previous
+                   </button>
+
+                   <div className="pagination-info">
+                     Page {currentPage} of {totalPages}
+                   </div>
+
+                   <button
+                     className="pagination-btn"
+                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                     disabled={currentPage === totalPages}
+                   >
+                     Next
+                     <FontAwesomeIcon icon={faChevronRight} />
+                   </button>
+
+                   <div className="items-per-page">
+                     <label htmlFor="itemsPerPage" className="itemsPerPage">Items per page:</label>
+                     <select 
+                       id="itemsPerPage"
+                       value={itemsPerPage} 
+                       onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+                       className="items-per-page-select"
+                     >
+                       <option value={5}>5</option>
+                       <option value={10}>10</option>
+                       <option value={20}>20</option>
+                       <option value={50}>50</option>
+                     </select>
+                   </div>
+                 </div>
+               )}
+             </>
+            }
           </div>
         )}
         {showForm && (
-          <FormPreview application={requestForm} approver={user} setForm={setRequestForm}/>
+          <FormPreview application={requestForm} approver={user} setForm={setRequestForm} setShowForm={setShowForm}/>
         )}
       </div>
     </>

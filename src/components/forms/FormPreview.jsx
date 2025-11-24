@@ -10,7 +10,7 @@ import downloadLogo from "../../assets/Download.png"
 import acceptLogo from "../../assets/accept.png"
 import rejectLogo from "../../assets/cancel.png"
 
-const FormPreview = ({ application, approver, setForm }) => {
+const FormPreview = ({ application, approver, setForm, setShowForm }) => {
     const [formStatus, setFormStatus] = useState('');
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
@@ -113,7 +113,7 @@ const FormPreview = ({ application, approver, setForm }) => {
     <div className="review-container" >
         <div id="pdfContent">
 
-            <NormalLeaveFormTemplate application={application}/>
+            <NormalLeaveFormTemplate application={application} setShowForm={setShowForm} setForm={setForm}/>
             
             {application.status && <div className="review-row">
                 <div className="review-label">Status:</div>

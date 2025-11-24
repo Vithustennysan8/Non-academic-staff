@@ -1,14 +1,12 @@
 .appliedDynamicForms{
-    width: 95%;
+    width: 100%;
     margin: 0 auto 40px; 
 }
 .appliedDynamicForms h2{
-    margin: 10px 0px 40px;
-    font-size: 1.4rem;
-    border-left: 4px solid rgb(219, 0, 0);
-    padding-left: 10px;
-    text-transform: uppercase;
-    font-weight: 600;
+    font-size: 1.5rem;
+    color: #1e293b;
+    font-weight: 700;
+    margin: 0;
 }
 .singleForm{
     max-width: 650px;
@@ -27,9 +25,17 @@
     border: none;
     cursor: pointer;
 }
-.singleForm .deleteBtn img{
-    width: 20px;
-    height: 20px;
+.singleForm .deleteBtn:hover, .singleForm .closeBtn:hover{
+    transform: scale(1.2);
+}
+
+.singleForm .closeBtn{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 .singleForm h4{
     font-size: 1.3rem;
