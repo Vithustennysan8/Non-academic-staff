@@ -29,7 +29,7 @@
     flex-direction: column;
 }
 .addOrEditDiv form div div input, .addOrEditDiv form div div select{
-    padding: 5px 7px;
+    padding: 7px 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 100%;
@@ -38,6 +38,18 @@
 
 .addOrEditDiv form button{
     min-width: fit-content;
+}
+.manageDepartments .departmentSearchDiv{
+    margin: 15px 0 5px;
+    text-align: right;
+
+}.manageDepartments .departmentSearchDiv input{
+    padding: 7px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    outline: none;
+    margin-right: 10px;
 }
 .manageDepartments .tableCover{
     overflow-x: auto;

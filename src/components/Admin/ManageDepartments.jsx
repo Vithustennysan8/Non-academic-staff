@@ -3,12 +3,14 @@ import "../../css/Admin/manageDepartments.css"
 import { useAuth } from "../../Contexts/AuthContext.jsx"
 import { useNavigate } from "react-router-dom"
 import {Axios} from "../AxiosReqestBuilder.jsx"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
 const ManageDepartments = () => {
   const [departments, setDepartments] = useState([])
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredDepartments, setFilteredDepartments] = useState([]);
   const [editDepartment, setEditDepartment] = useState(null);
   const {isLogin, user} = useAuth();
   const navigate = useNavigate();
@@ -47,6 +49,7 @@ const ManageDepartments = () => {
         const response = await Axios.get("/auth/user/department/get");
         const departmentsData = Array.isArray(response.data) ? response.data : [];
         setDepartments(departmentsData);
+        setFilteredDepartments(departmentsData);
         setCurrentPage(1);
         setTimeout(() => {
           setIsLoading(false);
@@ -67,6 +70,7 @@ const ManageDepartments = () => {
       const response = editDepartment ? await Axios.put(`/admin/department/update/${editDepartment.id}`, data) : await Axios.post("/admin/department/add", data);
       const departmentsData = Array.isArray(response.data) ? response.data : [];
       setDepartments(departmentsData);
+      setFilteredDepartments(departmentsData);
       setCurrentPage(1);
       setEditDepartment(null);
       toast.success(editDepartment ? "Successfully updated" : "Successfully added");
@@ -90,6 +94,7 @@ const ManageDepartments = () => {
         const response = await Axios.delete(`/admin/department/delete/${id}`);
         const departmentsData = Array.isArray(response.data) ? response.data : [];
         setDepartments(departmentsData);
+        setFilteredDepartments(departmentsData);
         setCurrentPage(1);
         toast.success("Department deleted successfully!");
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -102,7 +107,7 @@ const ManageDepartments = () => {
   }
 
   // derived pagination values
-  const safeDepartments = Array.isArray(departments) ? departments : [];
+  const safeDepartments = Array.isArray(filteredDepartments) ? filteredDepartments : [];
   const totalPages = pageSize === 0 ? 1 : Math.max(1, Math.ceil(safeDepartments.length / pageSize));
   if (currentPage > totalPages) setCurrentPage(totalPages);
 
@@ -168,6 +173,26 @@ const ManageDepartments = () => {
                 <button className="bttn ashbtn">{ editDepartment? "Update": "Add Department"}</button>
               </div>
             </form>
+
+            <div className="departmentSearchDiv">
+              <input type="text" placeholder="Search departments..." value={searchTerm} onChange={(e) => {
+                setSearchTerm(e.target.value);
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredDepartments = departments.filter(department =>
+                  department.departmentName.toLowerCase().includes(searchTerm) ||
+                  department.alias.toLowerCase().includes(searchTerm) ||
+                  faculties.find(faculty => faculty.id === department.facultyId)?.facultyName.toLowerCase().includes(searchTerm)
+                );
+                setFilteredDepartments(filteredDepartments);
+                setCurrentPage(1);
+              }}
+              />
+              <button className="bttn redbtn" onClick={() => {
+                setSearchTerm("");
+                setFilteredDepartments(departments);
+                setCurrentPage(1);
+              }}>Clear</button>
+            </div>
           </div>
 
         <div className="tableCover">
@@ -230,7 +255,7 @@ const ManageDepartments = () => {
 
                     <div>
                       <button type="button" onClick={()=>setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1}>Prev</button>
-                      {Array.from({length: totalPages}, (_, i) => i + 1).map(p => (
+                      {Array.from({length: totalPages}, (_, i) => i + 1).filter((_, i) => i < currentPage + 4 && i >= currentPage - 1).map(p => (
                         <button key={p} type="button" className={p === currentPage ? 'ashbtn' : ''} onClick={()=>setCurrentPage(p)}>{p}</button>
                       ))}
                       <button type="button" onClick={()=>setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages}>Next</button>

@@ -9,6 +9,8 @@ import { motion } from "framer-motion";
 
 const ManagePositions = () => {
   const [positions, setPositions] = useState([])
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredPositions, setFilteredPositions] = useState([])
   const [editPosition, setEditPosition] = useState(null);
   const {isLogin} = useAuth();  
   const navigate = useNavigate();
@@ -31,6 +33,7 @@ const ManagePositions = () => {
         const response = await Axios.get("/auth/user/jobPosition/get");
         const positionsData = Array.isArray(response.data) ? response.data : [];
         setPositions(positionsData);
+        setFilteredPositions(positionsData);
         setCurrentPage(1);
         setTimeout(() => {
           setIsLoading(false);
@@ -50,6 +53,7 @@ const ManagePositions = () => {
       const response = editPosition ? await Axios.put(`/admin/jobPosition/update/${editPosition.id}`, data) : await Axios.post("/admin/jobPosition/add", data);
       const positionsData = Array.isArray(response.data) ? response.data : [];
       setPositions(positionsData);
+      setFilteredPositions(positionsData);
       setCurrentPage(1);
       setEditPosition(null);
       toast.success(editPosition ? "Successfully updated" : "Successfully added");
@@ -73,6 +77,7 @@ const ManagePositions = () => {
         const response = await Axios.delete(`/admin/jobPosition/delete/${id}`);
         const positionsData = Array.isArray(response.data) ? response.data : [];
         setPositions(positionsData);
+        setFilteredPositions(positionsData);
         setCurrentPage(1);
         toast.success("Job position deleted successfully!");
         window.scrollTo({top:0, behavior:"smooth"});
@@ -85,7 +90,7 @@ const ManagePositions = () => {
   }
 
   // derived pagination values
-  const safePositions = Array.isArray(positions) ? positions : [];
+  const safePositions = Array.isArray(filteredPositions) ? filteredPositions : [];
   const totalPages = pageSize === 0 ? 1 : Math.max(1, Math.ceil(safePositions.length / pageSize));
   if (currentPage > totalPages) setCurrentPage(totalPages);
 
@@ -144,6 +149,26 @@ const ManagePositions = () => {
                 <button className="bttn ashbtn">{ editPosition? "Update": "Add Position"}</button>
               </div>
             </form>
+
+            <div className="positionSearchDiv">
+              <input type="text" placeholder="Search positions..." value={searchTerm} onChange={(e) => {
+                setSearchTerm(e.target.value);
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredPositions = positions.filter(position =>
+                  position.jobPositionName.toLowerCase().includes(searchTerm) ||
+                  position.alias.toLowerCase().includes(searchTerm) ||
+                  position.jobScope.toLowerCase().includes(searchTerm)
+                );
+                setFilteredPositions(filteredPositions);
+                setCurrentPage(1);
+                }}
+              />
+              <button className="bttn redbtn" onClick={() => {
+                setSearchTerm("");
+                setFilteredPositions(positions);
+                setCurrentPage(1);
+              }}>Clear</button>
+            </div>
           </div>
 
         <table >
@@ -203,7 +228,7 @@ const ManagePositions = () => {
 
             <div>
               <button type="button" onClick={()=>setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1}>Prev</button>
-              {Array.from({length: totalPages}, (_, i) => i + 1).map(p => (
+              {Array.from({length: totalPages}, (_, i) => i + 1).filter((_, i) => i < currentPage + 4 && i >= currentPage - 1).map(p => (
                 <button key={p} type="button" className={p === currentPage ? 'ashbtn' : ''} onClick={()=>setCurrentPage(p)}>{p}</button>
               ))}
               <button type="button" onClick={()=>setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages}>Next</button>

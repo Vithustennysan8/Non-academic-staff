@@ -9,6 +9,8 @@ import { motion } from "framer-motion";
 
 const ManageFaculties = () => {
   const [faculties, setFaculties] = useState([])
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredFaculties, setFilteredFaculties] = useState([])
   const [editFaculty, setEditFaculty] = useState(null);
   const {isLogin} = useAuth();  
   const navigate = useNavigate();
@@ -30,6 +32,7 @@ const ManageFaculties = () => {
         setIsLoading(true);
         const response = await Axios.get("/auth/user/faculty/getAll");
         const facultiesData = Array.isArray(response.data) ? response.data : [];
+        setFilteredFaculties(facultiesData);
         setFaculties(facultiesData);
         setCurrentPage(1);
         setTimeout(() => {
@@ -47,6 +50,7 @@ const ManageFaculties = () => {
       const response = editFaculty ? await Axios.put(`/admin/faculty/update/${editFaculty.id}`, data) : await Axios.post("/admin/faculty/add", data);
       const facultiesData = Array.isArray(response.data) ? response.data : [];
       setFaculties(facultiesData);
+      setFilteredFaculties(facultiesData);
       setCurrentPage(1);
       setEditFaculty(null);
       toast.success(editFaculty ? "Successfully updated" : "Successfully added");
@@ -70,6 +74,7 @@ const ManageFaculties = () => {
         const response = await Axios.delete(`/admin/faculty/delete/${id}`);
         const facultiesData = Array.isArray(response.data) ? response.data : [];
         setFaculties(facultiesData);
+        setFilteredFaculties(facultiesData);
         setCurrentPage(1);
         toast.success("Faculty deleted successfully!");
         window.scrollTo({top:0, behavior:"smooth"});
@@ -80,7 +85,7 @@ const ManageFaculties = () => {
   }
 
   // derived pagination values
-  const safeFaculties = Array.isArray(faculties) ? faculties : [];
+  const safeFaculties = Array.isArray(filteredFaculties) ? filteredFaculties : [];
   const totalPages = pageSize === 0 ? 1 : Math.max(1, Math.ceil(safeFaculties.length / pageSize));
   if (currentPage > totalPages) setCurrentPage(totalPages);
 
@@ -127,6 +132,27 @@ const ManageFaculties = () => {
                 <button className="bttn ashbtn">{ editFaculty? "Update": "Add Faculty"}</button>
               </div>
             </form>
+
+            {/* faculty search */}
+            <div className="facultySearchDiv">
+              <input type="text" placeholder="Search faculty..." value={searchTerm} onChange={(e)=>{
+                setSearchTerm(e.target.value);
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredFaculties = faculties.filter(faculty => 
+                  faculty.facultyName.toLowerCase().includes(searchTerm) ||
+                  faculty.alias.toLowerCase().includes(searchTerm)
+                );
+                setFilteredFaculties(filteredFaculties);
+                setCurrentPage(1);
+              }}/>
+              <button className="bttn redbtn" onClick={()=>{
+                setEditFaculty(null);
+                setSearchTerm("");
+                setFilteredFaculties(faculties);
+                setCurrentPage(1);
+                reset();
+              }}>Clear</button>
+            </div>
           </div>
 
         <table >
@@ -185,7 +211,7 @@ const ManageFaculties = () => {
 
             <div>
               <button type="button" onClick={()=>setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage === 1}>Prev</button>
-              {Array.from({length: totalPages}, (_, i) => i + 1).map(p => (
+              {Array.from({length: totalPages}, (_, i) => i + 1).filter((_, i) => i < currentPage + 4 && i >= currentPage - 1).map(p => (
                 <button key={p} type="button" className={p === currentPage ? 'ashbtn' : ''} onClick={()=>setCurrentPage(p)}>{p}</button>
               ))}
               <button type="button" onClick={()=>setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage === totalPages}>Next</button>
