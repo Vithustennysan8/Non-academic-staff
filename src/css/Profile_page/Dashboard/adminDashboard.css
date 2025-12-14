@@ -8,7 +8,7 @@
     box-shadow: 2px 2px 8px #ccc;
 }
 .adminDashboard-container h3{
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin-bottom: 30px;
     border-left: 4px solid rgb(219, 0, 0);
     padding-left: 10px;
@@ -140,7 +140,32 @@
     color: white;
 }
 
-
+.facultySelect{
+    width: 100%;
+    margin: 40px auto 0;
+    border-top: 2px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding-top: 10px;
+    justify-content: center;
+}
+.facultySelect select{
+    width: 300px;
+    outline: none;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 0 auto 30px;
+}
+.facultySelect h2{
+    font-size: 1.2rem;
+    margin: 20px 0 20px;
+    border-left: 4px solid rgb(219, 0, 0);
+    padding-left: 10px;
+    font-weight: 600;
+}
 @media (max-width: 768px) {
     .adminDashboard-container {
         width: 90%;

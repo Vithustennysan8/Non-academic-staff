@@ -71,6 +71,7 @@ const DeanCharts = ({allForms}) => {
 
         const fetchFormsByCatogaries = () => {
             let formCategories = new Map();
+            console.log("Forms --> ", allForms);
             
             allForms.forEach((form) => {
                 const faculty = form.formUser?.faculty || form.user?.faculty;
@@ -151,18 +152,39 @@ const DeanCharts = ({allForms}) => {
       // Chart options
       const options = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: 'bottom',
+            display: false,
           },
-        //   title: {
-        //     display: true,
-        //     text: 'Monthly Sales Data',
-        //   },
         },
         scales: {
+          x: {
+            ticks: {
+              autoSkip: false,
+              maxRotation: 45,
+              minRotation: 45,
+              font: {
+                size: 11,
+              },
+            },
+            grid: {
+              display: false,
+            },
+          },
           y: {
             beginAtZero: true,
+            ticks: {
+              font: {
+                size: 11,
+              },
+            },
+          },
+        },
+        layout: {
+          padding: {
+            bottom: 20,
+            left: 20,
           },
         },
       };
@@ -181,7 +203,9 @@ const DeanCharts = ({allForms}) => {
                     </select>
                     <button className='bttn ashbtn' onClick={handleFilters}>search</button>
                 </div>
-                <Bar data={dataOfDepartment} options={options} />
+                <div style={{height: '400px', width: '100%'}}>
+                    <Bar data={dataOfDepartment} options={options} />
+                </div>
             </div>
             
         </div>

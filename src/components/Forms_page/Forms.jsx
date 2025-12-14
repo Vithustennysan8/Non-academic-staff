@@ -68,7 +68,7 @@ const Forms = () => {
             {user.role === "SUPER_ADMIN" && <>
             <div>
               <i className="fa fa-house"></i>
-              <Link to={"/manageFaculty"}>Manage Faculty</Link><br />
+              <Link to={"/manageFaculty"}>Manage Faculty/Center</Link><br />
             </div>
             <div>
               <i className="fa fa-person"></i>

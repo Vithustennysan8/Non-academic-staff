@@ -27,8 +27,8 @@ return (
           <div className="newsDetails">
             <p className="card-body">{news.body}</p>
             <div>
-              {role === "ADMIN" && <a href="#news"><img src={editIcon} alt="update-icon" onClick={handleUpdate}/></a>}
-              {role === "ADMIN" && <img src={deleteIcon} alt="delete-icon" onClick={handleDelete}/>}
+              {role !== "USER" && <a href="#news"><img src={editIcon} alt="update-icon" onClick={handleUpdate}/></a>}
+              {role !== "USER" && <img src={deleteIcon} alt="delete-icon" onClick={handleDelete}/>}
             </div>
           </div>
           <div className="newsPhotos">

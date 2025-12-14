@@ -159,7 +159,7 @@ const TransferRequests = ({allTransferFormRequests}) => {
               {(user.job_type !== "Head of the Department") && (
                 <>
                   <select className="modern-select" name="faculty" id="faculty" value={filters.faculty} onChange={e=>handleForm(e)}>
-                    <option value="">Faculty</option>
+                    <option value="">Faculty/Center</option>
                     {faculties.map((faculty, index) => (
                       <option key={index} value={faculty.faculty}>
                         {faculty.faculty}

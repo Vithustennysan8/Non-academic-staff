@@ -15,6 +15,7 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState({});
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [img, setImg] = useState(null);
+  const [imgPreview, setImgPreview] = useState(null);
   const [faculties, setFaculties] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [positions, setPositions] = useState([]); 
@@ -536,7 +537,7 @@ const Signup = () => {
             <div className="half">
               <div className="Faculty">
                 <label htmlFor="faculty">
-                  Faculty<span className="importantastrick"> *</span>
+                  Faculty/Center<span className="importantastrick"> *</span>
                 </label>
                 <select
                   name="faculty"
@@ -593,10 +594,10 @@ const Signup = () => {
               <div className="signup-profile-div">
                 <label htmlFor="profile_img">
                   Upload profile image
-                  <img
+                  {!imgPreview && <img
                     src={image}
                     alt="add Photo icon"
-                  />
+                  />}
                   <input
                     type="file"
                     id="profile_img"
@@ -604,12 +605,24 @@ const Signup = () => {
                     name="image"
                     {...register("image")}
                     onChange={(e) => {
-                      setImg(e.target.value);
-                      setValue("image", e.target.files[0]);
+                      const file = e.target.files[0];
+                      if (file) {
+                        setImg(file.name);
+                        setValue("image", file);
+                        // Create preview URL
+                        if (imgPreview) {
+                          URL.revokeObjectURL(imgPreview);
+                        }
+                        const previewUrl = URL.createObjectURL(file);
+                        setImgPreview(previewUrl);
+                      }
                     }}
                   />
-                  {img && (
-                    <div className="imageUploadSuccess">Image: {img} added</div>
+                  {imgPreview && (
+                    <div className="imagePreviewContainer">
+                      <img src={imgPreview} alt="Profile preview" className="imagePreview" />
+                      <p className="imageUploadSuccess">Image: {img}</p>
+                    </div>
                   )}
                 </label>
               </div>

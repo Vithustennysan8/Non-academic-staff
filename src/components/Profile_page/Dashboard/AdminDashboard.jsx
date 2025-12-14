@@ -13,6 +13,8 @@ import SummaryCharts from "../SummaryCharts"
 const AdminDashboard = () => {
     const {isLogin, user} = useAuth();
     const navigate = useNavigate();
+    const [faculties, setFaculties] = useState([]);
+    const [selectedFaculty, setSelectedFaculty] = useState(null);
     const [forms, setForms] = useState([]);
     const [staffs, setStaffs] = useState([]);
     const [selectedStaff, setSelectedStaff] = useState(null);
@@ -48,6 +50,16 @@ const AdminDashboard = () => {
             "December"
         ]
 
+        const fetchFaculty = async () => {
+            try {
+                const response = await Axios.get("/auth/user/faculty/getAll");
+                const facultiesData = Array.isArray(response.data) ? response.data : [];
+                setFaculties(facultiesData);
+            } catch (error) {
+                console.log("Error fetching faculties", error);
+            }
+        }
+        
         const handleFormDetails = () => {
             let arrayMap = new Map();
             forms.map((form)=>{
@@ -58,7 +70,7 @@ const AdminDashboard = () => {
                 const month = form.leaveAt?.substring(5,7) || form?.formCreatedAt?.substring(5,7); 
     
                 if(arrayMap.has(userId)){
-    
+                    
                     let userLeaveData = arrayMap.get(userId);
                     let flag = false;
                     userLeaveData.forEach((item)=>{
@@ -85,9 +97,10 @@ const AdminDashboard = () => {
             })
             setDataCollection(array);
           }
-        if(forms.length>0){
-            handleFormDetails();
-        }
+          fetchFaculty();
+          if(forms.length>0){
+              handleFormDetails();
+            }
     },[forms])
 
     
@@ -215,7 +228,7 @@ const AdminDashboard = () => {
         {user.jobScope === "FACULTY_SCOPE" && <>
             <div>
                 <h3>Leave Summary</h3>
-                <DeanCharts allForms={forms}/>
+                <DeanCharts allForms={forms} faculty={user.faculty}/>
             </div>
         </>}
 
@@ -223,6 +236,21 @@ const AdminDashboard = () => {
             <div>
                 <h3>Leave Summary</h3>
                 <SummaryCharts allForms={forms}/>
+
+                <div className='facultySelect'>
+                    <h2>Search by Faculty/Centers</h2>
+                    <select name="faculty" id="faculty" onChange={(e)=>setSelectedFaculty(e.target.value)}>
+                        <option value="">Select Faculty/Center</option>
+                        {
+                            faculties.map((faculty)=>{
+                                return(
+                                    <option key={faculty.id} value={faculty.facultyName}>{faculty.facultyName}</option>
+                                )
+                            })
+                        }
+                    </select>
+                </div>
+                <DeanCharts allForms={forms} faculty={selectedFaculty}/>
             </div>
         </>}
 

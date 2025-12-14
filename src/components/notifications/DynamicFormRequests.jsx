@@ -241,7 +241,7 @@ return (
                   handleForm(e);
                   setSelectedFaculty(e.target.value);
                   }}>
-                  <option value="">Faculty</option>
+                  <option value="">Faculty/Center</option>
                   {faculties?.map((faculty, index) => (
                     <option key={index} value={faculty.id}>
                       {faculty.facultyName}

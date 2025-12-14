@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 // Register the required chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const DeanCharts = ({allForms}) => {
+const DeanCharts = ({allForms, faculty}) => {
     const {user} = useAuth();
     const [departments, setDepartments] = useState([]);
     const [departmentLeaveCount, setDepartmentLeaveCount] = useState([]);
@@ -39,15 +39,18 @@ const DeanCharts = ({allForms}) => {
 
     // fetch the form types by departments
     useEffect(() => {
+      if(faculty == null){
+        return;
+      }
       const fetchFormTypes = async () => {
         try {
           const formTypes = await Axios.get(`/admin/dynamicForm/getAllByFacultyAndDepartment`, {
             params:{
-              "faculty": user.faculty,
+              "faculty": faculty,
                "department": selectedDepartment
               }
           });
-          const departments = await Axios.get(`/auth/user/department/get`);
+          const departments = user.jobScope == "FACULTY_SCOPE" ? await Axios.get(`/auth/user/department/get`): await Axios.get(`/auth/user/department/getByFaculty`, {params:{"faculty": faculty}});
           setDepartments(departments.data);
           setFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
           console.log(formTypes.data)
@@ -56,7 +59,8 @@ const DeanCharts = ({allForms}) => {
         }
       }
       fetchFormTypes();
-    }, [selectedDepartment, user])
+      handleFilters();
+    }, [selectedDepartment, faculty])
 
 
     const findDepartmentDetails = () => {
@@ -191,16 +195,36 @@ const DeanCharts = ({allForms}) => {
         responsive: true,
         plugins: {
           legend: {
-            position: 'bottom',
+            display: false,
           },
-        //   title: {
-        //     display: true,
-        //     text: 'Monthly Sales Data',
-        //   },
         },
         scales: {
+          x: {
+            ticks: {
+              autoSkip: false,
+              maxRotation: 45,
+              minRotation: 45,
+              font: {
+                size: 11,
+              },
+            },
+            grid: {
+              display: false,
+            },
+          },
           y: {
             beginAtZero: true,
+            ticks: {
+              font: {
+                size: 11,
+              },
+            },
+          },
+        },
+        layout: {
+          padding: {
+            bottom: 20,
+            left: 20,
           },
         },
       };
@@ -259,7 +283,7 @@ const DeanCharts = ({allForms}) => {
                     </select>
                     <button className='bttn ashbtn' onClick={handleFilters}>search</button>
                 </div>
-                <Bar data={dataOfDepartment} options={options} />
+                <Bar data={dataOfDepartment} options={options}/>
             </div>
             <div className='departmentFormsChart'>
                 <h4>Forms by Departments</h4>

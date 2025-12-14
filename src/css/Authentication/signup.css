@@ -1,8 +1,9 @@
-.signup{
+.signup {
     display: flex;
     justify-content: center;
 }
-.signup-container{
+
+.signup-container {
     padding: 20px;
     margin: 60px 0;
     width: 50%;
@@ -11,94 +12,118 @@
     background-color: white;
     box-shadow: 1px 1px 4px 5px #f5f5f5;
 }
-.signup-container:hover{
+
+.signup-container:hover {
     box-shadow: 1px 1px 7px 1px #c3c3c3;
 }
-.signup-container h2{
+
+.signup-container h2 {
     text-align: center;
     font-size: 1.7rem;
     font-weight: 600;
     margin-bottom: 5px;
 }
-.signup-container p{
+
+.signup-container p {
     color: #333;
     text-align: center;
     font-size: 0.75rem;
 }
-.sigup-greet{
+
+.sigup-greet {
     margin-bottom: 25px;
 }
-.signup-container .password-requirements{
+
+.signup-container .password-requirements {
     color: rgb(12, 0, 234);
     font-size: 0.8rem;
 }
-.half{
+
+.half {
     display: flex;
     margin-bottom: 15px;
     gap: 15px;
     justify-content: space-between;
 }
-.half div{
+
+.half div {
     width: 100%;
     margin: 0 auto;
 }
-.signup-container label, .signup-container input, .signup-container select{
+
+.signup-container label,
+.signup-container input,
+.signup-container select {
     display: block;
     width: 100%;
 }
-.signup-container input, .signup-container select{
+
+.signup-container input,
+.signup-container select {
     border-radius: 8px;
     padding: 7px 15px;
     border: 1px solid #c3c3c3;
     outline-color: rgb(90, 124, 249);
 }
-.signup-submit-btn{
+
+.signup-submit-btn {
     margin: 30px auto 0 auto;
     width: 30%;
 }
-.signup-submit-btn input{
+
+.signup-submit-btn input {
     border-radius: 5px;
     font-size: 1rem;
     border: unset;
 }
-#error{
+
+#error {
     border: 2px solid red;
     outline-color: red;
 }
-.signup input[type="file"]{
+
+.signup input[type="file"] {
     display: none;
 }
-.signup label{
+
+.signup label {
     cursor: pointer;
     width: 100%;
 }
-.signup-profile-div{
+
+.signup-profile-div {
     border: 1px solid #c3c3c3;
     padding: 5px 5px 10px;
     border-radius: 7px;
     margin-bottom: 10px;
 }
-.signup-profile-div img{
+
+.signup-profile-div img {
     display: block;
     margin: auto;
     width: 40px;
 }
-.profile-img-verify{
+
+.profile-img-verify {
     color: rgb(2, 190, 2);
     font-size: 0.9rem;
     width: 100%;
     text-align: center;
     display: none;
 }
-.show-img{
+
+.show-img {
     display: block;
     width: 100%;
 }
-.show{
+
+.show {
     position: relative;
 }
 
-.password img, .confirmpassword img, .appPassword img{
+.password img,
+.confirmpassword img,
+.appPassword img {
     position: absolute;
     width: 20px;
     right: 15px;
@@ -106,13 +131,14 @@
     cursor: pointer;
     opacity: 0.7;
 }
-.error{
+
+.error {
     color: rgb(255, 0, 0);
     font-size: 0.75rem;
-    padding-left: 10px ;
+    padding-left: 10px;
 }
 
-.imageUploadSuccess{
+.imageUploadSuccess {
     color: green;
     width: 100%;
     text-align: center;
@@ -120,12 +146,34 @@
     margin-top: 5px;
 }
 
+.signup .imagePreviewContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 100%;
+}
+
+.signup .imagePreview {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #4b4b4b;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
 
 @media only screen and (max-width: 800px) {
-    .signup-container{
+    .signup-container {
         width: 85%;
     }
-    .half{
+
+    .half {
         margin-bottom: 15px;
         flex-direction: column;
     }

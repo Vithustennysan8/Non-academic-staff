@@ -107,7 +107,7 @@ const ManageFaculties = () => {
     transition={{ duration: 0.6 }}
   >
         <div className="manageFaculties">
-          <h1>Manage faculties</h1>
+          <h1>Manage faculties/centers</h1>
 
           <div className="addOrEditDiv">
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -116,9 +116,9 @@ const ManageFaculties = () => {
                   <input type="text" placeholder="faculty" name="faculty" {...register("faculty")}/>
                 </div> */}
                 <div>
-                  <input type="text" placeholder="faculty" name="name" {...register("name", {required:{
+                  <input type="text" placeholder="faculty/center" name="name" {...register("name", {required:{
                     value: true,
-                    message: "faculty name is required",
+                    message: "faculty/center name is required",
                   }})}/>
                   {errors.name && <span className="error">{errors.name.message}</span>}
                 </div>
@@ -135,7 +135,7 @@ const ManageFaculties = () => {
 
             {/* faculty search */}
             <div className="facultySearchDiv">
-              <input type="text" placeholder="Search faculty..." value={searchTerm} onChange={(e)=>{
+              <input type="text" placeholder="Search faculty/center..." value={searchTerm} onChange={(e)=>{
                 setSearchTerm(e.target.value);
                 const searchTerm = e.target.value.toLowerCase();
                 const filteredFaculties = faculties.filter(faculty => 
@@ -158,7 +158,7 @@ const ManageFaculties = () => {
         <table >
           <thead>
             <tr >
-              <th>Faculty</th>
+              <th>Faculty/Center</th>
               <th>Alias</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -168,7 +168,7 @@ const ManageFaculties = () => {
             {isLoading ? (
               <tr>
                 <td colSpan="4" style={{textAlign: 'center', padding: '20px'}}>
-                  Loading faculties...
+                  Loading faculties/centers...
                 </td>
               </tr>
             ) : (
@@ -188,7 +188,7 @@ const ManageFaculties = () => {
                   }) : (
                     <tr>
                       <td colSpan="4" style={{textAlign: 'center', padding: '20px'}}>
-                        No faculties found
+                        No faculties/centers found
                       </td>
                     </tr>
                   )

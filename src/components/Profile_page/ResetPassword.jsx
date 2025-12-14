@@ -220,7 +220,7 @@ const ResetPassword = () => {
             </form>
           </div>
 
-          { user.role === "ADMIN" && <div className="deleteAccountContainer">
+          {/* { user.role === "ADMIN" && <div className="deleteAccountContainer">
             <hr />
             <form>
               <h2>Delete Account</h2>
@@ -258,7 +258,7 @@ const ResetPassword = () => {
               </button>
             </form>
           </div>
-          }
+          } */}
         </div>
       )}
     </motion.div>

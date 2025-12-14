@@ -496,7 +496,7 @@ const Dashboard = () => {
 
                 <div className="profile-state">
                   <label htmlFor="faculty">
-                    Faculty
+                    Faculty/Center
                     <p>{user.faculty}</p>
                   </label>
                   <label htmlFor="department">

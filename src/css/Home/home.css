@@ -9,6 +9,8 @@ body{
     position: relative;
     margin: 0 auto;
     margin-bottom: 60px;
+    width: 100%;
+    height: calc(100vh - 60px);
 }
 .home{
     width: 100%;
@@ -17,8 +19,9 @@ body{
 }
 
 .home-img-slider img{
+    margin-top: -10px;
     width: 100%;
-    height: 500px;
+    height: 100%;
     object-fit: cover;
 }
 .home-img-slider h1{
@@ -144,7 +147,7 @@ body{
     width: 100%;
     border: 1px solid #b5b5b5;
     margin: auto;
-    height: 400px;
+    height: 500px;
     margin-bottom: 40px;
     border-radius: 12px;
     overflow: hidden;
@@ -182,11 +185,16 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    padding: 20px;
+    padding: 40px 20px ;
     border-radius: 0 12px 12px 0;
 }
 .home-main h1{
     margin-bottom: 15px;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+.home-main p {
+    font-size: 0.95rem;
 }
 
 .home-main-img{
@@ -321,8 +329,8 @@ body{
     .home-main-img{
         width: 100%;
     }
-    .home-img-slider img{
-        height: 400px;
+    .home-img-slider{
+        height: 550px;
     }
     .home-img-slider h1{
         font-size: 5.5rem;
@@ -340,7 +348,7 @@ body{
 }
 @media only screen and (max-width: 700px) {
     .home-img-slider{
-        width: 100%;
+        height: 450px;        
     }
     .form-shortcuts{
         font-size: 1.4rem;
@@ -363,8 +371,8 @@ body{
 
 }
 @media only screen and (max-width: 600px) {
-    .home-img-slider img{
-        height: 300px;
+    .home-img-slider{
+        height: 400px;
     }
     .home-img-slider h1{
         font-size: 3rem;
@@ -388,6 +396,15 @@ body{
     .form-shortcut p a{
         font-size: 0.9rem;
     }
+    .home-main h1{
+        font-size: 1.5rem;
+    }
+    .home-main{
+        padding: 20px;
+    }
+    .home-main p{
+        font-size: 0.9rem;
+    }
     .form-shortcut-container{
         font-size: 1.3rem;
         flex-direction: column;
@@ -399,8 +416,11 @@ body{
     }
 }
 @media only screen and (max-width: 450px) {
-    .home-img-slider img{
-        height: 250px;
+    .home-main p{
+        font-size: 0.8rem;
+    }
+    .home-img-slider {
+        height: 300px;
     }
 
 }
@@ -413,5 +433,4 @@ body{
         font-size: 1rem;
     }
 }
-
 

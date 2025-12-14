@@ -144,7 +144,7 @@ const ManageDepartments = () => {
                     value: true,
                     message: "Faculty is required",
                   }})}>
-                    <option value="">Select Faculty</option>
+                    <option value="">Select Faculty/Center</option>
                     {faculties?.map((faculty, index) => (
                     <option key={index} value={faculty.facultyName}>
                       {faculty.facultyName}
@@ -200,7 +200,7 @@ const ManageDepartments = () => {
         <table >
           <thead>
             <tr >
-              <th>Faculty</th>
+              <th>Faculty/Center</th>
               <th>Department</th>
               <th>Alias</th>
               <th>Edit</th>
