@@ -33,7 +33,7 @@ const RegisterRequests = ({requests, setRequests}) => {
 
   const handleDelete = async (id) => {
     try{
-      const response = (user.role === "SUPER_ADMIN") ? await Axios.delete(`superadmin/delete/${id}`) : await Axios.delete(`admin/deleteUser/${id}`);
+      const response = (user.role === "SUPER_ADMIN") ? await Axios.delete(`super_admin/delete/${id}`) : await Axios.delete(`admin/deleteUser/${id}`);
       setRequests(response.data);
       toast.success("Deleted successfully");
       window.location.reload();

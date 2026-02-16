@@ -41,7 +41,7 @@ const Staffs = () => {
   const handleDelete = () => {
     if (!window.confirm('Are you sure you want to delete this staff member?')) {return;}
     try {
-      Axios.delete(`/superadmin/deleteUser/${selectedUser.id}`)
+      Axios.delete(`/super_admin/deleteUser/${selectedUser.id}`)
       setStaffs(staffs.filter(staff => staff.id !== selectedUser.id));
       setSelectedUser(null);
       toast.success("Staff member deleted successfully");

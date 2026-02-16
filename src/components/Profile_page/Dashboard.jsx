@@ -93,7 +93,7 @@ const Dashboard = () => {
       const fetchRegisterRequests = async () => {
         try {
           const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
-                                      await Axios.get("superadmin/verifyAdminRegisterRequests");
+                                      await Axios.get("super_admin/verifyAdminRegisterRequests");
           setRegister(response.data);
         } catch (error) {
           console.log("Error fetching register requests", error);

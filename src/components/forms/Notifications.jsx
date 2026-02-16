@@ -74,7 +74,7 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
       const fetchRegisterRequests = async () => {
         try {
           const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
-                                      await Axios.get("superadmin/verifyAdminRegisterRequests");
+                                      await Axios.get("super_admin/verifyAdminRegisterRequests");
           setRegisterRequests(response.data);
         } catch (error) {
           console.log("Error fetching register requests", error);
