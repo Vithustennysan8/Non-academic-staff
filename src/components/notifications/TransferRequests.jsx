@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import "../../css/Notifications/notifications-content.css"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAuth } from "../../Contexts/AuthContext";
 import FormReqTap from "./FormReqTap";
 import FormPreview from "../forms/FormPreview";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExchangeAlt, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { FormsContext } from "../../Contexts/FormsContext";
 
-const TransferRequests = ({allTransferFormRequests}) => {
+const TransferRequests = () => {
+  const { transferFormRequests } = useContext(FormsContext);
   const navigate = useNavigate();
   const { isLogin, user } = useAuth();
   const [filteredForms, setFilteredForms] = useState([]);
@@ -26,8 +28,8 @@ const TransferRequests = ({allTransferFormRequests}) => {
       window.scrollTo({top:0, behavior:"smooth"});
       navigate("/login");
     }
-    setFilteredForms(allTransferFormRequests.filter((form)=> form.status === "Pending"))
-  }, [navigate, isLogin, allTransferFormRequests]);
+    setFilteredForms(transferFormRequests.filter((form)=> form.status === "Pending"))
+  }, [navigate, isLogin, transferFormRequests]);
 
 
   const faculties = [
@@ -94,7 +96,7 @@ const TransferRequests = ({allTransferFormRequests}) => {
       ?.department.split(", ") || [];
 
   const handleSingleForm = (id, formType) => {
-    setRequestForm(allTransferFormRequests.find((form) => 
+    setRequestForm(transferFormRequests.find((form) => 
       form.id === id && form.formType === formType)
     );
     setShowForm(true);
@@ -115,7 +117,7 @@ const TransferRequests = ({allTransferFormRequests}) => {
       "July", "August", "September", "October", "November", "December"
     ];
     setShowForm(null); // Reset the form preview when changing the filter
-    let filterForms = allTransferFormRequests;
+    let filterForms = transferFormRequests;
 
      // Apply filters dynamically
     if (filters.year && filters.year.length === 4) {

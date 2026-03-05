@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Contexts/AuthContext";
 import { toast } from "react-toastify";
 
-const DynamicFormVIewer = ({dynamicFormDetails}) => {
+const DynamicFormVIewer = ({dynamicFormDetails, formType}) => {
     const {isLogin} = useAuth();
     const navigate = useNavigate();
     const {handleSubmit, register, formState: {errors}} = useForm();
@@ -38,14 +38,14 @@ const DynamicFormVIewer = ({dynamicFormDetails}) => {
     useEffect(()=>{
         const fetchFlows = async () => {
             try {
-                const response = await Axios.get(`/user/approvalFlow/get/${dynamicFormDetails.formType}`);
+                const response = await Axios.get(`/user/approvalFlow/get/${formType}`);
                 setApprovalFlows(response.data);
             } catch (error) {
                 console.log(error);
             }
         }
         fetchFlows();
-    },[dynamicFormDetails.formType]);
+    },[formType]);
 
       const handleFields = (field) => {
             switch (field.type) {

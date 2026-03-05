@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../css/Notifications/notifications-content.css"
 import { useAuth } from "../../Contexts/AuthContext";
 import FormPreview from "../forms/FormPreview";
@@ -6,8 +6,10 @@ import FormReqTap from "./FormReqTap";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExchangeAlt, faFilter, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FormsContext } from "../../Contexts/FormsContext";
 
-const AppliedTransferForms = ({appliedTransferForms}) => {
+const AppliedTransferForms = () => {
+  const { appliedTransferForms } = useContext(FormsContext);
   const { user } = useAuth();
   const [form, setForm] = useState(null);
   const [filter, setFilter] = useState("Pending");

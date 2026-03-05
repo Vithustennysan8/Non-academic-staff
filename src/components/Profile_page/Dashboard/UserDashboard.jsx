@@ -253,7 +253,7 @@ const UserDashboard = ( {id} ) => {
 
           <div className="searchDiv">
             <div className="searchArea">
-              <input type="number" placeholder="Year" value={selectedYear} onChange={(e)=>setSelectedYear(e.target.value)} />
+              <input type="number" placeholder="Year" min={2000} value={selectedYear} onChange={(e)=>setSelectedYear(e.target.value)} />
               <select name="month" value={selectedMonth} onChange={(e)=>setSelectedMonth(e.target.value)}>
                 <option value="">Select</option>
                 <option value="January">January</option>

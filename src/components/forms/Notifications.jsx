@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../css/Forms/notifications.css";
 import LeaveRequests from "../notifications/LeaveRequests";
 import TransferRequests from "../notifications/TransferRequests";
 import RegisterRequests from "../notifications/RegisterRequests";
-import { Axios } from "../AxiosReqestBuilder";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Contexts/AuthContext";
 import AppliedLeaveForms from "../notifications/AppliedLeaveForms";
@@ -19,19 +18,17 @@ import {
   faFileAlt, 
   faFileSignature 
 } from "@fortawesome/free-solid-svg-icons";
+import { FormsContext } from "../../Contexts/FormsContext.jsx";
 
 
-const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, register, dynamicsForms, dynamicFormRequests, setDynamicsRequests}) => {
+const Notifications = () => {
   const { user, isLogin } = useAuth();
   const navigate = useNavigate();
   const [request, setRequest] = useState("");
-  const [leaveRequests, setLeaveRequests] = useState([]);
-  const [transferRequests, setTransferRequests] = useState([]);
-  const [registerRequests, setRegisterRequests] = useState([]);
-  // const [dynamicsFormsRequests, setDynamicsFormsRequests] = useState([]);
-  const [appliedLeaveForms, setAppliedLeaveForms] = useState([]);
-  const [appliedTransferForms, setAppliedTransferForms] = useState([]);
-  // const [appliedDynamicsForms, setAppliedDynamicsForms] = useState([]);
+
+  const { appliedDynamicForms, dynamicFormRequests, appliedNormalLeaveForms, 
+          normalLeaveFormRequests, registerRequests, appliedTransferForms, 
+          transferFormRequests } = useContext(FormsContext);
 
 
   useEffect(() => {
@@ -43,79 +40,6 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
         setRequest("AppliedLeaveForms");
       }
 
-      const fetchLeaveRequests = async () => {
-        try {
-          const response = await Axios.get("admin/leaveForms/notify");
-          setLeaveRequests(response.data);
-        } catch (error) {
-          console.log("Error fetching leave requests", error);
-        }
-      };
-
-      // const fetchDynamicForms = async () => {
-      //     try {
-      //         const response = await Axios.get("auth/user/DynamicFormUser/getAll");
-      //         setAppliedDynamicsForms(response.data);
-      //     } catch (error) {
-      //         console.log(error);
-      //     }
-      // }
-
-      // const fetchDynamicFormsRequests = async () => {
-      //     try {
-      //         const response = await Axios.get("admin/DynamicFormUser/getAll");
-      //         console.log(response.data);
-      //         setDynamicsFormsRequests(response.data);
-      //     } catch (error) {
-      //         console.log(error);
-      //     }
-      // }
-      
-      const fetchRegisterRequests = async () => {
-        try {
-          const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
-                                      await Axios.get("super_admin/verifyAdminRegisterRequests");
-          setRegisterRequests(response.data);
-        } catch (error) {
-          console.log("Error fetching register requests", error);
-        }
-      };
-
-      const fetchTransferRequests = async () => {
-        try{
-          const response = await Axios.get("admin/transferForms/notification");
-          setTransferRequests(response.data);
-        }catch(error){
-          console.log("Error fetching transfer requests", error);
-        }}
-        
-        const fetchTransferFormsApplied = async () => {
-          try {
-            const response = await Axios.get("/user/transferForms");
-            setAppliedTransferForms(response.data);
-          } catch (error) {
-            console.log("Error fetching appliedTransferForms requests", error);
-          }
-        };
-
-      const fetchLeaveFormsApplied = async () => {
-        try {
-          const response = await Axios.get("/user/normalLeaveForm/get");
-          setAppliedLeaveForms(response.data);
-        } catch (error) {
-          console.log("Error fetching appliedLeaveForms requests", error);
-        }
-      };
-      
-      if (user.role === "ADMIN" || user.role === "SUPER_ADMIN") {
-        fetchLeaveRequests();
-        fetchRegisterRequests();
-        fetchTransferRequests();
-        // fetchDynamicFormsRequests();
-      }
-      fetchLeaveFormsApplied();
-      fetchTransferFormsApplied();
-      // fetchDynamicForms();
     }, 0);
   }, [navigate, user, isLogin]);
   
@@ -132,9 +56,9 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                 >
                   <FontAwesomeIcon icon={faUserPlus} className="tab-icon" />
                   Register Requests
-                  {register.length > 0 && (
+                  {registerRequests.length > 0 && (
                     <span className="requestCount">
-                      {register.length}
+                      {registerRequests.length}
                     </span>
                   )}
                   </button>
@@ -145,8 +69,8 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                   >
                   <FontAwesomeIcon icon={faClipboardList} className="tab-icon" />
                   Normal Leave Requests
-                  {leave.length > 0 && (
-                    <span className="requestCount">{leave.length}</span>
+                  {normalLeaveFormRequests.length > 0 && (
+                    <span className="requestCount">{normalLeaveFormRequests.length}</span>
                   )}
                 </button>
 
@@ -169,9 +93,9 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
                 >
                   <FontAwesomeIcon icon={faExchangeAlt} className="tab-icon" />
                   Transfer Requests
-                  {transfer.length > 0 && (
+                  {transferFormRequests.length > 0 && (
                     <span className="requestCount">
-                      {transfer.length}
+                      {transferFormRequests.length}
                     </span>
                   )}
                 </button>
@@ -186,8 +110,8 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
               >
                 <FontAwesomeIcon icon={faFileSignature} className="tab-icon" />
                 Applied Normal Leave Forms
-                {appliedLeave.length > 0 && (
-                  <span className="requestCount">{appliedLeave.length}</span>
+                {appliedNormalLeaveForms.length > 0 && (
+                  <span className="requestCount">{appliedNormalLeaveForms.length}</span>
                 )}
               </button>
 
@@ -197,8 +121,8 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
               >
                 <FontAwesomeIcon icon={faFileAlt} className="tab-icon" />
                 Applied Dynamic Leave Forms
-                {dynamicsForms.filter(form => form.formStatus == "Pending").length > 0 && (
-                  <span className="requestCount">{dynamicsForms.filter(form => form.formStatus == "Pending").length}</span>
+                {appliedDynamicForms.filter(form => form.formStatus == "Pending").length > 0 && (
+                  <span className="requestCount">{appliedDynamicForms.filter(form => form.formStatus == "Pending").length}</span>
                 )}
               </button>
 
@@ -208,9 +132,9 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
               >
                 <FontAwesomeIcon icon={faExchangeAlt} className="tab-icon" />
                 Applied Transfer Forms
-                {appliedTransfer.length > 0 && (
+                {appliedTransferForms.length > 0 && (
                   <span className="requestCount">
-                    {appliedTransfer.length}
+                    {appliedTransferForms.length}
                   </span>
                 )}
               </button>
@@ -220,22 +144,16 @@ const Notifications = ({leave , transfer, appliedLeave, appliedTransfer, registe
 
           <div className="requests">
             {(request === "" || request === "LeaveRequests") && (
-              <LeaveRequests
-                allLeaveFormRequests={leaveRequests}
-                setAllLeaveFormRequests={setLeaveRequests}
-              />
+              <LeaveRequests/>
             )}
             {request === "RegisterRequests" && (
-              <RegisterRequests
-                requests={registerRequests}
-                setRequests={setRegisterRequests}
-              />
+              <RegisterRequests/>
             )}
-            {request === "TransferRequests" && <TransferRequests allTransferFormRequests={transferRequests} setAllTransferFormRequests={setTransferRequests}/>}
-            {request === "AppliedLeaveForms" && (<AppliedLeaveForms appliedLeaveForms={appliedLeaveForms}/>)}
-            {request === "AppliedTransferForms" && <AppliedTransferForms appliedTransferForms={appliedTransferForms}/>}
-            {request === "AppliedDynamicsForms" && <AppliedDynamicForms dynamicForms={dynamicsForms}/>}
-            {request === "DynamicFormsRequests" && <DynamicFormRequests dynamicFormRequests={dynamicFormRequests} setDynamicFormRequests={setDynamicsRequests}/>}
+            {request === "TransferRequests" && <TransferRequests/>}
+            {request === "AppliedLeaveForms" && (<AppliedLeaveForms/>)}
+            {request === "AppliedTransferForms" && <AppliedTransferForms/>}
+            {request === "AppliedDynamicsForms" && <AppliedDynamicForms/>}
+            {request === "DynamicFormsRequests" && <DynamicFormRequests/>}
 
           </div>
         </div>

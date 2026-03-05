@@ -32,7 +32,9 @@ const LeaveForms = () => {
 
     const handleChange = (e) => {
         setForm(e.target.value);
-        fetchForm(e.target.value);
+        if(e.target.value !== "NormalLeave"){
+          fetchForm(e.target.value);
+        }
     }
 
   return (
@@ -51,8 +53,8 @@ const LeaveForms = () => {
         </select>
       </div>
 
-      { dynamicFormDetails.formType && <DynamicFormVIewer dynamicFormDetails={dynamicFormDetails}/>}
-      {form === "NormalLeave" && <NormalLeaveForm/>}
+      {form === "NormalLeave" ? <NormalLeaveForm/> :
+        <DynamicFormVIewer dynamicFormDetails={dynamicFormDetails} formType={form}/>}
     </>
   )
 }

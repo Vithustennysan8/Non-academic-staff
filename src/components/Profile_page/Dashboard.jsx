@@ -1,5 +1,5 @@
 import "../../css/Profile_page/profile.css"
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
@@ -14,22 +14,21 @@ import editIcon from "../../assets/images/dashboard/edit.png";
 import passwordIcon from "../../assets/images/dashboard/password.png";
 import documentIcon from "../../assets/images/dashboard/document.png";
 import summaryIcon from "../../assets/images/dashboard/summary.png";
+import { FormsContext } from "../../Contexts/FormsContext";
 
 const Dashboard = () => {
   const { isLogin, user, setUser, logout } = useAuth();
   const [dashboardContent, setDashboardContent] = useState("Profile");
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const { appliedDynamicForms, setAppliedDynamicForms, 
+          dynamicFormRequests, setDynamicFormRequests, appliedNormalLeaveForms, 
+          setAppliedNormalLeaveForms, normalLeaveFormRequests, setNormalLeaveFormRequests, 
+          registerRequests, setRegisterRequests, appliedTransferForms, setAppliedTransferForms, 
+          transferFormRequests, setTransferFormRequests } = useContext(FormsContext);
 
   const [src, setSrc] = useState(defaultAvatar);
   const [readOnly, setReadOnly] = useState(true);
-  const [leave, setLeave] = useState([]);
-  const [transfer, setTranfer] = useState([]);
-  const [register, setRegister] = useState([]);
-  const [appliedDynamics, setAppliedDynamics] = useState([]);
-  const [dynamicsRequests, setDynamicsRequests] = useState([]);
-  const [appliedLeave, setAppliedLeave] = useState([]);
-  const [appliedTransfer, setAppliedTransfer] = useState([]);
   const [image, setImage] = useState("");
   const [editProfile, setEditProfile] = useState(false);
   const [outline] = useState("2px solid #ccc");
@@ -64,7 +63,7 @@ const Dashboard = () => {
       const fetchLeaveRequestCount = async () => {
         try {
           const response = await Axios.get("admin/leaveForms/notification");
-          setLeave(response.data);
+          setNormalLeaveFormRequests(response.data);
         } catch (error) {
           console.log("Error fetching leave requests", error);
         }
@@ -73,7 +72,7 @@ const Dashboard = () => {
       const fetchAppliedDynamicForms = async () => {
         try {
             const response = await Axios.get("user/DynamicFormUser/getAll");
-            setAppliedDynamics(response.data);
+            setAppliedDynamicForms(response.data);
         } catch (error) {
             console.log("Error fetching applied dynamic forms", error);
         }
@@ -82,9 +81,7 @@ const Dashboard = () => {
     const fetchDynamicFormsRequests = async () => {
       try {
           const response = await Axios.get("admin/DynamicFormUser/getAll");
-          setDynamicsRequests(response.data);
-          console.log("cascas", response.data);
-          
+          setDynamicFormRequests(response.data);
       } catch (error) {
           console.log("Error fetching dynamic form requests", error);
       }
@@ -94,7 +91,7 @@ const Dashboard = () => {
         try {
           const response = user.role === "ADMIN" ? await Axios.get("admin/verifyRegisterRequests") : 
                                       await Axios.get("super_admin/verifyAdminRegisterRequests");
-          setRegister(response.data);
+          setRegisterRequests(response.data);
         } catch (error) {
           console.log("Error fetching register requests", error);
         }
@@ -104,7 +101,7 @@ const Dashboard = () => {
         try{
           const response = await Axios.get("admin/transferForms/notification");
           if(response.data.length > 0){
-            setTranfer(response.data);
+            setTransferFormRequests(response.data);
           }
         } catch (error) {
           console.log("Error fetching transfer requests", error);
@@ -113,7 +110,7 @@ const Dashboard = () => {
       const fetchTransferFormsApplied = async () => {
         try {
           const response = await Axios.get("user/transferForms");
-          setAppliedTransfer(response.data);
+          setAppliedTransferForms(response.data);
         } catch (error) {
           console.log("Error fetching appliedTransferForms requests", error);
         }
@@ -122,7 +119,7 @@ const Dashboard = () => {
       const fetchLeaveFormsApplied = async () => {
         try {
           const response = await Axios.get("user/normalLeaveForm/getPending");
-          setAppliedLeave(response.data);
+          setAppliedNormalLeaveForms(response.data);
         } catch (error) {
           console.log("Error fetching appliedLeaveForms requests", error);
         }
@@ -151,6 +148,13 @@ const Dashboard = () => {
   // logout implimentation
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
+      setAppliedDynamicForms([]);
+      setDynamicFormRequests([]);
+      setAppliedNormalLeaveForms([]);
+      setNormalLeaveFormRequests([]);
+      setRegisterRequests([]);
+      setAppliedTransferForms([]);
+      setTransferFormRequests([]);
       logout();
     }
   };
@@ -279,21 +283,23 @@ const Dashboard = () => {
                       alt="icon2"
                     />
                     {user.role !== "USER" && "Manage"} Requests
-                    {leave.length + register.length + transfer.length + appliedLeave.length +
-                     appliedTransfer.length+ dynamicsRequests.filter(request => request.approverDetails.filter(approver =>
+                    {normalLeaveFormRequests.length + registerRequests.length + transferFormRequests.length + appliedNormalLeaveForms.length +
+                     appliedTransferForms.length+ dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
                       approver.approver === user.job_type)[0]?.approverStatus == "Pending").length +
-                       appliedDynamics.filter(form => form.formStatus == "Pending").length > 0 && (
+                       appliedDynamicForms.filter(form => form.formStatus == "Pending").length > 0 && (
                       <li className="notificationCount">
-                        {leave.length +
-                          register.length +
-                          appliedLeave.length +
-                          appliedTransfer.length +
-                          transfer.length+
-                          appliedDynamics.filter(form => form.formStatus == "Pending").length +
-                          dynamicsRequests.filter(request => request.approverDetails.filter(approver =>
-                            approver.approver == user.job_type)[0].approverStatus == "Pending").length}
+                        {normalLeaveFormRequests.length +
+                          registerRequests.length +
+                          appliedNormalLeaveForms.length +
+                          appliedTransferForms.length +
+                          transferFormRequests.length+
+                          appliedDynamicForms.filter(form => form.formStatus == "Pending").length +
+                          dynamicFormRequests.filter(request => request.approverDetails?.filter(approver =>
+                            approver.approver == user.job_type)[0]?.approverStatus == "Pending").length
+                            }
                       </li>
                     )}
+          
                   </span>
                 </Link>
               </p>
@@ -547,9 +553,7 @@ const Dashboard = () => {
 
           {dashboardContent === "securitySetting" && <ResetPassword/>}
           
-          {dashboardContent === "Notification" && <Notifications leave={leave} transfer={transfer} 
-          register={register} appliedLeave={appliedLeave} appliedTransfer={appliedTransfer} dynamicsForms={appliedDynamics} dynamicFormRequests={dynamicsRequests}
-          setDynamicsRequests={setDynamicsRequests} />}
+          {dashboardContent === "Notification" && <Notifications/>}
 
           {dashboardContent === "Summary" && ( (user.role === "USER" || user.role === "MANAGER") ? <UserDashboard id={user.id}/> : <AdminDashboard/>)}
         </>

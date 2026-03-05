@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../css/Notifications/notifications-content.css";
 import FormPreview from "../forms/FormPreview";
 import { useAuth } from "../../Contexts/AuthContext";
@@ -6,8 +6,10 @@ import FormReqTap from "./FormReqTap";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileSignature, faFilter, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FormsContext } from "../../Contexts/FormsContext";
 
-const AppliedLeaveForms = ({ appliedLeaveForms }) => {
+const AppliedLeaveForms = () => {
+  const { appliedNormalLeaveForms } = useContext(FormsContext);
   const { user } = useAuth();
   const [form, setForm] = useState(null);
   const [filter, setFilter] = useState("Pending");
@@ -19,13 +21,13 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(()=>{
-    setFilterForms(appliedLeaveForms.filter((form)=> form.status === "Pending"));
+    setFilterForms(appliedNormalLeaveForms.filter((form)=> form.status === "Pending"));
     setCurrentPage(1); // Reset to first page when data changes
-  },[appliedLeaveForms])
+  },[appliedNormalLeaveForms])
 
   // Handle form selection for preview
   const handleSingleForm = (id, formType) => {
-    const selectedForm = appliedLeaveForms.find(
+    const selectedForm = appliedNormalLeaveForms.find(
       (form) => form.id === id && form.formType === formType
     );
     setForm(selectedForm);
@@ -44,7 +46,7 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
       "July", "August", "September", "October", "November", "December"
     ];
     setForm(null); // Reset the form preview when changing the filter
-    let filteredForms = appliedLeaveForms;
+    let filteredForms = appliedNormalLeaveForms;
 
     if(filterYear !== '' && filterYear?.length !== 4){
       toast.warning("Please select a valid year");
@@ -80,7 +82,7 @@ const AppliedLeaveForms = ({ appliedLeaveForms }) => {
         </div>
       </div>
 
-      {appliedLeaveForms.length === 0 ? (
+      {appliedNormalLeaveForms.length === 0 ? (
         <div className="empty-state">
           <FontAwesomeIcon icon={faFileSignature} size="3x" style={{marginBottom: '20px', opacity: 0.5}}/>
           <p>Forms not found...</p>

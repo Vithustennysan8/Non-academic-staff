@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../../css/Notifications/dynamicFormRequests.css"
 import "../../css/Notifications/notifications-content.css"
 import FormReqTap from "./FormReqTap";
@@ -9,9 +9,11 @@ import LoadingAnimation from "../Common/LoadingAnimation";
 import acceptLogo from "../../assets/accept.png";
 import rejectLogo from "../../assets/cancel.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileAlt, faFilter, faChevronLeft, faChevronRight, faTimes, faTrash, faBackspace } from "@fortawesome/free-solid-svg-icons";
+import { faFileAlt, faFilter, faChevronLeft, faChevronRight, faTrash, faBackspace } from "@fortawesome/free-solid-svg-icons";
+import { FormsContext } from "../../Contexts/FormsContext";
 
-const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
+const DynamicFormRequests = () => {
+  const {dynamicFormRequests, setDynamicFormRequests} = useContext(FormsContext);
   const {user} = useAuth();
   const [showSingleForm, setShowSingleForm] = useState(false);
   const [selectedForm, setSelectedForm] = useState([]);
@@ -202,13 +204,25 @@ const DynamicFormRequests = ({dynamicFormRequests, setDynamicFormRequests}) => {
       }
     };
 
+    const fetchDynamicFormsRequests = async () => {
+      try {
+          const response = await Axios.get("admin/DynamicFormUser/getAll");
+          setDynamicFormRequests(response.data);
+          console.log("cascas", response.data);
+          
+      } catch (error) {
+          console.log("Error fetching dynamic form requests", error);
+      }
+    }
+
     const handleDelete = async (formId) => {
       if(!window.confirm("Do you want to delete this form?")) return;
       try {
           const response = await Axios.delete(`/admin/DynamicFormUser/${formId}`);
           console.log(response.data);
           toast.success("Form deleted successfully");
-          window.location.reload();
+          fetchDynamicFormsRequests();
+          setShowSingleForm(false);
       }catch(error){
           console.log("Error deleting form", error.message);
       }

@@ -7,8 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { Axios } from "../AxiosReqestBuilder";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileAlt, faFilter, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FormsContext } from "../../Contexts/FormsContext";
 
-const RequestedForms = ({ allLeaveFormRequests }) => {
+const RequestedForms = () => {
+  const { normalLeaveFormRequests} = useContext(FormsContext);
   const navigate = useNavigate();
   const { isLogin, user } = useAuth();
   const [filteredForms, setFilteredForms] = useState([]);  
@@ -57,29 +59,29 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
     }
     switch(user.job_type){
       case 'Head of the Department':
-        setFilteredForms(allLeaveFormRequests.filter((form)=> form.headStatus === "pending"))
+        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.headStatus === "pending"))
         break;
         case 'Dean':  
-        setFilteredForms(allLeaveFormRequests.filter((form)=> form.deanStatus === "pending"))
+        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.deanStatus === "pending"))
         break;
         case 'Chief Medical Officer':
-        setFilteredForms(allLeaveFormRequests.filter((form)=> form.cmoStatus === "pending"))
+        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.cmoStatus === "pending"))
         break;
         case 'Non Academic Establishment Division':
-        setFilteredForms(allLeaveFormRequests.filter((form)=> form.naeStatus === "pending"))
+        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.naeStatus === "pending"))
         break;
         case 'Registrar':
-        setFilteredForms(allLeaveFormRequests.filter((form)=> form.registrarStatus === "pending"))
+        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.registrarStatus === "pending"))
         break;
     }
     setCurrentPage(1); // Reset to first page when data changes
-  }, [navigate, isLogin, allLeaveFormRequests, user.job_type]);
+  }, [navigate, isLogin, normalLeaveFormRequests, user.job_type]);
 
 
 
 
   const handleSingleForm = (id, formType) => {
-    setRequestForm(allLeaveFormRequests.find((form) => 
+    setRequestForm(normalLeaveFormRequests.find((form) => 
       form.id === id && form.formType === formType)
     );
     setShowForm(true);
@@ -87,7 +89,6 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
 
   const handleForm = (e)=>{
     e.preventDefault();
-    console.log(e.target.name)
     if(e.target.name == "faculty"){
       const faculty = faculties.filter(faculty => faculty.id == e.target.value)[0];
       setFilters({...filters, [e.target.name]: faculty.facultyName });
@@ -98,7 +99,6 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
 
   const handleFilterChange = (e) => {
     e.preventDefault();
-    console.log(filters);
     setCurrentPage(1); // Reset to first page after filtering
     
     const monthNames = [
@@ -106,7 +106,7 @@ const RequestedForms = ({ allLeaveFormRequests }) => {
       "July", "August", "September", "October", "November", "December"
     ];
     setShowForm(null); // Reset the form preview when changing the filter
-    let filterForms = allLeaveFormRequests;
+    let filterForms = normalLeaveFormRequests;
 
      // Apply filters dynamically
     if (filters.year && filters.year.length === 4) {

@@ -30,6 +30,7 @@ import News from "./components/NewsPage/News";
 import NotFound from "./components/Common/NotFound";
 import ProtectedRoute from "./components/Common/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
+import { FormsContext } from "./Contexts/FormsContext";
 
 function LayoutWrapper() {
   const location = useLocation();
@@ -75,6 +76,13 @@ function LayoutWrapper() {
 
 const App  =() =>  {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [appliedDynamicForms, setAppliedDynamicForms] = useState([]);
+  const [dynamicFormRequests, setDynamicFormRequests] = useState([]);
+  const [appliedNormalLeaveForms, setAppliedNormalLeaveForms] = useState([]);
+  const [normalLeaveFormRequests, setNormalLeaveFormRequests] = useState([]);
+  const [registerRequests, setRegisterRequests] = useState([]);
+  const [appliedTransferForms, setAppliedTransferForms] = useState([]);
+  const [transferFormRequests, setTransferFormRequests] = useState([]);
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -93,7 +101,13 @@ const App  =() =>  {
     <NetworkStatusContext.Provider value={{ isOnline, setIsOnline }}>
       <Router>
         <AuthProvider>
+        <FormsContext.Provider value={{ appliedDynamicForms, setAppliedDynamicForms, 
+          dynamicFormRequests, setDynamicFormRequests, appliedNormalLeaveForms, 
+          setAppliedNormalLeaveForms, normalLeaveFormRequests, setNormalLeaveFormRequests, 
+          registerRequests, setRegisterRequests, appliedTransferForms, setAppliedTransferForms, 
+          transferFormRequests, setTransferFormRequests }}>
           <LayoutWrapper />
+        </FormsContext.Provider>
         </AuthProvider>
       </Router>
       <ToastContainer position="top-right" autoClose={2000} theme="light" closeOnClick/>

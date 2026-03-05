@@ -260,7 +260,7 @@ const Forum = () => {
                 );
               })
             ) : (
-              <div className="card">
+              <div className="no-forums">
                 <p className="card-head">No Forums found</p>
             </div>
             ))}

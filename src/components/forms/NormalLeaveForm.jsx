@@ -24,22 +24,7 @@ const NormalLeaveForm = () => {
 
   
   const onSubmit = async (data) => {
-    
-    // const formData = new FormData();
-    // if(data.files){
-    //   formData.append('files', data.files[0]);
-    // }
-    
-    // Object.keys(data).forEach((key)=>{
-    //   if( key === 'firstAppointmentDate' || key === 'leaveAppliedDate'){
-    //     formData.append(key, data[key].split('-').reverse().join('-'))
-    //   }
-    //   else if( key != "files"){
-    //     formData.append(key, data[key]);
-    //   }
-    // })
-    
-    // console.log(formData);
+        
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
@@ -57,10 +42,14 @@ const NormalLeaveForm = () => {
       return;
     }
 
+    if(data.leaveType === null || data.leaveType === undefined || data.leaveType === ""){
+      toast.error("Leave type is required");
+      return;
+    }
 
     try {
-      const response = await Axios.post("user/normalLeaveForm/add", data);
-      console.log(response.data);
+      console.log("Form data: ", data);
+      await Axios.post("user/normalLeaveForm/add", data);
       toast.success('Form submitted successfully!');
       window.scrollTo({top:0, behavior:"smooth"});
       naviagte("/forms");
@@ -74,8 +63,11 @@ const NormalLeaveForm = () => {
     const casual = parseInt(e.target.form.casualLeaveLastYear.value) || 0;
     const vacation = parseInt(e.target.form.vacationLeaveLastYear.value) || 0;
     const sick = parseInt(e.target.form.sickLeaveLastYear.value) || 0;
+    const duty = parseInt(e.target.form.dutyLastYear.value) || 0;
+    const halfPay = parseInt(e.target.form.halfPayLastYear.value) || 0;
+    const noPay = parseInt(e.target.form.noPayLastYear.value) || 0;
 
-    setLastYearLeaveCount(casual + vacation + sick);
+    setLastYearLeaveCount(casual + vacation + sick + duty + halfPay + noPay);
   }
 
   const handleThisYearLeaveCounts = (e) => {
@@ -83,8 +75,11 @@ const NormalLeaveForm = () => {
     const casual = parseInt(e.target.form.casualLeaveThisYear.value) || 0;
     const vacation = parseInt(e.target.form.vacationLeaveThisYear.value) || 0;
     const sick = parseInt(e.target.form.sickLeaveThisYear.value) || 0;
+    const duty = parseInt(e.target.form.dutyThisYear.value) || 0;
+    const halfPay = parseInt(e.target.form.halfPayThisYear.value) || 0;
+    const noPay = parseInt(e.target.form.noPayThisYear.value) || 0;
 
-    setThisYearLeaveCount(casual + vacation + sick);
+    setThisYearLeaveCount(casual + vacation + sick + duty + halfPay + noPay);
   }
   
   return (
@@ -152,57 +147,95 @@ const NormalLeaveForm = () => {
 
               <tr>
                 <td>Last Year</td>
-                <td><input type="number" name="casualLeaveLastYear" {...register("casualLeaveLastYear", {required:{
+                <td><input type="number" min={0} defaultValue={0} name="casualLeaveLastYear" {...register("casualLeaveLastYear", {required:{
                   value: true,
                   message: "CasualLeaveLastYear is required"
                 }})} onChange={(e)=>{handleLastYearLeaveCounts(e); setValue("casualLeaveLastYear", e.target.value)}}/>
                 {errors.casualLeaveLastYear && <span className="error">{errors.casualLeaveLastYear.message}</span>}
                 </td>
 
-                <td><input type="number" name="vacationLeaveLastYear" {...register("vacationLeaveLastYear", {required: {
+                <td><input type="number" min={0} defaultValue={0} name="vacationLeaveLastYear" {...register("vacationLeaveLastYear", {required: {
                   value: true,
                   message: "VacationLeaveLastYear is required"
                 }})} onChange={(e)=>{handleLastYearLeaveCounts(e); setValue("vacationLeaveLastYear", e.target.value)}}/>
                 {errors.vacationLeaveLastYear && <span className="error">{errors.vacationLeaveLastYear.message}</span>}
                 </td>
 
-                <td><input type="number" name="sickLeaveLastYear" {...register("sickLeaveLastYear", {required: {
+                <td><input type="number" min={0} defaultValue={0} name="sickLeaveLastYear" {...register("sickLeaveLastYear", {required: {
                   value: true,
                   message: "SickLeaveLastYear is required"
                 }})} onChange={(e)=>{handleLastYearLeaveCounts(e); setValue("sickLeaveLastYear", e.target.value)}}/>
                 {errors.sickLeaveLastYear && <span className="error">{errors.sickLeaveLastYear.message}</span>}
                 </td>
-                <td><input type="number" name="" id="" /></td>
-                <td><input type="number" name="" id="" /></td>
-                <td><input type="number" name="" id="" /></td>
+
+                <td><input type="number" min={0} defaultValue={0} name="dutyLastYear" {...register("dutyLastYear", {required:{
+                  value: true,
+                  message: "Duty lastyear is required"
+                }})} onChange={(e)=>{handleLastYearLeaveCounts(e); setValue("dutyLastYear", e.target.value)}}/>
+                {errors.dutyLastYear && <span className="error">{errors.dutyLastYear.message}</span>}
+                </td>
+                
+                <td><input type="number" min={0} defaultValue={0} name="halfPayLastYear" {...register("halfPayLastYear", {required: {
+                  value: true,
+                  message: "HalfPayLastYear is required"
+                }})} onChange={(e)=>{handleLastYearLeaveCounts(e); setValue("halfPayLastYear", e.target.value)}}/>
+                {errors.halfPayLastYear && <span className="error">{errors.halfPayLastYear.message}</span>}
+                </td>
+
+                <td><input type="number" min={0} defaultValue={0} name="noPayLastYear" {...register("noPayLastYear", {required: {
+                  value: true,
+                  message: "NoPayLastYear is required"
+                }})} onChange={(e)=>{handleLastYearLeaveCounts(e); setValue("noPayLastYear", e.target.value)}}/>
+                {errors.noPayLastYear && <span className="error">{errors.noPayLastYear.message}</span>}
+                </td>
+
                 <td><input type="number" value={lastYearLeaveCount} readOnly /></td>
               </tr>
 
               <tr>
                 <td>This Year</td>
-                <td><input type="number" name="casualLeaveThisYear" {...register("casualLeaveThisYear", {required:{
+                <td><input type="number" min={0} defaultValue={0} name="casualLeaveThisYear" {...register("casualLeaveThisYear", {required:{
                   value: true,
                   message: "casualLeaveThisYear is required"
                 }})} onChange={(e)=>{handleThisYearLeaveCounts(e); setValue("casualLeaveThisYear", e.target.value)}}/>
                 {errors.casualLeaveThisYear && <span className="error">{errors.casualLeaveThisYear.message}</span>}
                 </td>
 
-                <td><input type="number" name="vacationLeaveThisYear" {...register("vacationLeaveThisYear", {required: {
+                <td><input type="number" min={0} defaultValue={0} name="vacationLeaveThisYear" {...register("vacationLeaveThisYear", {required: {
                   value: true,
                   message: "vacationLeaveThisYear is required"
                 }})} onChange={(e)=>{handleThisYearLeaveCounts(e); setValue("vacationLeaveThisYear", e.target.value)}}/>
                 {errors.vacationLeaveThisYear && <span className="error">{errors.vacationLeaveThisYear.message}</span>}
                 </td>
 
-                <td><input type="number" name="sickLeaveThisYear" {...register("sickLeaveThisYear", {required: {
+                <td><input type="number" min={0} defaultValue={0} name="sickLeaveThisYear" {...register("sickLeaveThisYear", {required: {
                   value: true,
                   message: "sickLeaveThisYear is required"
                 }})} onChange={(e)=>{handleThisYearLeaveCounts(e); setValue("sickLeaveThisYear", e.target.value)}}/>
                 {errors.sickLeaveThisYear && <span className="error">{errors.sickLeaveThisYear.message}</span>}
                 </td>
-                <td><input type="number" name="" id="" /></td>
-                <td><input type="number" name="" id="" /></td>
-                <td><input type="number" name="" id="" /></td>
+
+                <td><input type="number" min={0} defaultValue={0} name="dutyThisYear" {...register("dutyThisYear", {required: {
+                  value: true,
+                  message: "dutyThisYear is required"
+                }})} onChange={(e)=>{handleThisYearLeaveCounts(e); setValue("dutyThisYear", e.target.value)}}/>
+                {errors.dutyThisYear && <span className="error">{errors.dutyThisYear.message}</span>}
+                </td>
+
+                <td><input type="number" min={0} defaultValue={0} name="halfPayThisYear" {...register("halfPayThisYear", {required: {
+                  value: true,
+                  message: "halfPayThisYear is required"
+                }})} onChange={(e)=>{handleThisYearLeaveCounts(e); setValue("halfPayThisYear", e.target.value)}}/>
+                {errors.halfPayThisYear && <span className="error">{errors.halfPayThisYear.message}</span>}
+                </td>
+
+                <td><input type="number" min={0} defaultValue={0} name="noPayThisYear" {...register("noPayThisYear", {required: {
+                  value: true,
+                  message: "noPayThisYear is required"
+                }})} onChange={(e)=>{handleThisYearLeaveCounts(e); setValue("noPayThisYear", e.target.value)}}/>
+                {errors.noPayThisYear && <span className="error">{errors.noPayThisYear.message}</span>}
+                </td>
+
                 <td><input type="number" value={thisYearLeaveCount} readOnly/></td>
               </tr>
 

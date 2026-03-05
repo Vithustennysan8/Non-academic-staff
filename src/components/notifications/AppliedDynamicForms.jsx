@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import "../../css/Notifications/appliedDynamicForms.css"
 import "../../css/Notifications/notifications-content.css"
 import FormReqTap from "./FormReqTap.jsx";
 import { Axios } from "../AxiosReqestBuilder.jsx";
 import { toast } from "react-toastify";
-import { useAuth } from "../../Contexts/AuthContext.jsx";
-import deleteLogo from "../../assets/delete.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileAlt, faFilter, faChevronLeft, faChevronRight, faBackspace, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FormsContext } from "../../Contexts/FormsContext.jsx";
 
-const AppliedDynamicForms = ({dynamicForms}) => {
+const AppliedDynamicForms = () => {
+  const { appliedDynamicForms, setAppliedDynamicForms } = useContext(FormsContext);
     const [showSingleForm, setShowSingleForm] = useState(false);
     const [selectedForm, setSelectedForm] = useState([]);
     const [filterMonth, setFilterMonth] = useState();
@@ -20,9 +20,9 @@ const AppliedDynamicForms = ({dynamicForms}) => {
     const [itemsPerPage, setItemsPerPage] = useState(5);
     
     useEffect(()=>{
-        setFilterForms(dynamicForms.filter((form)=> form.formStatus === "Pending"));
-        setCurrentPage(1); // Reset to first page when data changes
-    },[dynamicForms])
+        setFilterForms(appliedDynamicForms.filter((form)=> form.formStatus === "Pending"));
+        setCurrentPage(1);
+    },[appliedDynamicForms])
 
 
     const handleSingleForm = (form) => {
@@ -32,7 +32,7 @@ const AppliedDynamicForms = ({dynamicForms}) => {
 
     const handleItemsPerPageChange = (newItemsPerPage) => {
         setItemsPerPage(newItemsPerPage);
-        setCurrentPage(1); // Reset to first page when changing items per page
+        setCurrentPage(1); 
     }
 
     const handleFilterChange = () => {
@@ -40,8 +40,8 @@ const AppliedDynamicForms = ({dynamicForms}) => {
           "January", "February", "March", "April", "May", "June",
           "July", "August", "September", "October", "November", "December"
         ];
-        setShowSingleForm(false); // Reset the form preview when changing the filter
-        let filteredForms = dynamicForms;
+        setShowSingleForm(false);
+        let filteredForms = appliedDynamicForms;
     
         if(filterYear !== '' && filterYear?.length !== 4){
           toast.warning("Please select a valid year");
@@ -77,13 +77,22 @@ const AppliedDynamicForms = ({dynamicForms}) => {
       }
     };
 
+    const fetchAppliedDynamicForms = async () => {
+      try {
+          const response = await Axios.get("user/DynamicFormUser/getAll");
+          setAppliedDynamicForms(response.data);
+      } catch (error) {
+          console.log("Error fetching applied dynamic forms", error);
+      }
+    }
+
     const handleDelete = async (formId) => {
       if(!window.confirm("Do you want to delete this form?")) return;
       try {
-          const response = await Axios.delete(`/user/DynamicFormUser/${formId}`);
-          console.log(response.data);
+          await Axios.delete(`/user/DynamicFormUser/${formId}`);
           toast.success("Form deleted successfully");
-          window.location.reload();
+          fetchAppliedDynamicForms();
+          setShowSingleForm(false);
       }catch(error){
           console.log("Error deleting form", error.message);
       }

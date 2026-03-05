@@ -7,6 +7,12 @@
     background-color: #ffffff;
     margin : 18px 0 ;
 }
+.no-forums{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
 .card-head{
     font-size: 1.3rem;
     color: rgb(219, 0, 0);

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import "../../css/Notifications/registerRequests.css"
 import "../../css/Notifications/notifications-content.css"
 import { Axios } from "../AxiosReqestBuilder"
@@ -10,8 +10,10 @@ import LoadingAnimation from "../Common/LoadingAnimation"
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FormsContext } from "../../Contexts/FormsContext"
 
-const RegisterRequests = ({requests, setRequests}) => {
+const RegisterRequests = () => {
+  const {registerRequests, setRegisterRequests} = useContext(FormsContext);
   const {user} = useAuth();
   const [selectedUser, setSelectedUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,10 +24,9 @@ const RegisterRequests = ({requests, setRequests}) => {
     setIsLoading(true);
     try{
       const response = await Axios.put(`admin/verify/${token}`);
-      setRequests(response.data);
+      setRegisterRequests(response.data);
       setIsLoading(false);
       toast.success("Verified successfully");
-      window.location.reload();
     }catch(error){
       console.log("Error verifying user", error.message);
     }
@@ -34,9 +35,8 @@ const RegisterRequests = ({requests, setRequests}) => {
   const handleDelete = async (id) => {
     try{
       const response = (user.role === "SUPER_ADMIN") ? await Axios.delete(`super_admin/delete/${id}`) : await Axios.delete(`admin/deleteUser/${id}`);
-      setRequests(response.data);
+      setRegisterRequests(response.data);
       toast.success("Deleted successfully");
-      window.location.reload();
     }catch(error){
       console.log("Error deleting user", error.message);
     }
@@ -50,8 +50,8 @@ const RegisterRequests = ({requests, setRequests}) => {
   // Pagination calculation
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = requests.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(requests.length / itemsPerPage);
+  const currentItems = registerRequests.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(registerRequests.length / itemsPerPage);
 
   return (
     <div className="registerRequests">
@@ -61,11 +61,11 @@ const RegisterRequests = ({requests, setRequests}) => {
         <h2>Register Requests</h2>
         <div className="count-badge">
           <FontAwesomeIcon icon={faUserPlus} />
-          {requests.length} Forms
+          {registerRequests.length} Forms
         </div>
       </div>
 
-      { requests.length <= 0 ? 
+      { registerRequests.length <= 0 ? 
         <div className="empty-state">
           <FontAwesomeIcon icon={faUserPlus} size="3x" style={{marginBottom: '20px', opacity: 0.5}}/>
           <p>No register requests found...</p>
