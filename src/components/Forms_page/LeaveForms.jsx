@@ -15,7 +15,7 @@ const LeaveForms = () => {
           const response = await Axios.get("/user/dynamicForm/getAll");
           setDynamicForms(response.data);
         } catch (error) {
-          console.log("Error fetching dynamic form list",   error);          
+          // console.log("Error fetching dynamic form list",   error);          
         }
       }
       fetchDynamicFormList();
@@ -26,7 +26,7 @@ const LeaveForms = () => {
         const response = await Axios.get(`/user/dynamicForm/get/${dynamicForm}`)
         setDynamicFormDetails(response.data);
       } catch (error) {
-        console.log("Error fetching form", error);
+        // console.log("Error fetching form", error);
       }
     } 
 

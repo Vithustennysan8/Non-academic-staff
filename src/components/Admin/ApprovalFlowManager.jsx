@@ -25,9 +25,8 @@ const ApprovalFlowManager = () => {
         try {
             const response = await Axios.get("/admin/approvalFlow/getAll");
             setFlows(response.data);
-            console.log(response.data);
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         } finally {
           setTimeout(() => {
             setIsLoading(false);
@@ -38,9 +37,8 @@ const ApprovalFlowManager = () => {
       try {
         const response = await Axios.get("/auth/user/jobPosition/get");
         setPositions(response.data);
-        console.log(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setTimeout(() => {
           setIsLoading(false);
@@ -52,7 +50,7 @@ const ApprovalFlowManager = () => {
         const response = await Axios.get("/user/dynamicForm/getAll");
         setDynamicForms(response.data);
       } catch (error) {
-        console.log(error);          
+        // console.log(error);          
       } finally {
         setTimeout(() => {
           setIsLoading(false);
@@ -112,19 +110,18 @@ const ApprovalFlowManager = () => {
         setFormType('');  
         setSelectedFlow(null);
     }catch(error){
-      console.log("Error adding new flow", error);
+      // console.log("Error adding new flow", error);
     }
   };
 
   // Handle deleting the selected flow
   const handleDeleteFlow = async () => {
     try {
-        const response = await Axios.delete("/admin/approvalFlow/delete", {
+        await Axios.delete("/admin/approvalFlow/delete", {
             data: { "formType": formType,
               "uniqueName": uniqueName,
              },
         })
-        console.log(response.data);
         toast.success("Flow deleted successfully!");
         setFlows((prevFlows) =>
           prevFlows.filter((flow) =>
@@ -140,8 +137,7 @@ const ApprovalFlowManager = () => {
         setUniqueName('');
         setDepartment('');
     } catch (error) {
-      console.log("Error deleting flow", error);
-        console.log(error);
+        // console.log(error);
     }
   };
 
@@ -152,12 +148,10 @@ const ApprovalFlowManager = () => {
             uniqueName,
             approvalStage: selectedFlow.flow,
         })
-        console.log(selectedFlow.flow);
         setFlows(response.data);
-        console.log(response.data);
         toast.success("Approval flow updated successfully!");
     } catch (error) {
-        console.log("Error updating flow", error);
+        // console.log("Error updating flow", error);
     }
   };
 

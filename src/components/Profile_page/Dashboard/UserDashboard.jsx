@@ -49,7 +49,7 @@ const UserDashboard = ( {id} ) => {
       setFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
       setTempFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
     } catch (error) {
-      console.log("Error fetching form types", error.message);
+      // console.log("Error fetching form types", error.message);
     }
   }
   
@@ -62,7 +62,7 @@ const UserDashboard = ( {id} ) => {
           const response2 = await Axios.get(`/user/DynamicFormUser/getAllById/${id}`);
           setForms([...response2.data, ...response1.data]);
         }catch(error){
-          console.log("Error fetching forms", error.message);
+          // console.log("Error fetching forms", error.message);
         }
       }
       fetchForms();

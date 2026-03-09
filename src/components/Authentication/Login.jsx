@@ -42,7 +42,7 @@ const Login = () => {
         toast.error("Token not received");
       }
     } catch (error) {
-      console.log("Error logging in", error);
+      // console.log("Error logging in", error);
     } finally {
       setIsLoading(false);
     }

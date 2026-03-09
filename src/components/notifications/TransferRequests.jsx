@@ -110,7 +110,6 @@ const TransferRequests = () => {
 
   const handleFilterChange = (e) => {
     e.preventDefault();
-    console.log(filters);
     
     const monthNames = [
       "January", "February", "March", "April", "May", "June",

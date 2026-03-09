@@ -17,14 +17,13 @@ const RequestedForms = () => {
   const [requestForm, setRequestForm] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [filters, setFilters] = useState({
-    status: "pending",
+    status: "Pending",
     year:'',
     month:'',
     department:'',
     faculty:'',
     formType: '',
   });
-  const [approver, setApprover] = useState(null);
   const [faculties, setFaculties] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState(null);
@@ -37,7 +36,7 @@ const RequestedForms = () => {
         const response = await Axios.get("/auth/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     const fetchDepartment = async () => {
@@ -45,7 +44,7 @@ const RequestedForms = () => {
         const response = await Axios.get("/auth/user/department/getAll");
         setDepartments(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     fetchFaculty();
@@ -57,27 +56,12 @@ const RequestedForms = () => {
       window.scrollTo({top:0, behavior:"smooth"});
       navigate("/login");
     }
-    switch(user.job_type){
-      case 'Head of the Department':
-        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.headStatus === "pending"))
-        break;
-        case 'Dean':  
-        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.deanStatus === "pending"))
-        break;
-        case 'Chief Medical Officer':
-        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.cmoStatus === "pending"))
-        break;
-        case 'Non Academic Establishment Division':
-        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.naeStatus === "pending"))
-        break;
-        case 'Registrar':
-        setFilteredForms(normalLeaveFormRequests.filter((form)=> form.registrarStatus === "pending"))
-        break;
+
+    if(user.role === "SUPER_ADMIN" || user.role === "ADMIN" || user.role === "MANAGER"){
+      setFilteredForms(normalLeaveFormRequests.filter(form => form.status === "Pending"));
     }
     setCurrentPage(1); // Reset to first page when data changes
   }, [navigate, isLogin, normalLeaveFormRequests, user.job_type]);
-
-
 
 
   const handleSingleForm = (id, formType) => {
@@ -131,22 +115,8 @@ const RequestedForms = () => {
     }
 
     if (filters.status !== "All") {
-      switch(user.job_type){
-        case 'Head of the Department':
-          filterForms = filterForms.filter((form) => form.headStatus === filters.status);
-          break;
-        case 'Dean':  
-          filterForms = filterForms.filter((form) => form.deanStatus === filters.status);
-          break;
-        case 'Chief Medical Officer':
-          filterForms = filterForms.filter((form) => form.cmoStatus === filters.status);
-          break;
-        case 'Non Academic Establishment Division':
-          filterForms = filterForms.filter((form) => form.naeStatus === filters.status);
-          break;
-        case 'Registrar':
-          filterForms = filterForms.filter((form) => form.registrarStatus === filters.status);
-          break;
+      if(user.role === "SUPER_ADMIN" || user.role === "ADMIN" || user.job_type === "MANAGER"){
+        filterForms = filterForms.filter(form => form.status === filters.status);
       }
     }
 
@@ -156,7 +126,7 @@ const RequestedForms = () => {
     // Pagination calculation
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredForms.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredForms?.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredForms.length / itemsPerPage);
 
   const handleItemsPerPageChange = (newItemsPerPage) => {
@@ -203,7 +173,7 @@ const RequestedForms = () => {
                 )}
             
                 <select className="modern-select" value={filters.status} name="status" onChange={e=>handleForm(e)}>
-                  <option value="pending">Pending</option>
+                  <option value="Pending">Pending</option>
                   <option value="All">All</option>
                   <option value="Accepted">Accepted</option>
                   <option value="Rejected">Rejected</option>

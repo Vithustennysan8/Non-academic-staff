@@ -39,7 +39,7 @@ const ManageFaculties = () => {
           setIsLoading(false);
         }, 500);
       } catch (error) {
-        console.log("Error fetching faculties", error);
+        // console.log("Error fetching faculties", error);
       }
     }
     fetchFaculty();
@@ -56,7 +56,7 @@ const ManageFaculties = () => {
       toast.success(editFaculty ? "Successfully updated" : "Successfully added");
       reset();
     } catch (error) {
-      console.log("Error adding/updating faculty", error);
+      // console.log("Error adding/updating faculty", error);
     }
   }
 
@@ -79,7 +79,7 @@ const ManageFaculties = () => {
         toast.success("Faculty deleted successfully!");
         window.scrollTo({top:0, behavior:"smooth"});
       } catch (error) {
-        console.log("Error deleting faculty", error);
+        // console.log("Error deleting faculty", error);
       }
     }
   }

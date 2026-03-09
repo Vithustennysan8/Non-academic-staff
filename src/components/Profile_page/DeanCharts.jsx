@@ -53,9 +53,8 @@ const DeanCharts = ({allForms, faculty}) => {
           const departments = user.jobScope == "FACULTY_SCOPE" ? await Axios.get(`/auth/user/department/get`): await Axios.get(`/auth/user/department/getByFaculty`, {params:{"faculty": faculty}});
           setDepartments(departments.data);
           setFormTypeAndCount({...formTypes.data, "Normal Leave Form": 0});
-          console.log(formTypes.data)
         } catch (error) {
-          console.log(error);
+          // console.log(error);
         }
       }
       fetchFormTypes();
@@ -98,7 +97,6 @@ const DeanCharts = ({allForms, faculty}) => {
                 departmentObject.push(0)
             }
         })
-        console.log(departmentObject)
         setDepartmentLeaveCount(departmentObject);
     }
 
@@ -143,7 +141,6 @@ const DeanCharts = ({allForms, faculty}) => {
         };
     
         const formCategories = fetchFormsByCatogaries();
-        console.log(formCategories);
         
         setmodifiedData(formCategories);
         overAlldepartmentDetails(formCategories, filter.year, filter.month);

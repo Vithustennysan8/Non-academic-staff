@@ -21,7 +21,7 @@ const News = ({role}) => {
                     const response = await Axios.get("/user/news/get");
                     setNews(response.data);
                 }catch(error){
-                    console.log("Error fetching news", error);
+                    // console.log("Error fetching news", error);
                 }
             }
             getNews();
@@ -50,7 +50,7 @@ const News = ({role}) => {
             setShowUpdateBtn(false);
             setShowForm(false);
         } catch (error) {
-            console.log(showUpdateBtn ? "Error updating news" : "Error adding news", error.message);
+            // console.log(showUpdateBtn ? "Error updating news" : "Error adding news", error.message);
         }
         reset();
     }
@@ -61,7 +61,7 @@ const News = ({role}) => {
             setNews(response.data);
             toast.success("News deleted successfully");
         } catch (error) {
-            console.log("Error deleting news", error.message);
+            // console.log("Error deleting news", error.message);
         }
     }
     
@@ -117,7 +117,8 @@ const News = ({role}) => {
             </div>
         </form>}
 
-        {isLogin ? (
+        {isLogin && (
+            news.length > 0 ? (
             news.slice(0, 2).map(news => { 
                 return(
                 <NewsCards 
@@ -128,7 +129,15 @@ const News = ({role}) => {
                 handleDelete={()=>handleDelete(news.id)}
                 handleUpdate={() => handleUpdate(news)}
                 />)
-        })):(
+            })
+        
+        ) : (
+            <div className="card">
+                <p className="cardContent">No news available</p>
+            </div>
+        ))}
+
+        {!isLogin && (
             <div className="card">
                 <div className="noNews">
                     <p className="card-head">{"Convacation"}</p>

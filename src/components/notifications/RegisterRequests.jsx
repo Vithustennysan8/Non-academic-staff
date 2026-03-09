@@ -28,7 +28,7 @@ const RegisterRequests = () => {
       setIsLoading(false);
       toast.success("Verified successfully");
     }catch(error){
-      console.log("Error verifying user", error.message);
+      // console.log("Error verifying user", error.message);
     }
   }
 
@@ -38,7 +38,7 @@ const RegisterRequests = () => {
       setRegisterRequests(response.data);
       toast.success("Deleted successfully");
     }catch(error){
-      console.log("Error deleting user", error.message);
+      // console.log("Error deleting user", error.message);
     }
   }
 

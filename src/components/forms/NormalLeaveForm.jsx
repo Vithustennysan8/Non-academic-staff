@@ -48,13 +48,12 @@ const NormalLeaveForm = () => {
     }
 
     try {
-      console.log("Form data: ", data);
       await Axios.post("user/normalLeaveForm/add", data);
       toast.success('Form submitted successfully!');
       window.scrollTo({top:0, behavior:"smooth"});
       naviagte("/forms");
     } catch (error) {
-      console.log("Error submitting normal leave form", error.message);
+      // console.log("Error submitting normal leave form", error.message);
     }
   };
 

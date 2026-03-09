@@ -44,7 +44,7 @@ const DynamicFormRequests = () => {
         const response = await Axios.get("/auth/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     const fetchDepartment = async () => {
@@ -52,7 +52,7 @@ const DynamicFormRequests = () => {
         const response = await Axios.get("/auth/user/department/getAll");
         setDepartments(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
     fetchFaculty();
@@ -61,7 +61,11 @@ const DynamicFormRequests = () => {
   
   // Initial load - show only Pending forms
   useEffect(()=>{
-      setFilterForms(dynamicFormRequests.filter((form)=> form.approverDetails.filter(approver => approver.approver == user.job_type)[0].approverStatus === "Pending"));
+    if(user.role === "SUPER_ADMIN"){
+      setFilterForms(dynamicFormRequests.filter((form)=> form.formStatus === "Pending"));
+    }else{
+      setFilterForms(dynamicFormRequests.filter((form)=> form.approverDetails.filter(approver => approver.approver == user.job_type)[0]?.approverStatus === "Pending"));
+    }
       setCurrentPage(1); // Reset to first page when data changes
   },[dynamicFormRequests, user.job_type])
 
@@ -93,7 +97,7 @@ const DynamicFormRequests = () => {
       }
       setDynamicForms(response.data);
     } catch (error) {
-      console.log("Error fetching dynamic forms", error);
+      // console.log("Error fetching dynamic forms", error);
     }
   }
 
@@ -141,7 +145,11 @@ const DynamicFormRequests = () => {
         filteredForms = filteredForms.filter((form)=> monthNames[form.formCreatedAt.substring(5,7)-1] === filterMonth);
       }
       if(filter !== "All"){
-        filteredForms = filteredForms.filter((form)=> form.approverDetails.filter(approver => approver.approver == user.job_type)[0].approverStatus === filter);
+        if(user.role === "SUPER_ADMIN"){
+          filteredForms = filteredForms.filter((form)=> form.formStatus === filter);
+        }else{
+          filteredForms = filteredForms.filter((form)=> form.approverDetails.filter(approver => approver.approver == user.job_type)[0]?.approverStatus === filter);
+        }
       }
       setFilterForms(filteredForms);
     };
@@ -158,11 +166,11 @@ const DynamicFormRequests = () => {
         const response = await Axios.post(`admin/formApprover/accept/${id}`, {"formId":formId, "description":description, "userId":user.id});
         setSelectedForm(response.data[0]);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
-        setIsLoading(false);
         toast.success("Accepted");
         setDescription('');
       } catch (error) {
-        console.log("Error accepting form", error);
+        // console.log("Error accepting form", error);
+      }finally{
         setIsLoading(false);
       }
     }
@@ -179,11 +187,11 @@ const DynamicFormRequests = () => {
         const response = await Axios.post(`admin/formApprover/reject/${id}`, {"formId":formId, "description":description, "userId":user.id});
         setSelectedForm(response.data[0]);
         setDynamicFormRequests([...dynamicFormRequests.filter(request => request.formId != formId), response.data[0]]);
-        setIsLoading(false);
         toast.success("Rejected");
         setDescription('');
       } catch (error) {
-        console.log("Error rejecting form", error.message);
+        // console.log("Error rejecting form", error.message);
+      }finally{
         setIsLoading(false);
       }
     }
@@ -200,31 +208,28 @@ const DynamicFormRequests = () => {
         // Open in a new tab
         window.open(fileURL);
       } catch (error) {
-        console.error("Error downloading PDF:", error);
+        // console.error("Error downloading PDF:", error);
       }
     };
 
     const fetchDynamicFormsRequests = async () => {
       try {
           const response = await Axios.get("admin/DynamicFormUser/getAll");
-          setDynamicFormRequests(response.data);
-          console.log("cascas", response.data);
-          
+          setDynamicFormRequests(response.data);          
       } catch (error) {
-          console.log("Error fetching dynamic form requests", error);
+          // console.log("Error fetching dynamic form requests", error);
       }
     }
 
     const handleDelete = async (formId) => {
       if(!window.confirm("Do you want to delete this form?")) return;
       try {
-          const response = await Axios.delete(`/admin/DynamicFormUser/${formId}`);
-          console.log(response.data);
+          await Axios.delete(`/admin/DynamicFormUser/${formId}`);
           toast.success("Form deleted successfully");
           fetchDynamicFormsRequests();
           setShowSingleForm(false);
       }catch(error){
-          console.log("Error deleting form", error.message);
+          // console.log("Error deleting form", error.message);
       }
     };
 
@@ -381,7 +386,7 @@ return (
               }
               
               <div className="buttonDiv">
-                {  selectedForm.approverDetails.filter((approver) => approver.approver === user.job_type)[0].approverStatus === "Pending" && user.role === "ADMIN" &&
+                {  selectedForm.approverDetails.filter((approver) => approver.approver === user.job_type)[0]?.approverStatus === "Pending" && user.role === "ADMIN" &&
                     <>
                     <button onClick={() => handleAccept(selectedForm.formId)} className=""><img src={acceptLogo} alt="" /></button>
                     <button onClick={() => handleReject(selectedForm.formId)} className=""><img src={rejectLogo} alt="" /></button>

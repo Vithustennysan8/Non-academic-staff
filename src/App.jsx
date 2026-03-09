@@ -16,7 +16,7 @@ import Header from "./components/Common/Header";
 import { AuthProvider } from "./Contexts/AuthContext";
 import RequestedForms from "./components/notifications/LeaveRequests";
 import LeaveForms from "./components/Forms_page/LeaveForms";
-import Notifications from "./components/forms/Notifications";
+import Notifications from "./components/notifications/Notifications";
 import ForgotPassword from "./components/Authentication/ForgotPassword";
 import ApprovalFlowManager from "./components/Admin/ApprovalFlowManager";
 import CreateForm from "./components/Admin/CreateForm";

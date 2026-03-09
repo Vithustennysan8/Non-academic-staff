@@ -48,7 +48,7 @@ const Header = () => {
           const response = await Axios.get("/user/info");
           setUser(response.data);
         } catch (error) {
-          console.log("Error fetching user details", error);
+          // console.log("Error fetching user details", error);
         }
       }
     };

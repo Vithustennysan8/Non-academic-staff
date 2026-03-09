@@ -52,7 +52,7 @@ const DeanCharts = ({allForms}) => {
                 facultyObject.push(0)
             }
         })
-        console.log(facultyObject)
+        // console.log(facultyObject)
         setFacultyLeaveCount(facultyObject);
     }
 
@@ -63,15 +63,14 @@ const DeanCharts = ({allForms}) => {
               const facs = [];
               response.data.forEach(fac => facs.push(fac.facultyName)); 
               setFaculties(facs);
-              console.log(response.data);
             } catch (error) {
-              console.log(error);
+              // console.log(error);
             }
           }
 
         const fetchFormsByCatogaries = () => {
             let formCategories = new Map();
-            console.log("Forms --> ", allForms);
+            // console.log("Forms --> ", allForms);
             
             allForms.forEach((form) => {
                 const faculty = form.formUser?.faculty || form.user?.faculty;

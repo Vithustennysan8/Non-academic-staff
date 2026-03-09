@@ -2,18 +2,21 @@ import "../../css/Forms/formPreview.css"
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Axios } from "../AxiosReqestBuilder";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import NormalLeaveFormTemplate from "../notifications/NormalLeaveFormTemplate";
 import { toast } from "react-toastify";
 import LoadingAnimation from "../Common/LoadingAnimation";
 import downloadLogo from "../../assets/Download.png"
 import acceptLogo from "../../assets/accept.png"
 import rejectLogo from "../../assets/cancel.png"
+import { FormsContext } from "../../Contexts/FormsContext";
+import { useAuth } from "../../Contexts/AuthContext";
 
 const FormPreview = ({ application, approver, setForm, setShowForm }) => {
     const [formStatus, setFormStatus] = useState('');
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
+    const { setNormalLeaveFormRequests, setAppliedNormalLeaveForms } = useContext(FormsContext);
 
     useEffect(()=>{
         switch (approver.job_type) {
@@ -63,10 +66,18 @@ const FormPreview = ({ application, approver, setForm, setShowForm }) => {
             pdf.save(`${application.user.first_name}_Leave_Application.pdf`);
         })
         .catch((error) => {
-            console.error("Error generating PDF:", error);
+            // console.error("Error generating PDF:", error);
         });
     };
 
+    const fetchNormalLeaveRequests = async () => {
+        try {
+          const response = await Axios.get("admin/leaveForms/getAll");
+          setNormalLeaveFormRequests(response.data);
+        } catch (error) {
+          // console.log("Error fetching leave requests", error);
+        }
+      };
 
     const handleAccept = async (id) => {
         if(description === ''){
@@ -80,27 +91,29 @@ const FormPreview = ({ application, approver, setForm, setShowForm }) => {
             setForm({...response.data});
             toast.success("Application accepted successfully")
         }catch(error){
-            console.error("Error accepting application:", error);
+            // console.error("Error accepting application:", error);
         }finally{
             setLoading(false);
+            fetchNormalLeaveRequests();
         }
     }
-
+    
     const handleReject = async (id) => {
         if(description === ''){
             toast.warning("add description")
             return;
         }
-
+        
         try{
             setLoading(true);
             const response = await Axios.put(`/admin/reject/${id}`, {user:approver.id,description,formType:application.formType});
             setForm({...response.data});
             toast.success("Application rejected successfully")
         }catch(error){
-            console.error("Error rejecting application:", error);
+            // console.error("Error rejecting application:", error);
         }finally{
             setLoading(false);
+            fetchNormalLeaveRequests();
         }
     }
 
@@ -206,7 +219,7 @@ const FormPreview = ({ application, approver, setForm, setShowForm }) => {
                 </div>
             </div>
 
-            { formStatus === "pending" && approver.role === "ADMIN" &&
+            { formStatus === "Pending" && approver.role === "ADMIN" &&
                 <div className="review-row description">
                     <label htmlFor="description" className="review-label">Description: </label>
                     <textarea name="description" id="description" className="review-value" rows={3} cols={40} value={description} onChange={handleChange}></textarea>
@@ -215,10 +228,11 @@ const FormPreview = ({ application, approver, setForm, setShowForm }) => {
         </div>
         {/* <button onClick={downloadImage} className="download-pdf-btn">Download Image</button> */}
         <div className="buttonDiv">
-            { formStatus === "pending" && approver.role === "ADMIN" &&
+            { formStatus === "Pending" && approver.role === "ADMIN" &&
                 <>
                 <button onClick={() => handleAccept(application.id)} className=""><img src={acceptLogo} alt="" /></button>
                 <button onClick={() => handleReject(application.id)} className=""><img src={rejectLogo} alt="" /></button>
+                
                 { loading && <LoadingAnimation /> }
                 </>
             }

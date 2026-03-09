@@ -14,7 +14,6 @@ const DynamicForms = () => {
       try {
         setIsLoading(true);
         const response = await Axios.get("/admin/dynamicForm/getAll");
-        console.log(response.data);
         setDynamicForms(response.data);
       } catch (error) {
         console.log(error);

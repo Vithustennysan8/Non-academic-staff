@@ -47,7 +47,7 @@ const Forum = () => {
         };
         fetchForums();
       } catch (error) {
-        console.log("Error fetching forums", error);
+        // console.log("Error fetching forums", error);
       } finally {
         setTimeout(() => {
           window.scrollTo({ top: 0, behavior: "smooth" });
@@ -76,7 +76,7 @@ const Forum = () => {
       toast.success("Forum added successfully!");
       setForums([response.data, ...forums]);
     } catch (error) {
-      console.log("Error adding forum", error);
+      // console.log("Error adding forum", error);
     }
   };
 
@@ -87,7 +87,7 @@ const Forum = () => {
         setForums(response.data);
         toast.success("Forum deleted successfully!");
       } catch (error) {
-        console.log("Error deleting forum", error);
+        // console.log("Error deleting forum", error);
       }
     }
   };
@@ -113,7 +113,7 @@ const Forum = () => {
       setForums(response.data);
       toast.success("Forum updated successfully!");
     } catch (error) {
-      console.log("Error updating forum", error);
+      // console.log("Error updating forum", error);
     }
   };
 

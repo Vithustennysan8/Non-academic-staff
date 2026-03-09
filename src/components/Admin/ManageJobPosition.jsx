@@ -35,11 +35,9 @@ const ManagePositions = () => {
         setPositions(positionsData);
         setFilteredPositions(positionsData);
         setCurrentPage(1);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
       } catch (error) {
-        console.log("Error fetching job positions", error);
+        // console.log("Error fetching job positions", error);
+      }finally {
         setTimeout(() => {
           setIsLoading(false);
         }, 500);
@@ -59,7 +57,7 @@ const ManagePositions = () => {
       toast.success(editPosition ? "Successfully updated" : "Successfully added");
       reset();
     } catch (error) {
-      console.log("Error adding/updating job position", error);
+      // console.log("Error adding/updating job position", error);
     }
   }
 
@@ -84,7 +82,7 @@ const ManagePositions = () => {
         reset();
         setEditPosition(null);
       } catch (error) {
-        console.log("Error deleting job position", error);
+        // console.log("Error deleting job position", error);
       }
     }
   }

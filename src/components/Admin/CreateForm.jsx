@@ -10,7 +10,6 @@ import File from "../CustomElements/File";
 import { useAuth } from "../../Contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../AxiosReqestBuilder";
-import Swal from "sweetalert2";
 import PropTypes from 'prop-types';
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
@@ -167,14 +166,12 @@ const CreateForm = () => {
         }
 
         try {
-            const response = await Axios.post(`/admin/dynamicForm/create/${encoded}`, jsonvalues)
-            console.log(response.data);
+            await Axios.post(`/admin/dynamicForm/create/${encoded}`, jsonvalues)
             toast.success("Form created successfully");
-            console.log(jsonvalues);
             setJsonValues([]);
             setElements([]);
         } catch (error) {
-            console.log(error);
+            // console.log(error);
         }
     }
 

@@ -36,7 +36,7 @@ const Signup = () => {
         const response = await Axios.get("/auth/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setIsLoading(false);
       }
@@ -47,7 +47,7 @@ const Signup = () => {
         const response = await Axios.get("/auth/user/department/getAll");
         setDepartments(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setIsLoading(false);
       }
@@ -58,7 +58,7 @@ const Signup = () => {
         const response = await Axios.get("/auth/user/jobPosition/get");
         setPositions(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setIsLoading(false);
       }
@@ -111,7 +111,7 @@ const Signup = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       Navigate("/login");
     } catch (error) {
-      console.log("Error creating account", error);
+      // console.log("Error creating account", error);
     } finally {
       setIsLoading(false);
     }
@@ -524,7 +524,7 @@ const Signup = () => {
                 >
                   <option value="">select one....</option>
                   <option value="USER">User</option>
-                  {/* <option value="MANAGER">Manager</option> */}
+                  <option value="MANAGER">Manager</option>
                   <option value="ADMIN">Admin</option>
                   {/* <option value="SUPER_ADMIN">super_admin</option> */}
                 </select>

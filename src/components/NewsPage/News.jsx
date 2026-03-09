@@ -27,7 +27,7 @@ const News = () => {
                     setNews(response.data);
                     setCurrentPage(1);
                 }catch(error){
-                    console.log("Error fetching news", error);
+                    // console.log("Error fetching news", error);
                 }finally{
                     setTimeout(() => {
                         window.scrollTo({top:0, behavior:"smooth"});
@@ -62,7 +62,7 @@ const News = () => {
             setCurrentPage(1);
             toast.success(showUpdateBtn ? "News updated successfully!" : "News added successfully!");
         } catch (error) {
-            console.log(showUpdateBtn ? "Error updating news" : "Error adding news", error);
+            // console.log(showUpdateBtn ? "Error updating news" : "Error adding news", error);
         }
         reset();
     }
@@ -75,7 +75,7 @@ const News = () => {
                 setCurrentPage(1);
                 toast.success("News deleted successfully!");
             } catch (error) {
-                console.log("Error deleting news", error);
+                // console.log("Error deleting news", error);
             }
         }
     }
@@ -169,7 +169,7 @@ const News = () => {
             })) : (
                 <div className="card">
                     <div className="noNews">
-                        <p className="card-head">No news found</p>
+                        <p className="cardContent">No news found</p>
                     </div>
                 </div>
             )}

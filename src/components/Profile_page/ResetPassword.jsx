@@ -41,14 +41,13 @@ const ResetPassword = () => {
 
     try {
       const response = await Axios.put("/auth/user/reset", data);
-      console.log(response.data);
       toast.success("Password changed successfully!");
       if (response.status === 200) {
         window.scrollTo({ top: 0, behavior: "smooth" });
         navigate("/login");
       }
     } catch (err) {
-      console.log("Error changing password", err.message);
+      // console.log("Error changing password", err.message);
     }
   };
 
@@ -67,7 +66,6 @@ const ResetPassword = () => {
         },
         data: reset,
       });
-      console.log(response.data);
       localStorage.removeItem("token");
       sessionStorage.setItem("isLogin", true);
       logout();
@@ -76,7 +74,7 @@ const ResetPassword = () => {
       navigate("/login");
     }
     catch (error) {
-      console.log("Error deleting account", error.message);
+      // console.log("Error deleting account", error.message);
     }
   };
 

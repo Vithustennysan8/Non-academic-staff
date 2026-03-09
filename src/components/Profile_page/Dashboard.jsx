@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Contexts/AuthContext";
 import { Axios } from "../AxiosReqestBuilder";
 import ResetPassword from "./ResetPassword";
-import Notifications from "../forms/Notifications";
+import Notifications from "../notifications/Notifications";
 import UserDashboard from "./Dashboard/UserDashboard";
 import AdminDashboard from "./Dashboard/AdminDashboard";
 import { motion } from "framer-motion";
@@ -62,10 +62,10 @@ const Dashboard = () => {
 
       const fetchLeaveRequestCount = async () => {
         try {
-          const response = await Axios.get("admin/leaveForms/notification");
+          const response = await Axios.get("admin/leaveForms/getAll");
           setNormalLeaveFormRequests(response.data);
         } catch (error) {
-          console.log("Error fetching leave requests", error);
+          // console.log("Error fetching leave requests", error);
         }
       };
 
@@ -74,7 +74,7 @@ const Dashboard = () => {
             const response = await Axios.get("user/DynamicFormUser/getAll");
             setAppliedDynamicForms(response.data);
         } catch (error) {
-            console.log("Error fetching applied dynamic forms", error);
+            // console.log("Error fetching applied dynamic forms", error);
         }
     }
 
@@ -83,7 +83,7 @@ const Dashboard = () => {
           const response = await Axios.get("admin/DynamicFormUser/getAll");
           setDynamicFormRequests(response.data);
       } catch (error) {
-          console.log("Error fetching dynamic form requests", error);
+          // console.log("Error fetching dynamic form requests", error);
       }
     }
 
@@ -93,7 +93,7 @@ const Dashboard = () => {
                                       await Axios.get("super_admin/verifyAdminRegisterRequests");
           setRegisterRequests(response.data);
         } catch (error) {
-          console.log("Error fetching register requests", error);
+          // console.log("Error fetching register requests", error);
         }
       };
 
@@ -104,7 +104,7 @@ const Dashboard = () => {
             setTransferFormRequests(response.data);
           }
         } catch (error) {
-          console.log("Error fetching transfer requests", error);
+          // console.log("Error fetching transfer requests", error);
         }}
 
       const fetchTransferFormsApplied = async () => {
@@ -112,16 +112,16 @@ const Dashboard = () => {
           const response = await Axios.get("user/transferForms");
           setAppliedTransferForms(response.data);
         } catch (error) {
-          console.log("Error fetching appliedTransferForms requests", error);
+          // console.log("Error fetching appliedTransferForms requests", error);
         }
       };
       
       const fetchLeaveFormsApplied = async () => {
         try {
-          const response = await Axios.get("user/normalLeaveForm/getPending");
+          const response = await Axios.get("user/normalLeaveForm/get");
           setAppliedNormalLeaveForms(response.data);
         } catch (error) {
-          console.log("Error fetching appliedLeaveForms requests", error);
+          // console.log("Error fetching appliedLeaveForms requests", error);
         }
       };
 
@@ -192,7 +192,6 @@ const Dashboard = () => {
         },
       });
       const updatedUserData = response.data;
-      console.log("User updated successfully:", updatedUserData);
       setUser(updatedUserData);
       hasFetchedUser.current = false;
       setEditProfile(false);
@@ -204,7 +203,7 @@ const Dashboard = () => {
       }
       toast.success("Profile updated successfully!");
     } catch(error) {
-      console.log("Error updating profile", error);
+      // console.log("Error updating profile", error);
     }
   };
 
@@ -283,15 +282,15 @@ const Dashboard = () => {
                       alt="icon2"
                     />
                     {user.role !== "USER" && "Manage"} Requests
-                    {normalLeaveFormRequests.length + registerRequests.length + transferFormRequests.length + appliedNormalLeaveForms.length +
-                     appliedTransferForms.length+ dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
+                    {normalLeaveFormRequests.filter(form => form.status === "Pending").length + registerRequests.length + transferFormRequests.length + appliedNormalLeaveForms.filter(form => form.status === "Pending").length +
+                     appliedTransferForms.filter(form => form.status === "Pending").length+ dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
                       approver.approver === user.job_type)[0]?.approverStatus == "Pending").length +
                        appliedDynamicForms.filter(form => form.formStatus == "Pending").length > 0 && (
                       <li className="notificationCount">
-                        {normalLeaveFormRequests.length +
+                        {normalLeaveFormRequests.filter(form => form.status === "Pending").length +
                           registerRequests.length +
-                          appliedNormalLeaveForms.length +
-                          appliedTransferForms.length +
+                          appliedNormalLeaveForms.filter(form => form.status === "Pending").length +
+                          appliedTransferForms.filter(form => form.status === "Pending").length +
                           transferFormRequests.length+
                           appliedDynamicForms.filter(form => form.formStatus == "Pending").length +
                           dynamicFormRequests.filter(request => request.approverDetails?.filter(approver =>

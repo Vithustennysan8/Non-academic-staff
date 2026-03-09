@@ -56,7 +56,7 @@ const AdminDashboard = () => {
                 const facultiesData = Array.isArray(response.data) ? response.data : [];
                 setFaculties(facultiesData);
             } catch (error) {
-                console.log("Error fetching faculties", error);
+                // console.log("Error fetching faculties", error);
             }
         }
         
@@ -111,7 +111,7 @@ const AdminDashboard = () => {
                     const response = await Axios.get("/user/staffs");
                     setStaffs(response.data);
                 } catch (error) {
-                    console.log("Error fetching staffs", error.message);
+                    // console.log("Error fetching staffs", error.message);
                 }
             }
             const fetchFomrs = async () => {
@@ -120,7 +120,7 @@ const AdminDashboard = () => {
                     const response2 = await Axios.get("admin/DynamicFormUser/getAll");
                     setForms([...response2.data, ...response1.data]);
                 } catch (error) {
-                    console.log("Error fetching forms", error.message);
+                    // console.log("Error fetching forms", error.message);
                 }
             }
             fetchFomrs();

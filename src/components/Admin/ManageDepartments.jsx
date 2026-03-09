@@ -35,7 +35,7 @@ const ManageDepartments = () => {
         const response = await Axios.get("/auth/user/faculty/getAll");
         setFaculties(response.data);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       } finally {
         setTimeout(() => {
           setIsLoading(false);
@@ -51,14 +51,12 @@ const ManageDepartments = () => {
         setDepartments(departmentsData);
         setFilteredDepartments(departmentsData);
         setCurrentPage(1);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
       } catch (error) {
+        // console.log("Error fetching departments", error);
+      }finally {
         setTimeout(() => {
           setIsLoading(false);
         }, 500);
-        console.log("Error fetching departments", error);
       }
     }
     fetchDepartment();
@@ -76,7 +74,7 @@ const ManageDepartments = () => {
       toast.success(editDepartment ? "Successfully updated" : "Successfully added");
       reset();
     } catch (error) {
-      console.log("Error adding/updating department", error);
+      // console.log("Error adding/updating department", error);
     }
   }
 
@@ -101,7 +99,7 @@ const ManageDepartments = () => {
         reset();
         setEditDepartment(null);
       } catch (error) {
-        console.log("Error deleting department", error);
+        // console.log("Error deleting department", error);
       }
     }
   }

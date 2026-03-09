@@ -25,7 +25,7 @@ const Staffs = () => {
             const response = await (user.role === "SUPER_ADMIN" ? Axios.get("/super_admin/staffs") : Axios.get("/user/staffs"));
             setStaffs(response.data);
           } catch (error) {
-            console.log("Error fetching staffs", error.message);
+            // console.log("Error fetching staffs", error.message);
           } finally {
             setTimeout(() => {
               window.scrollTo({top:0, behavior:"smooth"});
@@ -46,7 +46,7 @@ const Staffs = () => {
       setSelectedUser(null);
       toast.success("Staff member deleted successfully");
     } catch (error) {
-      console.error('Error confirming staff deletion:', error);
+      // console.error('Error confirming staff deletion:', error);
     }
   }
 

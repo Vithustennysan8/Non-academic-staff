@@ -34,7 +34,7 @@ const Home = () => {
             );
           }
         } catch (error) {
-          console.log("Error fetching user details", error);
+          // console.log("Error fetching user details", error);
         } finally {
           setTimeout(() => {
             window.scrollTo({top:0, behavior:"smooth"});

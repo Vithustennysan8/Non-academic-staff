@@ -24,7 +24,7 @@ const NormalLeaveFormTemplate = ({application, setShowForm, setForm}) => {
 
       const fetchLeaveFormsApplied = async () => {
         try {
-          const response = await Axios.get("user/normalLeaveForm/getPending");
+          const response = await Axios.get("user/normalLeaveForm/get");
           setAppliedNormalLeaveForms(response.data);
         } catch (error) {
           console.log("Error fetching appliedNormalLeaveForms requests", error);

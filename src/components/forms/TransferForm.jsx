@@ -34,16 +34,13 @@ const TransferForm = () => {
             }
           })
 
-        console.log(formData);
-
         try {
-            const response = await Axios.post("/user/transferForm/add", formData );
-            console.log(response.data);
+            await Axios.post("/user/transferForm/add", formData );
             toast.success('Form submitted successfully!');
             window.scrollTo({top:0, behavior:"smooth"})
             navigate("/forms");
         } catch (error) {
-            console.log("Error submitting transfer form", error.message);
+            // console.log("Error submitting transfer form", error.message);
         }
 
     }

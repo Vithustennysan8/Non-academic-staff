@@ -41,7 +41,7 @@ const DynamicFormVIewer = ({dynamicFormDetails, formType}) => {
                 const response = await Axios.get(`/user/approvalFlow/get/${formType}`);
                 setApprovalFlows(response.data);
             } catch (error) {
-                console.log(error);
+                // console.log(error);
             }
         }
         fetchFlows();
@@ -200,7 +200,7 @@ const DynamicFormVIewer = ({dynamicFormDetails, formType}) => {
             window.scrollTo({top:0, behavior:"smooth"});
             navigate("/forms");
         } catch (error) {
-            console.log("Error submitting form", error);
+            // console.log("Error submitting form", error);
         }
     }
 

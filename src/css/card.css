@@ -1,11 +1,7 @@
 .card{
     position: relative;
     border-radius: 8px;
-    box-shadow: 1px 1px 5px 1px #ccc;
-    border: 1px solid #e0e0e0;
-    padding: 8px 12px;
-    background-color: #ffffff;
-    margin : 18px 0 ;
+    margin : 25px 0 ;
 }
 .no-forums{
     display: flex;
@@ -13,9 +9,10 @@
     align-items: center;
     height: 100px;
 }
-.card-head{
-    font-size: 1.3rem;
+.cardContent{
+    font-size: 1.1rem;
     color: rgb(219, 0, 0);
+    text-align: center;
 }
 .newsDateAndTime{
     font-size: 0.7rem;

@@ -17,7 +17,7 @@ const SubIncharge = () => {
                 }
                 setStaff(response.data);
             } catch (error) {
-                console.log("Error fetching staff", error);
+                // console.log("Error fetching staff", error);
             } finally {
                 setTimeout(() => {
                     setIsLoading(false);
@@ -34,7 +34,7 @@ const SubIncharge = () => {
                 setStaff(response.data);
                 toast.success("Successfully assigned incharge");
             } catch (error) {
-                console.log("Error assigning incharge", error);
+                // console.log("Error assigning incharge", error);
             }
         }else if(choice === "non-incharge"){
             try {
@@ -42,7 +42,7 @@ const SubIncharge = () => {
                 setStaff(response.data);
                 toast.success("Successfully assigned non-incharge");
             } catch (error) {
-                console.log("Error assigning non-incharge", error);
+                // console.log("Error assigning non-incharge", error);
             }
         }
     };

@@ -73,7 +73,7 @@ const AppliedDynamicForms = () => {
         // Open in a new tab
         window.open(fileURL);
       } catch (error) {
-        console.error("Error downloading PDF:", error);
+        // console.error("Error downloading PDF:", error);
       }
     };
 
@@ -82,7 +82,7 @@ const AppliedDynamicForms = () => {
           const response = await Axios.get("user/DynamicFormUser/getAll");
           setAppliedDynamicForms(response.data);
       } catch (error) {
-          console.log("Error fetching applied dynamic forms", error);
+          // console.log("Error fetching applied dynamic forms", error);
       }
     }
 
@@ -94,7 +94,7 @@ const AppliedDynamicForms = () => {
           fetchAppliedDynamicForms();
           setShowSingleForm(false);
       }catch(error){
-          console.log("Error deleting form", error.message);
+          // console.log("Error deleting form", error.message);
       }
     };
 

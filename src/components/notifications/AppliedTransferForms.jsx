@@ -21,7 +21,6 @@ const AppliedTransferForms = () => {
 
   useEffect(()=>{
     const filteredForms = appliedTransferForms.filter((form)=> form.status === "Pending")
-    console.log(filteredForms)
     setFilterForms(filteredForms);
     setCurrentPage(1); // Reset to first page when data changes
   },[appliedTransferForms])

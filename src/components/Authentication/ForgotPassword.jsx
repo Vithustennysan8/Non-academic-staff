@@ -15,7 +15,6 @@ const EmailDiv = ({setPage, setUserMail}) => {
     try {
       setIsLoading(true);
       const response = await Axios.post('/auth/user/forgotPassword/sendOTP', data);
-      console.log(response.data);
       if(response.data === "success"){
         setIsLoading(false);
         setUserMail(data.email);
@@ -25,9 +24,9 @@ const EmailDiv = ({setPage, setUserMail}) => {
       }
     } catch (error) {
       if(error.response.data.message){
-        console.log("Error sending OTP", error);
+        // console.log("Error sending OTP", error);
       }
-      console.log(error);
+      // console.log(error);
     }
   }
 

@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import "../../css/Forms/notifications.css";
-import LeaveRequests from "../notifications/LeaveRequests";
-import TransferRequests from "../notifications/TransferRequests";
-import RegisterRequests from "../notifications/RegisterRequests";
+import "../../css/Notifications/notifications.css";
+import LeaveRequests from "./LeaveRequests.jsx";
+import TransferRequests from "./TransferRequests.jsx";
+import RegisterRequests from "./RegisterRequests.jsx";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../Contexts/AuthContext";
-import AppliedLeaveForms from "../notifications/AppliedLeaveForms";
-import AppliedTransferForms from "../notifications/AppliedTransferForms";
-import AppliedDynamicForms from "../notifications/AppliedDynamicForms";
-import DynamicFormRequests from "../notifications/DynamicFormRequests.jsx";
+import { useAuth } from "../../Contexts/AuthContext.jsx";
+import AppliedLeaveForms from "./AppliedLeaveForms.jsx";
+import AppliedTransferForms from "./AppliedTransferForms.jsx";
+import AppliedDynamicForms from "./AppliedDynamicForms.jsx";
+import DynamicFormRequests from "./DynamicFormRequests.jsx";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { 
@@ -69,8 +69,8 @@ const Notifications = () => {
                   >
                   <FontAwesomeIcon icon={faClipboardList} className="tab-icon" />
                   Normal Leave Requests
-                  {normalLeaveFormRequests.length > 0 && (
-                    <span className="requestCount">{normalLeaveFormRequests.length}</span>
+                  {normalLeaveFormRequests.filter(form => form.status === "Pending").length > 0 && (
+                    <span className="requestCount">{normalLeaveFormRequests.filter(form => form.status === "Pending").length}</span>
                   )}
                 </button>
 
@@ -81,9 +81,9 @@ const Notifications = () => {
                   <FontAwesomeIcon icon={faFileAlt} className="tab-icon" />
                   Dynamic Leave Requests
                   {dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
-                            approver.approver == user.job_type)[0].approverStatus == "Pending").length > 0 && (
+                            approver.approver == user.job_type)[0]?.approverStatus == "Pending").length > 0 && (
                     <span className="requestCount">{dynamicFormRequests.filter(request => request.approverDetails.filter(approver =>
-                      approver.approver == user.job_type)[0].approverStatus == "Pending").length}</span>
+                      approver.approver == user.job_type)[0]?.approverStatus == "Pending").length}</span>
                   )}
                 </button>
 
@@ -110,8 +110,8 @@ const Notifications = () => {
               >
                 <FontAwesomeIcon icon={faFileSignature} className="tab-icon" />
                 Applied Normal Leave Forms
-                {appliedNormalLeaveForms.length > 0 && (
-                  <span className="requestCount">{appliedNormalLeaveForms.length}</span>
+                {appliedNormalLeaveForms.filter(form => form.status === "Pending").length > 0 && (
+                  <span className="requestCount">{appliedNormalLeaveForms.filter(form => form.status === "Pending").length}</span>
                 )}
               </button>
 
@@ -132,9 +132,9 @@ const Notifications = () => {
               >
                 <FontAwesomeIcon icon={faExchangeAlt} className="tab-icon" />
                 Applied Transfer Forms
-                {appliedTransferForms.length > 0 && (
+                {appliedTransferForms.filter(form => form.status === "Pending").length > 0 && (
                   <span className="requestCount">
-                    {appliedTransferForms.length}
+                    {appliedTransferForms.filter(form => form.status === "Pending").length}
                   </span>
                 )}
               </button>
