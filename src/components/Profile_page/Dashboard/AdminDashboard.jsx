@@ -116,7 +116,7 @@ const AdminDashboard = () => {
             }
             const fetchFomrs = async () => {
                 try {
-                    const response1 = await Axios.get("/admin/leaveForms/getAllForms");
+                    const response1 = await Axios.get("/admin/leaveForms/getAll");
                     const response2 = await Axios.get("admin/DynamicFormUser/getAll");
                     setForms([...response2.data, ...response1.data]);
                 } catch (error) {
